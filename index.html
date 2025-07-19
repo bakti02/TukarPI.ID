@@ -74,27 +74,36 @@
 </div>
 
 </header>
-<!-- SLIDER FULL GAMBAR -->
+
+ <!-- SLIDE GAMBAR DI ATAS PAPAN PUTIH -->
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-<section class="relative w-full">
-  <div class="swiper fullImageSwiper w-full h-56 sm:h-64 md:h-72 lg:h-80">
-    <div class="swiper-wrapper">
+<section class="px-4 mt-6">
+  <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+    <div class="swiper imageCardSwiper w-full h-48 sm:h-56 md:h-64">
+      <div class="swiper-wrapper">
 
-      <!-- Slide 1 -->
-      <div class="swiper-slide">
-        <img src="https://images.unsplash.com/photo-1603415526960-f7e0328f36e0?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Slide 1">
+        <!-- Slide 1 -->
+        <div class="swiper-slide">
+          <img src="https://images.unsplash.com/photo-1603415526960-f7e0328f36e0?auto=format&fit=crop&w=1200&q=80"
+               alt="Banner 1"
+               class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="swiper-slide">
+          <img src="https://images.unsplash.com/photo-1589571894960-20bbe2828a27?auto=format&fit=crop&w=1200&q=80"
+               alt="Banner 2"
+               class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="swiper-slide">
+          <img src="https://images.unsplash.com/photo-1603415527082-d4f4f2f708e3?auto=format&fit=crop&w=1200&q=80"
+               alt="Banner 3"
+               class="w-full h-full object-cover" />
+        </div>
+
       </div>
-
-      <!-- Slide 2 -->
-      <div class="swiper-slide">
-        <img src="https://images.unsplash.com/photo-1589571894960-20bbe2828a27?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Slide 2">
-      </div>
-
-      <!-- Slide 3 -->
-      <div class="swiper-slide">
-        <img src="https://images.unsplash.com/photo-1603415527082-d4f4f2f708e3?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Slide 3">
-      </div>
-
     </div>
   </div>
 </section>
@@ -102,7 +111,7 @@
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
-  var fullImageSwiper = new Swiper(".fullImageSwiper", {
+  var imageCardSwiper = new Swiper(".imageCardSwiper", {
     loop: true,
     autoplay: {
       delay: 3500,
@@ -113,6 +122,7 @@
     grabCursor: true,
   });
 </script>
+
 
     
 <!-- Hero Section -->
