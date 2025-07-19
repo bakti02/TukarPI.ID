@@ -9,7 +9,7 @@ Selamat datang di repositori resmi **TukarPi.ID**, sebuah landing page profesion
 ## 📄 Tentang Situs
 
 TukarPi.ID menyajikan informasi penting tentang:
-- Cara pemesanan layanan penukaran poin
+- Cara pemesanan layanan penukaran koin
 - Legalitas usaha dan dokumen pendukung
 - Kontak layanan melalui WhatsApp
 
@@ -18,7 +18,7 @@ Website ini didesain responsif dan ringan agar optimal diakses melalui perangkat
 ## 📁 Struktur Halaman
 
 - `index.html` — Halaman utama landing page
-- `cara-pemesanan.html` — Langkah-langkah penukaran poin
+- `cara-pemesanan.html` — Langkah-langkah penukaran koin
 - `legalitas.html` — Informasi dan dokumen legalitas
 - `assets/` — Gambar, ikon, dan stylesheet
 - `sitemap.xml` — Peta situs untuk Google indexing
