@@ -1,4 +1,4 @@
-# TukarPi.ID — Landing Page Penukaran Poin Pi Network
+# TukarPi.ID — Landing Page Penukaran Koin Pi Network
 
 Selamat datang di repositori resmi **TukarPi.ID**, sebuah landing page profesional yang dirancang untuk memudahkan pengguna Pi Network menukarkan poin mereka menjadi saldo e-wallet dengan cepat, aman, dan terpercaya.
 
