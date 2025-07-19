@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pendaftaran Mitra | TukarPI.ID</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-purple-600 text-white py-8 text-center shadow">
+    <h1 class="text-3xl font-bold">Daftar Sebagai Mitra TukarPI.ID</h1>
+    <p class="text-lg mt-2">Gabung jadi bagian dari revolusi ekonomi digital berbasis PI Network</p>
+  </header>
+
+  <!-- Manfaat -->
+  <section class="max-w-4xl mx-auto py-10 px-4">
+    <h2 class="text-xl font-semibold mb-6 text-center">Keuntungan Menjadi Mitra:</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+        <img src="https://www.svgrepo.com/show/346270/money-bag-dollar.svg" alt="Komisi" class="w-12 h-12 mx-auto mb-4">
+        <h3 class="font-bold text-lg">Komisi Setiap Transaksi</h3>
+        <p class="text-sm mt-2">Dapatkan keuntungan langsung dari setiap penukaran PI yang berhasil.</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+        <img src="https://www.svgrepo.com/show/312264/dashboard.svg" alt="Pemantauan" class="w-12 h-12 mx-auto mb-4">
+        <h3 class="font-bold text-lg">Pemantauan Transaksi</h3>
+        <p class="text-sm mt-2">Pantau transaksi mitra Anda secara berkala (fitur tahap lanjutan).</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+        <img src="https://www.svgrepo.com/show/425962/guidance-path-road.svg" alt="Bimbingan" class="w-12 h-12 mx-auto mb-4">
+        <h3 class="font-bold text-lg">Bimbingan Langsung</h3>
+        <p class="text-sm mt-2">Dapatkan dukungan dan materi edukasi langsung dari tim TukarPI.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulir -->
+  <section class="max-w-xl mx-auto py-10 px-4 bg-white rounded-2xl shadow-md">
+    <h2 class="text-xl font-semibold mb-6 text-center">Formulir Pendaftaran Mitra</h2>
+    <form id="mitraForm" class="space-y-4">
+      <input type="text" id="nama" placeholder="Nama Lengkap" required class="w-full p-3 border rounded-lg"/>
+      <input type="text" id="wa" placeholder="Nomor WhatsApp (62xxxxxxxxx)" required class="w-full p-3 border rounded-lg"/>
+      <input type="text" id="domisili" placeholder="Kota/Domisili" required class="w-full p-3 border rounded-lg"/>
+      <input type="text" id="motivasi" placeholder="Motivasi Bergabung (Singkat)" required class="w-full p-3 border rounded-lg"/>
+      
+      <button type="button" onclick="kirimWA()" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition">
+        Kirim via WhatsApp
+      </button>
+    </form>
+  </section>
+
+  <!-- Script WhatsApp -->
+  <script>
+    function kirimWA() {
+      const nama = document.getElementById("nama").value;
+      const wa = document.getElementById("wa").value;
+      const domisili = document.getElementById("domisili").value;
+      const motivasi = document.getElementById("motivasi").value;
+
+      const pesan = `Halo Admin TukarPI.ID,%0ASaya ingin mendaftar sebagai Mitra.%0A%0ANama: ${nama}%0ANo. WhatsApp: ${wa}%0ADomisili: ${domisili}%0AMotivasi: ${motivasi}`;
+
+      const url = `https://wa.me/6282147510780?text=${pesan}`;
+      window.open(url, "_blank");
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-10 mb-6">
+    &copy; 2025 TukarPI.ID. Seluruh hak cipta dilindungi.
+  </footer>
+
+</body>
+</html>
