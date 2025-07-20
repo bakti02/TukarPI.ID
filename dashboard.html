@@ -1,43 +1,106 @@
-<!-- Navigation -->
-<nav class="sticky top-0 z-50 bg-white shadow-sm">
-  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-    <!-- Logo -->
-    <a href="index.html" class="flex items-center">
-      <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-10">
-      <span class="ml-2 text-xl font-bold text-primary hidden sm:inline">TukarPI.ID</span>
-    </a>
-    
-    <!-- Menu Desktop -->
-    <div class="hidden md:flex space-x-6">
-      <a href="index.html" class="font-medium text-primary border-b-2 border-primary pb-1">Home</a>
-      <a href="jualkoin.html" class="font-medium hover:text-primary transition">Jual PI</a>
-      <a href="belikoin.html" class="font-medium hover:text-primary transition">Beli Kripto</a>
-      <a href="affiliate.html" class="font-medium hover:text-primary transition">Affiliate</a>
-      <a href="dashboard.html" class="font-medium hover:text-primary transition">Dashboard</a>
-    </div>
-    
-    <!-- Tombol WhatsApp & Menu Mobile -->
-    <div class="flex items-center space-x-3">
-      <a href="https://wa.me/6282147510780" class="hidden xs:inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-full font-medium transition shadow-md touch-target">
-        <i class="fab fa-whatsapp mr-1"></i> <span class="hidden sm:inline">WhatsApp</span>
-      </a>
-      <button class="md:hidden text-gray-600 touch-target" id="mobile-menu-button">
-        <i class="fas fa-bars text-xl"></i>
-      </button>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tukar Koin PI Network | TukarPI.ID - Aman & Cepat</title>
   
-  <!-- Menu Mobile -->
-  <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
-    <div class="container mx-auto px-4 py-2 flex flex-col">
-      <a href="index.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Home</a>
-      <a href="jualkoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Jual PI</a>
-      <a href="belikoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Beli Kripto</a>
-      <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Affiliate</a>
-      <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Live Kripto Realtime</a>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#8B5CF6',
+            secondary: '#F59E0B',
+            dark: '#1F2937'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          screens: {
+            'xs': '480px'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Font & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    .touch-target {
+      min-height: 48px;
+      min-width: 48px;
+    }
+    html {
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-gray-50 text-gray-800 antialiased">
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center">
+        <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-10">
+        <span class="ml-2 text-xl font-bold text-primary hidden sm:inline">TukarPI.ID</span>
+      </a>
+      
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="font-medium text-primary border-b-2 border-primary pb-1">Home</a>
+        <a href="jualkoin.html" class="font-medium hover:text-primary transition">Jual PI</a>
+        <a href="belikoin.html" class="font-medium hover:text-primary transition">Beli Kripto</a>
+        <a href="affiliate.html" class="font-medium hover:text-primary transition">Affiliate</a>
+        <a href="dashboard.html" class="font-medium hover:text-primary transition">Dashboard</a>
+      </div>
+      
+      <div class="flex items-center space-x-3">
+        <a href="https://wa.me/6282147510780" class="hidden xs:inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-full font-medium transition shadow-md touch-target">
+          <i class="fab fa-whatsapp mr-1"></i> <span class="hidden sm:inline">WhatsApp</span>
+        </a>
+        <button class="md:hidden text-gray-600 touch-target" id="mobile-menu-button">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
     </div>
-  </div>
-</nav>
+    
+    <!-- Mobile Menu -->
+    <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
+      <div class="container mx-auto px-4 py-2 flex flex-col">
+        <a href="index.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Home</a>
+        <a href="jualkoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Jual PI</a>
+        <a href="belikoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Beli Kripto</a>
+        <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Affiliate</a>
+        <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+      
+      // Close when clicking outside
+      document.addEventListener('click', function closeMenu(e) {
+        if (!menu.contains(e.target) && e.target.id !== 'mobile-menu-button') {
+          menu.classList.add('hidden');
+          document.removeEventListener('click', closeMenu);
+        }
+      });
+    });
+    
+    // Better mobile touch experience
+    document.querySelectorAll('a, button').forEach(el => {
+      el.classList.add('touch-target');
+    });
+  </script>
   
   <!--Bagian Dari File Asli-->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -197,59 +260,66 @@
         </section>
       </main>
 
-            <!-- Footer -->
+      <!-- Footer -->
       <footer class="bg-gray-900 text-gray-400 py-8">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            <!-- Kolom 1: Tentang -->
             <div class="col-span-2 md:col-span-1">
-              <img src="logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
+              <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
               <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
               <div class="flex space-x-3">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+                  <i class="fab fa-facebook"></i>
+                </a>
               </div>
             </div>
             
-            <!-- Kolom 2: Layanan -->
             <div>
-              <h3 class="text-white font-bold mb-3">Layanan</h3>
+              <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
               <ul class="space-y-2">
-                <li><a href="jualkoin.html">Jual PI Network</a></li>
-                <li><a href="belikoin.html">Beli Kripto</a></li>
-                <li><a href="affiliate.html">Program Affiliate</a></li>
+                <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Jual PI Network</a></li>
+                <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Beli Kripto</a></li>
+                <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm touch-target">Program Affiliate</a></li>
               </ul>
             </div>
             
-            <!-- Kolom 3: Bantuan -->
             <div>
-              <h3 class="text-white font-bold mb-3">Bantuan</h3>
+              <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
               <ul class="space-y-2">
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="syarat-ketentuan.html">Syarat & Ketentuan</a></li>
+                <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm touch-target">FAQ</a></li>
+                <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Syarat & Ketentuan</a></li>
               </ul>
             </div>
             
-            <!-- Kolom 4: Kontak -->
             <div class="col-span-2 md:col-span-1">
-              <h3 class="text-white font-bold mb-3">Kontak</h3>
+              <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
               <ul class="space-y-2">
-                <li><i class="fas fa-envelope mr-2"></i> cs@tukarpi.id</li>
-                <li><i class="fab fa-whatsapp mr-2"></i> +62 821-4751-0780</li>
+                <li class="flex items-center">
+                  <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
+                  <span class="text-xs md:text-sm">cs@tukarpi.id</span>
+                </li>
+                <li class="flex items-center">
+                  <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
+                  <span class="text-xs md:text-sm">+62 821-4751-0780</span>
+                </li>
               </ul>
             </div>
           </div>
           
-          <!-- Copyright -->
           <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
             <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
           </div>
         </div>
       </footer>
-      
+    
       <!-- Floating WhatsApp Button -->
-      <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl">
+      <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50 touch-target">
         <i class="fab fa-whatsapp text-xl"></i>
       </a>
     </div>
