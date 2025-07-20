@@ -141,6 +141,8 @@
               <button class="filter-btn" data-filter="meme">Meme</button>
               <button class="filter-btn" data-filter="layer1">Layer 1</button>
               <button class="filter-btn" data-filter="layer2">Layer 2</button>
+               <button class="filter-btn" data-filter="nft">NFT</button>
+               <button class="filter-btn" data-filter="new">Koin Baru</button>
             </div>
           </div>
           
@@ -216,6 +218,19 @@ const coinCategories = {
     'skale', 'aztec', 'dydx', 'omg-network', 'matic',
     'lightning-network', 'cartesi', 'manta-network', 'altlayer', 'fuel',
     'blast', 'linea', 'scroll', 'mantle', 'kroma'
+  ]
+  nft: [
+    'apecoin', 'blur', 'immutable-x', 'flow', 'enjin',
+    'theta-network', 'chiliz', 'audius', 'rally', 'superrare',
+    'decentraland', 'the-sandbox', 'gala', 'wax', 'stacks',
+    'looksrare', 'rari-token', 'nftx', 'ufo-gaming', 'vulcan-forged',
+    'dust-protocol', 'sudoswap', 'nftearth', 'nft-art-finance', 'bnpl-pay'
+  ],
+  new: [ // Koin baru rilis (2024-2025)
+    'berachain', 'monad', 'etherfi', 'puffer-finance', 'eigenlayer',
+    'saga', 'dymension', 'zetachain', 'altlayer', 'xai',
+    'portal', 'pandora', 'wormhole', 'omni-network', 'karak',
+    'renzo', 'ionet', 'taiko', 'movement-labs', 'penumbra'
   ]
 };
 
@@ -412,17 +427,22 @@ const coinCategories = {
         }
 
         try {
-          // Gabungkan semua ID koin dari semua kategori (termasuk L1 & L2)
+          // Gabungkan semua ID koin dari 8 kategori
           const allCoinIds = [
             ...new Set([
               ...coinCategories.payment,
               ...coinCategories.stable,
               ...coinCategories.defi,
               ...coinCategories.meme,
-              ...coinCategories.layer1,  // Sudah termasuk solana, cardano, dll
-              ...coinCategories.layer2  // Sudah termasuk arbitrum, optimism, dll
+              ...coinCategories.layer1,
+              ...coinCategories.layer2,
+              ...coinCategories.nft,
+              ...coinCategories.new
             ])
           ].join(',');
+          
+          console.log(`Total aset: ${allCoinIds.split(',').length}`);
+          console.log(`Contoh output: ${allCoinIds.substring(0, 100)}...`);
           
           // Hasil akhir akan berupa string dengan format: "bitcoin,ethereum,solana,..."
 
