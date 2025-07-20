@@ -110,6 +110,10 @@
         border-radius: 0.25rem;
         margin-top: 0.5rem;
         font-size: 0.75rem;
+        display: none; /* Hidden by default */
+      }
+      .show-more-btn.visible {
+        display: block;
       }
     </style>
   </head>
@@ -147,7 +151,7 @@
               <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
               <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
             </div>
-            <button class="show-more-btn hidden" id="show-more-btn">Tampilkan Semua</button>
+            <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
           </div>
         </section>
       </main>
@@ -198,11 +202,18 @@
         const cards = container.querySelectorAll('.crypto-card');
         const showMoreBtn = document.getElementById('show-more-btn');
         
-        // Tentukan jumlah kartu per baris berdasarkan lebar layar
         const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
         const initialLimit = cardsPerRow * 2;
         let visibleCount = 0;
-        
+        let totalFiltered = 0;
+
+        // Hitung total kartu yang sesuai filter
+        cards.forEach(card => {
+          if (activeFilter === 'all' || card.dataset.category === activeFilter) {
+            totalFiltered++;
+          }
+        });
+
         cards.forEach(card => {
           if (activeFilter === 'all' || card.dataset.category === activeFilter) {
             if (visibleCount < initialLimit) {
@@ -215,11 +226,12 @@
             card.style.display = 'none';
           }
         });
-        
-        if (visibleCount > initialLimit) {
-          showMoreBtn.classList.remove('hidden');
+
+        // Tampilkan tombol hanya jika ada lebih banyak kartu yang sesuai filter
+        if (totalFiltered > initialLimit) {
+          showMoreBtn.classList.add('visible');
         } else {
-          showMoreBtn.classList.add('hidden');
+          showMoreBtn.classList.remove('visible');
         }
       }
       
@@ -233,12 +245,10 @@
         cards.forEach(card => {
           if (activeFilter === 'all' || card.dataset.category === activeFilter) {
             card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
           }
         });
         
-        showMoreBtn.classList.add('hidden');
+        showMoreBtn.classList.remove('visible');
       }
 
       // 4. Render kartu kripto dengan kategori
@@ -311,7 +321,15 @@
         const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
         const initialLimit = cardsPerRow * 2;
         let visibleCount = 0;
+        let totalFiltered = 0;
         
+        // Hitung total kartu yang sesuai filter
+        cards.forEach(card => {
+          if (category === 'all' || card.dataset.category === category) {
+            totalFiltered++;
+          }
+        });
+
         cards.forEach(card => {
           if (category === 'all' || card.dataset.category === category) {
             if (visibleCount < initialLimit) {
@@ -324,11 +342,12 @@
             card.style.display = 'none';
           }
         });
-        
-        if (visibleCount > initialLimit) {
-          showMoreBtn.classList.remove('hidden');
+
+        // Tampilkan tombol hanya jika ada lebih banyak kartu yang sesuai filter
+        if (totalFiltered > initialLimit) {
+          showMoreBtn.classList.add('visible');
         } else {
-          showMoreBtn.classList.add('hidden');
+          showMoreBtn.classList.remove('visible');
         }
       }
 
