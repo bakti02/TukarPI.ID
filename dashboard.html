@@ -438,7 +438,8 @@ const coinCategories = {
               ...coinCategories.baru
             ])
           ].join(',');
-          
+          console.log(`Total aset: ${allCoinIds.split(',').length}`);
+          console.log(`Contoh output: ${allCoinIds.substring(0, 100)}...`);
           // Hasil akhir akan berupa string dengan format: "bitcoin,ethereum,solana,..."
 
           const response = await fetch(
