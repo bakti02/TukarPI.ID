@@ -2,7 +2,7 @@
 <html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Tukar Koin PI Network | TukarPI.ID - Aman & Cepat</title>
   <meta name="description" content="Tukar koin PI Network ke Rupiah secara instan. Proses 3 menit, rates terbaik, dan legalitas jelas. Dukung oleh 1000+ pengguna.">
   
@@ -27,6 +27,9 @@
           animation: {
             'float': 'float 3s ease-in-out infinite',
             'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          },
+          screens: {
+            'xs': '480px'
           }
         }
       }
@@ -49,6 +52,17 @@
       color: transparent;
       background-image: linear-gradient(90deg, #8B5CF6, #F59E0B);
     }
+    
+    /* Improved mobile touch targets */
+    .touch-target {
+      min-height: 48px;
+      min-width: 48px;
+    }
+    
+    /* Better mobile scrolling */
+    html {
+      -webkit-overflow-scrolling: touch;
+    }
   </style>
 </head>
 
@@ -61,161 +75,153 @@
         <span class="ml-2 text-xl font-bold text-primary hidden sm:inline">TukarPI.ID</span>
       </a>
       
-      <div class="hidden md:flex space-x-8">
+      <div class="hidden md:flex space-x-6">
         <a href="index.html" class="font-medium text-primary border-b-2 border-primary pb-1">Home</a>
         <a href="jualkoin.html" class="font-medium hover:text-primary transition">Jual PI</a>
-        <a href="belikoin.html" class="font-medium hover:text-primary transition">Beli PI</a>
+        <a href="belikoin.html" class="font-medium hover:text-primary transition">Beli Kripto</a>
         <a href="affiliate.html" class="font-medium hover:text-primary transition">Affiliate</a>
+        <a href="dashboard.html" class="font-medium hover:text-primary transition">Dashboard</a>
       </div>
       
-      <div class="flex items-center space-x-4">
-        <a href="https://wa.me/6282147510780" class="hidden sm:inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-medium transition shadow-md">
-          <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+      <div class="flex items-center space-x-3">
+        <a href="https://wa.me/6282147510780" class="hidden xs:inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-full font-medium transition shadow-md touch-target">
+          <i class="fab fa-whatsapp mr-1"></i> <span class="hidden sm:inline">WhatsApp</span>
         </a>
-        <button class="md:hidden text-gray-600" id="mobile-menu-button">
-          <i class="fas fa-bars text-2xl"></i>
+        <button class="md:hidden text-gray-600 touch-target" id="mobile-menu-button">
+          <i class="fas fa-bars text-xl"></i>
         </button>
       </div>
     </div>
     
-    <!-- Mobile Menu -->
+    <!-- Mobile Menu - Improved for touch -->
     <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
-      <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
-        <a href="index.html" class="font-medium py-2 border-b border-gray-100">Home</a>
-        <a href="jualkoin.html" class="font-medium py-2 border-b border-gray-100">Jual PI</a>
-        <a href="belikoin.html" class="font-medium py-2 border-b border-gray-100">Beli PI</a>
-        <a href="affiliate.html" class="font-medium py-2">Affiliate</a>
+      <div class="container mx-auto px-4 py-2 flex flex-col">
+        <a href="index.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Home</a>
+        <a href="jualkoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Jual PI</a>
+        <a href="belikoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Beli Kripto</a>
+        <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Affiliate</a>
+        <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Dashboard</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
+  <!-- Hero Section - Improved for mobile -->
   <section class="relative overflow-hidden">
-    <div class="container mx-auto px-4 py-16 md:py-24 flex flex-col md:flex-row items-center">
-      <div class="md:w-1/2 mb-12 md:mb-0">
-        <div class="inline-flex items-center bg-primary/10 text-primary px-4 py-1 rounded-full mb-4">
-          <span class="animate-pulse mr-2">•</span>
-          <span class="text-sm font-medium">TRENDING 2025</span>
+    <div class="container mx-auto px-4 py-12 md:py-24 flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 mb-8 md:mb-0">
+        <div class="inline-flex items-center bg-primary/10 text-primary px-3 py-1 rounded-full mb-3 text-sm">
+          <span class="animate-pulse mr-1">•</span>
+          <span>TRENDING 2025</span>
         </div>
         
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+        <h1 class="text-3xl xs:text-4xl md:text-5xl font-bold leading-tight mb-4">
           Tukar <span class="gradient-text">PI Network</span> Jadi Rupiah Dalam Hitungan Menit
         </h1>
         
-        <p class="text-lg text-gray-600 mb-8 max-w-lg">
+        <p class="text-base md:text-lg text-gray-600 mb-6 max-w-lg">
           Platform terpercaya dengan lebih dari 1.000 transaksi sukses. Proses cepat, aman, dan didukung rekening bank Indonesia.
         </p>
         
-        <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-          <a href="#tukar-sekarang" class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold shadow-lg transition transform hover:scale-105 text-center">
-            Tukar Sekarang
+        <div class="flex flex-col xs:flex-row space-y-2 xs:space-y-0 xs:space-x-3">
+          <a href="jualkoin.html" class="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full font-bold shadow-lg transition transform hover:scale-105 text-center touch-target">
+            Jual PI Sekarang
           </a>
-          <a href="#how-it-works" class="bg-white hover:bg-gray-100 border border-gray-200 text-gray-800 px-8 py-4 rounded-full font-bold shadow transition text-center">
-            Cara Kerja
+          <a href="belikoin.html" class="bg-secondary hover:bg-secondary/90 text-white px-6 py-3 rounded-full font-bold shadow-lg transition transform hover:scale-105 text-center touch-target">
+            Beli Kripto
           </a>
         </div>
         
-        <div class="mt-8 flex items-center space-x-4">
-          <div class="flex -space-x-2">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full border-2 border-white">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full border-2 border-white">
-            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-10 h-10 rounded-full border-2 border-white">
+        <div class="mt-6 flex items-center space-x-3">
+          <div class="flex -space-x-1">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-8 h-8 rounded-full border-2 border-white">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-8 h-8 rounded-full border-2 border-white">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-8 h-8 rounded-full border-2 border-white">
           </div>
           <div>
             <div class="flex items-center">
               <div class="flex">
-                <i class="fas fa-star text-yellow-400"></i>
-                <i class="fas fa-star text-yellow-400"></i>
-                <i class="fas fa-star text-yellow-400"></i>
-                <i class="fas fa-star text-yellow-400"></i>
-                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                <i class="fas fa-star text-yellow-400 text-xs"></i>
               </div>
-              <span class="ml-2 text-gray-600">4.9/5 (1.234 reviews)</span>
+              <span class="ml-1 text-sm text-gray-600">4.9/5 (1.234)</span>
             </div>
-            <p class="text-sm text-gray-500">Bergabung dengan 3.500+ pengguna lainnya</p>
+            <p class="text-xs text-gray-500">3.500+ pengguna</p>
           </div>
         </div>
       </div>
       
-      <div class="md:w-1/2 relative">
-        <div class="relative max-w-md mx-auto">
-          <img src="https://bakti02.github.io/TukarPI.ID/pi-coin.png" alt="PI Coin" class="w-full h-auto max-h-96 object-contain animate-float">
+      <div class="md:w-1/2 relative mt-8 md:mt-0">
+        <div class="relative max-w-xs mx-auto md:max-w-md">
+          <img src="https://bakti02.github.io/TukarPI.ID/pi-coin.png" alt="PI Coin" class="w-full h-auto max-h-64 md:max-h-80 object-contain animate-float">
           
-          <div class="absolute -bottom-10 -left-10 bg-white p-4 rounded-2xl shadow-xl border border-gray-100">
+          <div class="absolute -bottom-6 -left-6 md:-bottom-10 md:-left-10 bg-white p-2 md:p-3 rounded-xl shadow-lg border border-gray-100">
             <div class="flex items-center">
-              <div class="bg-green-100 p-2 rounded-full mr-3">
-                <i class="fas fa-check-circle text-green-500"></i>
+              <div class="bg-green-100 p-1 md:p-2 rounded-full mr-2">
+                <i class="fas fa-check-circle text-green-500 text-sm md:text-base"></i>
               </div>
               <div>
-                <p class="font-bold">Legalitas Jelas</p>
-                <p class="text-sm text-gray-500">PT. Ruang Digital Raya</p>
+                <p class="font-bold text-sm md:text-base">Legalitas Jelas</p>
+                <p class="text-xs md:text-sm text-gray-500">PT. Ruang Digital Raya</p>
               </div>
             </div>
           </div>
           
-          <div class="absolute -top-10 -right-10 bg-white p-4 rounded-2xl shadow-xl border border-gray-100">
+          <div class="absolute -top-6 -right-6 md:-top-10 md:-right-10 bg-white p-2 md:p-3 rounded-xl shadow-lg border border-gray-100">
             <div class="text-center">
-              <p class="text-2xl font-bold text-primary">1 PI</p>
-              <p class="text-lg font-bold">=</p>
-              <p class="text-2xl font-bold text-secondary">Rp 1.500</p>
+              <p class="text-lg md:text-xl font-bold text-primary">1 PI</p>
+              <p class="text-sm md:text-base font-bold">=</p>
+              <p class="text-lg md:text-xl font-bold text-secondary">Rp 1.500</p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Floating Media Logos -->
-    <div class="absolute bottom-10 left-0 right-0 hidden lg:block">
-      <div class="container mx-auto px-4">
-        <div class="bg-white/80 backdrop-blur-sm rounded-full py-3 px-6 shadow-sm inline-flex items-center space-x-8">
-          <p class="font-medium text-gray-500">Telah diliput oleh:</p>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Logo_Kompasdotcom.png" alt="Kompas" class="h-6 opacity-70 hover:opacity-100 transition">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/CNN_Indonesia_logo_%282023%29.svg" alt="CNN" class="h-6 opacity-70 hover:opacity-100 transition">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/Logodetikcom.png" alt="Detik" class="h-6 opacity-70 hover:opacity-100 transition">
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Exchange Calculator -->
-  <section id="tukar-sekarang" class="py-16 bg-white">
+  <!-- Exchange Calculator - Improved mobile layout -->
+  <section id="tukar-sekarang" class="py-12 bg-white">
     <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto bg-gradient-to-r from-primary to-secondary p-0.5 rounded-2xl shadow-xl">
-        <div class="bg-white rounded-2xl p-8 sm:p-10">
-          <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold mb-2">Hitung Nilai Tukarmu</h2>
-            <p class="text-gray-600">Masukkan jumlah PI untuk melihat nilai rupiah yang akan kamu terima</p>
+      <div class="max-w-4xl mx-auto bg-gradient-to-r from-primary to-secondary p-0.5 rounded-xl md:rounded-2xl shadow-lg">
+        <div class="bg-white rounded-xl md:rounded-2xl p-6 md:p-8">
+          <div class="text-center mb-6">
+            <h2 class="text-2xl md:text-3xl font-bold mb-2">Hitung Nilai Tukarmu</h2>
+            <p class="text-gray-600 text-sm md:text-base">Masukkan jumlah PI untuk melihat nilai rupiah yang akan kamu terima</p>
           </div>
           
-          <div class="grid md:grid-cols-2 gap-8">
+          <div class="grid md:grid-cols-2 gap-6">
             <div>
-              <label class="block text-gray-700 font-medium mb-2">Jumlah PI Network</label>
+              <label class="block text-gray-700 font-medium mb-2 text-sm md:text-base">Jumlah PI Network</label>
               <div class="relative">
-                <input type="number" id="pi-amount" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="100" min="5" value="100">
-                <span class="absolute right-4 top-3.5 font-bold text-gray-500">PI</span>
+                <input type="number" id="pi-amount" class="w-full px-4 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm md:text-base" placeholder="100" min="5" value="100">
+                <span class="absolute right-4 top-2.5 md:top-3 font-bold text-gray-500 text-sm md:text-base">PI</span>
               </div>
-              <div class="mt-4">
+              <div class="mt-3">
                 <input type="range" id="pi-range" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary" min="5" max="1000" value="100">
-                <div class="flex justify-between text-sm text-gray-500 mt-1">
+                <div class="flex justify-between text-xs md:text-sm text-gray-500 mt-1">
                   <span>5 PI</span>
                   <span>1000 PI</span>
                 </div>
               </div>
             </div>
             
-            <div>
-              <label class="block text-gray-700 font-medium mb-2">Anda Akan Menerima</label>
-              <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-                <div class="text-4xl font-bold text-center text-primary" id="idr-amount">Rp 150.000</div>
-                <div class="mt-4 text-center text-sm text-gray-500">
-                  <p>Rate: 1 PI = Rp 1.500</p>
-                  <p class="mt-1">Biaya admin: <span class="text-green-500">GRATIS</span></p>
+            <div class="flex flex-col justify-between">
+              <div>
+                <label class="block text-gray-700 font-medium mb-2 text-sm md:text-base">Anda Akan Menerima</label>
+                <div class="bg-gray-50 p-4 md:p-5 rounded-lg border border-gray-200">
+                  <div class="text-2xl md:text-3xl font-bold text-center text-primary" id="idr-amount">Rp 150.000</div>
+                  <div class="mt-3 text-center text-xs md:text-sm text-gray-500">
+                    <p>Rate: 1 PI = Rp 1.500</p>
+                    <p class="mt-1">Biaya admin: <span class="text-green-500">GRATIS</span></p>
+                  </div>
                 </div>
               </div>
               
-              <button class="w-full mt-6 bg-primary hover:bg-primary/90 text-white py-3 px-6 rounded-lg font-bold shadow-md transition transform hover:scale-[1.02]">
+              <a href="jualkoin.html" class="w-full mt-4 bg-primary hover:bg-primary/90 text-white py-2 md:py-3 px-4 rounded-lg font-bold shadow-md transition transform hover:scale-[1.02] text-center block touch-target">
                 Lanjutkan Penukaran
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -223,218 +229,229 @@
     </div>
   </section>
 
-  <!-- How It Works -->
-  <section id="how-it-works" class="py-16 bg-gray-50">
+  <!-- How It Works - Mobile optimized -->
+  <section id="how-it-works" class="py-12 bg-gray-50">
     <div class="container mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold mb-4">Cara Tukar PI di TukarPI.ID</h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">Hanya perlu 3 langkah sederhana untuk mengubah PI-mu menjadi Rupiah</p>
+      <div class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">Cara Tukar PI di TukarPI.ID</h2>
+        <p class="text-gray-600 text-sm md:text-base max-w-2xl mx-auto">Hanya perlu 3 langkah sederhana untuk mengubah PI-mu menjadi Rupiah</p>
       </div>
       
-      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
         <!-- Step 1 -->
-        <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-primary hover:shadow-lg transition">
-          <div class="w-14 h-14 bg-primary/10 text-primary rounded-full flex items-center justify-center text-2xl font-bold mb-6">1</div>
-          <h3 class="text-xl font-bold mb-3">Isi Form</h3>
-          <p class="text-gray-600">Masukkan data diri, jumlah PI, dan nomor rekening tujuan</p>
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-sm border-t-4 border-primary hover:shadow-md transition">
+          <div class="w-10 h-10 md:w-12 md:h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center text-xl md:text-2xl font-bold mb-3 md:mb-4">1</div>
+          <h3 class="text-lg md:text-xl font-bold mb-1 md:mb-2">Isi Form</h3>
+          <p class="text-gray-600 text-sm md:text-base">Masukkan data diri, jumlah PI, dan nomor rekening tujuan</p>
         </div>
         
         <!-- Step 2 -->
-        <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-secondary transform md:scale-105 z-10">
-          <div class="w-14 h-14 bg-secondary/10 text-secondary rounded-full flex items-center justify-center text-2xl font-bold mb-6">2</div>
-          <h3 class="text-xl font-bold mb-3">Transfer PI</h3>
-          <p class="text-gray-600">Kirim PI ke wallet resmi kami yang akan diberikan via WhatsApp</p>
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-md border-t-4 border-secondary md:transform md:scale-105 z-10">
+          <div class="w-10 h-10 md:w-12 md:h-12 bg-secondary/10 text-secondary rounded-full flex items-center justify-center text-xl md:text-2xl font-bold mb-3 md:mb-4">2</div>
+          <h3 class="text-lg md:text-xl font-bold mb-1 md:mb-2">Transfer PI</h3>
+          <p class="text-gray-600 text-sm md:text-base">Kirim PI ke wallet resmi kami via WhatsApp</p>
         </div>
         
         <!-- Step 3 -->
-        <div class="bg-white p-8 rounded-xl shadow-md border-t-4 border-green-500 hover:shadow-lg transition">
-          <div class="w-14 h-14 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center text-2xl font-bold mb-6">3</div>
-          <h3 class="text-xl font-bold mb-3">Dapatkan Rupiah</h3>
-          <p class="text-gray-600">Dana masuk ke rekening Anda dalam 1-5 menit setelah verifikasi</p>
+        <div class="bg-white p-4 md:p-6 rounded-lg shadow-sm border-t-4 border-green-500 hover:shadow-md transition">
+          <div class="w-10 h-10 md:w-12 md:h-12 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center text-xl md:text-2xl font-bold mb-3 md:mb-4">3</div>
+          <h3 class="text-lg md:text-xl font-bold mb-1 md:mb-2">Dapatkan Rupiah</h3>
+          <p class="text-gray-600 text-sm md:text-base">Dana masuk dalam 1-5 menit setelah verifikasi</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Testimonials -->
-  <section class="py-16 bg-white">
+  <!-- Testimonials - Mobile friendly -->
+  <section class="py-12 bg-white">
     <div class="container mx-auto px-4">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-bold mb-4">Apa Kata Mereka?</h2>
-        <p class="text-gray-600">Testimoni jujur dari pengguna TukarPI.ID</p>
+      <div class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-2">Apa Kata Mereka?</h2>
+        <p class="text-gray-600 text-sm md:text-base">Testimoni jujur dari pengguna TukarPI.ID</p>
       </div>
       
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
         <!-- Testi 1 -->
-        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-          <div class="flex items-center mb-4">
-            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="w-12 h-12 rounded-full mr-4">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center mb-3">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="w-10 h-10 rounded-full mr-3">
             <div>
-              <h4 class="font-bold">Sarah Wijaya</h4>
+              <h4 class="font-bold text-sm md:text-base">Sarah Wijaya</h4>
               <div class="flex items-center">
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <span class="ml-2 text-xs text-gray-500">12 Juli 2025</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                </div>
+                <span class="ml-1 text-xs text-gray-500">12 Jul 2025</span>
               </div>
             </div>
           </div>
-          <p class="text-gray-700">"Prosesnya sangat cepat! Baru pertama kali tukar PI dan dapat rupiahnya dalam 3 menit. Adminnya ramah banget."</p>
+          <p class="text-gray-700 text-sm md:text-base">"Prosesnya sangat cepat! Baru pertama kali tukar PI dan dapat rupiahnya dalam 3 menit. Adminnya ramah banget."</p>
         </div>
         
         <!-- Testi 2 -->
-        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-          <div class="flex items-center mb-4">
-            <img src="https://randomuser.me/api/portraits/men/54.jpg" class="w-12 h-12 rounded-full mr-4">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center mb-3">
+            <img src="https://randomuser.me/api/portraits/men/54.jpg" class="w-10 h-10 rounded-full mr-3">
             <div>
-              <h4 class="font-bold">Budi Santoso</h4>
+              <h4 class="font-bold text-sm md:text-base">Budi Santoso</h4>
               <div class="flex items-center">
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <span class="ml-2 text-xs text-gray-500">5 Juli 2025</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                </div>
+                <span class="ml-1 text-xs text-gray-500">5 Jul 2025</span>
               </div>
             </div>
           </div>
-          <p class="text-gray-700">"Sudah 5 kali transaksi di sini selalu lancar. Rate-nya juga lebih baik dibanding tempat lain."</p>
+          <p class="text-gray-700 text-sm md:text-base">"Sudah 5 kali transaksi di sini selalu lancar. Rate-nya juga lebih baik dibanding tempat lain."</p>
         </div>
         
         <!-- Testi 3 -->
-        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-          <div class="flex items-center mb-4">
-            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-12 h-12 rounded-full mr-4">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <div class="flex items-center mb-3">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-10 h-10 rounded-full mr-3">
             <div>
-              <h4 class="font-bold">Dewi Lestari</h4>
+              <h4 class="font-bold text-sm md:text-base">Dewi Lestari</h4>
               <div class="flex items-center">
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <i class="fas fa-star text-yellow-400 text-sm"></i>
-                <span class="ml-2 text-xs text-gray-500">28 Juni 2025</span>
+                <div class="flex">
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                  <i class="fas fa-star text-yellow-400 text-xs"></i>
+                </div>
+                <span class="ml-1 text-xs text-gray-500">28 Jun 2025</span>
               </div>
             </div>
           </div>
-          <p class="text-gray-700">"Awalnya ragu karena baru pertama kali jual PI, ternyata benar-benar terpercaya. Sekarang jadi langganan!"</p>
+          <p class="text-gray-700 text-sm md:text-base">"Awalnya ragu karena baru pertama kali jual PI, ternyata benar-benar terpercaya. Sekarang jadi langganan!"</p>
         </div>
       </div>
       
-      <div class="text-center mt-10">
-        <a href="#" class="inline-flex items-center text-primary font-medium">
+      <div class="text-center mt-8">
+        <a href="testimoni.html" class="inline-flex items-center text-primary font-medium text-sm md:text-base touch-target">
           Lihat lebih banyak testimoni
-          <i class="fas fa-chevron-right ml-2"></i>
+          <i class="fas fa-chevron-right ml-1"></i>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Trust Badges -->
-  <section class="py-16 bg-gray-50">
+  <!-- Trust Badges - Mobile optimized -->
+  <section class="py-12 bg-gray-50">
     <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div>
-          <div class="text-4xl font-bold text-primary mb-2">1.000+</div>
-          <p class="text-gray-600">Transaksi</p>
+      <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+        <div class="bg-white p-3 rounded-lg shadow-sm">
+          <div class="text-2xl md:text-3xl font-bold text-primary mb-1">1.000+</div>
+          <p class="text-gray-600 text-xs md:text-sm">Transaksi</p>
         </div>
-        <div>
-          <div class="text-4xl font-bold text-secondary mb-2">24/7</div>
-          <p class="text-gray-600">Support</p>
+        <div class="bg-white p-3 rounded-lg shadow-sm">
+          <div class="text-2xl md:text-3xl font-bold text-secondary mb-1">24/7</div>
+          <p class="text-gray-600 text-xs md:text-sm">Support</p>
         </div>
-        <div>
-          <div class="text-4xl font-bold text-green-500 mb-2">100%</div>
-          <p class="text-gray-600">Aman</p>
+        <div class="bg-white p-3 rounded-lg shadow-sm">
+          <div class="text-2xl md:text-3xl font-bold text-green-500 mb-1">100%</div>
+          <p class="text-gray-600 text-xs md:text-sm">Aman</p>
         </div>
-        <div>
-          <div class="text-4xl font-bold text-purple-600 mb-2">5m</div>
-          <p class="text-gray-600">Proses Cepat</p>
+        <div class="bg-white p-3 rounded-lg shadow-sm">
+          <div class="text-2xl md:text-3xl font-bold text-purple-600 mb-1">5m</div>
+          <p class="text-gray-600 text-xs md:text-sm">Proses Cepat</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="py-16 bg-primary text-white">
+  <!-- CTA Section - Mobile friendly -->
+  <section class="py-12 bg-gradient-to-r from-primary to-secondary text-white">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold mb-6">Siap Tukar PI-mu Sekarang?</h2>
-      <p class="text-lg mb-8 max-w-2xl mx-auto">Bergabung dengan ribuan pengguna yang sudah merasakan kemudahan bertransaksi di TukarPI.ID</p>
-      <a href="#tukar-sekarang" class="inline-block bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-full font-bold shadow-lg transition transform hover:scale-105">
-        Mulai Tukar PI
-      </a>
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">Siap Tukar PI-mu Sekarang?</h2>
+      <p class="text-base md:text-lg mb-6 max-w-2xl mx-auto">Bergabung dengan ribuan pengguna yang sudah merasakan kemudahan bertransaksi di TukarPI.ID</p>
+      <div class="flex flex-col xs:flex-row justify-center space-y-3 xs:space-y-0 xs:space-x-4">
+        <a href="jualkoin.html" class="bg-white text-primary hover:bg-gray-100 px-6 py-3 rounded-full font-bold shadow-lg transition transform hover:scale-105 touch-target">
+          Jual PI Network
+        </a>
+        <a href="belikoin.html" class="bg-dark text-white hover:bg-gray-800 px-6 py-3 rounded-full font-bold shadow-lg transition transform hover:scale-105 touch-target">
+          Beli Kripto
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-400 py-12">
+  <!-- Footer - Mobile optimized -->
+  <footer class="bg-gray-900 text-gray-400 py-8">
     <div class="container mx-auto px-4">
-      <div class="grid md:grid-cols-4 gap-8">
-        <div>
-          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-10 mb-4">
-          <p class="mb-4">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white transition">
-              <i class="fab fa-instagram text-xl"></i>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <div class="col-span-2 md:col-span-1">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
+          <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+              <i class="fab fa-instagram"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition">
-              <i class="fab fa-twitter text-xl"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+              <i class="fab fa-twitter"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition">
-              <i class="fab fa-facebook text-xl"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+              <i class="fab fa-facebook"></i>
             </a>
           </div>
         </div>
         
         <div>
-          <h3 class="text-white font-bold mb-4">Layanan</h3>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
           <ul class="space-y-2">
-            <li><a href="jualkoin.html" class="hover:text-white transition">Jual PI Network</a></li>
-            <li><a href="belikoin.html" class="hover:text-white transition">Beli PI Network</a></li>
-            <li><a href="affiliate.html" class="hover:text-white transition">Program Affiliate</a></li>
-            <li><a href="legalitas.html" class="hover:text-white transition">Legalitas</a></li>
+            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Jual PI Network</a></li>
+            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Beli Kripto</a></li>
+            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm touch-target">Program Affiliate</a></li>
+            <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm touch-target">Legalitas</a></li>
           </ul>
         </div>
         
         <div>
-          <h3 class="text-white font-bold mb-4">Bantuan</h3>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition">Panduan Penukaran</a></li>
-            <li><a href="#" class="hover:text-white transition">FAQ</a></li>
-            <li><a href="#" class="hover:text-white transition">Syarat & Ketentuan</a></li>
-            <li><a href="#" class="hover:text-white transition">Kebijakan Privasi</a></li>
+            <li><a href="cara-pemesanan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Panduan Penukaran</a></li>
+            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm touch-target">FAQ</a></li>
+            <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Syarat & Ketentuan</a></li>
+            <li><a href="kebijakan-privasi.html" class="hover:text-white transition text-xs md:text-sm touch-target">Kebijakan Privasi</a></li>
           </ul>
         </div>
         
-        <div>
-          <h3 class="text-white font-bold mb-4">Kontak</h3>
+        <div class="col-span-2 md:col-span-1">
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
           <ul class="space-y-2">
             <li class="flex items-center">
-              <i class="fas fa-envelope mr-2"></i>
-              <span>cs@tukarpi.id</span>
+              <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">cs@tukarpi.id</span>
             </li>
             <li class="flex items-center">
-              <i class="fab fa-whatsapp mr-2"></i>
-              <span>+62 821-4751-0780</span>
+              <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">+62 821-4751-0780</span>
             </li>
             <li class="flex items-center">
-              <i class="fas fa-map-marker-alt mr-2"></i>
-              <span>Jakarta Selatan, Indonesia</span>
+              <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">Jakarta Selatan</span>
             </li>
           </ul>
         </div>
       </div>
       
-      <div class="border-t border-gray-800 mt-10 pt-6 text-sm text-center">
+      <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
         <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/6282147510780" class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50">
-    <i class="fab fa-whatsapp text-2xl"></i>
+  <!-- Floating WhatsApp Button - Larger for mobile -->
+  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50 touch-target">
+    <i class="fab fa-whatsapp text-xl"></i>
   </a>
 
   <!-- Scripts -->
@@ -443,6 +460,14 @@
     document.getElementById('mobile-menu-button').addEventListener('click', function() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
+      
+      // Close when clicking outside
+      document.addEventListener('click', function closeMenu(e) {
+        if (!menu.contains(e.target) && e.target.id !== 'mobile-menu-button') {
+          menu.classList.add('hidden');
+          document.removeEventListener('click', closeMenu);
+        }
+      });
     });
     
     // Exchange Calculator
@@ -472,6 +497,11 @@
     
     // Initialize
     updateCalculation();
+    
+    // Better mobile touch experience
+    document.querySelectorAll('a, button, input, [role="button"]').forEach(el => {
+      el.classList.add('touch-target');
+    });
   </script>
 </body>
 </html>
