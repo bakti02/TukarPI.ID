@@ -30,6 +30,8 @@
   <!-- Font & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://api.coingecko.com">
+  <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
   
   <style>
     .touch-target {
@@ -39,11 +41,110 @@
     html {
       -webkit-overflow-scrolling: touch;
     }
+    .crypto-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 0.5rem;
+    }
+    .crypto-card {
+      position: relative;
+      flex: 0 0 calc(20% - 1rem);
+      transition: all 0.3s ease;
+    }
+    .crypto-container::-webkit-scrollbar {
+      display: none;
+    }
+    @keyframes pulse-up {
+      0% { background-color: rgba(74, 222, 128, 0.1); }
+      100% { background-color: transparent; }
+    }
+    @keyframes pulse-down {
+      0% { background-color: rgba(239, 68, 68, 0.1); }
+      100% { background-color: transparent; }
+    }
+    .price-up { animation: pulse-up 1s; }
+    .price-down { animation: pulse-down 1s; }
+    .flame-badge {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      width: 24px;
+      height: 24px;
+      z-index: 10;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+    }
+    .percentage-change {
+      display: inline-block;
+      padding: 0 3px;
+      border-radius: 2px;
+      font-weight: 600;
+      font-size: 10px;
+      border: 0.5px solid rgba(255, 255, 255, 0.5);
+      line-height: 1.2;
+    }
+    .percentage-up {
+      background-color: rgba(16, 185, 129, 0.9);
+      color: white;
+    }
+    .percentage-down {
+      background-color: rgba(239, 68, 68, 0.9);
+      color: white;
+    }
+    .filter-btn {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+      border: 1px solid #e5e7eb;
+    }
+    .filter-btn.active {
+      background-color: #3B82F6;
+      color: white;
+      border-color: #3B82F6;
+    }
+    .price-low {
+      font-size: 0.7rem;
+    }
+    .price-very-low {
+      font-size: 0.6rem;
+    }
+    .price-micro {
+      font-size: 0.55rem;
+      letter-spacing: 0.5px;
+    }
+    .truncate-mark {
+      color: #999;
+      font-size: 0.6em;
+      margin-left: 1px;
+    }
+    @media (max-width: 640px) {
+      .crypto-card {
+        flex: 0 0 calc(33.33% - 1rem);
+      }
+      .filter-btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.65rem;
+      }
+    }
+    .show-more-btn {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      background: #f0f0f0;
+      border-radius: 0.25rem;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      display: none;
+    }
+    .show-more-btn.visible {
+      display: block;
+    }
   </style>
 </head>
 
 <body class="font-sans bg-gray-50 text-gray-800 antialiased">
-  <!-- Navigation -->
+  <!-- Header Section -->
   <nav class="sticky top-0 z-50 bg-white shadow-sm">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <a href="index.html" class="flex items-center">
@@ -55,8 +156,8 @@
         <a href="index.html" class="font-medium text-primary border-b-2 border-primary pb-1">Home</a>
         <a href="jualkoin.html" class="font-medium hover:text-primary transition">Jual PI</a>
         <a href="belikoin.html" class="font-medium hover:text-primary transition">Beli Kripto</a>
-        <a href="affiliate.html" class="font-medium hover:text-primary transition">Affiliate</a>
-        <a href="dashboard.html" class="font-medium hover:text-primary transition">Dashboard</a>
+        <a href="dashboard.html" class="font-medium hover:text-primary transition">Live Kripto Realtime</a>
+        <a href="affiliate.html" class="font-medium hover:text-primary transition">Program Affiliate</a>
       </div>
       
       <div class="flex items-center space-x-3">
@@ -75,19 +176,142 @@
         <a href="index.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Home</a>
         <a href="jualkoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Jual PI</a>
         <a href="belikoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Beli Kripto</a>
-        <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Affiliate</a>
         <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Live Kripto Realtime</a>
+        <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Program Affiliate</a>
       </div>
     </div>
   </nav>
 
+  <!-- Main Content -->
+  <main class="p-3 space-y-8">
+    <section class="bg-white rounded-xl shadow p-3 md:p-5">
+      <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Selamat Datang di TukarPi Dashboard</h2>
+      <p class="text-gray-600 text-[10px]">Pantau harga 200+ aset kripto secara realtime</p>
+    </section>
+
+    <section class="relative">
+      <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+        <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+        <div class="flex gap-2 flex-wrap" id="filter-buttons">
+          <button class="filter-btn active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="payment">Pembayaran</button>
+          <button class="filter-btn" data-filter="stable">Stablecoin</button>
+          <button class="filter-btn" data-filter="defi">DeFi</button>
+          <button class="filter-btn" data-filter="meme">Meme</button>
+          <button class="filter-btn" data-filter="layer1">Layer 1</button>
+          <button class="filter-btn" data-filter="layer2">Layer 2</button>
+          <button class="filter-btn" data-filter="nft">NFT</button>
+          <button class="filter-btn" data-filter="baru">Koin Baru</button>
+        </div>
+      </div>
+      
+      <div>
+        <div class="crypto-container" id="crypto-container">
+          <!-- Skeleton loader -->
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+        </div>
+        <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <!-- Kolom 1: Tentang Kami -->
+        <div class="col-span-2 md:col-span-1">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
+          <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+              <i class="fab fa-telegram"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Kolom 2: Layanan (Completed) -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
+          <ul class="space-y-2">
+            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Jual PI Network Anda</a></li>
+            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Beli Kripto</a></li>
+            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm touch-target">Program Affiliate</a></li>
+            <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm touch-target">Legalitas Usaha</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 3: Bantuan (Completed) -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
+          <ul class="space-y-2">
+            <li><a href="cara-pemesanan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Panduan Penukaran</a></li>
+            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm touch-target">FAQ</a></li>
+            <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Syarat & Ketentuan</a></li>
+            <li><a href="kebijakan-privasi.html" class="hover:text-white transition text-xs md:text-sm touch-target">Kebijakan Privasi</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 4: Kontak -->
+        <div class="col-span-2 md:col-span-1">
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">cs@tukarpi.id</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
+              <a href="https://wa.me/6282147510780" class="text-xs md:text-sm hover:text-white">+62 821-4751-0780</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-telegram mr-2 text-xs md:text-sm"></i>
+              <a href="https://t.me/tukarpiid" class="text-xs md:text-sm hover:text-white">@tukarpiid</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">Jakarta Selatan, Indonesia</span>
+            </li>
+            <li class="mt-4">
+              <h4 class="text-white font-bold mb-2 text-xs md:text-sm">Jam Operasional</h4>
+              <p class="text-xs md:text-sm">Senin-Minggu<br>08:00 - 22:00 WIB</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
+        <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
+        <p class="mt-1">PT. Ruang Digital Raya</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50 touch-target">
+    <i class="fab fa-whatsapp text-xl"></i>
+  </a>
+
+  <!-- JavaScript -->
   <script>
     // Mobile Menu Toggle
     document.getElementById('mobile-menu-button').addEventListener('click', function() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
       
-      // Close when clicking outside
       document.addEventListener('click', function closeMenu(e) {
         if (!menu.contains(e.target) && e.target.id !== 'mobile-menu-button') {
           menu.classList.add('hidden');
@@ -95,314 +319,70 @@
         }
       });
     });
-    
-    // Better mobile touch experience
-    document.querySelectorAll('a, button').forEach(el => {
-      el.classList.add('touch-target');
-    });
-  
-  <!--Bagian Dari File Asli-->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://api.coingecko.com">
-    <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
-    <style>
-      .crypto-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        padding-bottom: 0.5rem;
-      }
-      .crypto-card {
-        position: relative;
-        flex: 0 0 calc(20% - 1rem);
-        transition: all 0.3s ease;
-      }
-      .crypto-container::-webkit-scrollbar {
-        display: none;
-      }
-      @keyframes pulse-up {
-        0% { background-color: rgba(74, 222, 128, 0.1); }
-        100% { background-color: transparent; }
-      }
-      @keyframes pulse-down {
-        0% { background-color: rgba(239, 68, 68, 0.1); }
-        100% { background-color: transparent; }
-      }
-      .price-up { animation: pulse-up 1s; }
-      .price-down { animation: pulse-down 1s; }
-      .flame-badge {
-        position: absolute;
-        right: -8px;
-        top: -8px;
-        width: 24px;
-        height: 24px;
-        z-index: 10;
-        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
-      }
-      
-      .percentage-change {
-        display: inline-block;
-        padding: 0 3px;
-        border-radius: 2px;
-        font-weight: 600;
-        font-size: 10px;
-        border: 0.5px solid rgba(255, 255, 255, 0.5);
-        line-height: 1.2;
-      }
-      .percentage-up {
-        background-color: rgba(16, 185, 129, 0.9);
-        color: white;
-      }
-      .percentage-down {
-        background-color: rgba(239, 68, 68, 0.9);
-        color: white;
-      }
-      
-      .filter-btn {
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-size: 0.75rem;
-        transition: all 0.2s;
-        border: 1px solid #e5e7eb;
-      }
-      .filter-btn.active {
-        background-color: #3B82F6;
-        color: white;
-        border-color: #3B82F6;
-      }
-      
-      /* Penyesuaian ukuran font untuk harga rendah */
-      .price-low {
-        font-size: 0.7rem;
-      }
-      .price-very-low {
-        font-size: 0.6rem;
-      }
-      .price-micro {
-        font-size: 0.55rem;
-        letter-spacing: 0.5px;
-      }
-      .truncate-mark {
-        color: #999;
-        font-size: 0.6em;
-        margin-left: 1px;
-      }
-      
-      /* Mobile styles */
-      @media (max-width: 640px) {
-        .crypto-card {
-          flex: 0 0 calc(33.33% - 1rem);
-        }
-        .filter-btn {
-          padding: 0.2rem 0.4rem;
-          font-size: 0.65rem;
-        }
-      }
-      
-      /* Show more button */
-      .show-more-btn {
-        width: 100%;
-        text-align: center;
-        padding: 0.5rem;
-        background: #f0f0f0;
-        border-radius: 0.25rem;
-        margin-top: 0.5rem;
-        font-size: 0.75rem;
-        display: none; /* Hidden by default */
-      }
-      .show-more-btn.visible {
-        display: block;
-      }
-    </style>
-      </header>
 
-      <main class="p-3 space-y-8">
-        <section class="bg-white rounded-xl shadow p-3 md:p-5">
-          <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Selamat Datang di TukarPi Dashboard</h2>
-          <p class="text-gray-600 text-[10px]">Pantau harga 200+ aset kripto secara realtime</p>
-        </section>
-
-        <section class="relative">
-          <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
-            <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
-            <div class="flex gap-2 flex-wrap" id="filter-buttons">
-              <button class="filter-btn active" data-filter="all">Semua</button>
-              <button class="filter-btn" data-filter="payment">Pembayaran</button>
-              <button class="filter-btn" data-filter="stable">Stablecoin</button>
-              <button class="filter-btn" data-filter="defi">DeFi</button>
-              <button class="filter-btn" data-filter="meme">Meme</button>
-              <button class="filter-btn" data-filter="layer1">Layer 1</button>
-              <button class="filter-btn" data-filter="layer2">Layer 2</button>
-              <button class="filter-btn" data-filter="nft">NFT</button>
-              <button class="filter-btn" data-filter="baru">Koin Baru</button>
-            </div>
-          </div>
-          
-          <div>
-            <div class="crypto-container" id="crypto-container">
-              <!-- Skeleton loader -->
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-            </div>
-            <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
-          </div>
-        </section>
-      </main>
-
-      <!-- Footer -->
-      <footer class="bg-gray-900 text-gray-400 py-8">
-        <div class="container mx-auto px-4">
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            <!-- Kolom 1: Tentang Kami -->
-            <div class="col-span-2 md:col-span-1">
-              <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
-              <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
-              <div class="flex space-x-3">
-                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-                  <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-                  <i class="fab fa-facebook"></i>
-                </a>
-                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-                  <i class="fab fa-telegram"></i>
-                </a>
-              </div>
-            </div>
-            
-            <!-- Kolom 2: Layanan (Completed) -->
-            <div>
-              <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
-              <ul class="space-y-2">
-                <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Jual PI Network Anda</a></li>
-                <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Beli Kripto</a></li>
-                <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm touch-target">Program Affiliate</a></li>
-                <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm touch-target">Legalitas Usaha</a></li>
-              </ul>
-            </div>
-            
-            <!-- Kolom 3: Bantuan (Completed) -->
-            <div>
-              <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
-              <ul class="space-y-2">
-                <li><a href="cara-pemesanan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Panduan Penukaran</a></li>
-                <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm touch-target">FAQ</a></li>
-                <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Syarat & Ketentuan</a></li>
-                <li><a href="kebijakan-privasi.html" class="hover:text-white transition text-xs md:text-sm touch-target">Kebijakan Privasi</a></li>
-              </ul>
-            </div>
-            
-            <!-- Kolom 4: Kontak -->
-            <div class="col-span-2 md:col-span-1">
-              <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
-              <ul class="space-y-2">
-                <li class="flex items-center">
-                  <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
-                  <span class="text-xs md:text-sm">cs@tukarpi.id</span>
-                </li>
-                <li class="flex items-center">
-                  <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
-                  <a href="https://wa.me/6282147510780" class="text-xs md:text-sm hover:text-white">+62 821-4751-0780</a>
-                </li>
-                <li class="flex items-center">
-                  <i class="fab fa-telegram mr-2 text-xs md:text-sm"></i>
-                  <a href="https://t.me/tukarpiid" class="text-xs md:text-sm hover:text-white">@tukarpiid</a>
-                </li>
-                <li class="flex items-center">
-                  <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
-                  <span class="text-xs md:text-sm">Jakarta Selatan, Indonesia</span>
-                </li>
-                <li class="mt-4">
-                  <h4 class="text-white font-bold mb-2 text-xs md:text-sm">Jam Operasional</h4>
-                  <p class="text-xs md:text-sm">Senin-Minggu<br>08:00 - 22:00 WIB</p>
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
-            <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
-            <p class="mt-1">PT. Ruang Digital Raya</p>
-          </div>
-        </div>
-      </footer>
-      
-      <!-- Floating WhatsApp Button -->
-      <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50 touch-target">
-        <i class="fab fa-whatsapp text-xl"></i>
-      </a>
-<!--Bagian Dari File Asli>
-    <script>
-    // Kategori koin yang diperluas
-const coinCategories = {
-  payment: [
-    'bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash', 'ripple',
-    'stellar', 'dash', 'zcash', 'nano', 'digibyte', 'monero',
-    'ravencoin', 'bitcoin-sv', 'eos', 'tron', 'vechain',
-    'neo', 'qtum', 'waves', 'zilliqa', 'icon', 'decred',
-    'horizen', 'vertcoin', 'pivx', 'zcoin'
-  ],
-  stable: [
-    'tether', 'usd-coin', 'binance-usd', 'dai', 'true-usd',
-    'paxos-standard', 'gemini-dollar', 'terrausd', 'frax',
-    'tether-gold', 'pax-gold', 'usdd', 'fei-usd', 'magic-internet-money',
-    'neutrino-dollar', 'usdx', 'flex-usd', 'dynamic-set-dollar'
-  ],
-  defi: [
-    'uniswap', 'aave', 'chainlink', 'wrapped-bitcoin', 'the-graph',
-    'synthetix', 'compound', 'maker', 'yearn-finance', 'curve-dao-token',
-    'thorchain', 'kava', 'injective-protocol', 'osmosis', 'raydium',
-    'serum', '1inch', '0x', 'balancer', 'kyber-network', 'uma',
-    'renbtc', 'sushi', 'badger-dao', 'bancor', 'dydx'
-  ],
-  meme: [
-    'dogecoin', 'shiba-inu', 'dogelon-mars', 'floki-inu', 'pepe',
-    'bonk', 'baby-doge-coin', 'safemoon', 'elon', 'shiba-predator',
-    'kishu-inu', 'hokkaidu-inu', 'wojak-finance', 'mog-coin', 'toshi-token',
-    'woof-token', 'elon-doge', 'dogelana', 'dogebonk',
-    'boden', 'doland-tremp', 'tremp', 'maga', 'wif', 
-    'popcat', 'book-of-meme', 'based', 'jeo-boden', 'turbo',
-    'mfer-coin', 'osak', 'bozo', 'scott-the-woz', 'gigachad',
-    'smog', 'water', 'myro', 'toshi', 'wen',
-    'pizza', 'harambe', 'donaldcat', 'cocaine', 'hulk',
-    'lizard', 'snakes', 'cats', 'dogs', 'monkey'
-  ],
-  layer1: [
-    'ethereum', 'solana', 'cardano', 'avalanche', 'polkadot',
-    'cosmos', 'algorand', 'near', 'tezos', 'flow',
-    'elrond', 'hedera', 'fantom', 'kadena', 'mina',
-    'celo', 'kava', 'thorchain', 'terra', 'neo',
-    'icon', 'zilliqa', 'waves', 'eos', 'tron',
-    'sui', 'aptos', 'sei', 'radix', 'conflux'
-  ],
-  layer2: [
-    'arbitrum', 'optimism', 'polygon', 'base', 'starknet',
-    'zksync', 'loopring', 'boba-network', 'metis', 'immutable-x',
-    'skale', 'aztec', 'dydx', 'omg-network', 'matic',
-    'lightning-network', 'cartesi', 'manta-network', 'altlayer', 'fuel',
-    'blast', 'linea', 'scroll', 'mantle', 'kroma'
-  ],
-  nft: [
-    'apecoin', 'blur', 'immutable-x', 'flow', 'enjin',
-    'theta-network', 'chiliz', 'audius', 'rally', 'superrare',
-    'decentraland', 'the-sandbox', 'gala', 'wax', 'stacks',
-    'looksrare', 'rari-token', 'nftx', 'ufo-gaming', 'vulcan-forged',
-    'dust-protocol', 'sudoswap', 'nftearth', 'nft-art-finance', 'bnpl-pay'
-  ],
-  baru: [ // Koin baru rilis (2024-2025)
-    'berachain', 'monad', 'etherfi', 'puffer-finance', 'eigenlayer',
-    'saga', 'dymension', 'zetachain', 'altlayer', 'xai',
-    'portal', 'pandora', 'wormhole', 'omni-network', 'karak',
-    'renzo', 'ionet', 'taiko', 'movement-labs', 'penumbra'
-  ]
-};
+         // Kategori koin yang diperluas
+    const coinCategories = {
+      payment: [
+        'bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash', 'ripple',
+        'stellar', 'dash', 'zcash', 'nano', 'digibyte', 'monero',
+        'ravencoin', 'bitcoin-sv', 'eos', 'tron', 'vechain',
+        'neo', 'qtum', 'waves', 'zilliqa', 'icon', 'decred',
+        'horizen', 'vertcoin', 'pivx', 'zcoin'
+      ],
+      stable: [
+        'tether', 'usd-coin', 'binance-usd', 'dai', 'true-usd',
+        'paxos-standard', 'gemini-dollar', 'terrausd', 'frax',
+        'tether-gold', 'pax-gold', 'usdd', 'fei-usd', 'magic-internet-money',
+        'neutrino-dollar', 'usdx', 'flex-usd', 'dynamic-set-dollar'
+      ],
+      defi: [
+        'uniswap', 'aave', 'chainlink', 'wrapped-bitcoin', 'the-graph',
+        'synthetix', 'compound', 'maker', 'yearn-finance', 'curve-dao-token',
+        'thorchain', 'kava', 'injective-protocol', 'osmosis', 'raydium',
+        'serum', '1inch', '0x', 'balancer', 'kyber-network', 'uma',
+        'renbtc', 'sushi', 'badger-dao', 'bancor', 'dydx'
+      ],
+      meme: [
+        'dogecoin', 'shiba-inu', 'dogelon-mars', 'floki-inu', 'pepe',
+        'bonk', 'baby-doge-coin', 'safemoon', 'elon', 'shiba-predator',
+        'kishu-inu', 'hokkaidu-inu', 'wojak-finance', 'mog-coin', 'toshi-token',
+        'woof-token', 'elon-doge', 'dogelana', 'dogebonk',
+        'boden', 'doland-tremp', 'tremp', 'maga', 'wif', 
+        'popcat', 'book-of-meme', 'based', 'jeo-boden', 'turbo',
+        'mfer-coin', 'osak', 'bozo', 'scott-the-woz', 'gigachad',
+        'smog', 'water', 'myro', 'toshi', 'wen',
+        'pizza', 'harambe', 'donaldcat', 'cocaine', 'hulk',
+        'lizard', 'snakes', 'cats', 'dogs', 'monkey'
+      ],
+      layer1: [
+        'ethereum', 'solana', 'cardano', 'avalanche', 'polkadot',
+        'cosmos', 'algorand', 'near', 'tezos', 'flow',
+        'elrond', 'hedera', 'fantom', 'kadena', 'mina',
+        'celo', 'kava', 'thorchain', 'terra', 'neo',
+        'icon', 'zilliqa', 'waves', 'eos', 'tron',
+        'sui', 'aptos', 'sei', 'radix', 'conflux'
+      ],
+      layer2: [
+        'arbitrum', 'optimism', 'polygon', 'base', 'starknet',
+        'zksync', 'loopring', 'boba-network', 'metis', 'immutable-x',
+        'skale', 'aztec', 'dydx', 'omg-network', 'matic',
+        'lightning-network', 'cartesi', 'manta-network', 'altlayer', 'fuel',
+        'blast', 'linea', 'scroll', 'mantle', 'kroma'
+      ],
+      nft: [
+        'apecoin', 'blur', 'immutable-x', 'flow', 'enjin',
+        'theta-network', 'chiliz', 'audius', 'rally', 'superrare',
+        'decentraland', 'the-sandbox', 'gala', 'wax', 'stacks',
+        'looksrare', 'rari-token', 'nftx', 'ufo-gaming', 'vulcan-forged',
+        'dust-protocol', 'sudoswap', 'nftearth', 'nft-art-finance', 'bnpl-pay'
+      ],
+      baru: [ // Koin baru rilis (2024-2025)
+        'berachain', 'monad', 'etherfi', 'puffer-finance', 'eigenlayer',
+        'saga', 'dymension', 'zetachain', 'altlayer', 'xai',
+        'portal', 'pandora', 'wormhole', 'omni-network', 'karak',
+        'renzo', 'ionet', 'taiko', 'movement-labs', 'penumbra'
+      ]
+    };
 
 // JANGAN ubah fungsi render/filter yang ada
 // Biarkan semua kode lain tetap sama persis seperti aslinya
