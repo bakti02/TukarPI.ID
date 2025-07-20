@@ -85,7 +85,7 @@
     </header>
 
     <!-- Purchase Form -->
-    <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+    <div id="purchase-form-container" class="bg-white rounded-xl shadow-md p-6 mb-6">
       <form id="purchase-form">
         <!-- Pilihan Kripto -->
         <div class="mb-6">
@@ -160,9 +160,12 @@
 
     <!-- Payment Info -->
     <div id="payment-info" class="hidden bg-white rounded-xl shadow-md p-6 fade-in">
-      <div class="text-center mb-4">
+      <div class="flex justify-between items-center mb-4">
+        <button onclick="backToForm()" class="text-blue-600 hover:text-blue-800">
+          <i class="fas fa-arrow-left mr-1"></i> Kembali
+        </button>
         <h2 class="text-xl font-bold text-blue-600">Selesaikan Pembayaran</h2>
-        <p class="text-gray-600">Lakukan pembayaran sesuai instruksi berikut</p>
+        <div class="w-8"></div> <!-- Spacer untuk balance layout -->
       </div>
 
       <!-- Detail Pesanan -->
@@ -209,7 +212,7 @@
 
         <!-- DANA -->
         <div id="dana-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/DANA_logo.svg" alt="DANA" class="payment-details-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="payment-details-logo">
           <div class="mb-4">
             <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
             <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
@@ -221,7 +224,7 @@
 
         <!-- OVO -->
         <div id="ovo-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/OVO_logo_2019.svg" alt="OVO" class="payment-details-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="payment-details-logo">
           <div class="mb-4">
             <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
             <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
@@ -270,6 +273,13 @@
     // Variabel global
     let cryptoData = {};
     let exchangeRate = 15000; // Default exchange rate USD to IDR
+    let selectedPaymentMethod = ''; // Menyimpan metode pembayaran yang dipilih
+
+    // Fungsi kembali ke form
+    function backToForm() {
+      document.getElementById('payment-info').classList.add('hidden');
+      document.getElementById('purchase-form-container').classList.remove('hidden');
+    }
 
     // Fungsi mengambil data dari CoinGecko API
     async function fetchCryptoData() {
@@ -389,12 +399,17 @@
       const crypto = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
       const coin = document.getElementById('confirm-coin').textContent;
-      const method = document.getElementById('confirm-method').innerHTML;
+      const method = selectedPaymentMethod; // Menggunakan variabel yang sudah disimpan
       const total = document.getElementById('confirm-total').textContent;
       const wallet = document.getElementById('confirm-wallet').textContent;
       
-      // Buat teks metode pembayaran tanpa tag HTML
-      const methodText = method.replace(/<[^>]*>/g, '').trim();
+      // Daftar nama metode pembayaran
+      const paymentMethodNames = {
+        'bca': 'Bank BCA',
+        'dana': 'DANA',
+        'ovo': 'OVO',
+        'gopay': 'GOPAY'
+      };
       
       // Format pesan WhatsApp seperti invoice
       const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
@@ -402,7 +417,7 @@
                      `🔹 *Jenis Kripto:* ${crypto}\n` +
                      `🔹 *Jumlah Pembelian:* ${amount}\n` +
                      `🔹 *Jumlah Koin:* ${coin}\n` +
-                     `🔹 *Metode Pembayaran:* ${methodText}\n` +
+                     `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
                      `🔹 *Total Pembayaran:* ${total}\n` +
                      `================================\n` +
                      `📌 *Alamat Wallet Tujuan:*\n${wallet}\n\n` +
@@ -459,8 +474,8 @@
     function getPaymentMethodName(method) {
       const methods = {
         'bca': '<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="payment-logo" alt="BCA">',
-        'dana': '<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/DANA_logo.svg" class="payment-logo" alt="DANA">',
-        'ovo': '<img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/OVO_logo_2019.svg" class="payment-logo" alt="OVO">',
+        'dana': '<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" class="payment-logo" alt="DANA">',
+        'ovo': '<img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" class="payment-logo" alt="OVO">',
         'gopay': '<img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" class="payment-logo" alt="GOPAY">'
       };
       return methods[method] || method;
@@ -490,6 +505,9 @@
         return;
       }
       
+      // Simpan metode pembayaran yang dipilih
+      selectedPaymentMethod = paymentMethod;
+      
       // Set confirmation values
       const crypto = document.getElementById('crypto').value;
       const coinReceived = document.getElementById('coin-received').textContent;
@@ -509,7 +527,7 @@
       document.getElementById(`${paymentMethod}-details`).classList.remove('hidden');
       
       // Show payment info
-      document.getElementById('purchase-form').classList.add('hidden');
+      document.getElementById('purchase-form-container').classList.add('hidden');
       document.getElementById('payment-info').classList.remove('hidden');
     });
 
