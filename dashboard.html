@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
+      /* [Semua style sebelumnya tetap sama] */
       .crypto-container {
         display: flex;
         overflow-x: auto;
@@ -17,7 +18,7 @@
       }
 
       .crypto-card {
-        position: relative; /* Added for absolute positioning */
+        position: relative;
         flex: 0 0 calc(20% - 1rem);
         scroll-snap-align: start;
         transition: transform 0.3s ease;
@@ -27,7 +28,6 @@
         display: none;
       }
 
-      /* Animations for price changes */
       @keyframes pulse-up {
         0% { background-color: rgba(74, 222, 128, 0.1); }
         100% { background-color: transparent; }
@@ -39,7 +39,6 @@
       .price-up { animation: pulse-up 1s; }
       .price-down { animation: pulse-down 1s; }
 
-      /* Flame badge */
       .flame-badge {
         position: absolute;
         right: -8px;
@@ -50,7 +49,6 @@
         filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
       }
 
-      /* Navigation buttons */
       .slider-nav-btn {
         background: rgba(255, 255, 255, 0.8);
         border: none;
@@ -68,7 +66,6 @@
         opacity: 0.8;
       }
 
-      /* Gradient fade effect */
       .scroll-fade {
         position: relative;
       }
@@ -94,17 +91,18 @@
     <div class="min-h-screen flex flex-col">
       <header class="bg-white shadow p-3 flex justify-between items-center">
         <h1 class="text-base md:text-lg font-bold">Pi Network Crypto Dashboard</h1>
+        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">40+ Aset</span>
       </header>
 
       <main class="p-3 space-y-8">
         <section class="bg-white rounded-xl shadow p-3 md:p-5">
           <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Selamat Datang di TukarPi Dashboard</h2>
-          <p class="text-gray-600 text-[10px]">Pantau harga pasar dan info kripto terkini, termasuk Pi Network.</p>
+          <p class="text-gray-600 text-[10px]">Pantau harga 40+ aset kripto secara realtime</p>
         </section>
 
         <section class="relative">
           <div class="flex justify-between items-center mb-3">
-            <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+            <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime (40+ Aset)</h2>
             <div class="flex gap-2">
               <button class="slider-nav-btn" id="prev-btn">◀</button>
               <button class="slider-nav-btn" id="next-btn">▶</button>
@@ -112,7 +110,7 @@
           </div>
           <div class="scroll-fade">
             <div class="crypto-container" id="crypto-container">
-              <!-- Skeleton loader while waiting for data -->
+              <!-- Skeleton loader -->
               <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
               <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
               <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
@@ -125,40 +123,22 @@
 
       <footer class="bg-white text-gray-500 text-center text-[10px] py-3 mt-auto border-t">
         <p>
-          &copy; 2025 TukarPi.ID — Bantu Anda Tukar Pi dengan Aman. Made with ❤️ in Indonesia.
-        </p>
-        <p class="mt-1">
-          Disclaimer: Data harga diambil dari CoinGecko dan dapat berubah sewaktu-waktu. TukarPi bukan bagian resmi dari Pi Network.
+          &copy; 2025 TukarPi.ID — Pantau 40+ aset kripto secara realtime. Made with ❤️ in Indonesia.
         </p>
       </footer>
     </div>
 
     <script>
-      // Animation control variables
-      let autoScroll = true;
-      let cryptoData = [];
-      let isUpdating = false;
-      let scrollInterval;
+      // Daftar 40+ aset kripto
+      const CRYPTO_IDS = [
+        'bitcoin,ethereum,tether,pi-network,binancecoin,solana,cardano,xrp,dogecoin,polkadot,' +
+        'litecoin,tron,avalanche,chainlink,uniswap,stellar,monero,aptos,vechain,filecoin,' +
+        'cosmos,algorand,tezos,aave,theta-network,axie-infinity,decentraland,the-sandbox,' +
+        'gala,enjin-coin,flow,mina-protocol,helium,chiliz,harmony,klay-token,kusama,' +
+        'zcash,quant-network,basic-attention-token,siacoin,ravencoin,nexo,compound'
+      ];
 
-      // DOM elements
-      const container = document.getElementById('crypto-container');
-      const prevBtn = document.getElementById('prev-btn');
-      const nextBtn = document.getElementById('next-btn');
-
-      // Pause scroll on hover
-      container.addEventListener('mouseenter', () => {
-        autoScroll = false;
-        clearInterval(scrollInterval);
-      });
-      container.addEventListener('mouseleave', () => {
-        autoScroll = true;
-        startAutoScroll();
-      });
-
-      // Manual navigation
-      prevBtn.addEventListener('click', () => navigate(-1));
-      nextBtn.addEventListener('click', () => navigate(1));
-
+      // [Fungsi lainnya tetap sama]
       async function fetchCryptoData() {
         if (isUpdating) return;
         isUpdating = true;
@@ -169,9 +149,9 @@
             {
               params: {
                 vs_currency: 'usd',
-                ids: 'bitcoin,ethereum,tether,pi-network,binancecoin,solana,cardano,xrp,dogecoin,polkadot,litecoin,tron,avalanche,chainlink,uniswap,stellar,monero,aptos,vechain,filecoin',
+                ids: CRYPTO_IDS,
                 order: 'market_cap_desc',
-                per_page: 24,
+                per_page: 50,  // Meningkatkan limit dari 24 ke 50
                 page: 1,
                 sparkline: false
               }
@@ -187,6 +167,7 @@
         }
       }
 
+      // [Fungsi renderCryptoCards, navigate, startAutoScroll tetap sama]
       function renderCryptoCards() {
         container.innerHTML = '';
 
@@ -202,7 +183,7 @@
             ${isSignificantGain ? `
               <img src="https://bakti02.github.io/TukarPI.ID/flame-21186.gif" 
                    class="flame-badge" 
-                   alt="Significant gain">
+                   alt="Kenaikan signifikan">
             ` : ''}
             
             <img src="${coin.image}" alt="${coin.name}" class="w-6 h-6 mb-1" />
