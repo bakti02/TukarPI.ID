@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beli Kripto - Pembayaran</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-md mx-auto p-4">
+    <!-- Header -->
+    <header class="text-center mb-8">
+      <h1 class="text-2xl font-bold text-blue-600 mb-2">Beli Kripto</h1>
+      <p class="text-gray-600">Isi form pembelian dan pilih metode pembayaran</p>
+    </header>
+
+    <!-- Purchase Form -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+      <form id="purchase-form">
+        <!-- Pilihan Kripto -->
+        <div class="mb-6">
+          <label for="crypto" class="block text-sm font-medium text-gray-700 mb-2">Pilih Kripto</label>
+          <select id="crypto" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <option value="BTC">Bitcoin (BTC)</option>
+            <option value="ETH">Ethereum (ETH)</option>
+            <option value="USDT">Tether (USDT)</option>
+          </select>
+        </div>
+
+        <!-- Jumlah dalam Rupiah -->
+        <div class="mb-6">
+          <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Jumlah Pembelian (Rp)</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <span class="text-gray-500">Rp</span>
+            </div>
+            <input type="number" id="amount" 
+                   class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                   placeholder="100.000" min="10000">
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Minimal pembelian Rp 10.000</p>
+        </div>
+
+        <!-- Info Harga Real-time -->
+        <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+          <div class="flex justify-between mb-2">
+            <span class="text-sm text-gray-600">Harga Real-time</span>
+            <span id="realtime-price" class="font-medium">Rp 520,000,000</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="text-sm text-gray-600">Biaya Layanan (5%)</span>
+            <span id="fee-amount" class="text-red-500">- Rp 0</span>
+          </div>
+          <div class="flex justify-between border-t border-gray-200 pt-2">
+            <span class="text-sm font-medium text-gray-700">Jumlah Koin Diterima</span>
+            <span id="coin-received" class="text-lg font-bold text-green-600">0 BTC</span>
+          </div>
+        </div>
+
+        <!-- Alamat Wallet -->
+        <div class="mb-6">
+          <label for="wallet" class="block text-sm font-medium text-gray-700 mb-2">Alamat Wallet Anda</label>
+          <input type="text" id="wallet" 
+                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                 placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
+          <p class="text-xs text-gray-500 mt-1">Pastikan alamat wallet benar. Kripto akan dikirim ke alamat ini.</p>
+        </div>
+
+        <!-- Metode Pembayaran -->
+        <div class="mb-6">
+          <label for="payment-method" class="block text-sm font-medium text-gray-700 mb-2">Metode Pembayaran</label>
+          <select id="payment-method" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <option value="" disabled selected>Pilih metode pembayaran</option>
+            <option value="bca">Bank BCA</option>
+            <option value="bni">Bank BNI</option>
+            <option value="dana">DANA</option>
+            <option value="ovo">OVO</option>
+            <option value="gopay">GOPAY</option>
+          </select>
+          <input type="hidden" id="selected-method" name="payment_method" required>
+        </div>
+
+        <button type="submit" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow">
+          Lanjutkan Pembayaran
+        </button>
+      </form>
+    </div>
+
+    <!-- Payment Info (akan muncul setelah submit) -->
+    <div id="payment-info" class="hidden bg-white rounded-xl shadow-md p-6 fade-in">
+      <div class="text-center mb-4">
+        <h2 class="text-xl font-bold text-blue-600">Selesaikan Pembayaran</h2>
+        <p class="text-gray-600">Lakukan pembayaran sesuai instruksi berikut</p>
+      </div>
+
+      <!-- Detail Pesanan -->
+      <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Kripto</span>
+          <span id="confirm-crypto" class="font-medium">BTC</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Jumlah Pembelian</span>
+          <span id="confirm-amount" class="font-medium">Rp 0</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Jumlah Koin</span>
+          <span id="confirm-coin" class="font-medium">0 BTC</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Metode Pembayaran</span>
+          <span id="confirm-method" class="font-medium">BCA</span>
+        </div>
+        <div class="flex justify-between border-t border-gray-200 pt-2">
+          <span class="font-medium">Total Pembayaran</span>
+          <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
+        </div>
+      </div>
+
+      <!-- Info Pembayaran -->
+      <div id="payment-details">
+        <!-- BCA -->
+        <div id="bca-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
+          <div class="flex justify-between mb-2">
+            <span class="font-medium">Bank Central Asia</span>
+            <button onclick="copyToClipboard('1234567890')" class="text-blue-600">
+              <i class="fas fa-copy"></i> Salin
+            </button>
+          </div>
+          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">1234567890</div>
+          <p class="text-sm text-gray-600">a.n. Kripto Merchant Indonesia</p>
+        </div>
+
+        <!-- BNI -->
+        <div id="bni-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
+          <div class="flex justify-between mb-2">
+            <span class="font-medium">Bank Negara Indonesia</span>
+            <button onclick="copyToClipboard('9876543210')" class="text-blue-600">
+              <i class="fas fa-copy"></i> Salin
+            </button>
+          </div>
+          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">9876543210</div>
+          <p class="text-sm text-gray-600">a.n. Kripto Merchant Indonesia</p>
+        </div>
+
+        <!-- DANA -->
+        <div id="dana-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
+          <div class="flex justify-between mb-2">
+            <span class="font-medium">DANA</span>
+            <button onclick="copyToClipboard('08123456789')" class="text-blue-600">
+              <i class="fas fa-copy"></i> Salin
+            </button>
+          </div>
+          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">08123456789</div>
+          <p class="text-sm text-gray-600">a.n. Kripto Merchant</p>
+        </div>
+
+        <!-- OVO -->
+        <div id="ovo-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
+          <div class="flex justify-between mb-2">
+            <span class="font-medium">OVO</span>
+            <button onclick="copyToClipboard('08123456789')" class="text-blue-600">
+              <i class="fas fa-copy"></i> Salin
+            </button>
+          </div>
+          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">08123456789</div>
+          <p class="text-sm text-gray-600">a.n. Kripto Merchant</p>
+        </div>
+
+        <!-- GOPAY -->
+        <div id="gopay-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
+          <div class="flex justify-between mb-2">
+            <span class="font-medium">GOPAY</span>
+            <button onclick="copyToClipboard('08123456789')" class="text-blue-600">
+              <i class="fas fa-copy"></i> Salin
+            </button>
+          </div>
+          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">08123456789</div>
+          <p class="text-sm text-gray-600">a.n. Kripto Merchant</p>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button onclick="confirmPayment()" class="w-full py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg shadow">
+          Saya Sudah Bayar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Harga real-time (dalam IDR)
+    const cryptoPrices = {
+      'BTC': 520000000,
+      'ETH': 32000000,
+      'USDT': 15500
+    };
+
+    // Update crypto unit when selection changes
+    document.getElementById('crypto').addEventListener('change', function() {
+      updateCalculation();
+    });
+
+    // Calculate when amount changes
+    document.getElementById('amount').addEventListener('input', updateCalculation);
+
+    // Payment method selection
+    document.getElementById('payment-method').addEventListener('change', function() {
+      const method = this.value;
+      document.getElementById('selected-method').value = method;
+    });
+
+    // Update all calculations
+    function updateCalculation() {
+      const crypto = document.getElementById('crypto').value;
+      const amount = parseFloat(document.getElementById('amount').value) || 0;
+      const feePercentage = 0.05; // 5% fee
+      
+      // Update real-time price display
+      document.getElementById('realtime-price').textContent = `Rp ${cryptoPrices[crypto].toLocaleString('id-ID')}`;
+      
+      // Calculate fee and net amount
+      const fee = amount * feePercentage;
+      const netAmount = amount - fee;
+      
+      // Calculate coins received
+      const coinsReceived = netAmount / cryptoPrices[crypto];
+      
+      // Update displays
+      document.getElementById('fee-amount').textContent = `- Rp ${fee.toLocaleString('id-ID')}`;
+      document.getElementById('coin-received').textContent = `${coinsReceived.toFixed(8)} ${crypto}`;
+    }
+
+    // Form submission
+    document.getElementById('purchase-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Validate form
+      const amount = document.getElementById('amount').value;
+      const wallet = document.getElementById('wallet').value;
+      const paymentMethod = document.getElementById('selected-method').value;
+      
+      if (!amount || amount < 10000) {
+        alert('Minimal pembelian Rp 10.000');
+        return;
+      }
+      
+      if (!wallet) {
+        alert('Masukkan alamat wallet Anda');
+        return;
+      }
+      
+      if (!paymentMethod) {
+        alert('Pilih metode pembayaran');
+        return;
+      }
+      
+      // Set confirmation values
+      const crypto = document.getElementById('crypto').value;
+      const coinReceived = document.getElementById('coin-received').textContent;
+      
+      document.getElementById('confirm-crypto').textContent = crypto;
+      document.getElementById('confirm-amount').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
+      document.getElementById('confirm-coin').textContent = coinReceived;
+      document.getElementById('confirm-method').textContent = getPaymentMethodName(paymentMethod);
+      document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
+      
+      // Show corresponding payment details
+      document.querySelectorAll('#payment-details > div').forEach(div => {
+        div.classList.add('hidden');
+      });
+      document.getElementById(`${paymentMethod}-details`).classList.remove('hidden');
+      
+      // Show payment info
+      document.getElementById('purchase-form').classList.add('hidden');
+      document.getElementById('payment-info').classList.remove('hidden');
+    });
+
+    // Get payment method name
+    function getPaymentMethodName(method) {
+      const methods = {
+        'bca': 'Bank BCA',
+        'bni': 'Bank BNI',
+        'dana': 'DANA',
+        'ovo': 'OVO',
+        'gopay': 'GOPAY'
+      };
+      return methods[method] || method;
+    }
+
+    // Copy to clipboard function
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Nomor rekening berhasil disalin');
+      });
+    }
+
+    // Confirm payment button
+    function confirmPayment() {
+      alert('Terima kasih! Pembayaran Anda sedang diverifikasi. Koin akan dikirim setelah pembayaran dikonfirmasi.');
+      // Here you would typically send the data to your backend
+    }
+
+    // Initialize
+    updateCalculation();
+  </script>
+</body>
+</html>
