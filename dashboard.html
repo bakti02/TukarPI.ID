@@ -4,194 +4,223 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Tukar Koin PI Network | TukarPI.ID - Aman & Cepat</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://api.coingecko.com">
-    <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
-    <style>
-      .crypto-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        padding-bottom: 0.5rem;
-      }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://api.coingecko.com">
+  <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .crypto-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 0.5rem;
+    }
+    .crypto-card {
+      position: relative;
+      flex: 0 0 calc(20% - 1rem);
+      transition: all 0.3s ease;
+    }
+    .crypto-container::-webkit-scrollbar {
+      display: none;
+    }
+    @keyframes pulse-up {
+      0% { background-color: rgba(74, 222, 128, 0.1); }
+      100% { background-color: transparent; }
+    }
+    @keyframes pulse-down {
+      0% { background-color: rgba(239, 68, 68, 0.1); }
+      100% { background-color: transparent; }
+    }
+    .price-up { animation: pulse-up 1s; }
+    .price-down { animation: pulse-down 1s; }
+    .flame-badge {
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      width: 24px;
+      height: 24px;
+      z-index: 10;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+    }
+    
+    .percentage-change {
+      display: inline-block;
+      padding: 0 3px;
+      border-radius: 2px;
+      font-weight: 600;
+      font-size: 10px;
+      border: 0.5px solid rgba(255, 255, 255, 0.5);
+      line-height: 1.2;
+    }
+    .percentage-up {
+      background-color: rgba(16, 185, 129, 0.9);
+      color: white;
+    }
+    .percentage-down {
+      background-color: rgba(239, 68, 68, 0.9);
+      color: white;
+    }
+    
+    .filter-btn {
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+      border: 1px solid #e5e7eb;
+    }
+    .filter-btn.active {
+      background-color: #3B82F6;
+      color: white;
+      border-color: #3B82F6;
+    }
+    
+    /* Penyesuaian ukuran font untuk harga rendah */
+    .price-low {
+      font-size: 0.7rem;
+    }
+    .price-very-low {
+      font-size: 0.6rem;
+    }
+    .price-micro {
+      font-size: 0.55rem;
+      letter-spacing: 0.5px;
+    }
+    .truncate-mark {
+      color: #999;
+      font-size: 0.6em;
+      margin-left: 1px;
+    }
+    
+    /* Mobile styles */
+    @media (max-width: 640px) {
       .crypto-card {
-        position: relative;
-        flex: 0 0 calc(20% - 1rem);
-        transition: all 0.3s ease;
+        flex: 0 0 calc(33.33% - 1rem);
       }
-      .crypto-container::-webkit-scrollbar {
-        display: none;
-      }
-      @keyframes pulse-up {
-        0% { background-color: rgba(74, 222, 128, 0.1); }
-        100% { background-color: transparent; }
-      }
-      @keyframes pulse-down {
-        0% { background-color: rgba(239, 68, 68, 0.1); }
-        100% { background-color: transparent; }
-      }
-      .price-up { animation: pulse-up 1s; }
-      .price-down { animation: pulse-down 1s; }
-      .flame-badge {
-        position: absolute;
-        right: -8px;
-        top: -8px;
-        width: 24px;
-        height: 24px;
-        z-index: 10;
-        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
-      }
-      
-      .percentage-change {
-        display: inline-block;
-        padding: 0 3px;
-        border-radius: 2px;
-        font-weight: 600;
-        font-size: 10px;
-        border: 0.5px solid rgba(255, 255, 255, 0.5);
-        line-height: 1.2;
-      }
-      .percentage-up {
-        background-color: rgba(16, 185, 129, 0.9);
-        color: white;
-      }
-      .percentage-down {
-        background-color: rgba(239, 68, 68, 0.9);
-        color: white;
-      }
-      
       .filter-btn {
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-size: 0.75rem;
-        transition: all 0.2s;
-        border: 1px solid #e5e7eb;
+        padding: 0.2rem 0.4rem;
+        font-size: 0.65rem;
       }
-      .filter-btn.active {
-        background-color: #3B82F6;
-        color: white;
-        border-color: #3B82F6;
-      }
-      
-      /* Penyesuaian ukuran font untuk harga rendah */
-      .price-low {
-        font-size: 0.7rem;
-      }
-      .price-very-low {
-        font-size: 0.6rem;
-      }
-      .price-micro {
-        font-size: 0.55rem;
-        letter-spacing: 0.5px;
-      }
-      .truncate-mark {
-        color: #999;
-        font-size: 0.6em;
-        margin-left: 1px;
-      }
-      
-      /* Mobile styles */
-      @media (max-width: 640px) {
-        .crypto-card {
-          flex: 0 0 calc(33.33% - 1rem);
-        }
-        .filter-btn {
-          padding: 0.2rem 0.4rem;
-          font-size: 0.65rem;
-        }
-      }
-      
-      /* Show more button */
-      .show-more-btn {
-        width: 100%;
-        text-align: center;
-        padding: 0.5rem;
-        background: #f0f0f0;
-        border-radius: 0.25rem;
-        margin-top: 0.5rem;
-        font-size: 0.75rem;
-        display: none; /* Hidden by default */
-      }
-      .show-more-btn.visible {
-        display: block;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100 text-gray-800 text-[10px] md:text-sm">
-    <div class="min-h-screen flex flex-col">
-      <header class="bg-white shadow p-3 flex justify-between items-center">
-        <h1 class="text-base md:text-lg font-bold">Pi Network Crypto Dashboard</h1>
-        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">200+ Aset</span>
-      </header>
-
-      <main class="p-3 space-y-8">
-        <section class="bg-white rounded-xl shadow p-3 md:p-5">
-          <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Selamat Datang di TukarPi Dashboard</h2>
-          <p class="text-gray-600 text-[10px]">Pantau harga 200+ aset kripto secara realtime</p>
-        </section>
-
-        <section class="relative">
-          <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
-            <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
-            <div class="flex gap-2 flex-wrap" id="filter-buttons">
-              <button class="filter-btn active" data-filter="all">Semua</button>
-              <button class="filter-btn" data-filter="payment">Pembayaran</button>
-              <button class="filter-btn" data-filter="stable">Stablecoin</button>
-              <button class="filter-btn" data-filter="defi">DeFi</button>
-              <button class="filter-btn" data-filter="meme">Meme</button>
-               <button class="filter-btn" data-filter="layer1">Layer 1</nftutton>
-               <button class="filter-btn" data-filter="Layer2">Layer 2</button>
-               <button class="filter-btn" data-filter="nft">NFT/button>
-               <button class="filter-btn" data-filter="baru">Koin Baru</button>
-            </div>
-          </div>
-          
+    }
+    
+    /* Show more button */
+    .show-more-btn {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      background: #f0f0f0;
+      border-radius: 0.25rem;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      display: none; /* Hidden by default */
+    }
+    .show-more-btn.visible {
+      display: block;
+    }
+    
+    /* New header styles */
+    .header-gradient {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .mobile-menu {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800 text-[10px] md:text-sm">
+  <!-- New Professional Header -->
+  <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-3">
+        <!-- Logo and Brand -->
+        <div class="flex items-center space-x-2">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
           <div>
-            <div class="crypto-container" id="crypto-container">
-              <!-- Skeleton loader -->
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-            </div>
-            <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
+            <h1 class="text-lg font-bold">TukarPI.ID</h1>
+            <p class="text-xs opacity-80">Pi Network Exchange</p>
           </div>
-        </section>
-      </main>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="#" class="nav-link text-sm font-medium">Dashboard</a>
+          <a href="#" class="nav-link text-sm font-medium">Jual Pi</a>
+          <a href="#" class="nav-link text-sm font-medium">Beli Kripto</a>
+          <a href="#" class="nav-link text-sm font-medium">Tentang Kami</a>
+          <span class="text-xs bg-blue-400 text-white px-2 py-1 rounded-full font-bold">200+ Aset</span>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
+      <div class="flex flex-col space-y-3 py-2">
+        <a href="#" class="text-white text-sm py-1 border-b border-blue-700">Dashboard</a>
+        <a href="#" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
+        <a href="#" class="text-white text-sm py-1 border-b border-blue-700">Beli Kripto</a>
+        <a href="#" class="text-white text-sm py-1 border-b border-blue-700">Tentang Kami</a>
+      </div>
+    </div>
+  </header>
 
-         <section class="relative">
-          <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
-            <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
-            <div class="flex gap-2 flex-wrap" id="filter-buttons">
-              <button class="filter-btn active" data-filter="all">Semua</button>
-              <button class="filter-btn" data-filter="payment">Pembayaran</button>
-              <button class="filter-btn" data-filter="stable">Stablecoin</button>
-              <button class="filter-btn" data-filter="defi">DeFi</button>
-              <button class="filter-btn" data-filter="meme">Meme</button>
-              <button class="filter-btn" data-filter="layer1">Layer 1</button>
-              <button class="filter-btn" data-filter="layer2">Layer 2</button>
-              <button class="filter-btn" data-filter="nft">NFT</button>
-              <button class="filter-btn" data-filter="baru">Koin Baru</button>
-            </div>
-          </div>
-          
-          <div>
-            <div class="crypto-container" id="crypto-container">
-              <!-- Skeleton loader -->
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-            </div>
-            <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
-          </div>
-        </section>
-      </main>
+  <main class="p-3 space-y-8 container mx-auto">
+    <section class="bg-white rounded-xl shadow p-3 md:p-5">
+      <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Selamat Datang di TukarPi Dashboard</h2>
+      <p class="text-gray-600 text-[10px]">Pantau harga 200+ aset kripto secara realtime</p>
+    </section>
 
-        <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-400 py-8">
+    <section class="relative">
+      <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+        <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+        <div class="flex gap-2 flex-wrap" id="filter-buttons">
+          <button class="filter-btn active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="payment">Pembayaran</button>
+          <button class="filter-btn" data-filter="stable">Stablecoin</button>
+          <button class="filter-btn" data-filter="defi">DeFi</button>
+          <button class="filter-btn" data-filter="meme">Meme</button>
+          <button class="filter-btn" data-filter="layer1">Layer 1</button>
+          <button class="filter-btn" data-filter="layer2">Layer 2</button>
+          <button class="filter-btn" data-filter="nft">NFT</button>
+          <button class="filter-btn" data-filter="baru">Koin Baru</button>
+        </div>
+      </div>
+      
+      <div>
+        <div class="crypto-container" id="crypto-container">
+          <!-- Skeleton loader -->
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+        </div>
+        <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- New Professional Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
         <!-- Kolom 1: Tentang Kami -->
@@ -199,40 +228,40 @@
           <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
           <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
           <div class="flex space-x-3">
-            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-              <i class="fab fa-instagram"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram text-lg"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-              <i class="fab fa-twitter"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter text-lg"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-              <i class="fab fa-facebook"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook text-lg"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition touch-target">
-              <i class="fab fa-telegram"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-telegram text-lg"></i>
             </a>
           </div>
         </div>
         
-        <!-- Kolom 2: Layanan (Completed) -->
+        <!-- Kolom 2: Layanan -->
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
           <ul class="space-y-2">
-            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Jual PI Network Anda</a></li>
-            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Beli Kripto</a></li>
-            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm touch-target">Program Affiliate</a></li>
-            <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm touch-target">Legalitas Usaha</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
           </ul>
         </div>
         
-        <!-- Kolom 3: Bantuan (Completed) -->
+        <!-- Kolom 3: Bantuan -->
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
           <ul class="space-y-2">
-            <li><a href="cara-pemesanan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Panduan Penukaran</a></li>
-            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm touch-target">FAQ</a></li>
-            <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Syarat & Ketentuan</a></li>
-            <li><a href="kebijakan-privasi.html" class="hover:text-white transition text-xs md:text-sm touch-target">Kebijakan Privasi</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
           </ul>
         </div>
         
@@ -272,364 +301,360 @@
   </footer>
 
   <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50 touch-target">
+  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50">
     <i class="fab fa-whatsapp text-xl"></i>
   </a>
 
-  <!-- JavaScript -->
   <script>
     // Mobile Menu Toggle
     document.getElementById('mobile-menu-button').addEventListener('click', function() {
       const menu = document.getElementById('mobile-menu');
       menu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobile-menu');
+      const button = document.getElementById('mobile-menu-button');
       
-      document.addEventListener('click', function closeMenu(e) {
-        if (!menu.contains(e.target) && e.target.id !== 'mobile-menu-button') {
-          menu.classList.add('hidden');
-          document.removeEventListener('click', closeMenu);
+      if (!menu.contains(e.target) && e.target !== button && !button.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    // Kategori koin yang diperluas
+    const coinCategories = {
+      payment: [
+        'bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash', 'ripple',
+        'stellar', 'dash', 'zcash', 'nano', 'digibyte', 'monero',
+        'ravencoin', 'bitcoin-sv', 'eos', 'tron', 'vechain',
+        'neo', 'qtum', 'waves', 'zilliqa', 'icon', 'decred',
+        'horizen', 'vertcoin', 'pivx', 'zcoin'
+      ],
+      stable: [
+        'tether', 'usd-coin', 'binance-usd', 'dai', 'true-usd',
+        'paxos-standard', 'gemini-dollar', 'terrausd', 'frax',
+        'tether-gold', 'pax-gold', 'usdd', 'fei-usd', 'magic-internet-money',
+        'neutrino-dollar', 'usdx', 'flex-usd', 'dynamic-set-dollar'
+      ],
+      defi: [
+        'uniswap', 'aave', 'chainlink', 'wrapped-bitcoin', 'the-graph',
+        'synthetix', 'compound', 'maker', 'yearn-finance', 'curve-dao-token',
+        'thorchain', 'kava', 'injective-protocol', 'osmosis', 'raydium',
+        'serum', '1inch', '0x', 'balancer', 'kyber-network', 'uma',
+        'renbtc', 'sushi', 'badger-dao', 'bancor', 'dydx'
+      ],
+      meme: [
+        'dogecoin', 'shiba-inu', 'dogelon-mars', 'floki-inu', 'pepe',
+        'bonk', 'baby-doge-coin', 'safemoon', 'elon', 'shiba-predator',
+        'kishu-inu', 'hokkaidu-inu', 'wojak-finance', 'mog-coin', 'toshi-token',
+        'woof-token', 'elon-doge', 'dogelana', 'dogebonk',
+        'boden', 'doland-tremp', 'tremp', 'maga', 'wif', 
+        'popcat', 'book-of-meme', 'based', 'jeo-boden', 'turbo',
+        'mfer-coin', 'osak', 'bozo', 'scott-the-woz', 'gigachad',
+        'smog', 'water', 'myro', 'toshi', 'wen',
+        'pizza', 'harambe', 'donaldcat', 'cocaine', 'hulk',
+        'lizard', 'snakes', 'cats', 'dogs', 'monkey'
+      ],
+      layer1: [
+        'ethereum', 'solana', 'cardano', 'avalanche', 'polkadot',
+        'cosmos', 'algorand', 'near', 'tezos', 'flow',
+        'elrond', 'hedera', 'fantom', 'kadena', 'mina',
+        'celo', 'kava', 'thorchain', 'terra', 'neo',
+        'icon', 'zilliqa', 'waves', 'eos', 'tron',
+        'sui', 'aptos', 'sei', 'radix', 'conflux'
+      ],
+      layer2: [
+        'arbitrum', 'optimism', 'polygon', 'base', 'starknet',
+        'zksync', 'loopring', 'boba-network', 'metis', 'immutable-x',
+        'skale', 'aztec', 'dydx', 'omg-network', 'matic',
+        'lightning-network', 'cartesi', 'manta-network', 'altlayer', 'fuel',
+        'blast', 'linea', 'scroll', 'mantle', 'kroma'
+      ],
+      nft: [
+        'apecoin', 'blur', 'immutable-x', 'flow', 'enjin',
+        'theta-network', 'chiliz', 'audius', 'rally', 'superrare',
+        'decentraland', 'the-sandbox', 'gala', 'wax', 'stacks',
+        'looksrare', 'rari-token', 'nftx', 'ufo-gaming', 'vulcan-forged',
+        'dust-protocol', 'sudoswap', 'nftearth', 'nft-art-finance', 'bnpl-pay'
+      ],
+      baru: [ // Koin baru rilis (2024-2025)
+        'berachain', 'monad', 'etherfi', 'puffer-finance', 'eigenlayer',
+        'saga', 'dymension', 'zetachain', 'altlayer', 'xai',
+        'portal', 'pandora', 'wormhole', 'omni-network', 'karak',
+        'renzo', 'ionet', 'taiko', 'movement-labs', 'penumbra'
+      ]
+    };
+
+    // 1. Format harga dengan 12 digit dan tanda >
+    function formatPrice(price) {
+      if (price >= 1) {
+        return `$${price.toLocaleString(undefined, { maximumFractionDigits: 4 })}`;
+      } else if (price >= 0.01) {
+        return `$${price.toFixed(4).replace(/\.?0+$/, '')}`;
+      } else if (price >= 0.0001) {
+        return `$${price.toFixed(6).replace(/\.?0+$/, '')}`;
+      } else {
+        // Untuk harga < 0.0001 (hingga 12 digit)
+        const formatted = price.toFixed(12);
+        const trimmed = formatted.replace(/(\..*?)0+$/, '$1').replace(/\.$/, '');
+        
+        // Cek apakah nilai sebenarnya lebih panjang dari yang ditampilkan
+        const fullValue = price.toString();
+        const isTruncated = fullValue.length > trimmed.length + 1; // +1 untuk tanda $
+        
+        return `<span class="price-micro">
+          $${trimmed}${isTruncated ? '<span class="truncate-mark">></span>' : ''}
+        </span>`;
+      }
+    }
+
+    // 2. Fungsi untuk membatasi tampilan awal (2 baris di mobile)
+    function limitInitialDisplay() {
+      const container = document.getElementById('crypto-container');
+      const activeFilter = container.dataset.filtered || 'all';
+      const cards = container.querySelectorAll('.crypto-card');
+      const showMoreBtn = document.getElementById('show-more-btn');
+      
+      const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
+      const initialLimit = cardsPerRow * 2;
+      let visibleCount = 0;
+      let totalFiltered = 0;
+
+      // Hitung total kartu yang sesuai filter
+      cards.forEach(card => {
+        if (activeFilter === 'all' || card.dataset.category === activeFilter) {
+          totalFiltered++;
+        }
+      });
+
+      cards.forEach(card => {
+        if (activeFilter === 'all' || card.dataset.category === activeFilter) {
+          if (visibleCount < initialLimit) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Tampilkan tombol hanya jika ada lebih banyak kartu yang sesuai filter
+      if (totalFiltered > initialLimit) {
+        showMoreBtn.classList.add('visible');
+      } else {
+        showMoreBtn.classList.remove('visible');
+      }
+    }
+    
+    // 3. Fungsi untuk menampilkan semua kartu YANG SESUAI FILTER
+    function showAllCards() {
+      const container = document.getElementById('crypto-container');
+      const activeFilter = container.dataset.filtered || 'all';
+      const cards = container.querySelectorAll('.crypto-card');
+      const showMoreBtn = document.getElementById('show-more-btn');
+      
+      cards.forEach(card => {
+        if (activeFilter === 'all' || card.dataset.category === activeFilter) {
+          card.style.display = 'flex';
+        }
+      });
+      
+      showMoreBtn.classList.remove('visible');
+    }
+
+    // 4. Render kartu kripto dengan kategori
+    function renderOptimizedCards(data) {
+      const container = document.getElementById('crypto-container');
+      container.innerHTML = '';
+      
+      data.forEach(coin => {
+        // Tentukan kategori coin
+        let category = 'other';
+        for (const [cat, coins] of Object.entries(coinCategories)) {
+          if (coins.includes(coin.id)) {
+            category = cat;
+            break;
+          }
+        }
+        
+        const card = document.createElement('div');
+        card.className = `crypto-card bg-white rounded-xl shadow p-2 flex flex-col items-center text-center border-t-4 ${
+          coin.price_change_percentage_24h >= 0 ? 'border-green-500' : 'border-red-500'
+        }`;
+        card.dataset.category = category;
+
+        const img = document.createElement('img');
+        img.className = 'w-6 h-6 mb-1';
+        img.alt = coin.name;
+        img.src = coin.image;
+        
+        card.innerHTML = `
+          ${coin.price_change_percentage_24h >= 5 ? `
+            <img src="https://bakti02.github.io/TukarPI.ID/flame-21186.gif" 
+                 class="flame-badge" 
+                 loading="lazy"
+                 alt="Kenaikan signifikan">
+          ` : ''}
+          <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
+          <p class="text-xs font-bold" data-current-price="${coin.current_price}">
+            ${formatPrice(coin.current_price)}
+          </p>
+          <span class="percentage-change ${
+            coin.price_change_percentage_24h >= 0 ? 'percentage-up' : 'percentage-down'
+          }">
+            ${coin.price_change_percentage_24h >= 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%
+          </span>
+        `;
+        
+        card.prepend(img);
+        container.appendChild(card);
+      });
+      
+      // Terapkan limit tampilan awal
+      limitInitialDisplay();
+      
+      // Simpan data untuk filtering
+      container.dataset.filtered = 'all';
+    }
+
+    // 5. Fungsi filter yang diperbaiki
+    function filterCoins(category) {
+      const container = document.getElementById('crypto-container');
+      const cards = container.querySelectorAll('.crypto-card');
+      const showMoreBtn = document.getElementById('show-more-btn');
+      
+      // Update status filter aktif
+      container.dataset.filtered = category;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === category);
+      });
+
+      const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
+      const initialLimit = cardsPerRow * 2;
+      let visibleCount = 0;
+      let totalFiltered = 0;
+      
+      // Hitung total kartu yang sesuai filter
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          totalFiltered++;
+        }
+      });
+
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          if (visibleCount < initialLimit) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Tampilkan tombol hanya jika ada lebih banyak kartu yang sesuai filter
+      if (totalFiltered > initialLimit) {
+        showMoreBtn.classList.add('visible');
+      } else {
+        showMoreBtn.classList.remove('visible');
+      }
+    }
+
+    // 6. Fungsi fetch data
+    async function fetchOptimizedData() {
+      const cached = getCachedData();
+      if (cached) {
+        renderOptimizedCards(cached);
+        // Terapkan filter yang aktif sebelumnya
+        const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+        filterCoins(activeFilter);
+      }
+
+      try {
+        // Gabungkan semua ID koin dari 8 kategori
+        const allCoinIds = [
+          ...new Set([
+            ...coinCategories.payment,
+            ...coinCategories.stable,
+            ...coinCategories.defi,
+            ...coinCategories.meme,
+            ...coinCategories.layer1,
+            ...coinCategories.layer2,
+            ...coinCategories.nft,
+            ...coinCategories.baru
+          ])
+        ].join(',');
+        console.log(`Total aset: ${allCoinIds.split(',').length}`);
+        console.log(`Contoh output: ${allCoinIds.substring(0, 100)}...`);
+        // Hasil akhir akan berupa string dengan format: "bitcoin,ethereum,solana,..."
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${allCoinIds}&order=market_cap_desc&per_page=200&page=1&sparkline=false`
+        );
+        const data = await response.json();
+        setCachedData(data);
+        renderOptimizedCards(data);
+        
+        // Terapkan filter yang aktif setelah render
+        const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+        filterCoins(activeFilter);
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+        if (!cached) {
+          const container = document.getElementById('crypto-container');
+          container.innerHTML = '<p class="text-red-500">Gagal memuat data. Silakan coba lagi nanti.</p>';
+        }
+      }
+    }
+
+    // Inisialisasi
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchOptimizedData();
+      
+      // Setup filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          filterCoins(btn.dataset.filter);
+        });
+      });
+      
+      // Setup show more button
+      document.getElementById('show-more-btn').addEventListener('click', showAllCards);
+      
+      // Handle resize
+      window.addEventListener('resize', () => {
+        if (document.getElementById('crypto-container').dataset.filtered) {
+          limitInitialDisplay();
         }
       });
     });
 
-    </div>
-
-      <script>
-      // Kategori koin yang diperluas
-      const coinCategories = {
-        payment: [
-          'bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash', 'ripple',
-          'stellar', 'dash', 'zcash', 'nano', 'digibyte', 'monero',
-          'ravencoin', 'bitcoin-sv', 'eos', 'tron', 'vechain',
-          'neo', 'qtum', 'waves', 'zilliqa', 'icon', 'decred',
-          'horizen', 'vertcoin', 'pivx', 'zcoin'
-        ],
-        stable: [
-          'tether', 'usd-coin', 'binance-usd', 'dai', 'true-usd',
-          'paxos-standard', 'gemini-dollar', 'terrausd', 'frax',
-          'tether-gold', 'pax-gold', 'usdd', 'fei-usd', 'magic-internet-money',
-          'neutrino-dollar', 'usdx', 'flex-usd', 'dynamic-set-dollar'
-        ],
-        defi: [
-          'uniswap', 'aave', 'chainlink', 'wrapped-bitcoin', 'the-graph',
-          'synthetix', 'compound', 'maker', 'yearn-finance', 'curve-dao-token',
-          'thorchain', 'kava', 'injective-protocol', 'osmosis', 'raydium',
-          'serum', '1inch', '0x', 'balancer', 'kyber-network', 'uma',
-          'renbtc', 'sushi', 'badger-dao', 'bancor', 'dydx'
-        ],
-        meme: [
-          'dogecoin', 'shiba-inu', 'dogelon-mars', 'floki-inu', 'pepe',
-          'bonk', 'baby-doge-coin', 'safemoon', 'elon', 'shiba-predator',
-          'kishu-inu', 'hokkaidu-inu', 'wojak-finance', 'mog-coin', 'toshi-token',
-          'woof-token', 'elon-doge', 'dogelana', 'dogebonk',
-          'boden', 'doland-tremp', 'tremp', 'maga', 'wif', 
-          'popcat', 'book-of-meme', 'based', 'jeo-boden', 'turbo',
-          'mfer-coin', 'osak', 'bozo', 'scott-the-woz', 'gigachad',
-          'smog', 'water', 'myro', 'toshi', 'wen',
-          'pizza', 'harambe', 'donaldcat', 'cocaine', 'hulk',
-          'lizard', 'snakes', 'cats', 'dogs', 'monkey'
-        ],
-        layer1: [
-          'ethereum', 'solana', 'cardano', 'avalanche', 'polkadot',
-          'cosmos', 'algorand', 'near', 'tezos', 'flow',
-          'elrond', 'hedera', 'fantom', 'kadena', 'mina',
-          'celo', 'kava', 'thorchain', 'terra', 'neo',
-          'icon', 'zilliqa', 'waves', 'eos', 'tron',
-          'sui', 'aptos', 'sei', 'radix', 'conflux'
-        ],
-        layer2: [
-          'arbitrum', 'optimism', 'polygon', 'base', 'starknet',
-          'zksync', 'loopring', 'boba-network', 'metis', 'immutable-x',
-          'skale', 'aztec', 'dydx', 'omg-network', 'matic',
-          'lightning-network', 'cartesi', 'manta-network', 'altlayer', 'fuel',
-          'blast', 'linea', 'scroll', 'mantle', 'kroma'
-        ],
-        nft: [
-          'apecoin', 'blur', 'immutable-x', 'flow', 'enjin',
-          'theta-network', 'chiliz', 'audius', 'rally', 'superrare',
-          'decentraland', 'the-sandbox', 'gala', 'wax', 'stacks',
-          'looksrare', 'rari-token', 'nftx', 'ufo-gaming', 'vulcan-forged',
-          'dust-protocol', 'sudoswap', 'nftearth', 'nft-art-finance', 'bnpl-pay'
-        ],
-        baru: [ // Koin baru rilis (2024-2025)
-          'berachain', 'monad', 'etherfi', 'puffer-finance', 'eigenlayer',
-          'saga', 'dymension', 'zetachain', 'altlayer', 'xai',
-          'portal', 'pandora', 'wormhole', 'omni-network', 'karak',
-          'renzo', 'ionet', 'taiko', 'movement-labs', 'penumbra'
-        ]
-      };
-  
-  // JANGAN ubah fungsi render/filter yang ada
-  // Biarkan semua kode lain tetap sama persis seperti aslinya
-
-      // 1. Format harga dengan 12 digit dan tanda >
-      function formatPrice(price) {
-        if (price >= 1) {
-          return `$${price.toLocaleString(undefined, { maximumFractionDigits: 4 })}`;
-        } else if (price >= 0.01) {
-          return `$${price.toFixed(4).replace(/\.?0+$/, '')}`;
-        } else if (price >= 0.0001) {
-          return `$${price.toFixed(6).replace(/\.?0+$/, '')}`;
-        } else {
-          // Untuk harga < 0.0001 (hingga 12 digit)
-          const formatted = price.toFixed(12);
-          const trimmed = formatted.replace(/(\..*?)0+$/, '$1').replace(/\.$/, '');
-          
-          // Cek apakah nilai sebenarnya lebih panjang dari yang ditampilkan
-          const fullValue = price.toString();
-          const isTruncated = fullValue.length > trimmed.length + 1; // +1 untuk tanda $
-          
-          return `<span class="price-micro">
-            $${trimmed}${isTruncated ? '<span class="truncate-mark">></span>' : ''}
-          </span>`;
-        }
-      }
-
-      // 2. Fungsi untuk membatasi tampilan awal (2 baris di mobile)
-      function limitInitialDisplay() {
-        const container = document.getElementById('crypto-container');
-        const activeFilter = container.dataset.filtered || 'all';
-        const cards = container.querySelectorAll('.crypto-card');
-        const showMoreBtn = document.getElementById('show-more-btn');
-        
-        const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
-        const initialLimit = cardsPerRow * 2;
-        let visibleCount = 0;
-        let totalFiltered = 0;
-
-        // Hitung total kartu yang sesuai filter
-        cards.forEach(card => {
-          if (activeFilter === 'all' || card.dataset.category === activeFilter) {
-            totalFiltered++;
-          }
-        });
-
-        cards.forEach(card => {
-          if (activeFilter === 'all' || card.dataset.category === activeFilter) {
-            if (visibleCount < initialLimit) {
-              card.style.display = 'flex';
-              visibleCount++;
-            } else {
-              card.style.display = 'none';
-            }
-          } else {
-            card.style.display = 'none';
-          }
-        });
-
-        // Tampilkan tombol hanya jika ada lebih banyak kartu yang sesuai filter
-        if (totalFiltered > initialLimit) {
-          showMoreBtn.classList.add('visible');
-        } else {
-          showMoreBtn.classList.remove('visible');
-        }
-      }
-      
-      // 3. Fungsi untuk menampilkan semua kartu YANG SESUAI FILTER
-      function showAllCards() {
-        const container = document.getElementById('crypto-container');
-        const activeFilter = container.dataset.filtered || 'all';
-        const cards = container.querySelectorAll('.crypto-card');
-        const showMoreBtn = document.getElementById('show-more-btn');
-        
-        cards.forEach(card => {
-          if (activeFilter === 'all' || card.dataset.category === activeFilter) {
-            card.style.display = 'flex';
-          }
-        });
-        
-        showMoreBtn.classList.remove('visible');
-      }
-
-      // 4. Render kartu kripto dengan kategori
-      function renderOptimizedCards(data) {
-        const container = document.getElementById('crypto-container');
-        container.innerHTML = '';
-        
-        data.forEach(coin => {
-          // Tentukan kategori coin
-          let category = 'other';
-          for (const [cat, coins] of Object.entries(coinCategories)) {
-            if (coins.includes(coin.id)) {
-              category = cat;
-              break;
-            }
-          }
-          
-          const card = document.createElement('div');
-          card.className = `crypto-card bg-white rounded-xl shadow p-2 flex flex-col items-center text-center border-t-4 ${
-            coin.price_change_percentage_24h >= 0 ? 'border-green-500' : 'border-red-500'
-          }`;
-          card.dataset.category = category;
-
-          const img = document.createElement('img');
-          img.className = 'w-6 h-6 mb-1';
-          img.alt = coin.name;
-          img.src = coin.image;
-          
-          card.innerHTML = `
-            ${coin.price_change_percentage_24h >= 5 ? `
-              <img src="https://bakti02.github.io/TukarPI.ID/flame-21186.gif" 
-                   class="flame-badge" 
-                   loading="lazy"
-                   alt="Kenaikan signifikan">
-            ` : ''}
-            <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
-            <p class="text-xs font-bold" data-current-price="${coin.current_price}">
-              ${formatPrice(coin.current_price)}
-            </p>
-            <span class="percentage-change ${
-              coin.price_change_percentage_24h >= 0 ? 'percentage-up' : 'percentage-down'
-            }">
-              ${coin.price_change_percentage_24h >= 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%
-            </span>
-          `;
-          
-          card.prepend(img);
-          container.appendChild(card);
-        });
-        
-        // Terapkan limit tampilan awal
-        limitInitialDisplay();
-        
-        // Simpan data untuk filtering
-        container.dataset.filtered = 'all';
-      }
-
-      // 5. Fungsi filter yang diperbaiki
-      function filterCoins(category) {
-        const container = document.getElementById('crypto-container');
-        const cards = container.querySelectorAll('.crypto-card');
-        const showMoreBtn = document.getElementById('show-more-btn');
-        
-        // Update status filter aktif
-        container.dataset.filtered = category;
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.filter === category);
-        });
-
-        const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
-        const initialLimit = cardsPerRow * 2;
-        let visibleCount = 0;
-        let totalFiltered = 0;
-        
-        // Hitung total kartu yang sesuai filter
-        cards.forEach(card => {
-          if (category === 'all' || card.dataset.category === category) {
-            totalFiltered++;
-          }
-        });
-
-        cards.forEach(card => {
-          if (category === 'all' || card.dataset.category === category) {
-            if (visibleCount < initialLimit) {
-              card.style.display = 'flex';
-              visibleCount++;
-            } else {
-              card.style.display = 'none';
-            }
-          } else {
-            card.style.display = 'none';
-          }
-        });
-
-        // Tampilkan tombol hanya jika ada lebih banyak kartu yang sesuai filter
-        if (totalFiltered > initialLimit) {
-          showMoreBtn.classList.add('visible');
-        } else {
-          showMoreBtn.classList.remove('visible');
-        }
-      }
-
-      // 6. Fungsi fetch data
-      async function fetchOptimizedData() {
-        const cached = getCachedData();
-        if (cached) {
-          renderOptimizedCards(cached);
-          // Terapkan filter yang aktif sebelumnya
-          const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
-          filterCoins(activeFilter);
-        }
-
-        try {
-          // Gabungkan semua ID koin dari 8 kategori
-          const allCoinIds = [
-            ...new Set([
-              ...coinCategories.payment,
-              ...coinCategories.stable,
-              ...coinCategories.defi,
-              ...coinCategories.meme,
-              ...coinCategories.layer1,
-              ...coinCategories.layer2,
-              ...coinCategories.nft,
-              ...coinCategories.baru
-            ])
-          ].join(',');
-          console.log(`Total aset: ${allCoinIds.split(',').length}`);
-          console.log(`Contoh output: ${allCoinIds.substring(0, 100)}...`);
-          // Hasil akhir akan berupa string dengan format: "bitcoin,ethereum,solana,..."
-          const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${allCoinIds}&order=market_cap_desc&per_page=200&page=1&sparkline=false`
-          );
-          const data = await response.json();
-          setCachedData(data);
-          renderOptimizedCards(data);
-          
-          // Terapkan filter yang aktif setelah render
-          const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
-          filterCoins(activeFilter);
-        } catch (error) {
-          console.error('Failed to fetch data:', error);
-          if (!cached) {
-            const container = document.getElementById('crypto-container');
-            container.innerHTML = '<p class="text-red-500">Gagal memuat data. Silakan coba lagi nanti.</p>';
-          }
-        }
-      }
-
-      // Inisialisasi
-      document.addEventListener('DOMContentLoaded', () => {
+    // Auto-update setiap 1 menit
+    setInterval(() => {
+      if (document.visibilityState === 'visible') {
         fetchOptimizedData();
-        
-        // Setup filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            filterCoins(btn.dataset.filter);
-          });
-        });
-        
-        // Setup show more button
-        document.getElementById('show-more-btn').addEventListener('click', showAllCards);
-        
-        // Handle resize
-        window.addEventListener('resize', () => {
-          if (document.getElementById('crypto-container').dataset.filtered) {
-            limitInitialDisplay();
-          }
-        });
-      });
-
-      // Auto-update setiap 1 menit
-      setInterval(() => {
-        if (document.visibilityState === 'visible') {
-          fetchOptimizedData();
-        }
-      }, 60000);
-      
-      // 1. Cache data di localStorage
-      function getCachedData() {
-        const cached = localStorage.getItem('cryptoCache');
-        if (!cached) return null;
-        const { timestamp, data } = JSON.parse(cached);
-        return (Date.now() - timestamp < 300000) ? data : null;
       }
+    }, 60000);
+    
+    // 1. Cache data di localStorage
+    function getCachedData() {
+      const cached = localStorage.getItem('cryptoCache');
+      if (!cached) return null;
+      const { timestamp, data } = JSON.parse(cached);
+      return (Date.now() - timestamp < 300000) ? data : null;
+    }
 
-      function setCachedData(data) {
-        localStorage.setItem('cryptoCache', JSON.stringify({
-          timestamp: Date.now(),
-          data: data
-        }));
-      }
-    </script>
-  </body>
+    function setCachedData(data) {
+      localStorage.setItem('cryptoCache', JSON.stringify({
+        timestamp: Date.now(),
+        data: data
+      }));
+    }
+  </script>
+</body>
 </html>
