@@ -28,10 +28,16 @@
       margin: 0 auto 15px;
       display: block;
     }
-    #confirm-method img {
-      height: 20px;
+    .payment-logo {
+      height: 24px;
+      max-width: 80px;
+      display: inline-block;
       vertical-align: middle;
-      margin-right: 8px;
+    }
+    .payment-method-logo-container {
+      height: 30px;
+      display: flex;
+      align-items: center;
     }
     #confirm-wallet {
       font-family: monospace;
@@ -173,9 +179,9 @@
           <span class="text-gray-600">Jumlah Koin</span>
           <span id="confirm-coin" class="coin-received">0</span>
         </div>
-        <div class="flex justify-between mb-2">
+        <div class="flex justify-between mb-2 items-center">
           <span class="text-gray-600">Metode Pembayaran</span>
-          <span id="confirm-method" class="font-medium">BCA</span>
+          <div id="confirm-method" class="payment-method-logo-container"></div>
         </div>
         <div class="flex justify-between mb-2 items-start">
           <span class="text-gray-600">Alamat Wallet</span>
@@ -449,13 +455,13 @@
       }
     }
 
-    // Get payment method name with logo
+    // Get payment method name with logo ONLY (no text)
     function getPaymentMethodName(method) {
       const methods = {
-        'bca': '<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="h-5 inline mr-2 align-middle"> BCA',
-        'dana': '<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/DANA_logo.svg" class="h-5 inline mr-2 align-middle"> DANA',
-        'ovo': '<img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/OVO_logo_2019.svg" class="h-5 inline mr-2 align-middle"> OVO',
-        'gopay': '<img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" class="h-5 inline mr-2 align-middle"> GOPAY'
+        'bca': '<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="payment-logo" alt="BCA">',
+        'dana': '<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/DANA_logo.svg" class="payment-logo" alt="DANA">',
+        'ovo': '<img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/OVO_logo_2019.svg" class="payment-logo" alt="OVO">',
+        'gopay': '<img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" class="payment-logo" alt="GOPAY">'
       };
       return methods[method] || method;
     }
