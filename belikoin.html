@@ -14,6 +14,36 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    .payment-method-logo {
+      width: 60px;
+      height: 30px;
+      object-fit: contain;
+      margin: 0 auto 10px;
+      display: block;
+    }
+    .payment-details-logo {
+      width: 80px;
+      height: 40px;
+      object-fit: contain;
+      margin: 0 auto 15px;
+      display: block;
+    }
+    #confirm-method img {
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    #confirm-wallet {
+      font-family: monospace;
+      word-break: break-all;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      max-width: 200px;
+      text-align: right;
+    }
+    #payment-info .font-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -82,7 +112,6 @@
           <select id="payment-method" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
             <option value="" disabled selected>Pilih metode pembayaran</option>
             <option value="bca">Bank BCA</option>
-            <option value="bni">Bank BNI</option>
             <option value="dana">DANA</option>
             <option value="ovo">OVO</option>
             <option value="gopay">GOPAY</option>
@@ -96,7 +125,7 @@
       </form>
     </div>
 
-    <!-- Payment Info (akan muncul setelah submit) -->
+    <!-- Payment Info -->
     <div id="payment-info" class="hidden bg-white rounded-xl shadow-md p-6 fade-in">
       <div class="text-center mb-4">
         <h2 class="text-xl font-bold text-blue-600">Selesaikan Pembayaran</h2>
@@ -121,6 +150,10 @@
           <span class="text-gray-600">Metode Pembayaran</span>
           <span id="confirm-method" class="font-medium">BCA</span>
         </div>
+        <div class="flex justify-between mb-2 items-start">
+          <span class="text-gray-600">Alamat Wallet</span>
+          <span id="confirm-wallet" class="font-mono text-sm break-all text-right max-w-[200px]">-</span>
+        </div>
         <div class="flex justify-between border-t border-gray-200 pt-2">
           <span class="font-medium">Total Pembayaran</span>
           <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
@@ -130,63 +163,51 @@
       <!-- Info Pembayaran -->
       <div id="payment-details">
         <!-- BCA -->
-        <div id="bca-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
-          <div class="flex justify-between mb-2">
-            <span class="font-medium">Bank Central Asia</span>
-            <button onclick="copyToClipboard('1234567890')" class="text-blue-600">
-              <i class="fas fa-copy"></i> Salin
-            </button>
+        <div id="bca-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="payment-details-logo">
+          <div class="mb-4">
+            <div class="font-mono text-lg bg-white py-2 px-4 rounded">0332997201</div>
+            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
           </div>
-          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">1234567890</div>
-          <p class="text-sm text-gray-600">a.n. Kripto Merchant Indonesia</p>
-        </div>
-
-        <!-- BNI -->
-        <div id="bni-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
-          <div class="flex justify-between mb-2">
-            <span class="font-medium">Bank Negara Indonesia</span>
-            <button onclick="copyToClipboard('9876543210')" class="text-blue-600">
-              <i class="fas fa-copy"></i> Salin
-            </button>
-          </div>
-          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">9876543210</div>
-          <p class="text-sm text-gray-600">a.n. Kripto Merchant Indonesia</p>
+          <button onclick="copyToClipboard('0332997201')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
+            <i class="fas fa-copy mr-2"></i> Salin Nomor Rekening
+          </button>
         </div>
 
         <!-- DANA -->
-        <div id="dana-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
-          <div class="flex justify-between mb-2">
-            <span class="font-medium">DANA</span>
-            <button onclick="copyToClipboard('08123456789')" class="text-blue-600">
-              <i class="fas fa-copy"></i> Salin
-            </button>
+        <div id="dana-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/DANA_logo.svg" alt="DANA" class="payment-details-logo">
+          <div class="mb-4">
+            <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
+            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
           </div>
-          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">08123456789</div>
-          <p class="text-sm text-gray-600">a.n. Kripto Merchant</p>
+          <button onclick="copyToClipboard('087878787523')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
+            <i class="fas fa-copy mr-2"></i> Salin Nomor
+          </button>
         </div>
 
         <!-- OVO -->
-        <div id="ovo-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
-          <div class="flex justify-between mb-2">
-            <span class="font-medium">OVO</span>
-            <button onclick="copyToClipboard('08123456789')" class="text-blue-600">
-              <i class="fas fa-copy"></i> Salin
-            </button>
+        <div id="ovo-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/OVO_logo_2019.svg" alt="OVO" class="payment-details-logo">
+          <div class="mb-4">
+            <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
+            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
           </div>
-          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">08123456789</div>
-          <p class="text-sm text-gray-600">a.n. Kripto Merchant</p>
+          <button onclick="copyToClipboard('087878787523')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
+            <i class="fas fa-copy mr-2"></i> Salin Nomor
+          </button>
         </div>
 
         <!-- GOPAY -->
-        <div id="gopay-details" class="hidden bg-blue-50 p-4 rounded-lg mb-4">
-          <div class="flex justify-between mb-2">
-            <span class="font-medium">GOPAY</span>
-            <button onclick="copyToClipboard('08123456789')" class="text-blue-600">
-              <i class="fas fa-copy"></i> Salin
-            </button>
+        <div id="gopay-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="payment-details-logo">
+          <div class="mb-4">
+            <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
+            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
           </div>
-          <div class="text-center py-2 px-4 bg-white rounded font-mono text-lg mb-2">08123456789</div>
-          <p class="text-sm text-gray-600">a.n. Kripto Merchant</p>
+          <button onclick="copyToClipboard('087878787523')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
+            <i class="fas fa-copy mr-2"></i> Salin Nomor
+          </button>
         </div>
       </div>
 
@@ -268,12 +289,14 @@
       // Set confirmation values
       const crypto = document.getElementById('crypto').value;
       const coinReceived = document.getElementById('coin-received').textContent;
+      const walletAddress = document.getElementById('wallet').value;
       
       document.getElementById('confirm-crypto').textContent = crypto;
       document.getElementById('confirm-amount').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
       document.getElementById('confirm-coin').textContent = coinReceived;
-      document.getElementById('confirm-method').textContent = getPaymentMethodName(paymentMethod);
+      document.getElementById('confirm-method').innerHTML = getPaymentMethodName(paymentMethod);
       document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
+      document.getElementById('confirm-wallet').textContent = walletAddress;
       
       // Show corresponding payment details
       document.querySelectorAll('#payment-details > div').forEach(div => {
@@ -286,29 +309,86 @@
       document.getElementById('payment-info').classList.remove('hidden');
     });
 
-    // Get payment method name
+    // Get payment method name with logo
     function getPaymentMethodName(method) {
       const methods = {
-        'bca': 'Bank BCA',
-        'bni': 'Bank BNI',
-        'dana': 'DANA',
-        'ovo': 'OVO',
-        'gopay': 'GOPAY'
+        'bca': '<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="h-5 inline mr-2 align-middle"> BCA',
+        'dana': '<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/DANA_logo.svg" class="h-5 inline mr-2 align-middle"> DANA',
+        'ovo': '<img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/OVO_logo_2019.svg" class="h-5 inline mr-2 align-middle"> OVO',
+        'gopay': '<img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" class="h-5 inline mr-2 align-middle"> GOPAY'
       };
       return methods[method] || method;
     }
 
     // Copy to clipboard function
     function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Nomor rekening berhasil disalin');
-      });
+      // Buat textarea sementara
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      document.body.appendChild(textarea);
+      textarea.select();
+      
+      try {
+        document.execCommand('copy');
+        alert('Berhasil disalin ke clipboard: ' + text);
+      } catch (err) {
+        console.error('Gagal menyalin:', err);
+        alert('Gagal menyalin ke clipboard');
+      } finally {
+        document.body.removeChild(textarea);
+      }
     }
 
     // Confirm payment button
     function confirmPayment() {
-      alert('Terima kasih! Pembayaran Anda sedang diverifikasi. Koin akan dikirim setelah pembayaran dikonfirmasi.');
-      // Here you would typically send the data to your backend
+      const confirmation = confirm("Pembayaran Anda telah direkam. Lakukan konfirmasi melalui WhatsApp dengan menekan tombol Ok dan Lanjut Konfirmasi dengan melampirkan bukti pembayaran.");
+      
+      if (confirmation) {
+        // Ubah tombol
+        const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
+        confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Lanjut Konfirmasi';
+        confirmBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+        confirmBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+        
+        // Hapus onclick dan tambahkan event listener baru
+        confirmBtn.removeAttribute('onclick');
+        confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
+      }
+    }
+
+    // Fungsi untuk mengirim konfirmasi WhatsApp
+    function sendWhatsAppConfirmation() {
+      const crypto = document.getElementById('confirm-crypto').textContent;
+      const amount = document.getElementById('confirm-amount').textContent;
+      const coin = document.getElementById('confirm-coin').textContent;
+      const method = document.getElementById('confirm-method').innerHTML;
+      const total = document.getElementById('confirm-total').textContent;
+      const wallet = document.getElementById('confirm-wallet').textContent;
+      
+      // Buat teks metode pembayaran tanpa tag HTML
+      const methodText = method.replace(/<[^>]*>/g, '').trim();
+      
+      // Format pesan WhatsApp seperti invoice
+      const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
+                     `================================\n` +
+                     `🔹 *Jenis Kripto:* ${crypto}\n` +
+                     `🔹 *Jumlah Pembelian:* ${amount}\n` +
+                     `🔹 *Jumlah Koin:* ${coin}\n` +
+                     `🔹 *Metode Pembayaran:* ${methodText}\n` +
+                     `🔹 *Total Pembayaran:* ${total}\n` +
+                     `================================\n` +
+                     `📌 *Alamat Wallet Tujuan:*\n${wallet}\n\n` +
+                     `💬 *Konfirmasi Pembayaran:*\n` +
+                     `Saya telah melakukan transfer pembayaran sesuai nominal di atas.\n` +
+                     `Berikut bukti transfer yang telah dilakukan:\n` +
+                     `[Lampirkan screenshot bukti transfer]`;
+      
+      // Encode message untuk URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Buka WhatsApp dengan nomor admin yang benar
+      window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
     }
 
     // Initialize
