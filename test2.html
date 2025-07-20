@@ -3,38 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crypto Dashboard</title>
+  <title>Dashboard Kripto Responsif</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Preload TradingView script -->
-  <link rel="preload" href="https://s3.tradingview.com/tv.js" as="script">
   <style>
+    /* Layout Utama */
     .dashboard-container {
       display: grid;
-      grid-template-columns: 1fr 350px;
+      grid-template-columns: minmax(0, 1fr) 380px;
       height: 100vh;
+      max-width: 100vw;
+      overflow: hidden;
+    }
+    
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .dashboard-container {
+        grid-template-columns: minmax(0, 1fr) 320px;
+      }
     }
     @media (max-width: 768px) {
       .dashboard-container {
         grid-template-columns: 100%;
-        grid-template-rows: 60vh 40vh;
+        grid-template-rows: 55vh 45vh;
       }
     }
-    #tradingview-chart {
-      min-height: 400px; /* Prevent layout shift */
+    
+    /* Scrollbar Custom */
+    .coin-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .coin-list::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.5);
+      border-radius: 3px;
+    }
+    
+    /* TradingView Container */
+    .chart-container {
+      min-width: 0; /* Penting untuk mencegah overflow */
     }
   </style>
 </head>
 <body class="bg-gray-100">
   <div class="dashboard-container">
-    <!-- Chart Area -->
-    <div class="bg-white border-r border-gray-200 flex flex-col">
-      <div class="p-4 border-b border-gray-200 sticky top-0 z-10 bg-white">
+    <!-- Chart Section (Kiri) -->
+    <div class="chart-container bg-white border-r border-gray-200 flex flex-col">
+      <!-- Chart Header -->
+      <div class="p-3 border-b border-gray-200 sticky top-0 z-10 bg-white">
         <div class="flex justify-between items-center">
-          <div>
-            <h1 id="current-coin" class="text-xl font-bold">Pilih Koin</h1>
+          <div class="min-w-0">
+            <h1 id="current-coin" class="text-lg font-bold truncate">Pilih Koin</h1>
             <div class="flex items-center mt-1">
-              <span id="current-price" class="text-2xl font-bold">-</span>
-              <span id="price-change" class="ml-2 px-2 py-1 rounded-full text-sm"></span>
+              <span id="current-price" class="text-xl font-bold truncate">-</span>
+              <span id="price-change" class="ml-2 px-2 py-1 rounded-full text-xs whitespace-nowrap"></span>
             </div>
           </div>
           <div class="flex space-x-1" id="timeframes">
@@ -46,28 +66,29 @@
         </div>
       </div>
       
-      <!-- TradingView Container -->
+      <!-- TradingView Widget -->
       <div class="flex-1 relative">
         <div id="tradingview-chart" class="absolute inset-0">
           <div class="flex items-center justify-center h-full">
             <div class="text-center">
               <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto mb-2"></div>
-              <p>Menyiapkan chart...</p>
+              <p class="text-gray-600">Memuat chart...</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Coin List -->
-    <div class="bg-white flex flex-col">
-      <div class="p-4 border-b border-gray-200 sticky top-0 z-10 bg-white">
-        <h2 class="text-xl font-bold mb-3">Daftar Koin</h2>
+    <!-- Coin List Section (Kanan) -->
+    <div class="bg-white flex flex-col overflow-hidden">
+      <!-- Coin List Header -->
+      <div class="p-3 border-b border-gray-200 sticky top-0 z-10 bg-white">
+        <h2 class="text-lg font-bold mb-2">💰 Daftar Koin</h2>
         <div class="relative">
           <input 
             type="text" 
             placeholder="Cari koin..." 
-            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             id="coin-search"
           >
           <svg class="absolute right-3 top-2.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,204 +97,202 @@
         </div>
       </div>
       
-      <div class="flex-1 overflow-y-auto" id="coin-list">
-        <div class="p-4 space-y-3">
-          <div class="h-16 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-16 bg-gray-200 rounded animate-pulse"></div>
-          <div class="h-16 bg-gray-200 rounded animate-pulse"></div>
+      <!-- Coin List -->
+      <div class="flex-1 overflow-y-auto coin-list" id="coin-list">
+        <div class="p-3 space-y-2">
+          <div class="h-14 bg-gray-200 rounded animate-pulse"></div>
+          <div class="h-14 bg-gray-200 rounded animate-pulse"></div>
+          <div class="h-14 bg-gray-200 rounded animate-pulse"></div>
+          <div class="h-14 bg-gray-200 rounded animate-pulse"></div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- TradingView Script -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  
   <script>
-    // 1. Load TradingView script dynamically
-    function loadTradingViewScript() {
+    // 1. App Configuration
+    const CONFIG = {
+      coinsToLoad: 20,
+      defaultCoin: 'BTC',
+      defaultTimeframe: '15'
+    };
+
+    // 2. Initialize App
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        // Load TradingView script
+        await loadTradingViewScript();
+        
+        // Load coin data
+        const coins = await loadCoinData();
+        
+        // Render coin list
+        renderCoinList(coins);
+        
+        // Select default coin
+        const defaultCoin = coins.find(c => c.symbol === CONFIG.defaultCoin.toLowerCase());
+        if (defaultCoin) selectCoin(defaultCoin);
+        
+        // Setup event listeners
+        setupEventListeners();
+      } catch (error) {
+        console.error("Initialization error:", error);
+        document.getElementById('coin-list').innerHTML = `
+          <div class="p-4 text-red-500 text-sm">
+            Error: ${error.message}
+            <button onclick="location.reload()" class="mt-2 text-blue-500">Refresh</button>
+          </div>
+        `;
+      }
+    });
+
+    // 3. Core Functions
+    async function loadTradingViewScript() {
       return new Promise((resolve, reject) => {
+        if (window.TradingView) return resolve();
+        
         const script = document.createElement('script');
         script.src = 'https://s3.tradingview.com/tv.js';
         script.onload = resolve;
-        script.onerror = reject;
+        script.onerror = () => reject(new Error('Gagal memuat TradingView'));
         document.head.appendChild(script);
       });
     }
 
-    // 2. Main App
-    async function initApp() {
-      // Load TradingView script first
-      await loadTradingViewScript();
+    async function loadCoinData() {
+      try {
+        const response = await fetch(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${CONFIG.coinsToLoad}&page=1&sparkline=false&price_change_percentage=24h`
+        );
+        
+        if (!response.ok) throw new Error('Gagal memuat data koin');
+        
+        return await response.json();
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    function renderCoinList(coins) {
+      const container = document.getElementById('coin-list');
+      container.innerHTML = '';
       
-      // Then initialize the rest
-      const COINS_TO_LOAD = 15; // Reduced for faster load
-      let currentCoin = null;
-      let tvWidget = null;
-      let allCoins = [];
-
-      // Load coin data
-      async function loadCoinData() {
-        try {
-          const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${COINS_TO_LOAD}&page=1&sparkline=false&price_change_percentage=24h`
-          );
-          
-          if (!response.ok) throw new Error("Gagal memuat data");
-          
-          const coins = await response.json();
-          allCoins = coins.map(coin => ({
-            id: coin.id,
-            symbol: coin.symbol,
-            name: coin.name,
-            image: coin.image,
-            price: coin.current_price,
-            change24h: coin.price_change_percentage_24h
-          }));
-          
-          renderCoinList(allCoins);
-          
-          // Auto-select Bitcoin if available
-          const btc = allCoins.find(c => c.symbol === 'btc');
-          if (btc) {
-            selectCoin(btc);
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          document.getElementById('coin-list').innerHTML = `
-            <div class="p-4 text-red-500">
-              Gagal memuat data: ${error.message}
-              <button onclick="location.reload()" class="mt-2 text-blue-500">Coba lagi</button>
+      coins.forEach(coin => {
+        const isUp = coin.price_change_percentage_24h >= 0;
+        
+        const coinElement = document.createElement('div');
+        coinElement.className = 'flex items-center p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50';
+        coinElement.innerHTML = `
+          <img src="${coin.image}" alt="${coin.name}" class="w-8 h-8 rounded-full mr-2">
+          <div class="flex-1 min-w-0">
+            <div class="font-medium truncate">${coin.name}</div>
+            <div class="text-xs text-gray-500 truncate">${coin.symbol.toUpperCase()}</div>
+          </div>
+          <div class="text-right ml-2 whitespace-nowrap">
+            <div class="font-medium">$${coin.current_price.toLocaleString()}</div>
+            <div class="text-xs ${isUp ? 'text-green-500' : 'text-red-500'}">
+              ${isUp ? '↑' : '↓'} ${Math.abs(coin.price_change_percentage_24h).toFixed(1)}%
             </div>
-          `;
-        }
-      }
+          </div>
+        `;
+        
+        coinElement.addEventListener('click', () => selectCoin(coin));
+        container.appendChild(coinElement);
+      });
+    }
 
-      // Render coin list
-      function renderCoinList(coins) {
-        const container = document.getElementById('coin-list');
-        container.innerHTML = '';
-        
-        coins.forEach(coin => {
-          const isUp = coin.change24h >= 0;
-          
-          const coinElement = document.createElement('div');
-          coinElement.className = `flex items-center p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50`;
-          coinElement.innerHTML = `
-            <img src="${coin.image}" alt="${coin.name}" class="w-8 h-8 rounded-full mr-3">
-            <div class="flex-1">
-              <div class="font-medium">${coin.name}</div>
-              <div class="text-sm text-gray-500">${coin.symbol.toUpperCase()}</div>
-            </div>
-            <div class="text-right">
-              <div class="font-medium">$${coin.price.toLocaleString()}</div>
-              <div class="text-xs ${isUp ? 'text-green-500' : 'text-red-500'}">
-                ${isUp ? '↑' : '↓'} ${Math.abs(coin.change24h).toFixed(1)}%
-              </div>
-            </div>
-          `;
-          
-          coinElement.addEventListener('click', () => {
-            selectCoin(coin);
-          });
-          
-          container.appendChild(coinElement);
-        });
-      }
-
-      // Select coin
-      function selectCoin(coin) {
-        currentCoin = coin;
-        
-        // Update UI
-        document.getElementById('current-coin').textContent = coin.name;
-        document.getElementById('current-price').textContent = `$${coin.price.toLocaleString()}`;
-        
-        const isUp = coin.change24h >= 0;
-        const changeElement = document.getElementById('price-change');
-        changeElement.textContent = `${isUp ? '↑' : '↓'} ${Math.abs(coin.change24h).toFixed(2)}%`;
-        changeElement.className = `ml-2 px-2 py-1 rounded-full text-sm ${
-          isUp ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-        }`;
-        
-        // Load TradingView chart
-        loadTradingViewChart();
-      }
-
+    function selectCoin(coin) {
+      // Update UI
+      document.getElementById('current-coin').textContent = coin.name;
+      document.getElementById('current-price').textContent = `$${coin.current_price.toLocaleString()}`;
+      
+      const isUp = coin.price_change_percentage_24h >= 0;
+      const changeElement = document.getElementById('price-change');
+      changeElement.textContent = `${isUp ? '↑' : '↓'} ${Math.abs(coin.price_change_percentage_24h).toFixed(2)}%`;
+      changeElement.className = `ml-2 px-2 py-1 rounded-full text-xs ${
+        isUp ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+      }`;
+      
       // Load TradingView chart
-      function loadTradingViewChart(timeframe = '15') {
-        if (!window.TradingView) {
-          console.error("TradingView library not loaded");
-          return;
-        }
-        
-        // Remove existing widget
-        if (tvWidget !== null) {
-          tvWidget.remove();
-          tvWidget = null;
-        }
-        
-        // Create new widget
-        try {
-          tvWidget = new TradingView.widget({
-            autosize: true,
-            symbol: `BINANCE:${currentCoin.symbol.toUpperCase()}USDT`,
-            interval: timeframe,
-            timezone: "Asia/Jakarta",
-            theme: "light",
-            style: "1",
-            locale: "id",
-            toolbar_bg: "#f1f3f6",
-            enable_publishing: false,
-            hide_side_toolbar: false,
-            allow_symbol_change: false,
-            container_id: "tradingview-chart",
-            studies: ["RSI@tv-basicstudies", "Volume@tv-basicstudies"]
-          });
-        } catch (error) {
-          console.error("Error loading TradingView:", error);
-          document.getElementById('tradingview-chart').innerHTML = `
-            <div class="flex items-center justify-center h-full text-red-500">
-              Gagal memuat chart. Coba refresh halaman.
-            </div>
-          `;
-        }
-      }
+      loadTradingViewChart(coin.symbol);
+    }
 
-      // Setup timeframe buttons
-      function setupTimeframeButtons() {
-        document.querySelectorAll('.timeframe-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            if (!currentCoin) return;
-            
-            document.querySelectorAll('.timeframe-btn').forEach(b => {
-              b.classList.remove('bg-blue-100', 'text-blue-800');
-              b.classList.add('hover:bg-gray-100');
-            });
-            
-            btn.classList.add('bg-blue-100', 'text-blue-800');
-            btn.classList.remove('hover:bg-gray-100');
-            
-            loadTradingViewChart(btn.dataset.tf);
-          });
+    function loadTradingViewChart(symbol, timeframe = CONFIG.defaultTimeframe) {
+      if (!window.TradingView) {
+        console.error('TradingView not loaded');
+        return;
+      }
+      
+      // Remove existing widget
+      if (window.tvWidget) {
+        window.tvWidget.remove();
+        window.tvWidget = null;
+      }
+      
+      // Create new widget
+      try {
+        window.tvWidget = new TradingView.widget({
+          autosize: true,
+          symbol: `BINANCE:${symbol.toUpperCase()}USDT`,
+          interval: timeframe,
+          timezone: "Asia/Jakarta",
+          theme: "light",
+          style: "1",
+          locale: "id",
+          toolbar_bg: "#f1f3f6",
+          enable_publishing: false,
+          hide_side_toolbar: false,
+          allow_symbol_change: false,
+          container_id: "tradingview-chart",
+          studies: ["RSI@tv-basicstudies", "Volume@tv-basicstudies"]
         });
+      } catch (error) {
+        console.error('Error loading TradingView:', error);
+        document.getElementById('tradingview-chart').innerHTML = `
+          <div class="flex items-center justify-center h-full text-red-500 p-4">
+            Gagal memuat chart. Coba pilih koin lain atau refresh halaman.
+          </div>
+        `;
       }
+    }
 
-      // Setup search
-      document.getElementById('coin-search').addEventListener('input', (e) => {
+    function setupEventListeners() {
+      // Timeframe buttons
+      document.querySelectorAll('.timeframe-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (!window.currentCoin) return;
+          
+          document.querySelectorAll('.timeframe-btn').forEach(b => {
+            b.classList.remove('bg-blue-100', 'text-blue-800');
+            b.classList.add('hover:bg-gray-100');
+          });
+          
+          this.classList.add('bg-blue-100', 'text-blue-800');
+          this.classList.remove('hover:bg-gray-100');
+          
+          loadTradingViewChart(window.currentCoin.symbol, this.dataset.tf);
+        });
+      });
+      
+      // Search functionality
+      document.getElementById('coin-search').addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase();
-        const filtered = allCoins.filter(coin => 
+        const coins = window.allCoins || [];
+        const filtered = coins.filter(coin => 
           coin.name.toLowerCase().includes(searchTerm) || 
           coin.symbol.toLowerCase().includes(searchTerm)
         );
         renderCoinList(filtered);
       });
-
-      // Initialize
-      setupTimeframeButtons();
-      loadCoinData();
     }
 
-    // Start the app
-    document.addEventListener('DOMContentLoaded', initApp);
+    // Store references globally for debugging
+    window.allCoins = [];
+    window.currentCoin = null;
+    window.tvWidget = null;
   </script>
 </body>
 </html>
