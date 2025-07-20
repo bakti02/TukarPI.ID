@@ -1,193 +1,160 @@
    <!DOCTYPE html>
-    <html lang="id" class="scroll-smooth">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-      <title>Tukar Koin PI Network | TukarPI.ID - Aman & Cepat</title>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tukar Koin PI Network | TukarPI.ID - Aman & Cepat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://api.coingecko.com">
+    <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
+    <style>
+      .crypto-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding-bottom: 0.5rem;
+      }
+      .crypto-card {
+        position: relative;
+        flex: 0 0 calc(20% - 1rem);
+        transition: all 0.3s ease;
+      }
+      .crypto-container::-webkit-scrollbar {
+        display: none;
+      }
+      @keyframes pulse-up {
+        0% { background-color: rgba(74, 222, 128, 0.1); }
+        100% { background-color: transparent; }
+      }
+      @keyframes pulse-down {
+        0% { background-color: rgba(239, 68, 68, 0.1); }
+        100% { background-color: transparent; }
+      }
+      .price-up { animation: pulse-up 1s; }
+      .price-down { animation: pulse-down 1s; }
+      .flame-badge {
+        position: absolute;
+        right: -8px;
+        top: -8px;
+        width: 24px;
+        height: 24px;
+        z-index: 10;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+      }
       
-      <!-- Tailwind CSS -->
-      <script src="https://cdn.tailwindcss.com"></script>
-      <script>
-        tailwind.config = {
-          theme: {
-            extend: {
-              colors: {
-                primary: '#8B5CF6',
-                secondary: '#F59E0B',
-                dark: '#1F2937'
-              },
-              fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-              },
-              screens: {
-                'xs': '480px'
-              }
-            }
-          }
-        }
-      </script>
+      .percentage-change {
+        display: inline-block;
+        padding: 0 3px;
+        border-radius: 2px;
+        font-weight: 600;
+        font-size: 10px;
+        border: 0.5px solid rgba(255, 255, 255, 0.5);
+        line-height: 1.2;
+      }
+      .percentage-up {
+        background-color: rgba(16, 185, 129, 0.9);
+        color: white;
+      }
+      .percentage-down {
+        background-color: rgba(239, 68, 68, 0.9);
+        color: white;
+      }
       
-      <!-- Font & Icons -->
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-      <link rel="preconnect" href="https://api.coingecko.com">
-      <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
+      .filter-btn {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        transition: all 0.2s;
+        border: 1px solid #e5e7eb;
+      }
+      .filter-btn.active {
+        background-color: #3B82F6;
+        color: white;
+        border-color: #3B82F6;
+      }
       
-      <style>
-        .touch-target {
-          min-height: 48px;
-          min-width: 48px;
-        }
-        html {
-          -webkit-overflow-scrolling: touch;
-        }
-        .crypto-container {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 1rem;
-          padding-bottom: 0.5rem;
-        }
+      /* Penyesuaian ukuran font untuk harga rendah */
+      .price-low {
+        font-size: 0.7rem;
+      }
+      .price-very-low {
+        font-size: 0.6rem;
+      }
+      .price-micro {
+        font-size: 0.55rem;
+        letter-spacing: 0.5px;
+      }
+      .truncate-mark {
+        color: #999;
+        font-size: 0.6em;
+        margin-left: 1px;
+      }
+      
+      /* Mobile styles */
+      @media (max-width: 640px) {
         .crypto-card {
-          position: relative;
-          flex: 0 0 calc(20% - 1rem);
-          transition: all 0.3s ease;
-        }
-        .crypto-container::-webkit-scrollbar {
-          display: none;
-        }
-        @keyframes pulse-up {
-          0% { background-color: rgba(74, 222, 128, 0.1); }
-          100% { background-color: transparent; }
-        }
-        @keyframes pulse-down {
-          0% { background-color: rgba(239, 68, 68, 0.1); }
-          100% { background-color: transparent; }
-        }
-        .price-up { animation: pulse-up 1s; }
-        .price-down { animation: pulse-down 1s; }
-        .flame-badge {
-          position: absolute;
-          right: -8px;
-          top: -8px;
-          width: 24px;
-          height: 24px;
-          z-index: 10;
-          filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
-        }
-        .percentage-change {
-          display: inline-block;
-          padding: 0 3px;
-          border-radius: 2px;
-          font-weight: 600;
-          font-size: 10px;
-          border: 0.5px solid rgba(255, 255, 255, 0.5);
-          line-height: 1.2;
-        }
-        .percentage-up {
-          background-color: rgba(16, 185, 129, 0.9);
-          color: white;
-        }
-        .percentage-down {
-          background-color: rgba(239, 68, 68, 0.9);
-          color: white;
+          flex: 0 0 calc(33.33% - 1rem);
         }
         .filter-btn {
-          padding: 0.25rem 0.5rem;
-          border-radius: 0.25rem;
-          font-size: 0.75rem;
-          transition: all 0.2s;
-          border: 1px solid #e5e7eb;
+          padding: 0.2rem 0.4rem;
+          font-size: 0.65rem;
         }
-        .filter-btn.active {
-          background-color: #3B82F6;
-          color: white;
-          border-color: #3B82F6;
-        }
-        .price-low {
-          font-size: 0.7rem;
-        }
-        .price-very-low {
-          font-size: 0.6rem;
-        }
-        .price-micro {
-          font-size: 0.55rem;
-          letter-spacing: 0.5px;
-        }
-        .truncate-mark {
-          color: #999;
-          font-size: 0.6em;
-          margin-left: 1px;
-        }
-        @media (max-width: 640px) {
-          .crypto-card {
-            flex: 0 0 calc(33.33% - 1rem);
-          }
-          .filter-btn {
-            padding: 0.2rem 0.4rem;
-            font-size: 0.65rem;
-          }
-        }
-        .show-more-btn {
-          width: 100%;
-          text-align: center;
-          padding: 0.5rem;
-          background: #f0f0f0;
-          border-radius: 0.25rem;
-          margin-top: 0.5rem;
-          font-size: 0.75rem;
-          display: none;
-        }
-        .show-more-btn.visible {
-          display: block;
-        }
-      </style>
-    </head>
-    
-    <body class="font-sans bg-gray-50 text-gray-800 antialiased">
-      <!-- Header Section -->
-      <nav class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-          <a href="index.html" class="flex items-center">
-            <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-10">
-            <span class="ml-2 text-xl font-bold text-primary hidden sm:inline">TukarPI.ID</span>
-          </a>
-          
-          <div class="hidden md:flex space-x-6">
-            <a href="index.html" class="font-medium text-primary border-b-2 border-primary pb-1">Home</a>
-            <a href="jualkoin.html" class="font-medium hover:text-primary transition">Jual PI</a>
-            <a href="belikoin.html" class="font-medium hover:text-primary transition">Beli Kripto</a>
-            <a href="dashboard.html" class="font-medium hover:text-primary transition">Live Kripto Realtime</a>
-            <a href="affiliate.html" class="font-medium hover:text-primary transition">Program Affiliate</a>
-          </div>
-          
-          <div class="flex items-center space-x-3">
-            <a href="https://wa.me/6282147510780" class="hidden xs:inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-full font-medium transition shadow-md touch-target">
-              <i class="fab fa-whatsapp mr-1"></i> <span class="hidden sm:inline">WhatsApp</span>
-            </a>
-            <button class="md:hidden text-gray-600 touch-target" id="mobile-menu-button">
-              <i class="fas fa-bars text-xl"></i>
-            </button>
-          </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
-          <div class="container mx-auto px-4 py-2 flex flex-col">
-            <a href="index.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Home</a>
-            <a href="jualkoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Jual PI</a>
-            <a href="belikoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Beli Kripto</a>
-            <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Live Kripto Realtime</a>
-            <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Program Affiliate</a>
-          </div>
-        </div>
-      </nav>
-    
-      <!-- Main Content -->
+      }
+      
+      /* Show more button */
+      .show-more-btn {
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem;
+        background: #f0f0f0;
+        border-radius: 0.25rem;
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
+        display: none; /* Hidden by default */
+      }
+      .show-more-btn.visible {
+        display: block;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-800 text-[10px] md:text-sm">
+    <div class="min-h-screen flex flex-col">
+      <header class="bg-white shadow p-3 flex justify-between items-center">
+        <h1 class="text-base md:text-lg font-bold">Pi Network Crypto Dashboard</h1>
+        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">200+ Aset</span>
+      </header>
+
       <main class="p-3 space-y-8">
         <section class="bg-white rounded-xl shadow p-3 md:p-5">
           <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Selamat Datang di TukarPi Dashboard</h2>
           <p class="text-gray-600 text-[10px]">Pantau harga 200+ aset kripto secara realtime</p>
         </section>
+
+        <section class="relative">
+          <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+            <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+            <div class="flex gap-2 flex-wrap" id="filter-buttons">
+              <button class="filter-btn active" data-filter="all">Semua</button>
+              <button class="filter-btn" data-filter="payment">Pembayaran</button>
+              <button class="filter-btn" data-filter="stable">Stablecoin</button>
+              <button class="filter-btn" data-filter="defi">DeFi</button>
+              <button class="filter-btn" data-filter="meme">Meme</button>
+            </div>
+          </div>
+          
+          <div>
+            <div class="crypto-container" id="crypto-container">
+              <!-- Skeleton loader -->
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+            </div>
+            <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
+          </div>
+        </section>
+      </main>
 
          <section class="relative">
           <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
