@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Pi Network</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Preload API dan GIF -->
     <link rel="preconnect" href="https://api.coingecko.com">
     <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
     <style>
-      /* [STYLE TIDAK BERUBAH] */
       .crypto-container {
         display: flex;
         overflow-x: auto;
@@ -75,6 +73,26 @@
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9));
         pointer-events: none;
       }
+      
+      /* PERUBAHAN UTAMA DI SINI */
+      .percentage-change {
+        display: inline-block;
+        padding: 0 3px;
+        border-radius: 2px;
+        font-weight: 600;
+        font-size: 10px;
+        border: 0.5px solid rgba(255, 255, 255, 0.5);
+        line-height: 1.2;
+      }
+      .percentage-up {
+        background-color: rgba(16, 185, 129, 0.9);
+        color: white;
+      }
+      .percentage-down {
+        background-color: rgba(239, 68, 68, 0.9);
+        color: white;
+      }
+      
       @media (max-width: 640px) {
         .crypto-card {
           flex: 0 0 calc(33.33% - 1rem);
@@ -83,7 +101,6 @@
     </style>
   </head>
   <body class="bg-gray-100 text-gray-800 text-[10px] md:text-sm">
-    <!-- [STRUCTURE TIDAK BERUBAH] -->
     <div class="min-h-screen flex flex-col">
       <header class="bg-white shadow p-3 flex justify-between items-center">
         <h1 class="text-base md:text-lg font-bold">Pi Network Crypto Dashboard</h1>
@@ -166,7 +183,7 @@
           const img = document.createElement('img');
           img.className = 'w-6 h-6 mb-1';
           img.alt = coin.name;
-          img.dataset.src = coin.image; // Gunakan data-src untuk lazy load
+          img.dataset.src = coin.image;
           lazyLoadObserver.observe(img);
 
           card.innerHTML = `
@@ -178,11 +195,11 @@
             ` : ''}
             <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
             <p class="text-xs font-bold" data-current-price="${coin.current_price}">$${coin.current_price.toLocaleString()}</p>
-            <p class="text-[10px] ${
-              coin.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'
+            <span class="percentage-change ${
+              coin.price_change_percentage_24h >= 0 ? 'percentage-up' : 'percentage-down'
             }">
-              ${coin.price_change_percentage_24h.toFixed(2)}%
-            </p>
+              ${coin.price_change_percentage_24h >= 0 ? '+' : ''}${coin.price_change_percentage_24h.toFixed(2)}%
+            </span>
           `;
           
           card.prepend(img);
@@ -213,7 +230,6 @@
         }
       }
 
-      // [FUNGSI NAVIGASI DAN AUTOSCROLL TIDAK BERUBAH]
       function navigate(direction) {
         const container = document.getElementById('crypto-container');
         const cardWidth = container.firstChild?.offsetWidth || 0;
@@ -255,7 +271,6 @@
         });
       });
 
-      // Auto-update tetap 1 menit tapi dengan cache check
       setInterval(() => {
         if (document.visibilityState === 'visible') {
           fetchOptimizedData();
