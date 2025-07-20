@@ -74,6 +74,32 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
     }
+    .price-change {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+    }
+    .price-up {
+      background-color: rgba(5, 150, 105, 0.1);
+      color: #059669;
+    }
+    .price-down {
+      background-color: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+    }
+    .price-neutral {
+      background-color: rgba(75, 85, 99, 0.1);
+      color: #4b5563;
+    }
+    .exchange-rate-info {
+      font-size: 0.75rem;
+      color: #4b5563;
+      background-color: #f3f4f6;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -114,9 +140,12 @@
           <div class="flex justify-center mb-3">
             <img id="crypto-logo" src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="Crypto Logo" class="w-15 h-12">
           </div>
-          <div class="flex justify-between mb-2">
+          <div class="flex justify-between items-center mb-2">
             <span class="text-sm font-medium text-blue-600">Harga Real-time</span>
-            <span id="realtime-price" class="font-semibold text-blue-800 loading-price">Memuat harga...</span>
+            <div class="flex items-center">
+              <span id="realtime-price" class="font-semibold text-blue-800 loading-price">Memuat harga...</span>
+              <span id="price-change" class="price-change ml-2 hidden"></span>
+            </div>
           </div>
           <div class="flex justify-between mb-2">
             <span class="text-sm font-medium text-blue-600">Biaya Layanan (5%)</span>
@@ -129,6 +158,10 @@
               <span id="coin-received" class="coin-received">0</span>
             </div>
           </div>
+          <p class="exchange-rate-info mt-2">
+            <span id="current-rate">Kurs USD-IDR: Rp0</span> • 
+            <span id="rate-updated">Update: -</span>
+          </p>
         </div>
 
         <!-- Alamat Wallet -->
@@ -165,7 +198,7 @@
           <i class="fas fa-arrow-left mr-1"></i> Kembali
         </button>
         <h2 class="text-xl font-bold text-blue-600">Selesaikan Pembayaran</h2>
-        <div class="w-8"></div> <!-- Spacer untuk balance layout -->
+        <div class="w-8"></div>
       </div>
 
       <!-- Detail Pesanan -->
@@ -194,6 +227,10 @@
           <span class="font-medium">Total Pembayaran</span>
           <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
         </div>
+        <p class="exchange-rate-info mt-2">
+          <span id="confirm-exchange-rate">Kurs USD-IDR: Rp0</span> • 
+          <span id="confirm-rate-updated">Update: -</span>
+        </p>
       </div>
 
       <!-- Info Pembayaran -->
@@ -272,8 +309,10 @@
 
     // Variabel global
     let cryptoData = {};
-    let exchangeRate = 15000; // Default exchange rate USD to IDR
-    let selectedPaymentMethod = ''; // Menyimpan metode pembayaran yang dipilih
+    let exchangeRate = 16400; // Default exchange rate USD to IDR
+    let exchangeRateLastUpdated = '';
+    let selectedPaymentMethod = '';
+    let previousPrices = {}; // Untuk menyimpan harga sebelumnya untuk kalkulasi perubahan
 
     // Fungsi kembali ke form
     function backToForm() {
@@ -296,11 +335,18 @@
         // Format data
         const formattedData = {};
         data.forEach(coin => {
-          formattedData[coin.symbol.toUpperCase()] = {
+          const symbol = coin.symbol.toUpperCase();
+          formattedData[symbol] = {
             name: coin.name,
             price: coin.current_price,
-            image: coin.image
+            image: coin.image,
+            lastUpdated: new Date().toISOString()
           };
+          
+          // Simpan harga sebelumnya untuk kalkulasi perubahan
+          if (!previousPrices[symbol]) {
+            previousPrices[symbol] = coin.current_price;
+          }
         });
         
         return formattedData;
@@ -314,12 +360,37 @@
     // Fungsi mengambil kurs USD ke IDR
     async function fetchExchangeRate() {
       try {
+        // Coba API pertama
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         const data = await response.json();
-        return data.rates.IDR || 15000;
+        if (data && data.rates && data.rates.IDR) {
+          return {
+            rate: data.rates.IDR,
+            updated: new Date().toISOString()
+          };
+        }
+        
+        // Coba API cadangan
+        const backupResponse = await fetch('https://api.frankfurter.app/latest?from=USD&to=IDR');
+        const backupData = await backupResponse.json();
+        if (backupData && backupData.rates && backupData.rates.IDR) {
+          return {
+            rate: backupData.rates.IDR,
+            updated: new Date().toISOString()
+          };
+        }
+        
+        // Jika semua API gagal, gunakan nilai default
+        return {
+          rate: 16400,
+          updated: new Date().toISOString()
+        };
       } catch (error) {
         console.error('Error fetching exchange rate:', error);
-        return 15000;
+        return {
+          rate: 16400,
+          updated: new Date().toISOString()
+        };
       }
     }
 
@@ -359,6 +430,7 @@
       if (!crypto) return;
       
       const priceElement = document.getElementById('realtime-price');
+      const priceChangeElement = document.getElementById('price-change');
       const logoElement = document.getElementById('crypto-logo');
       
       // Update logo
@@ -369,6 +441,31 @@
       const priceIDR = crypto.price * exchangeRate;
       priceElement.textContent = `Rp ${priceIDR.toLocaleString('id-ID')}`;
       priceElement.classList.remove('loading-price');
+      
+      // Update indikator perubahan harga
+      if (previousPrices[symbol] && previousPrices[symbol] !== crypto.price) {
+        const priceChange = ((crypto.price - previousPrices[symbol]) / previousPrices[symbol]) * 100;
+        const priceChangeValue = priceChange.toFixed(2);
+        
+        if (priceChange > 0) {
+          priceChangeElement.textContent = `↑ ${priceChangeValue}%`;
+          priceChangeElement.className = 'price-change ml-2 price-up';
+        } else if (priceChange < 0) {
+          priceChangeElement.textContent = `↓ ${Math.abs(priceChangeValue)}%`;
+          priceChangeElement.className = 'price-change ml-2 price-down';
+        } else {
+          priceChangeElement.textContent = '0.00%';
+          priceChangeElement.className = 'price-change ml-2 price-neutral';
+        }
+        priceChangeElement.classList.remove('hidden');
+      }
+      
+      // Simpan harga saat ini untuk perbandingan berikutnya
+      previousPrices[symbol] = crypto.price;
+      
+      // Update kurs dan waktu
+      document.getElementById('current-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
+      document.getElementById('rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
       
       // Update perhitungan
       updateCalculation();
@@ -399,9 +496,10 @@
       const crypto = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
       const coin = document.getElementById('confirm-coin').textContent;
-      const method = selectedPaymentMethod; // Menggunakan variabel yang sudah disimpan
+      const method = selectedPaymentMethod;
       const total = document.getElementById('confirm-total').textContent;
       const wallet = document.getElementById('confirm-wallet').textContent;
+      const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
       
       // Daftar nama metode pembayaran
       const paymentMethodNames = {
@@ -411,12 +509,13 @@
         'gopay': 'GOPAY'
       };
       
-      // Format pesan WhatsApp seperti invoice
+      // Format pesan WhatsApp
       const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
                      `================================\n` +
                      `🔹 *Jenis Kripto:* ${crypto}\n` +
                      `🔹 *Jumlah Pembelian:* ${amount}\n` +
                      `🔹 *Jumlah Koin:* ${coin}\n` +
+                     `🔹 *${exchangeRateInfo}*\n` +
                      `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
                      `🔹 *Total Pembayaran:* ${total}\n` +
                      `================================\n` +
@@ -429,13 +528,12 @@
       // Encode message untuk URL
       const encodedMessage = encodeURIComponent(message);
       
-      // Buka WhatsApp dengan nomor admin yang benar
+      // Buka WhatsApp
       window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
     }
 
     // Copy to clipboard function
     function copyToClipboard(text) {
-      // Buat textarea sementara
       const textarea = document.createElement('textarea');
       textarea.value = text;
       textarea.style.position = 'fixed';
@@ -458,19 +556,16 @@
       const confirmation = confirm("Pembayaran Anda telah direkam. Lakukan konfirmasi melalui WhatsApp dengan menekan tombol Ok dan Lanjut Konfirmasi dengan melampirkan bukti pembayaran.");
       
       if (confirmation) {
-        // Ubah tombol
         const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
         confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Lanjut Konfirmasi';
         confirmBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
         confirmBtn.classList.add('bg-green-600', 'hover:bg-green-700');
-        
-        // Hapus onclick dan tambahkan event listener baru
         confirmBtn.removeAttribute('onclick');
         confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
       }
     }
 
-    // Get payment method name with logo ONLY (no text) - using Wikimedia sources
+    // Get payment method name with logo
     function getPaymentMethodName(method) {
       const methods = {
         'bca': '<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="payment-logo" alt="BCA">',
@@ -519,6 +614,8 @@
       document.getElementById('confirm-method').innerHTML = getPaymentMethodName(paymentMethod);
       document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
       document.getElementById('confirm-wallet').textContent = walletAddress;
+      document.getElementById('confirm-exchange-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
+      document.getElementById('confirm-rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
       
       // Show corresponding payment details
       document.querySelectorAll('#payment-details > div').forEach(div => {
@@ -537,12 +634,17 @@
         console.log('Initializing...');
         
         // Load data
-        [cryptoData, exchangeRate] = await Promise.all([
+        const [cryptoDataResponse, exchangeRateData] = await Promise.all([
           fetchCryptoData(),
           fetchExchangeRate()
         ]);
         
+        cryptoData = cryptoDataResponse;
+        exchangeRate = exchangeRateData.rate;
+        exchangeRateLastUpdated = exchangeRateData.updated;
+        
         console.log('Crypto data loaded:', cryptoData);
+        console.log('Exchange rate:', exchangeRate);
         
         // Populate dropdown
         await populateCryptoDropdown();
@@ -557,7 +659,10 @@
         // Auto-update setiap 5 menit
         setInterval(async () => {
           cryptoData = await fetchCryptoData();
-          exchangeRate = await fetchExchangeRate();
+          const exchangeRateData = await fetchExchangeRate();
+          exchangeRate = exchangeRateData.rate;
+          exchangeRateLastUpdated = exchangeRateData.updated;
+          
           const currentSymbol = document.getElementById('crypto').value;
           if (currentSymbol) updatePriceDisplay(currentSymbol);
         }, 300000); // 5 menit
