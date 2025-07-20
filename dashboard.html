@@ -7,25 +7,74 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
-      .crypto-slider {
+      .crypto-container {
         display: flex;
         overflow-x: auto;
         gap: 1rem;
-        scroll-snap-type: x mandatory;
         padding-bottom: 0.5rem;
         scroll-behavior: smooth;
+        scroll-snap-type: x proximity;
       }
 
-      .crypto-group {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.5rem;
-        min-width: 100%;
+      .crypto-card {
+        flex: 0 0 calc(20% - 1rem); /* Show 5 cards at once */
         scroll-snap-align: start;
+        transition: transform 0.3s ease;
       }
 
-      .crypto-slider::-webkit-scrollbar {
+      .crypto-container::-webkit-scrollbar {
         display: none;
+      }
+
+      /* Animations for price changes */
+      @keyframes pulse-up {
+        0% { background-color: rgba(74, 222, 128, 0.1); }
+        100% { background-color: transparent; }
+      }
+      @keyframes pulse-down {
+        0% { background-color: rgba(239, 68, 68, 0.1); }
+        100% { background-color: transparent; }
+      }
+      .price-up { animation: pulse-up 1s; }
+      .price-down { animation: pulse-down 1s; }
+
+      /* Navigation buttons */
+      .slider-nav-btn {
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: opacity 0.3s;
+      }
+      .slider-nav-btn:hover {
+        opacity: 0.8;
+      }
+
+      /* Gradient fade effect */
+      .scroll-fade {
+        position: relative;
+      }
+      .scroll-fade::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 30px;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9));
+        pointer-events: none;
+      }
+
+      @media (max-width: 640px) {
+        .crypto-card {
+          flex: 0 0 calc(33.33% - 1rem); /* Show 3 cards on mobile */
+        }
       }
     </style>
   </head>
@@ -41,10 +90,23 @@
           <p class="text-gray-600 text-[10px]">Pantau harga pasar dan info kripto terkini, termasuk Pi Network.</p>
         </section>
 
-        <section>
-          <h2 class="text-sm md:text-base font-semibold mb-3">Harga Kripto Realtime</h2>
-          <div class="crypto-slider" id="crypto-slider">
-            <!-- Grup kripto akan diisi oleh JavaScript -->
+        <section class="relative">
+          <div class="flex justify-between items-center mb-3">
+            <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+            <div class="flex gap-2">
+              <button class="slider-nav-btn" id="prev-btn">◀</button>
+              <button class="slider-nav-btn" id="next-btn">▶</button>
+            </div>
+          </div>
+          <div class="scroll-fade">
+            <div class="crypto-container" id="crypto-container">
+              <!-- Skeleton loader while waiting for data -->
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+              <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+            </div>
           </div>
         </section>
       </main>
@@ -60,7 +122,35 @@
     </div>
 
     <script>
+      // Animation control variables
+      let autoScroll = true;
+      let cryptoData = [];
+      let isUpdating = false;
+      let scrollInterval;
+
+      // DOM elements
+      const container = document.getElementById('crypto-container');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+
+      // Pause scroll on hover
+      container.addEventListener('mouseenter', () => {
+        autoScroll = false;
+        clearInterval(scrollInterval);
+      });
+      container.addEventListener('mouseleave', () => {
+        autoScroll = true;
+        startAutoScroll();
+      });
+
+      // Manual navigation
+      prevBtn.addEventListener('click', () => navigate(-1));
+      nextBtn.addEventListener('click', () => navigate(1));
+
       async function fetchCryptoData() {
+        if (isUpdating) return;
+        isUpdating = true;
+
         try {
           const response = await axios.get(
             'https://api.coingecko.com/api/v3/coins/markets',
@@ -76,50 +166,97 @@
             }
           );
 
-          const slider = document.getElementById('crypto-slider');
-          slider.innerHTML = '';
-
-          for (let i = 0; i < response.data.length; i += 4) {
-            const group = document.createElement('div');
-            group.className = 'crypto-group';
-
-            response.data.slice(i, i + 4).forEach(coin => {
-              const card = document.createElement('div');
-              card.className = `bg-white rounded-xl shadow p-1 md:p-2 flex flex-col items-center text-center border-t-4 ${coin.price_change_percentage_24h >= 0 ? 'border-green-500' : 'border-red-500'}`;
-              card.innerHTML = `
-                <img src="${coin.image}" alt="${coin.name}" class="w-6 h-6 mb-1" />
-                <h3 class="text-[10px] font-semibold">${coin.name} (${coin.symbol.toUpperCase()})</h3>
-                <p class="text-gray-600 text-[9px] mb-1">Harga:</p>
-                <p class="text-xs font-bold">$${coin.current_price.toLocaleString()}</p>
-                <p class="text-[10px] ${coin.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'}">
-                  ${coin.price_change_percentage_24h.toFixed(2)}% (24h)
-                </p>
-                <p class="text-gray-500 text-[9px] mt-1">Cap: $${coin.market_cap.toLocaleString()}</p>
-              `;
-              group.appendChild(card);
-            });
-
-            slider.appendChild(group);
-          }
+          cryptoData = response.data;
+          renderCryptoCards();
         } catch (error) {
-          console.error('Gagal mengambil data kripto:', error);
+          console.error('Failed to fetch crypto data:', error);
+        } finally {
+          isUpdating = false;
         }
       }
 
+      function renderCryptoCards() {
+        container.innerHTML = '';
+
+        cryptoData.forEach(coin => {
+          const card = document.createElement('div');
+          card.className = `crypto-card bg-white rounded-xl shadow p-2 flex flex-col items-center text-center border-t-4 ${
+            coin.price_change_percentage_24h >= 0 ? 'border-green-500' : 'border-red-500'
+          }`;
+          card.innerHTML = `
+            <img src="${coin.image}" alt="${coin.name}" class="w-6 h-6 mb-1" />
+            <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
+            <p class="text-xs font-bold" data-current-price="${coin.current_price}">$${coin.current_price.toLocaleString()}</p>
+            <p class="text-[10px] ${
+              coin.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'
+            }">
+              ${coin.price_change_percentage_24h.toFixed(2)}%
+            </p>
+          `;
+          container.appendChild(card);
+        });
+
+        startAutoScroll();
+      }
+
+      function navigate(direction) {
+        const cardWidth = container.firstChild?.offsetWidth || 0;
+        const gap = 16; // 1rem gap in pixels
+        const scrollAmount = cardWidth + gap;
+        
+        container.scrollBy({
+          left: direction * scrollAmount,
+          behavior: 'smooth'
+        });
+      }
+
+      function startAutoScroll() {
+        clearInterval(scrollInterval);
+        if (!autoScroll) return;
+
+        scrollInterval = setInterval(() => {
+          const firstCard = container.firstElementChild;
+          if (!firstCard) return;
+
+          const cardWidth = firstCard.offsetWidth;
+          const gap = 16;
+          const scrollAmount = cardWidth + gap;
+
+          // If we've reached the end, scroll back to start
+          if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
+            container.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+          }
+        }, 3000); // Scroll every 3 seconds
+      }
+
+      // Update data every minute with price change animations
+      setInterval(async () => {
+        const oldData = [...cryptoData];
+        await fetchCryptoData();
+
+        // Animate price changes
+        container.querySelectorAll('.crypto-card').forEach((card, index) => {
+          const newCoin = cryptoData[index];
+          const oldCoin = oldData[index] || {};
+
+          if (oldCoin.current_price !== newCoin?.current_price) {
+            const priceElement = card.querySelector('p.text-xs.font-bold');
+            if (priceElement) {
+              priceElement.classList.add(
+                newCoin.current_price > oldCoin.current_price ? 'price-up' : 'price-down'
+              );
+              setTimeout(() => {
+                priceElement.classList.remove('price-up', 'price-down');
+              }, 1000);
+            }
+          }
+        });
+      }, 60000);
+
+      // Initialize
       fetchCryptoData();
-      setInterval(fetchCryptoData, 60000); // refresh tiap 1 menit
-
-      // Geser otomatis antar grup setiap 3 detik
-      let scrollIndex = 0;
-      setInterval(() => {
-        const slider = document.getElementById('crypto-slider');
-        const groupCount = slider.children.length;
-        if (groupCount === 0) return;
-
-        scrollIndex = (scrollIndex + 1) % groupCount;
-        const scrollAmount = slider.children[scrollIndex].offsetLeft;
-        slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-      }, 3000);
     </script>
   </body>
 </html>
