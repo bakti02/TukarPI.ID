@@ -17,7 +17,7 @@
       .crypto-card {
         position: relative;
         flex: 0 0 calc(20% - 1rem);
-        transition: transform 0.3s ease;
+        transition: all 0.3s ease;
       }
       .crypto-container::-webkit-scrollbar {
         display: none;
@@ -65,10 +65,20 @@
         border-radius: 0.25rem;
         font-size: 0.75rem;
         transition: all 0.2s;
+        border: 1px solid #e5e7eb;
       }
       .filter-btn.active {
         background-color: #3B82F6;
         color: white;
+        border-color: #3B82F6;
+      }
+      
+      /* Penyesuaian ukuran font untuk harga rendah */
+      .price-low {
+        font-size: 0.7rem;
+      }
+      .price-very-low {
+        font-size: 0.6rem;
       }
       
       @media (max-width: 640px) {
@@ -96,9 +106,9 @@
         </section>
 
         <section class="relative">
-          <div class="flex justify-between items-center mb-3">
+          <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
             <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
-            <div class="flex gap-2" id="filter-buttons">
+            <div class="flex gap-2 flex-wrap" id="filter-buttons">
               <button class="filter-btn active" data-filter="all">Semua</button>
               <button class="filter-btn" data-filter="payment">Pembayaran</button>
               <button class="filter-btn" data-filter="stable">Stablecoin</button>
@@ -128,7 +138,7 @@
     </div>
 
     <script>
-      // Kategori koin
+      // Kategori koin yang lebih lengkap
       const coinCategories = {
         payment: ['bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash', 'ripple', 'stellar', 'dash', 'zcash', 'nano', 'digibyte'],
         stable: ['tether', 'usd-coin', 'binance-usd', 'dai', 'true-usd', 'paxos-standard', 'gemini-dollar'],
@@ -151,7 +161,28 @@
         }));
       }
 
-      // 2. Render kartu kripto dengan kategori
+      // 2. Format harga dengan penyesuaian ukuran font
+      function formatPrice(price) {
+        // Tentukan kelas CSS berdasarkan nilai harga
+        let priceClass = '';
+        if (price < 0.0001) {
+          priceClass = 'price-very-low';
+        } else if (price < 0.01) {
+          priceClass = 'price-low';
+        }
+        
+        // Format angka
+        if (price < 1) {
+          // Untuk harga kecil, tampilkan lebih banyak desimal
+          const decimals = price < 0.0001 ? 8 : (price < 0.01 ? 6 : 4);
+          return `<span class="${priceClass}">$${price.toFixed(decimals)}</span>`;
+        } else {
+          // Untuk harga normal, gunakan format biasa
+          return `<span>$${price.toLocaleString()}</span>`;
+        }
+      }
+
+      // 3. Render kartu kripto dengan kategori
       function renderOptimizedCards(data) {
         const container = document.getElementById('crypto-container');
         container.innerHTML = '';
@@ -185,7 +216,9 @@
                    alt="Kenaikan signifikan">
             ` : ''}
             <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
-            <p class="text-xs font-bold" data-current-price="${coin.current_price}">$${coin.current_price.toLocaleString()}</p>
+            <p class="text-xs font-bold" data-current-price="${coin.current_price}">
+              ${formatPrice(coin.current_price)}
+            </p>
             <span class="percentage-change ${
               coin.price_change_percentage_24h >= 0 ? 'percentage-up' : 'percentage-down'
             }">
@@ -196,11 +229,19 @@
           card.prepend(img);
           container.appendChild(card);
         });
+        
+        // Simpan data untuk filtering
+        container.dataset.filtered = 'all';
       }
 
-      // 3. Fungsi filter
+      // 4. Fungsi filter yang diperbaiki
       function filterCoins(category) {
-        const cards = document.querySelectorAll('.crypto-card');
+        const container = document.getElementById('crypto-container');
+        const cards = container.querySelectorAll('.crypto-card');
+        
+        // Update status filter aktif
+        container.dataset.filtered = category;
+        
         cards.forEach(card => {
           if (category === 'all' || card.dataset.category === category) {
             card.style.display = 'flex';
@@ -210,22 +251,27 @@
         });
       }
 
-      // 4. Fungsi fetch data
+      // 5. Fungsi fetch data
       async function fetchOptimizedData() {
         const cached = getCachedData();
         if (cached) {
           renderOptimizedCards(cached);
+          // Terapkan filter yang aktif sebelumnya
+          const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+          filterCoins(activeFilter);
         }
 
         try {
           // Gabungkan semua ID koin dari semua kategori
           const allCoinIds = [
-            ...coinCategories.payment,
-            ...coinCategories.stable,
-            ...coinCategories.defi,
-            ...coinCategories.meme,
-            // Tambahkan koin lainnya jika perlu
-            'solana', 'cardano', 'polkadot', 'avalanche', 'cosmos', 'algorand'
+            ...new Set([ // Gunakan Set untuk menghindari duplikat
+              ...coinCategories.payment,
+              ...coinCategories.stable,
+              ...coinCategories.defi,
+              ...coinCategories.meme,
+              // Tambahkan koin lainnya jika perlu
+              'solana', 'cardano', 'polkadot', 'avalanche', 'cosmos', 'algorand'
+            ])
           ].join(',');
 
           const response = await fetch(
@@ -234,6 +280,10 @@
           const data = await response.json();
           setCachedData(data);
           renderOptimizedCards(data);
+          
+          // Terapkan filter yang aktif setelah render
+          const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+          filterCoins(activeFilter);
         } catch (error) {
           console.error('Failed to fetch data:', error);
           if (!cached) showErrorState();
@@ -246,7 +296,8 @@
         
         // Setup filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             filterCoins(btn.dataset.filter);
