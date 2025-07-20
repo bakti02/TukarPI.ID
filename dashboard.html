@@ -76,7 +76,7 @@
         <a href="jualkoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Jual PI</a>
         <a href="belikoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Beli Kripto</a>
         <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Affiliate</a>
-        <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Dashboard</a>
+        <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Live Kripto Realtime</a>
       </div>
     </div>
   </nav>
@@ -100,7 +100,6 @@
     document.querySelectorAll('a, button').forEach(el => {
       el.classList.add('touch-target');
     });
-  </script>
   
   <!--Bagian Dari File Asli-->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -264,6 +263,7 @@
       <footer class="bg-gray-900 text-gray-400 py-8">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            <!-- Kolom 1: Tentang Kami -->
             <div class="col-span-2 md:col-span-1">
               <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
               <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
@@ -277,26 +277,41 @@
                 <a href="#" class="text-gray-400 hover:text-white transition touch-target">
                   <i class="fab fa-facebook"></i>
                 </a>
+                <a href="#" class="text-gray-400 hover:text-white transition touch-target">
+                  <i class="fab fa-telegram"></i>
+                </a>
               </div>
             </div>
             
+            <!-- Kolom 2: Layanan (Completed) -->
             <div>
               <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
               <ul class="space-y-2">
                 <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Jual PI Network</a></li>
                 <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Beli Kripto</a></li>
+                <li><a href="tukar-koin.html" class="hover:text-white transition text-xs md:text-sm touch-target">Tukar Koin Lainnya</a></li>
                 <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm touch-target">Program Affiliate</a></li>
+                <li><a href="marketplace.html" class="hover:text-white transition text-xs md:text-sm touch-target">Marketplace Kripto</a></li>
+                <li><a href="nft.html" class="hover:text-white transition text-xs md:text-sm touch-target">Layanan NFT</a></li>
+                <li><a href="staking.html" class="hover:text-white transition text-xs md:text-sm touch-target">Staking Kripto</a></li>
               </ul>
             </div>
             
+            <!-- Kolom 3: Bantuan (Completed) -->
             <div>
               <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
               <ul class="space-y-2">
+                <li><a href="cara-tukar.html" class="hover:text-white transition text-xs md:text-sm touch-target">Panduan Penukaran</a></li>
                 <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm touch-target">FAQ</a></li>
                 <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Syarat & Ketentuan</a></li>
+                <li><a href="kebijakan-privasi.html" class="hover:text-white transition text-xs md:text-sm touch-target">Kebijakan Privasi</a></li>
+                <li><a href="panduan-keamanan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Panduan Keamanan</a></li>
+                <li><a href="hubungi-kami.html" class="hover:text-white transition text-xs md:text-sm touch-target">Hubungi Kami</a></li>
+                <li><a href="status-layanan.html" class="hover:text-white transition text-xs md:text-sm touch-target">Status Layanan</a></li>
               </ul>
             </div>
             
+            <!-- Kolom 4: Kontak -->
             <div class="col-span-2 md:col-span-1">
               <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
               <ul class="space-y-2">
@@ -306,7 +321,19 @@
                 </li>
                 <li class="flex items-center">
                   <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
-                  <span class="text-xs md:text-sm">+62 821-4751-0780</span>
+                  <a href="https://wa.me/6282147510780" class="text-xs md:text-sm hover:text-white">+62 821-4751-0780</a>
+                </li>
+                <li class="flex items-center">
+                  <i class="fab fa-telegram mr-2 text-xs md:text-sm"></i>
+                  <a href="https://t.me/tukarpiid" class="text-xs md:text-sm hover:text-white">@tukarpiid</a>
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
+                  <span class="text-xs md:text-sm">Jakarta Selatan, Indonesia</span>
+                </li>
+                <li class="mt-4">
+                  <h4 class="text-white font-bold mb-2 text-xs md:text-sm">Jam Operasional</h4>
+                  <p class="text-xs md:text-sm">Senin-Minggu<br>08:00 - 22:00 WIB</p>
                 </li>
               </ul>
             </div>
@@ -314,29 +341,15 @@
           
           <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
             <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
+            <p class="mt-1">PT. Ruang Digital Raya - Terdaftar dan Diawasi oleh BAPPEBTI</p>
           </div>
         </div>
       </footer>
-    
+      
       <!-- Floating WhatsApp Button -->
       <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50 touch-target">
         <i class="fab fa-whatsapp text-xl"></i>
       </a>
-    </div>
-    
-    <!-- Scripts Tambahan -->
-    <script>
-      // Mobile Menu Toggle
-      document.getElementById('mobile-menu-button').addEventListener('click', function() {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-      });
-    
-      // Kalkulator Tukar Koin
-      const piAmount = document.getElementById('pi-amount');
-      piAmount.addEventListener('input', function() {
-        const idrValue = this.value * 1500;
-        document.getElementById('idr-amount').textContent = `Rp ${idrValue.toLocaleString('id-ID')}`;
-      });
 <!--Bagian Dari File Asli>
     <script>
     // Kategori koin yang diperluas
