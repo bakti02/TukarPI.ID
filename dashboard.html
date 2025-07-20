@@ -194,36 +194,48 @@
       // 2. Fungsi untuk membatasi tampilan awal (2 baris di mobile)
       function limitInitialDisplay() {
         const container = document.getElementById('crypto-container');
+        const activeFilter = container.dataset.filtered || 'all';
         const cards = container.querySelectorAll('.crypto-card');
         const showMoreBtn = document.getElementById('show-more-btn');
         
         // Tentukan jumlah kartu per baris berdasarkan lebar layar
-        const cardsPerRow = window.innerWidth < 640 ? 3 : 5; // 3 untuk mobile, 5 untuk desktop
-        const initialLimit = cardsPerRow * 2; // 2 baris
+        const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
+        const initialLimit = cardsPerRow * 2;
+        let visibleCount = 0;
         
-        cards.forEach((card, index) => {
-          if (index < initialLimit) {
-            card.style.display = 'flex';
+        cards.forEach(card => {
+          if (activeFilter === 'all' || card.dataset.category === activeFilter) {
+            if (visibleCount < initialLimit) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
           } else {
             card.style.display = 'none';
           }
         });
         
-        if (cards.length > initialLimit) {
+        if (visibleCount > initialLimit) {
           showMoreBtn.classList.remove('hidden');
         } else {
           showMoreBtn.classList.add('hidden');
         }
       }
       
-      // 3. Fungsi untuk menampilkan semua kartu
+      // 3. Fungsi untuk menampilkan semua kartu YANG SESUAI FILTER
       function showAllCards() {
         const container = document.getElementById('crypto-container');
+        const activeFilter = container.dataset.filtered || 'all';
         const cards = container.querySelectorAll('.crypto-card');
         const showMoreBtn = document.getElementById('show-more-btn');
         
         cards.forEach(card => {
-          card.style.display = 'flex';
+          if (activeFilter === 'all' || card.dataset.category === activeFilter) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
         });
         
         showMoreBtn.classList.add('hidden');
@@ -292,23 +304,29 @@
         
         // Update status filter aktif
         container.dataset.filtered = category;
-        
-        let visibleCount = 0;
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.filter === category);
+        });
+
         const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
         const initialLimit = cardsPerRow * 2;
+        let visibleCount = 0;
         
         cards.forEach(card => {
           if (category === 'all' || card.dataset.category === category) {
-            card.style.display = 'flex';
-            visibleCount++;
+            if (visibleCount < initialLimit) {
+              card.style.display = 'flex';
+              visibleCount++;
+            } else {
+              card.style.display = 'none';
+            }
           } else {
             card.style.display = 'none';
           }
         });
         
-        // Reset tampilan ke limit awal setelah filter
         if (visibleCount > initialLimit) {
-          limitInitialDisplay();
+          showMoreBtn.classList.remove('hidden');
         } else {
           showMoreBtn.classList.add('hidden');
         }
@@ -327,12 +345,11 @@
         try {
           // Gabungkan semua ID koin dari semua kategori
           const allCoinIds = [
-            ...new Set([ // Gunakan Set untuk menghindari duplikat
+            ...new Set([
               ...coinCategories.payment,
               ...coinCategories.stable,
               ...coinCategories.defi,
               ...coinCategories.meme,
-              // Tambahkan koin lainnya jika perlu
               'solana', 'cardano', 'polkadot', 'avalanche', 'cosmos', 'algorand'
             ])
           ].join(',');
@@ -349,7 +366,10 @@
           filterCoins(activeFilter);
         } catch (error) {
           console.error('Failed to fetch data:', error);
-          if (!cached) showErrorState();
+          if (!cached) {
+            const container = document.getElementById('crypto-container');
+            container.innerHTML = '<p class="text-red-500">Gagal memuat data. Silakan coba lagi nanti.</p>';
+          }
         }
       }
 
@@ -361,8 +381,6 @@
         document.querySelectorAll('.filter-btn').forEach(btn => {
           btn.addEventListener('click', (e) => {
             e.preventDefault();
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
             filterCoins(btn.dataset.filter);
           });
         });
@@ -390,7 +408,7 @@
         const cached = localStorage.getItem('cryptoCache');
         if (!cached) return null;
         const { timestamp, data } = JSON.parse(cached);
-        return (Date.now() - timestamp < 300000) ? data : null; // 5 menit cache
+        return (Date.now() - timestamp < 300000) ? data : null;
       }
 
       function setCachedData(data) {
