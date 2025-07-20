@@ -139,6 +139,8 @@
               <button class="filter-btn" data-filter="stable">Stablecoin</button>
               <button class="filter-btn" data-filter="defi">DeFi</button>
               <button class="filter-btn" data-filter="meme">Meme</button>
+              <button class="filter-btn" data-filter="layer1">Layer 1</button>
+              <button class="filter-btn" data-filter="layer2">Layer 2</button>
             </div>
           </div>
           
@@ -164,13 +166,61 @@
     </div>
 
     <script>
-      // Kategori koin yang lebih lengkap
-      const coinCategories = {
-        payment: ['bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash', 'ripple', 'stellar', 'dash', 'zcash', 'nano', 'digibyte'],
-        stable: ['tether', 'usd-coin', 'binance-usd', 'dai', 'true-usd', 'paxos-standard', 'gemini-dollar'],
-        defi: ['uniswap', 'aave', 'chainlink', 'wrapped-bitcoin', 'the-graph', 'synthetix', 'compound', 'maker', 'yearn-finance'],
-        meme: ['dogecoin', 'shiba-inu', 'dogelon-mars', 'floki-inu', 'pepe', 'bonk', 'baby-doge-coin']
-      };
+    // Kategori koin yang diperluas
+const coinCategories = {
+  payment: [
+    'bitcoin', 'ethereum', 'litecoin', 'bitcoin-cash', 'ripple',
+    'stellar', 'dash', 'zcash', 'nano', 'digibyte', 'monero',
+    'ravencoin', 'bitcoin-sv', 'eos', 'tron', 'vechain',
+    'neo', 'qtum', 'waves', 'zilliqa', 'icon', 'decred',
+    'horizen', 'vertcoin', 'pivx', 'zcoin'
+  ],
+  stable: [
+    'tether', 'usd-coin', 'binance-usd', 'dai', 'true-usd',
+    'paxos-standard', 'gemini-dollar', 'terrausd', 'frax',
+    'tether-gold', 'pax-gold', 'usdd', 'fei-usd', 'magic-internet-money',
+    'neutrino-dollar', 'usdx', 'flex-usd', 'dynamic-set-dollar'
+  ],
+  defi: [
+    'uniswap', 'aave', 'chainlink', 'wrapped-bitcoin', 'the-graph',
+    'synthetix', 'compound', 'maker', 'yearn-finance', 'curve-dao-token',
+    'thorchain', 'kava', 'injective-protocol', 'osmosis', 'raydium',
+    'serum', '1inch', '0x', 'balancer', 'kyber-network', 'uma',
+    'renbtc', 'sushi', 'badger-dao', 'bancor', 'dydx'
+  ],
+  meme: [
+    'dogecoin', 'shiba-inu', 'dogelon-mars', 'floki-inu', 'pepe',
+    'bonk', 'baby-doge-coin', 'safemoon', 'elon', 'shiba-predator',
+    'kishu-inu', 'hokkaidu-inu', 'wojak-finance', 'mog-coin', 'toshi-token',
+    'woof-token', 'elon-doge', 'dogelana', 'dogebonk',
+    
+    // Viral 2024-2025
+    'boden', 'doland-tremp', 'tremp', 'maga', 'wif', 
+    'popcat', 'book-of-meme', 'based', 'jeo-boden', 'turbo',
+    'mfer-coin', 'osak', 'bozo', 'scott-the-woz', 'gigachad',
+    'smog', 'water', 'myro', 'toshi', 'wen',
+    'pizza', 'harambe', 'donaldcat', 'cocaine', 'hulk',
+    'lizard', 'snakes', 'cats', 'dogs', 'monkey'
+  ],
+  layer1: [
+    'ethereum', 'solana', 'cardano', 'avalanche', 'polkadot',
+    'cosmos', 'algorand', 'near', 'tezos', 'flow',
+    'elrond', 'hedera', 'fantom', 'kadena', 'mina',
+    'celo', 'kava', 'thorchain', 'terra', 'neo',
+    'icon', 'zilliqa', 'waves', 'eos', 'tron',
+    'sui', 'aptos', 'sei', 'radix', 'conflux'
+  ],
+  layer2: [
+    'arbitrum', 'optimism', 'polygon', 'base', 'starknet',
+    'zksync', 'loopring', 'boba-network', 'metis', 'immutable-x',
+    'skale', 'aztec', 'dydx', 'omg-network', 'matic',
+    'lightning-network', 'cartesi', 'manta-network', 'altlayer', 'fuel',
+    'blast', 'linea', 'scroll', 'mantle', 'kroma'
+  ]
+};
+
+// JANGAN ubah fungsi render/filter yang ada
+// Biarkan semua kode lain tetap sama persis seperti aslinya
 
       // 1. Format harga dengan 12 digit dan tanda >
       function formatPrice(price) {
@@ -362,16 +412,19 @@
         }
 
         try {
-          // Gabungkan semua ID koin dari semua kategori
+          // Gabungkan semua ID koin dari semua kategori (termasuk L1 & L2)
           const allCoinIds = [
             ...new Set([
               ...coinCategories.payment,
               ...coinCategories.stable,
               ...coinCategories.defi,
               ...coinCategories.meme,
-              'solana', 'cardano', 'polkadot', 'avalanche', 'cosmos', 'algorand'
+              ...coinCategories.layer1,  // Sudah termasuk solana, cardano, dll
+              ...coinCategories.layer2  // Sudah termasuk arbitrum, optimism, dll
             ])
           ].join(',');
+          
+          // Hasil akhir akan berupa string dengan format: "bitcoin,ethereum,solana,..."
 
           const response = await fetch(
             `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${allCoinIds}&order=market_cap_desc&per_page=200&page=1&sparkline=false`
