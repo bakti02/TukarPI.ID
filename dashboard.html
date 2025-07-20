@@ -683,6 +683,28 @@ const coinCategories = {
           data: data
         }));
       }
-    </script>
+      <!-- Letakkan script di sini -->
+  <script>
+    // Mobile Menu Toggle
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Kalkulator
+    const piAmount = document.getElementById('pi-amount');
+    const idrAmount = document.getElementById('idr-amount');
+
+    if (piAmount && idrAmount) {
+      piAmount.addEventListener('input', function() {
+        const idrValue = this.value * 1500;
+        idrAmount.textContent = `Rp ${idrValue.toLocaleString('id-ID')}`;
+      });
+    }
+  </script>
   </body>
 </html>
