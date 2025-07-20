@@ -1,9 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Pi Network</title>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tukar Koin PI Network | TukarPI.ID - Aman & Cepat</title>
+  <meta name="description" content="Tukar koin PI Network ke Rupiah secara instan. Proses 3 menit, rates terbaik, dan legalitas jelas. Dukung oleh 1000+ pengguna.">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Tukar Koin PI Network ke Rupiah | TukarPI.ID">
+  <meta property="og:image" content="https://bakti02.github.io/TukarPI.ID/social-preview.jpg">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#8B5CF6',
+            secondary: '#F59E0B',
+            dark: '#1F2937'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          animation: {
+            'float': 'float 3s ease-in-out infinite',
+            'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          },
+          screens: {
+            'xs': '480px'
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Font & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    
+    .gradient-text {
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      background-image: linear-gradient(90deg, #8B5CF6, #F59E0B);
+    }
+    
+    /* Improved mobile touch targets */
+    .touch-target {
+      min-height: 48px;
+      min-width: 48px;
+    }
+    
+    /* Better mobile scrolling */
+    html {
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-gray-50 text-gray-800 antialiased">
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="index.html" class="flex items-center">
+        <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-10">
+        <span class="ml-2 text-xl font-bold text-primary hidden sm:inline">TukarPI.ID</span>
+      </a>
+      
+      <div class="hidden md:flex space-x-6">
+        <a href="index.html" class="font-medium text-primary border-b-2 border-primary pb-1">Home</a>
+        <a href="jualkoin.html" class="font-medium hover:text-primary transition">Jual PI</a>
+        <a href="belikoin.html" class="font-medium hover:text-primary transition">Beli Kripto</a>
+        <a href="affiliate.html" class="font-medium hover:text-primary transition">Affiliate</a>
+        <a href="dashboard.html" class="font-medium hover:text-primary transition">Dashboard</a>
+      </div>
+      
+      <div class="flex items-center space-x-3">
+        <a href="https://wa.me/6282147510780" class="hidden xs:inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-full font-medium transition shadow-md touch-target">
+          <i class="fab fa-whatsapp mr-1"></i> <span class="hidden sm:inline">WhatsApp</span>
+        </a>
+        <button class="md:hidden text-gray-600 touch-target" id="mobile-menu-button">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu - Improved for touch -->
+    <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
+      <div class="container mx-auto px-4 py-2 flex flex-col">
+        <a href="index.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Home</a>
+        <a href="jualkoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Jual PI</a>
+        <a href="belikoin.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Beli Kripto</a>
+        <a href="affiliate.html" class="py-3 px-2 border-b border-gray-100 font-medium touch-target">Affiliate</a>
+        <a href="dashboard.html" class="py-3 px-2 font-medium touch-target">Live Kripto Realtime</a>
+      </div>
+    </div>
+  </nav>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://api.coingecko.com">
     <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
