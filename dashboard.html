@@ -17,7 +17,8 @@
       }
 
       .crypto-card {
-        flex: 0 0 calc(20% - 1rem); /* Show 5 cards at once */
+        position: relative; /* Added for absolute positioning */
+        flex: 0 0 calc(20% - 1rem);
         scroll-snap-align: start;
         transition: transform 0.3s ease;
       }
@@ -37,6 +38,17 @@
       }
       .price-up { animation: pulse-up 1s; }
       .price-down { animation: pulse-down 1s; }
+
+      /* Flame badge */
+      .flame-badge {
+        position: absolute;
+        right: -8px;
+        top: -8px;
+        width: 24px;
+        height: 24px;
+        z-index: 10;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+      }
 
       /* Navigation buttons */
       .slider-nav-btn {
@@ -73,7 +85,7 @@
 
       @media (max-width: 640px) {
         .crypto-card {
-          flex: 0 0 calc(33.33% - 1rem); /* Show 3 cards on mobile */
+          flex: 0 0 calc(33.33% - 1rem);
         }
       }
     </style>
@@ -179,11 +191,20 @@
         container.innerHTML = '';
 
         cryptoData.forEach(coin => {
+          const isSignificantGain = coin.price_change_percentage_24h >= 5;
+          
           const card = document.createElement('div');
           card.className = `crypto-card bg-white rounded-xl shadow p-2 flex flex-col items-center text-center border-t-4 ${
             coin.price_change_percentage_24h >= 0 ? 'border-green-500' : 'border-red-500'
           }`;
+
           card.innerHTML = `
+            ${isSignificantGain ? `
+              <img src="https://bakti02.github.io/TukarPI.ID/flame-21186.gif" 
+                   class="flame-badge" 
+                   alt="Significant gain">
+            ` : ''}
+            
             <img src="${coin.image}" alt="${coin.name}" class="w-6 h-6 mb-1" />
             <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
             <p class="text-xs font-bold" data-current-price="${coin.current_price}">$${coin.current_price.toLocaleString()}</p>
@@ -201,7 +222,7 @@
 
       function navigate(direction) {
         const cardWidth = container.firstChild?.offsetWidth || 0;
-        const gap = 16; // 1rem gap in pixels
+        const gap = 16;
         const scrollAmount = cardWidth + gap;
         
         container.scrollBy({
@@ -222,21 +243,19 @@
           const gap = 16;
           const scrollAmount = cardWidth + gap;
 
-          // If we've reached the end, scroll back to start
           if (container.scrollLeft + container.offsetWidth >= container.scrollWidth - 10) {
             container.scrollTo({ left: 0, behavior: 'smooth' });
           } else {
             container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
           }
-        }, 3000); // Scroll every 3 seconds
+        }, 3000);
       }
 
-      // Update data every minute with price change animations
+      // Update data every minute
       setInterval(async () => {
         const oldData = [...cryptoData];
         await fetchCryptoData();
 
-        // Animate price changes
         container.querySelectorAll('.crypto-card').forEach((card, index) => {
           const newCoin = cryptoData[index];
           const oldCoin = oldData[index] || {};
