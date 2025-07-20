@@ -80,7 +80,17 @@
       .price-very-low {
         font-size: 0.6rem;
       }
+      .price-micro {
+        font-size: 0.55rem;
+        letter-spacing: 0.5px;
+      }
+      .truncate-mark {
+        color: #999;
+        font-size: 0.6em;
+        margin-left: 1px;
+      }
       
+      /* Mobile styles */
       @media (max-width: 640px) {
         .crypto-card {
           flex: 0 0 calc(33.33% - 1rem);
@@ -89,6 +99,17 @@
           padding: 0.2rem 0.4rem;
           font-size: 0.65rem;
         }
+      }
+      
+      /* Show more button */
+      .show-more-btn {
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem;
+        background: #f0f0f0;
+        border-radius: 0.25rem;
+        margin-top: 0.5rem;
+        font-size: 0.75rem;
       }
     </style>
   </head>
@@ -126,6 +147,7 @@
               <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
               <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
             </div>
+            <button class="show-more-btn hidden" id="show-more-btn">Tampilkan Semua</button>
           </div>
         </section>
       </main>
@@ -146,43 +168,68 @@
         meme: ['dogecoin', 'shiba-inu', 'dogelon-mars', 'floki-inu', 'pepe', 'bonk', 'baby-doge-coin']
       };
 
-      // 1. Cache data di localStorage
-      function getCachedData() {
-        const cached = localStorage.getItem('cryptoCache');
-        if (!cached) return null;
-        const { timestamp, data } = JSON.parse(cached);
-        return (Date.now() - timestamp < 300000) ? data : null; // 5 menit cache
-      }
-
-      function setCachedData(data) {
-        localStorage.setItem('cryptoCache', JSON.stringify({
-          timestamp: Date.now(),
-          data: data
-        }));
-      }
-
-      // 2. Format harga dengan penyesuaian ukuran font
+      // 1. Format harga dengan 12 digit dan tanda >
       function formatPrice(price) {
-        // Tentukan kelas CSS berdasarkan nilai harga
-        let priceClass = '';
-        if (price < 0.0001) {
-          priceClass = 'price-very-low';
-        } else if (price < 0.01) {
-          priceClass = 'price-low';
-        }
-        
-        // Format angka
-        if (price < 1) {
-          // Untuk harga kecil, tampilkan lebih banyak desimal
-          const decimals = price < 0.0001 ? 8 : (price < 0.01 ? 6 : 4);
-          return `<span class="${priceClass}">$${price.toFixed(decimals)}</span>`;
+        if (price >= 1) {
+          return `$${price.toLocaleString(undefined, { maximumFractionDigits: 4 })}`;
+        } else if (price >= 0.01) {
+          return `$${price.toFixed(4).replace(/\.?0+$/, '')}`;
+        } else if (price >= 0.0001) {
+          return `$${price.toFixed(6).replace(/\.?0+$/, '')}`;
         } else {
-          // Untuk harga normal, gunakan format biasa
-          return `<span>$${price.toLocaleString()}</span>`;
+          // Untuk harga < 0.0001 (hingga 12 digit)
+          const formatted = price.toFixed(12);
+          const trimmed = formatted.replace(/(\..*?)0+$/, '$1').replace(/\.$/, '');
+          
+          // Cek apakah nilai sebenarnya lebih panjang dari yang ditampilkan
+          const fullValue = price.toString();
+          const isTruncated = fullValue.length > trimmed.length + 1; // +1 untuk tanda $
+          
+          return `<span class="price-micro">
+            $${trimmed}${isTruncated ? '<span class="truncate-mark">></span>' : ''}
+          </span>`;
         }
       }
 
-      // 3. Render kartu kripto dengan kategori
+      // 2. Fungsi untuk membatasi tampilan awal (2 baris di mobile)
+      function limitInitialDisplay() {
+        const container = document.getElementById('crypto-container');
+        const cards = container.querySelectorAll('.crypto-card');
+        const showMoreBtn = document.getElementById('show-more-btn');
+        
+        // Tentukan jumlah kartu per baris berdasarkan lebar layar
+        const cardsPerRow = window.innerWidth < 640 ? 3 : 5; // 3 untuk mobile, 5 untuk desktop
+        const initialLimit = cardsPerRow * 2; // 2 baris
+        
+        cards.forEach((card, index) => {
+          if (index < initialLimit) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        
+        if (cards.length > initialLimit) {
+          showMoreBtn.classList.remove('hidden');
+        } else {
+          showMoreBtn.classList.add('hidden');
+        }
+      }
+      
+      // 3. Fungsi untuk menampilkan semua kartu
+      function showAllCards() {
+        const container = document.getElementById('crypto-container');
+        const cards = container.querySelectorAll('.crypto-card');
+        const showMoreBtn = document.getElementById('show-more-btn');
+        
+        cards.forEach(card => {
+          card.style.display = 'flex';
+        });
+        
+        showMoreBtn.classList.add('hidden');
+      }
+
+      // 4. Render kartu kripto dengan kategori
       function renderOptimizedCards(data) {
         const container = document.getElementById('crypto-container');
         container.innerHTML = '';
@@ -230,28 +277,44 @@
           container.appendChild(card);
         });
         
+        // Terapkan limit tampilan awal
+        limitInitialDisplay();
+        
         // Simpan data untuk filtering
         container.dataset.filtered = 'all';
       }
 
-      // 4. Fungsi filter yang diperbaiki
+      // 5. Fungsi filter yang diperbaiki
       function filterCoins(category) {
         const container = document.getElementById('crypto-container');
         const cards = container.querySelectorAll('.crypto-card');
+        const showMoreBtn = document.getElementById('show-more-btn');
         
         // Update status filter aktif
         container.dataset.filtered = category;
         
+        let visibleCount = 0;
+        const cardsPerRow = window.innerWidth < 640 ? 3 : 5;
+        const initialLimit = cardsPerRow * 2;
+        
         cards.forEach(card => {
           if (category === 'all' || card.dataset.category === category) {
             card.style.display = 'flex';
+            visibleCount++;
           } else {
             card.style.display = 'none';
           }
         });
+        
+        // Reset tampilan ke limit awal setelah filter
+        if (visibleCount > initialLimit) {
+          limitInitialDisplay();
+        } else {
+          showMoreBtn.classList.add('hidden');
+        }
       }
 
-      // 5. Fungsi fetch data
+      // 6. Fungsi fetch data
       async function fetchOptimizedData() {
         const cached = getCachedData();
         if (cached) {
@@ -303,6 +366,16 @@
             filterCoins(btn.dataset.filter);
           });
         });
+        
+        // Setup show more button
+        document.getElementById('show-more-btn').addEventListener('click', showAllCards);
+        
+        // Handle resize
+        window.addEventListener('resize', () => {
+          if (document.getElementById('crypto-container').dataset.filtered) {
+            limitInitialDisplay();
+          }
+        });
       });
 
       // Auto-update setiap 1 menit
@@ -311,6 +384,21 @@
           fetchOptimizedData();
         }
       }, 60000);
+      
+      // 1. Cache data di localStorage
+      function getCachedData() {
+        const cached = localStorage.getItem('cryptoCache');
+        if (!cached) return null;
+        const { timestamp, data } = JSON.parse(cached);
+        return (Date.now() - timestamp < 300000) ? data : null; // 5 menit cache
+      }
+
+      function setCachedData(data) {
+        localStorage.setItem('cryptoCache', JSON.stringify({
+          timestamp: Date.now(),
+          data: data
+        }));
+      }
     </script>
   </body>
 </html>
