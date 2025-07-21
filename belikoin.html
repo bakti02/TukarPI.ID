@@ -778,22 +778,76 @@
 
     // Fungsi untuk generate invoice PDF
     function generateInvoice() {
+      // Pastikan elemen-elemen yang diperlukan ada
+      const requiredElements = [
+        'wallet', 'confirm-crypto', 'confirm-exchange-rate', 
+        'realtime-price', 'confirm-amount', 'fee-amount',
+        'confirm-total', 'confirm-coin'
+      ];
+      
+      for (const id of requiredElements) {
+        if (!document.getElementById(id)) {
+          alert(`Error: Element with ID '${id}' not found!`);
+          return;
+        }
+      }
+    
+      // Pastikan payment method terpilih
+      if (!selectedPaymentMethod) {
+        alert('Error: Payment method not selected!');
+        return;
+      }
+    
       const now = new Date();
       const paymentDue = new Date(Date.now() + 24*60*60*1000);
       
+      // Buat container invoice
       const element = document.createElement('div');
-      element.className = 'invoice-container'; // Container utama
+      element.className = 'invoice-container';
+      
+      // Dapatkan nilai dari elemen-elemen HTML
+      const walletAddress = document.getElementById('wallet').value || '-';
+      const cryptoType = document.getElementById('confirm-crypto').textContent;
+      const exchangeRate = document.getElementById('confirm-exchange-rate').textContent;
+      const realtimePrice = document.getElementById('realtime-price').textContent;
+      const amount = document.getElementById('confirm-amount').textContent;
+      const fee = document.getElementById('fee-amount').textContent;
+      const total = document.getElementById('confirm-total').textContent;
+      const coinAmount = document.getElementById('confirm-coin').textContent;
+    
+      // Tentukan payment method text
+      let paymentMethodText = '';
+      let paymentAccount = '';
+      
+      switch(selectedPaymentMethod) {
+        case 'bca':
+          paymentMethodText = 'Bank BCA';
+          paymentAccount = 'BCA 0332997201';
+          break;
+        case 'dana':
+          paymentMethodText = 'DANA';
+          paymentAccount = 'DANA 087878787523';
+          break;
+        case 'ovo':
+          paymentMethodText = 'OVO';
+          paymentAccount = 'OVO 087878787523';
+          break;
+        default:
+          paymentMethodText = 'GOPAY';
+          paymentAccount = 'GOPAY 087878787523';
+      }
+    
+      // Generate invoice HTML
       element.innerHTML = `
         <style>
           .invoice-container {
-            width: 210mm; /* Lebar A4 */
-            height: 297mm; /* Tinggi A4 */
+            width: 210mm;
+            min-height: 297mm;
             padding: 15mm;
             margin: 0 auto;
             box-sizing: border-box;
             font-family: 'Helvetica', 'Arial', sans-serif;
-            position: relative;
-            overflow: hidden;
+            background: white;
           }
           .invoice-header {
             margin-bottom: 12px;
@@ -801,7 +855,7 @@
           .invoice-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
           }
           .invoice-table th {
             background-color: #f8fafc;
@@ -823,21 +877,18 @@
           .total-box {
             width: 200px;
             margin-left: auto;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
           }
           .compact-section {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
           }
           .footer {
-            position: absolute;
-            bottom: 15mm;
-            left: 15mm;
-            right: 15mm;
             text-align: center;
             font-size: 11px;
             color: #64748b;
             border-top: 1px solid #e2e8f0;
             padding-top: 12px;
+            margin-top: 20px;
           }
           .logo {
             height: 40px;
@@ -845,7 +896,7 @@
           }
         </style>
     
-        <!-- Header Dokumen -->
+        <!-- Header -->
         <div class="invoice-header">
           <table width="100%">
             <tr>
@@ -882,7 +933,7 @@
                 <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
                   <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Alamat Wallet</p>
                   <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">
-                    ${document.getElementById('wallet').value || '-'}
+                    ${walletAddress}
                   </p>
                 </div>
               </td>
@@ -891,9 +942,7 @@
                 <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
                   <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
                   <p style="font-weight: 500; margin: 0 0 8px 0; font-size: 12px;">
-                    ${selectedPaymentMethod === 'bca' ? 'Bank BCA' : 
-                      selectedPaymentMethod === 'dana' ? 'DANA' : 
-                      selectedPaymentMethod === 'ovo' ? 'OVO' : 'GOPAY'}
+                    ${paymentMethodText}
                   </p>
                   <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Batas Pembayaran</p>
                   <p style="font-weight: 500; margin: 0; font-size: 12px;">
@@ -925,17 +974,17 @@
             <tbody>
               <tr>
                 <td>
-                  <p style="font-weight: 500; margin: 0 0 4px 0; font-size: 12px;">${document.getElementById('confirm-crypto').textContent}</p>
-                  <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${document.getElementById('confirm-exchange-rate').textContent}</p>
-                  <p style="font-size: 11px; color: #64748b; margin: 0;">${document.getElementById('realtime-price').textContent}</p>
+                  <p style="font-weight: 500; margin: 0 0 4px 0; font-size: 12px;">${cryptoType}</p>
+                  <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${exchangeRate}</p>
+                  <p style="font-size: 11px; color: #64748b; margin: 0;">${realtimePrice}</p>
                 </td>
                 <td class="text-right" style="font-size: 12px;">1</td>
-                <td class="text-right" style="font-size: 12px;">${document.getElementById('confirm-amount').textContent}</td>
+                <td class="text-right" style="font-size: 12px;">${amount}</td>
               </tr>
               <tr>
                 <td style="font-size: 12px; color: #64748b;">Biaya Layanan (5%)</td>
                 <td class="text-right"></td>
-                <td class="text-right" style="color: #ef4444; font-size: 12px;">${document.getElementById('fee-amount').textContent}</td>
+                <td class="text-right" style="color: #ef4444; font-size: 12px;">${fee}</td>
               </tr>
             </tbody>
           </table>
@@ -946,16 +995,16 @@
           <table width="100%">
             <tr>
               <td style="padding: 4px 0; font-size: 12px;">Subtotal</td>
-              <td style="padding: 4px 0; text-align: right; font-size: 12px;">${document.getElementById('confirm-amount').textContent}</td>
+              <td style="padding: 4px 0; text-align: right; font-size: 12px;">${amount}</td>
             </tr>
             <tr>
               <td style="padding: 4px 0; font-size: 12px;">Biaya Layanan</td>
-              <td style="padding: 4px 0; text-align: right; font-size: 12px; color: #ef4444;">${document.getElementById('fee-amount').textContent}</td>
+              <td style="padding: 4px 0; text-align: right; font-size: 12px; color: #ef4444;">${fee}</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; font-weight: bold; font-size: 12px;">TOTAL</td>
               <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb; font-size: 12px;">
-                ${document.getElementById('confirm-total').textContent}
+                ${total}
               </td>
             </tr>
           </table>
@@ -969,19 +1018,19 @@
               <tr>
                 <td width="25%" style="padding: 4px 0;">
                   <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jenis Kripto</p>
-                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${document.getElementById('confirm-crypto').textContent}</p>
+                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${cryptoType}</p>
                 </td>
                 <td width="25%" style="padding: 4px 0;">
                   <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jumlah Koin</p>
-                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${document.getElementById('confirm-coin').textContent}</p>
+                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${coinAmount}</p>
                 </td>
                 <td width="25%" style="padding: 4px 0;">
                   <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Harga per Koin</p>
-                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${document.getElementById('realtime-price').textContent}</p>
+                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${realtimePrice}</p>
                 </td>
                 <td width="25%" style="padding: 4px 0;">
                   <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Kurs yang Berlaku</p>
-                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${document.getElementById('confirm-exchange-rate').textContent}</p>
+                  <p style="font-weight: 500; margin: 0; font-size: 12px;">${exchangeRate}</p>
                 </td>
               </tr>
             </table>
@@ -989,7 +1038,7 @@
         </div>
     
         <!-- Instruksi Pembayaran -->
-        <div class="compact-section" style="margin-bottom: 60px;">
+        <div class="compact-section">
           <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
           <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px;">
             <table width="100%">
@@ -1001,9 +1050,7 @@
                   <p style="font-size: 12px; margin: 0 0 8px 0;">Silahkan transfer pembayaran ke:</p>
                   <div style="background-color: white; padding: 8px; border-radius: 4px; display: inline-block;">
                     <p style="font-family: monospace; font-weight: 500; margin: 0; font-size: 12px;">
-                      ${selectedPaymentMethod === 'bca' ? 'BCA 0332997201' : 
-                        selectedPaymentMethod === 'dana' ? 'DANA 087878787523' : 
-                        selectedPaymentMethod === 'ovo' ? 'OVO 087878787523' : 'GOPAY 087878787523'}
+                      ${paymentAccount}
                     </p>
                   </div>
                   <p style="font-size: 12px; margin: 8px 0 0 0;">Atas Nama: <span style="font-weight: 500;">Agus Mulia Bakti</span></p>
@@ -1021,22 +1068,19 @@
         </div>
       `;
     
-      // Konfigurasi PDF untuk A4
+      // Konfigurasi PDF
       const opt = {
-        margin: [15, 15, 15, 15], // top, right, bottom, left (dalam mm)
+        margin: [15, 15, 15, 15],
         filename: `Invoice-TukarPI-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}.pdf`,
-        image: { 
-          type: 'jpeg', 
-          quality: 0.98 
-        },
+        image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
           scale: 2,
           logging: false,
           useCORS: true,
           letterRendering: true,
-          width: 210, // Lebar A4 dalam mm
-          height: 297, // Tinggi A4 dalam mm
-          windowWidth: 794 // Lebar dalam pixel (210mm * 3.78)
+          width: 210,
+          height: 297,
+          windowWidth: 794
         },
         jsPDF: { 
           unit: 'mm',
