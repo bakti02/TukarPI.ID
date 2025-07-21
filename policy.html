@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Kebijakan Privasi | TukarPI.ID</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Gaya Elegan */
+    .header-gradient {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    }
+    
+    .privacy-hero {
+      background: linear-gradient(rgba(30, 58, 138, 0.9), rgba(37, 99, 235, 0.8)), 
+                  url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .mobile-menu {
+      transition: all 0.3s ease;
+    }
+    
+    /* Gaya Khusus Halaman */
+    .privacy-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .privacy-section {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .privacy-header {
+      background: linear-gradient(to right, #3B82F6, #6366F1);
+      color: white;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .privacy-icon {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+    
+    .privacy-content {
+      padding: 2rem;
+    }
+    
+    .privacy-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1E3A8A;
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .privacy-content h3:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      height: 1.25rem;
+      width: 0.25rem;
+      background: #3B82F6;
+      border-radius: 0.25rem;
+    }
+    
+    .privacy-content p, .privacy-content li {
+      color: #4B5563;
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    
+    .privacy-content ul {
+      list-style-type: none;
+      padding-left: 1.5rem;
+    }
+    
+    .privacy-content li {
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+    
+    .privacy-content li:before {
+      content: '•';
+      position: absolute;
+      left: -1.25rem;
+      color: #3B82F6;
+      font-weight: bold;
+    }
+    
+    .highlight-box {
+      background: #F0F7FF;
+      border-left: 4px solid #3B82F6;
+      padding: 1.5rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.5rem 0;
+    }
+    
+    /* Animasi */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fadein {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    /* Responsif */
+    @media (max-width: 768px) {
+      .privacy-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .privacy-icon {
+        margin-bottom: 0.75rem;
+      }
+      
+      .privacy-content {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header (Sama dengan halaman utama) -->
+  <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-3">
+        <!-- Logo and Brand -->
+        <div class="flex items-center space-x-2">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
+          <div>
+            <p class="text-xs opacity-80 font-bold">Pusat Jual & Beli Kripto</p>
+          </div>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="nav-link text-sm font-medium">Home</a>
+          <a href="jualkoin.html" class="nav-link text-sm font-medium">Jual Pi</a>
+          <a href="belikoin.html" class="nav-link text-sm font-medium">Beli Kripto</a>
+          <a href="affiliate.html" class="nav-link text-sm font-medium">Program Affiliate</a>
+          <a href="privacy.html" class="nav-link text-sm font-medium underline">Kebijakan Privasi</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
+      <div class="flex flex-col space-y-3 py-2">
+        <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
+        <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
+        <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700">Beli Kripto</a>
+        <a href="affiliate.html" class="text-white text-sm py-1 border-b border-blue-700">Program Affiliate</a>
+        <a href="privacy.html" class="text-white text-sm py-1 border-b border-blue-700 font-bold">Kebijakan Privasi</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="privacy-hero text-white py-16 md:py-24">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4 animate-fadein">Kebijakan Privasi TukarPI.ID</h1>
+      <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90 animate-fadein" style="animation-delay: 0.2s">
+        Komitmen kami untuk melindungi data dan privasi Anda
+      </p>
+    </div>
+  </section>
+
+  <main class="py-12 px-4">
+    <div class="privacy-container">
+      <!-- Section 1: Pengenalan -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 0.3s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Pengenalan</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Kebijakan Privasi ini menjelaskan bagaimana TukarPI.ID ("kami", "kita", atau "kita") mengumpulkan, menggunakan, mengungkapkan, dan melindungi informasi yang Anda berikan saat menggunakan layanan kami. Dengan mengakses atau menggunakan layanan kami, Anda menyetujui pengumpulan dan penggunaan informasi sesuai dengan kebijakan ini.</p>
+          
+          <div class="highlight-box">
+            <p><strong>Penting:</strong> Kami berkomitmen untuk melindungi privasi Anda dan hanya menggunakan informasi Anda untuk menyediakan dan meningkatkan layanan kami.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 2: Data yang Kami Kumpulkan -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 0.4s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-database"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Data yang Kami Kumpulkan</h2>
+        </div>
+        <div class="privacy-content">
+          <h3>Informasi Pribadi</h3>
+          <p>Kami dapat mengumpulkan informasi berikut saat Anda menggunakan layanan kami:</p>
+          <ul>
+            <li>Nama lengkap dan informasi kontak (email, nomor telepon)</li>
+            <li>Informasi identitas (KTP, SIM, atau paspor untuk verifikasi)</li>
+            <li>Detail rekening bank dan informasi pembayaran</li>
+            <li>Alamat dompet kripto Anda</li>
+            <li>Riwayat transaksi dan aktivitas akun</li>
+          </ul>
+          
+          <h3>Data Teknis</h3>
+          <p>Secara otomatis kami kumpulkan:</p>
+          <ul>
+            <li>Alamat IP dan informasi perangkat</li>
+            <li>Data log (waktu akses, halaman yang dikunjungi)</li>
+            <li>Informasi browser dan sistem operasi</li>
+            <li>Data cookies dan teknologi pelacakan serupa</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Section 3: Penggunaan Data -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 0.5s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Bagaimana Kami Menggunakan Data Anda</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Informasi yang kami kumpulkan digunakan untuk berbagai tujuan, termasuk:</p>
+          <ul>
+            <li>Menyediakan, memelihara, dan meningkatkan layanan kami</li>
+            <li>Memverifikasi identitas Anda sesuai peraturan KYC/AML</li>
+            <li>Memproses transaksi dan mengelola akun Anda</li>
+            <li>Memberikan dukungan pelanggan dan menanggapi pertanyaan</li>
+            <li>Mendeteksi dan mencegah penipuan, penyalahgunaan, dan aktivitas mencurigakan</li>
+            <li>Mengirim pembaruan, pemberitahuan, dan informasi penting</li>
+            <li>Menganalisis penggunaan layanan untuk pengembangan produk</li>
+            <li>Memenuhi kewajiban hukum dan peraturan</li>
+          </ul>
+          
+          <div class="highlight-box">
+            <p><i class="fas fa-lock text-blue-500 mr-2"></i> Kami tidak akan pernah menjual data pribadi Anda kepada pihak ketiga untuk tujuan pemasaran tanpa persetujuan eksplisit Anda.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section 4: Pembagian Data -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 0.6s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-share-alt"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Pembagian Data dengan Pihak Ketiga</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Kami dapat membagikan informasi Anda dalam situasi berikut:</p>
+          <ul>
+            <li><strong>Penyedia Layanan:</strong> Dengan vendor dan mitra tepercaya yang membantu operasi kami (seperti verifikasi identitas, pemrosesan pembayaran, hosting)</li>
+            <li><strong>Kepatuhan Hukum:</strong> Jika diperlukan oleh hukum atau permintaan pemerintah yang sah</li>
+            <li><strong>Perlindungan Hak:</strong> Untuk melindungi hak, properti, atau keamanan kami, pengguna kami, atau publik</li>
+            <li><strong>Merger/Akuisisi:</strong> Dalam hal merger, akuisisi, atau penjualan aset</li>
+          </ul>
+          
+          <h3>Transfer Data Internasional</h3>
+          <p>Data Anda mungkin diproses di luar negara tempat Anda tinggal, termasuk negara dengan tingkat perlindungan data yang berbeda. Kami mengambil langkah-langkah untuk memastikan perlindungan yang memadai sesuai dengan hukum yang berlaku.</p>
+        </div>
+      </div>
+      
+      <!-- Section 5: Keamanan Data -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 0.7s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Keamanan Data</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Kami menerapkan langkah-langkah keamanan teknis dan organisasi yang ketat untuk melindungi data pribadi Anda:</p>
+          <ul>
+            <li>Enkripsi data dalam transit dan diam (SSL/TLS 256-bit)</li>
+            <li>Autentikasi dua faktor untuk akses sensitif</li>
+            <li>Pembatasan akses berbasis peran untuk karyawan</li>
+            <li>Pemantauan keamanan 24/7 dan deteksi intrusi</li>
+            <li>Penyimpanan data terpisah untuk informasi sensitif</li>
+            <li>Uji penetrasi dan audit keamanan rutin</li>
+          </ul>
+          
+          <p>Meskipun kami berusaha keras untuk melindungi data Anda, tidak ada metode transmisi atau penyimpanan elektronik yang 100% aman. Kami tidak dapat menjamin keamanan mutlak tetapi berkomitmen untuk terus memperbarui praktik keamanan kami.</p>
+        </div>
+      </div>
+      
+      <!-- Section 6: Hak Anda -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 0.8s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Hak Privasi Anda</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Anda memiliki hak-hak berikut terkait data pribadi Anda:</p>
+          <ul>
+            <li><strong>Akses:</strong> Meminta salinan data pribadi yang kami simpan</li>
+            <li><strong>Koreksi:</strong> Memperbarui atau memperbaiki data yang tidak akurat</li>
+            <li><strong>Penghapusan:</strong> Meminta penghapusan data dalam keadaan tertentu</li>
+            <li><strong>Pembatasan:</strong> Membatasi pemrosesan data Anda</li>
+            <li><strong>Portabilitas:</strong> Menerima data Anda dalam format terstruktur</li>
+            <li><strong>Keberatan:</strong> Menolak pemrosesan tertentu (mis. pemasaran langsung)</li>
+          </ul>
+          
+          <p>Untuk melaksanakan hak-hak ini, silakan hubungi Petugas Perlindungan Data kami di <a href="mailto:dpo@tukarpi.id" class="text-blue-500 hover:underline">dpo@tukarpi.id</a>. Kami mungkin meminta verifikasi identitas sebelum menanggapi permintaan tersebut.</p>
+        </div>
+      </div>
+      
+      <!-- Section 7: Cookies -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 0.9s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-cookie-bite"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Cookies dan Teknologi Pelacakan</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Kami menggunakan cookies dan teknologi serupa untuk:</p>
+          <ul>
+            <li>Mengaktifkan fungsi dasar situs web</li>
+            <li>Menganalisis lalu lintas dan penggunaan situs</li>
+            <li>Menyimpan preferensi Anda</li>
+            <li>Memberikan pengalaman yang dipersonalisasi</li>
+            <li>Meningkatkan keamanan dan mencegah penipuan</li>
+          </ul>
+          
+          <p>Anda dapat mengelola preferensi cookie melalui pengaturan browser Anda. Namun, menonaktifkan cookie tertentu dapat memengaruhi fungsionalitas layanan kami.</p>
+        </div>
+      </div>
+      
+      <!-- Section 8: Perubahan Kebijakan -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 1.0s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-sync-alt"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Perubahan Kebijakan Privasi</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Kami akan memberi tahu Anda tentang perubahan material melalui pemberitahuan yang mencolok di situs web kami atau melalui email. Versi terbaru akan selalu tersedia di halaman ini dengan tanggal pembaruan yang tercantum.</p>
+          
+          <p><strong>Terakhir diperbarui:</strong> 25 Juni 2025</p>
+        </div>
+      </div>
+      
+      <!-- Section 9: Kontak -->
+      <div class="privacy-section animate-fadein" style="animation-delay: 1.1s">
+        <div class="privacy-header">
+          <div class="privacy-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <h2 class="text-xl md:text-2xl font-semibold">Hubungi Kami</h2>
+        </div>
+        <div class="privacy-content">
+          <p>Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini atau praktik perlindungan data kami, silakan hubungi:</p>
+          
+          <div class="bg-gray-50 rounded-lg p-4 mt-4">
+            <div class="flex items-start mb-3">
+              <i class="fas fa-user-tie text-blue-500 mt-1 mr-3"></i>
+              <div>
+                <h4 class="font-semibold">Petugas Perlindungan Data</h4>
+                <p class="text-gray-600">PT. Ruang Digital Raya</p>
+                <p class="text-gray-600">Email: <a href="mailto:dpo@tukarpi.id" class="text-blue-500 hover:underline">dpo@tukarpi.id</a></p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <i class="fas fa-headset text-blue-500 mt-1 mr-3"></i>
+              <div>
+                <h4 class="font-semibold">Dukungan Pelanggan</h4>
+                <p class="text-gray-600">WhatsApp: <a href="https://wa.me/6282147510780" class="text-blue-500 hover:underline">+62 821-4751-0780</a></p>
+                <p class="text-gray-600">Telegram: <a href="https://t.me/tukarpiid" class="text-blue-500 hover:underline">@tukarpiid</a></p>
+                <p class="text-gray-600">Email: <a href="mailto:cs@tukarpi.id" class="text-blue-500 hover:underline">cs@tukarpi.id</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (Sama dengan halaman utama) -->
+  <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <!-- Kolom 1: Tentang Kami -->
+        <div class="col-span-2 md:col-span-1">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
+          <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-telegram text-lg"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Kolom 2: Layanan -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
+          <ul class="space-y-2">
+            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 3: Legal -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Legal</h3>
+          <ul class="space-y-2">
+            <li><a href="privacy.html" class="hover:text-white transition text-xs md:text-sm font-bold">Kebijakan Privasi</a></li>
+            <li><a href="terms.html" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="aml.html" class="hover:text-white transition text-xs md:text-sm">Kebijakan AML</a></li>
+            <li><a href="disclaimer.html" class="hover:text-white transition text-xs md:text-sm">Penafian</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 4: Kontak -->
+        <div class="col-span-2 md:col-span-1">
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">cs@tukarpi.id</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
+              <a href="https://wa.me/6282147510780" class="text-xs md:text-sm hover:text-white">+62 821-4751-0780</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-telegram mr-2 text-xs md:text-sm"></i>
+              <a href="https://t.me/tukarpiid" class="text-xs md:text-sm hover:text-white">@tukarpiid</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">Jakarta Selatan, Indonesia</span>
+            </li>
+            <li class="mt-4">
+              <h4 class="text-white font-bold mb-2 text-xs md:text-sm">Jam Operasional</h4>
+              <p class="text-xs md:text-sm">Senin-Minggu<br>08:00 - 22:00 WIB</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
+        <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
+        <p class="mt-1">PT. Ruang Digital Raya</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50">
+    <i class="fab fa-whatsapp text-xl"></i>
+  </a>
+
+  <script>
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobile-menu');
+      const button = document.getElementById('mobile-menu-button');
+      
+      if (!menu.contains(e.target) && e.target !== button && !button.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    // Animasi scroll untuk anchor link
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
