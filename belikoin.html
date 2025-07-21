@@ -480,10 +480,10 @@
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
           <ul class="space-y-2">
-            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
-            <li><a href="belicoin.html" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
-            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
-            <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
           </ul>
         </div>
         
@@ -491,8 +491,8 @@
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
           <ul class="space-y-2">
-            <li><a href="cara-pembelian.html" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
-            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
             <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
             <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
           </ul>
@@ -544,18 +544,16 @@
   <script>
     // Data koin default jika API tidak tersedia
     const defaultCryptoData = {
-      const defaultCryptoData = {
-      'BTC': { name: 'Bitcoin', price: 1927485101, image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png' },
-      'ETH': { name: 'Ethereum', price: 58146565, image: 'https://cryptologos.cc/logos/ethereum-eth-logo.png' },
-      'USDT': { name: 'Tether', price: 16350, image: 'https://cryptologos.cc/logos/tether-usdt-logo.png' },
-      'BNB': { name: 'BNB', price: 12069867, image: 'https://cryptologos.cc/logos/bnb-bnb-logo.png' },
-      'SOL': { name: 'Solana', price: 3246144, image: 'https://cryptologos.cc/logos/solana-sol-logo.png' },
-      'XRP': { name: 'XRP', price: 55794, image: 'https://cryptologos.cc/logos/xrp-xrp-logo.png' },
-      'ADA': { name: 'Cardano', price: 7677, image: 'https://cryptologos.cc/logos/cardano-ada-logo.png' },
-      'DOGE': { name: 'Dogecoin', price: 2481, image: 'https://cryptologos.cc/logos/dogecoin-doge-logo.png' },
-      'DOT': { name: 'Polkadot', price: 104771, image: 'https://cryptologos.cc/logos/polkadot-new-dot-logo.png' },
-      'SHIB': { name: 'Shiba Inu', price: 0.256, image: 'https://cryptologos.cc/logos/shiba-inu-shib-logo.png' }
-    };
+      'BTC': { name: 'Bitcoin', price: 520000000, image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png' },
+      'ETH': { name: 'Ethereum', price: 32000000, image: 'https://cryptologos.cc/logos/ethereum-eth-logo.png' },
+      'USDT': { name: 'Tether', price: 15500, image: 'https://cryptologos.cc/logos/tether-usdt-logo.png' },
+      'BNB': { name: 'BNB', price: 5000000, image: 'https://cryptologos.cc/logos/bnb-bnb-logo.png' },
+      'SOL': { name: 'Solana', price: 1500000, image: 'https://cryptologos.cc/logos/solana-sol-logo.png' },
+      'XRP': { name: 'XRP', price: 8000, image: 'https://cryptologos.cc/logos/xrp-xrp-logo.png' },
+      'ADA': { name: 'Cardano', price: 5000, image: 'https://cryptologos.cc/logos/cardano-ada-logo.png' },
+      'DOGE': { name: 'Dogecoin', price: 1000, image: 'https://cryptologos.cc/logos/dogecoin-doge-logo.png' },
+      'DOT': { name: 'Polkadot', price: 70000, image: 'https://cryptologos.cc/logos/polkadot-new-dot-logo.png' },
+      'SHIB': { name: 'Shiba Inu', price: 0.0002, image: 'https://cryptologos.cc/logos/shiba-inu-shib-logo.png' }
     };
 
     // Variabel global
@@ -762,8 +760,6 @@
       
       // Format pesan WhatsApp
       const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
-                      ` [PT. Ruang Digital Raya]\n\n` +
-                            ` *TukarPI.ID*\n\n` +
                      `================================\n` +
                      `🔹 *Jenis Kripto:* ${crypto}\n` +
                      `🔹 *Jumlah Pembelian:* ${amount}\n` +
