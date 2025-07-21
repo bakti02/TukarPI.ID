@@ -1,75 +1,613 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pendaftaran Mitra | TukarPI.ID</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Program Affiliate TukarPI.ID - Hasilkan Komisi dari Setiap Transaksi</title>
+  <meta name="description" content="Dapatkan komisi hingga 1% dari setiap transaksi member yang Anda ajak. Program affiliate TukarPI.ID - cara mudah hasilkan uang dari Pi Network">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <style>
+    .header-gradient {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    }
+    .affiliate-hero {
+      background: linear-gradient(rgba(30, 58, 138, 0.9), rgba(37, 99, 235, 0.9)), 
+                  url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .commission-badge {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      background: #f59e0b;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      background: #2563eb;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .mobile-menu {
+      transition: all 0.3s ease;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
-
-  <!-- Header -->
-  <header class="bg-purple-600 text-white py-8 text-center shadow">
-    <h1 class="text-3xl font-bold">Daftar Sebagai Mitra TukarPI.ID</h1>
-    <p class="text-lg mt-2">Gabung jadi bagian dari revolusi ekonomi digital berbasis PI Network</p>
+<body class="min-h-screen flex flex-col bg-gray-50">
+  <!-- Header (Sesuai dengan referensi utama) -->
+  <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-3">
+        <!-- Logo and Brand -->
+        <div class="flex items-center space-x-2">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
+          <div>
+            <p class="text-xs opacity-80 font-bold">Pusat Jual & Beli Kripto</p>
+          </div>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="nav-link text-sm font-medium">Home</a>
+          <a href="jualkoin.html" class="nav-link text-sm font-medium">Jual Pi</a>
+          <a href="belikoin.html" class="nav-link text-sm font-medium">Beli Kripto</a>
+          <a href="affiliate.html" class="nav-link text-sm font-medium bg-white text-blue-600 px-3 py-1 rounded-full">Program Affiliate</a>
+          <a href="dashboard.html" class="nav-link text-sm font-medium">Live Kripto Realtime</a>
+          <span class="text-xs bg-blue-400 text-white px-2 py-1 rounded-full font-bold">500+ Aset</span>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
+      <div class="flex flex-col space-y-3 py-2">
+        <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
+        <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
+        <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700">Beli Kripto</a>
+        <a href="affiliate.html" class="text-white text-sm py-1 border-b border-blue-700 bg-blue-700 px-2 rounded">Program Affiliate</a>
+        <a href="dashboard.html" class="text-white text-sm py-1 border-b border-blue-700">Live Kripto Realtime</a>
+      </div>
+    </div>
   </header>
 
-  <!-- Manfaat -->
-  <section class="max-w-4xl mx-auto py-10 px-4">
-    <h2 class="text-xl font-semibold mb-6 text-center">Keuntungan Menjadi Mitra:</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
-        <img src="https://www.svgrepo.com/show/346270/money-bag-dollar.svg" alt="Komisi" class="w-12 h-12 mx-auto mb-4">
-        <h3 class="font-bold text-lg">Komisi Setiap Transaksi</h3>
-        <p class="text-sm mt-2">Dapatkan keuntungan langsung dari setiap penukaran PI yang berhasil.</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
-        <img src="https://www.svgrepo.com/show/312264/dashboard.svg" alt="Pemantauan" class="w-12 h-12 mx-auto mb-4">
-        <h3 class="font-bold text-lg">Pemantauan Transaksi</h3>
-        <p class="text-sm mt-2">Pantau transaksi mitra Anda secara berkala (fitur tahap lanjutan).</p>
-      </div>
-      <div class="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
-        <img src="https://www.svgrepo.com/show/425962/guidance-path-road.svg" alt="Bimbingan" class="w-12 h-12 mx-auto mb-4">
-        <h3 class="font-bold text-lg">Bimbingan Langsung</h3>
-        <p class="text-sm mt-2">Dapatkan dukungan dan materi edukasi langsung dari tim TukarPI.</p>
+  <!-- Hero Section -->
+  <section class="affiliate-hero text-white py-16 md:py-24">
+    <div class="container mx-auto px-4 text-center">
+      <div class="max-w-3xl mx-auto">
+        <span class="inline-block bg-yellow-400 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold mb-4">Komisi hingga 1%</span>
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Hasilkan Uang dengan Program Affiliate TukarPI.ID</h1>
+        <p class="text-xl mb-8">Dapatkan komisi dari setiap transaksi member yang Anda ajak. Mulai dari Rp10.000 hingga jutaan rupiah per bulan!</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="#daftar" class="bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+            Daftar Sekarang <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+          <a href="#demo" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105">
+            Lihat Demo <i class="fas fa-play-circle ml-2"></i>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Formulir -->
-  <section class="max-w-xl mx-auto py-10 px-4 bg-white rounded-2xl shadow-md">
-    <h2 class="text-xl font-semibold mb-6 text-center">Formulir Pendaftaran Mitra</h2>
-    <form id="mitraForm" class="space-y-4">
-      <input type="text" id="nama" placeholder="Nama Lengkap" required class="w-full p-3 border rounded-lg"/>
-      <input type="text" id="wa" placeholder="Nomor WhatsApp (62xxxxxxxxx)" required class="w-full p-3 border rounded-lg"/>
-      <input type="text" id="domisili" placeholder="Kota/Domisili" required class="w-full p-3 border rounded-lg"/>
-      <input type="text" id="motivasi" placeholder="Motivasi Bergabung (Singkat)" required class="w-full p-3 border rounded-lg"/>
-      
-      <button type="button" onclick="kirimWA()" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition">
-        Kirim via WhatsApp
-      </button>
-    </form>
+  <!-- Stats Section -->
+  <section class="py-12 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="bg-blue-50 p-6 rounded-xl">
+          <div class="text-3xl font-bold text-blue-600 mb-2">1%</div>
+          <div class="text-gray-600">Komisi Per Transaksi</div>
+        </div>
+        <div class="bg-blue-50 p-6 rounded-xl">
+          <div class="text-3xl font-bold text-blue-600 mb-2">500+</div>
+          <div class="text-gray-600">Affiliate Aktif</div>
+        </div>
+        <div class="bg-blue-50 p-6 rounded-xl">
+          <div class="text-3xl font-bold text-blue-600 mb-2">Rp 250jt+</div>
+          <div class="text-gray-600">Komisi Dibagikan</div>
+        </div>
+        <div class="bg-blue-50 p-6 rounded-xl">
+          <div class="text-3xl font-bold text-blue-600 mb-2">24/7</div>
+          <div class="text-gray-600">Dukungan Tim</div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Script WhatsApp -->
-  <script>
-    function kirimWA() {
-      const nama = document.getElementById("nama").value;
-      const wa = document.getElementById("wa").value;
-      const domisili = document.getElementById("domisili").value;
-      const motivasi = document.getElementById("motivasi").value;
+  <!-- How It Works -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Cara Mudah Menghasilkan Komisi</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Hanya perlu 3 langkah sederhana untuk mulai mendapatkan komisi dari setiap transaksi</p>
+      </div>
+      
+      <div class="max-w-3xl mx-auto">
+        <div class="flex items-start mb-8">
+          <div class="step-number">1</div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Daftar Gratis</h3>
+            <p class="text-gray-600">Isi form pendaftaran affiliate dan dapatkan link referral unik Anda. Proses verifikasi hanya 1x24 jam.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start mb-8">
+          <div class="step-number">2</div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Sebarkan Link Referral</h3>
+            <p class="text-gray-600">Bagikan link referral Anda melalui media sosial, grup komunitas, atau langsung ke teman-teman Anda.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start">
+          <div class="step-number">3</div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Dapatkan Komisi</h3>
+            <p class="text-gray-600">Setiap transaksi yang dilakukan oleh member melalui link Anda, Anda dapat komisi 1% dari nilai transaksi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      const pesan = `Halo Admin TukarPI.ID,%0ASaya ingin mendaftar sebagai Mitra.%0A%0ANama: ${nama}%0ANo. WhatsApp: ${wa}%0ADomisili: ${domisili}%0AMotivasi: ${motivasi}`;
+  <!-- Commission Structure -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Struktur Komisi Affiliate</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Semakin banyak member aktif yang Anda ajak, semakin besar potensi penghasilan Anda</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm card-hover relative">
+          <div class="commission-badge">1%</div>
+          <div class="text-center mb-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Level 1</h3>
+            <p class="text-gray-600">Member Langsung</p>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Komisi 1% dari setiap transaksi</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Tanpa batas jumlah member</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Pembayaran harian</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm card-hover relative">
+          <div class="commission-badge">0.5%</div>
+          <div class="text-center mb-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Level 2</h3>
+            <p class="text-gray-600">Member dari Affiliate Anda</p>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Komisi 0.5% dari transaksi tier 2</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Maksimal 5 level</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Pembayaran mingguan</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm card-hover relative">
+          <div class="commission-badge">Bonus</div>
+          <div class="text-center mb-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Bonus Pencapaian</h3>
+            <p class="text-gray-600">Reward tambahan</p>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Bonus 100rb untuk 10 member aktif</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Bonus 500rb untuk 50 member aktif</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+              <span class="text-gray-700">Bonus 1jt untuk 100 member aktif</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      const url = `https://wa.me/6282147510780?text=${pesan}`;
-      window.open(url, "_blank");
-    }
-  </script>
+  <!-- Testimonials -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Apa Kata Affiliate Kami?</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Testimoni dari affiliate yang sudah berhasil mendapatkan komisi</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex items-center mb-4">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Testimoni" class="w-12 h-12 rounded-full mr-4">
+            <div>
+              <h4 class="font-semibold">Sarah Wijaya</h4>
+              <p class="text-sm text-gray-500">Affiliate sejak 2024</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"Dalam 3 bulan pertama, saya sudah dapat komisi lebih dari 5 juta rupiah. Sistem pembayarannya tepat waktu dan admin sangat responsif."</p>
+          <div class="flex items-center">
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex items-center mb-4">
+            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Testimoni" class="w-12 h-12 rounded-full mr-4">
+            <div>
+              <h4 class="font-semibold">Budi Santoso</h4>
+              <p class="text-sm text-gray-500">Affiliate sejak 2023</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"Saya share link di grup-grup Pi Network, hasilnya lumayan untuk tambahan penghasilan. Bulan lalu dapat 3,5 juta dari 28 transaksi."</p>
+          <div class="flex items-center">
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex items-center mb-4">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Testimoni" class="w-12 h-12 rounded-full mr-4">
+            <div>
+              <h4 class="font-semibold">Dewi Lestari</h4>
+              <p class="text-sm text-gray-500">Top Affiliate</p>
+            </div>
+          </div>
+          <p class="text-gray-700 mb-4">"Program affiliate TukarPI.ID benar-benar mengubah finansial saya. Bulan lalu saya dapat 12 juta dari komisi! Sangat recommended!"</p>
+          <div class="flex items-center">
+            <div class="flex text-yellow-400">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- Footer -->
-  <footer class="text-center text-sm text-gray-500 mt-10 mb-6">
-    &copy; 2025 TukarPI.ID. Seluruh hak cipta dilindungi.
+  <!-- CTA Section -->
+  <section id="daftar" class="py-16 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-6">Mulai Hasilkan Komisi Hari Ini!</h2>
+      <p class="text-xl mb-8 max-w-2xl mx-auto">Daftar sekarang dan dapatkan link referral unik Anda dalam waktu kurang dari 5 menit</p>
+      
+      <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="p-6">
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">Form Pendaftaran Affiliate</h3>
+          
+          <form id="affiliate-form" class="space-y-4">
+            <div>
+              <label for="nama" class="block text-left text-gray-700 mb-1">Nama Lengkap</label>
+              <input type="text" id="nama" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Nama sesuai KTP" required>
+            </div>
+            
+            <div>
+              <label for="email" class="block text-left text-gray-700 mb-1">Email</label>
+              <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="email@anda.com" required>
+            </div>
+            
+            <div>
+              <label for="whatsapp" class="block text-left text-gray-700 mb-1">Nomor WhatsApp</label>
+              <input type="tel" id="whatsapp" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="6281234567890" required>
+            </div>
+            
+            <div>
+              <label for="domisili" class="block text-left text-gray-700 mb-1">Domisili</label>
+              <select id="domisili" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                <option value="">Pilih Domisili</option>
+                <option value="jakarta">Jakarta</option>
+                <option value="jawa-barat">Jawa Barat</option>
+                <option value="jawa-tengah">Jawa Tengah</option>
+                <option value="jawa-timur">Jawa Timur</option>
+                <option value="sumatera">Sumatera</option>
+                <option value="kalimantan">Kalimantan</option>
+                <option value="sulawesi">Sulawesi</option>
+                <option value="lainnya">Lainnya</option>
+              </select>
+            </div>
+            
+            <div class="pt-2">
+              <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-md transition transform hover:scale-[1.01]">
+                Daftar Sekarang <i class="fas fa-arrow-right ml-2"></i>
+              </button>
+            </div>
+            
+            <p class="text-xs text-gray-500">Dengan mendaftar, Anda menyetujui <a href="#" class="text-blue-600">Syarat & Ketentuan</a> dan <a href="#" class="text-blue-600">Kebijakan Privasi</a> kami.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Pertanyaan Umum</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Temukan jawaban atas pertanyaan yang sering diajukan tentang program affiliate kami</p>
+      </div>
+      
+      <div class="max-w-3xl mx-auto space-y-4">
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+          <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+            <span>Berapa lama proses verifikasi affiliate?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden p-4 border-t border-gray-200">
+            <p class="text-gray-600">Proses verifikasi biasanya memakan waktu 1x24 jam setelah Anda mengisi form pendaftaran. Kami akan mengirimkan link referral unik Anda via WhatsApp dan email setelah akun affiliate Anda aktif.</p>
+          </div>
+        </div>
+        
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+          <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+            <span>Kapan komisi akan dibayarkan?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden p-4 border-t border-gray-200">
+            <p class="text-gray-600">Komisi level 1 (1%) dibayarkan setiap hari secara otomatis ke rekening yang Anda daftarkan. Sedangkan komisi level 2 (0.5%) dibayarkan setiap minggu setiap hari Senin.</p>
+          </div>
+        </div>
+        
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+          <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+            <span>Berapa minimal penarikan komisi?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden p-4 border-t border-gray-200">
+            <p class="text-gray-600">Tidak ada minimal penarikan untuk komisi harian (level 1). Untuk komisi mingguan (level 2), minimal penarikan adalah Rp50.000.</p>
+          </div>
+        </div>
+        
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+          <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+            <span>Bagaimana cara melacak komisi saya?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden p-4 border-t border-gray-200">
+            <p class="text-gray-600">Setelah menjadi affiliate, Anda akan mendapatkan akses ke dashboard affiliate dimana Anda bisa melihat statistik komisi, jumlah referral, dan riwayat transaksi secara real-time.</p>
+          </div>
+        </div>
+        
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+          <button class="faq-question w-full text-left p-4 bg-gray-50 hover:bg-gray-100 font-medium flex justify-between items-center">
+            <span>Apakah ada biaya pendaftaran?</span>
+            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer hidden p-4 border-t border-gray-200">
+            <p class="text-gray-600">Tidak sama sekali! Program affiliate TukarPI.ID 100% gratis tanpa biaya pendaftaran maupun biaya bulanan. Anda hanya perlu mendaftar sekali dan bisa mulai menghasilkan komisi seumur hidup.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (Sesuai dengan referensi utama) -->
+  <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <!-- Kolom 1: Tentang Kami -->
+        <div class="col-span-2 md:col-span-1">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
+          <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-telegram text-lg"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Kolom 2: Layanan -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 3: Bantuan -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 4: Kontak -->
+        <div class="col-span-2 md:col-span-1">
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">cs@tukarpi.id</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
+              <a href="https://wa.me/6282147510780" class="text-xs md:text-sm hover:text-white">+62 821-4751-0780</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-telegram mr-2 text-xs md:text-sm"></i>
+              <a href="https://t.me/tukarpiid" class="text-xs md:text-sm hover:text-white">@tukarpiid</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">Jakarta Selatan, Indonesia</span>
+            </li>
+            <li class="mt-4">
+              <h4 class="text-white font-bold mb-2 text-xs md:text-sm">Jam Operasional</h4>
+              <p class="text-xs md:text-sm">Senin-Minggu<br>08:00 - 22:00 WIB</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
+        <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
+        <p class="mt-1">PT. Ruang Digital Raya</p>
+      </div>
+    </div>
   </footer>
 
-</body>
-</html>
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50">
+    <i class="fab fa-whatsapp text-xl"></i>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('i');
+        
+        // Toggle answer
+        answer.classList.toggle('hidden');
+        
+        // Rotate icon
+        if (answer.classList.contains('hidden')) {
+          icon.style.transform = 'rotate(0deg)';
+        } else {
+          icon.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+
+    // Affiliate Form Submission
+    document.getElementById('affiliate-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      Swal.fire({
+        title: 'Pendaftaran Berhasil!',
+        html: `Terima kasih <strong>${document.getElementById('nama').value}</strong> telah mendaftar program affiliate TukarPI.ID.<br><br>
+              Tim kami akan memverifikasi data Anda dan mengirimkan link referral unik via WhatsApp dalam waktu 1x24 jam.`,
+        icon: 'success',
+        confirmButtonText: 'Mengerti',
+        confirmButtonColor: '#2563eb'
+      }).then(() => {
+        // Reset form
+        this.reset();
+        
+        // Redirect to thank you page or do something else
+        // window.location.href = 'thank-you.html';
+      });
+    });
+
+    // Demo Video Modal
+    document.querySelector('a[href="#demo"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      Swal.fire({
+        title: 'Demo Program Affiliate',
+        html: `
+          <div class="aspect-w-16 aspect-h-9">
+            <iframe class="w-full h-64 md:h-96" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
