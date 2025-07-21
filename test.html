@@ -1,219 +1,171 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beli Kripto - TukarPI.ID</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <style>
+    /* Gaya dari header/footer referensi */
     .header-gradient {
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
     }
-    .modal-overlay {
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .mobile-menu {
+      transition: all 0.3s ease;
+    }
+    
+    /* Gaya khusus untuk form kripto */
+    .gradient-text {
+      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .coin-received {
+      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .price-change {
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+    }
+    .price-up {
+      background-color: rgba(5, 150, 105, 0.1);
+      color: #059669;
+    }
+    .price-down {
+      background-color: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+    }
+    .wallet-address {
+      background-color: #f1f5f9;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      word-break: break-all;
+    }
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    /* Animasi baru */
+    .card-hover {
+      transition: all 0.3s ease;
+      transform: translateY(0);
+    }
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    /* Popup modern */
+    .popup-overlay {
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(5px);
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
     }
-    .modal-content {
-      background: white;
-      border-radius: 1rem;
-      padding: 2rem;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
+    
+    /* Invoice card */
     .invoice-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 0.5rem;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
-    .close-modal {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #6b7280;
+    
+    /* Payment card */
+    .payment-card {
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(10px);
     }
-    .animate-bottom {
-      animation: slide-up 0.5s ease;
+    .payment-card.selected {
+      border-color: #60a5fa;
+      box-shadow: 0 10px 20px rgba(96,165,250,0.3);
     }
-    @keyframes slide-up {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-100">
 
   <!-- Header -->
-  <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
-    <div class="container mx-auto px-4">
-      <div class="flex justify-between items-center py-3">
+  <header class="header-gradient text-white shadow-md">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
         <div class="flex items-center space-x-2">
           <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
-          <div>
-            <p class="text-xs opacity-80 font-bold">Pusat Jual & Beli Kripto</p>
-          </div>
+          <span class="text-sm font-bold">TukarPI.ID</span>
         </div>
-        <nav class="hidden md:flex items-center space-x-6">
-          <a href="index.html" class="nav-link text-sm font-medium">Home</a>
-          <a href="jualkoin.html" class="nav-link text-sm font-medium">Jual Pi</a>
-          <a href="belikoin.html" class="nav-link text-sm font-medium">Beli Kripto</a>
-          <a href="affiliate.html" class="nav-link text-sm font-medium">Program Affiliate</a>
-          <a href="dashboard.html" class="nav-link text-sm font-medium">Live Kripto Realtime</a>
+        <nav class="hidden md:flex space-x-6">
+          <a href="#" class="nav-link">Home</a>
+          <a href="#" class="nav-link">Jual Pi</a>
+          <a href="#" class="nav-link">Beli Kripto</a>
+          <a href="#" class="nav-link">Affiliate</a>
+          <a href="#" class="nav-link">Live Kripto</a>
         </nav>
         <button id="mobile-menu-button" class="md:hidden text-white">
           <i class="fas fa-bars text-xl"></i>
         </button>
       </div>
     </div>
-    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
-      <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
-      <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
-      <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700">Beli Kripto</a>
-      <a href="afiliate.html" class="text-white text-sm py-1 border-b border-blue-700">Program Affiliate</a>
-      <a href="dashboard.html" class="text-white text-sm py-1 border-b border-blue-700">Live Kripto Realtime</a>
+    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 text-white px-4 py-3 space-y-3">
+      <a href="#" class="block">Home</a>
+      <a href="#" class="block">Jual Pi</a>
+      <a href="#" class="block">Beli Kripto</a>
+      <a href="#" class="block">Affiliate</a>
+      <a href="#" class="block">Live Kripto</a>
     </div>
   </header>
 
-  <!-- Main Content -->
+  <!-- Konten Utama (Form Beli Kripto) -->
   <main class="flex-grow py-8">
-    <div class="max-w-md mx-auto px-4">
-      <div class="text-center mb-8 animate__animated animate__fadeIn">
+    <div class="container mx-auto px-4">
+      <!-- Header Form -->
+      <div class="text-center mb-8">
         <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4">
-          <i class="fas fa-shopping-cart text-2xl gradient-text"></i>
+          <i class="fas fa-shopping-cart text-2xl text-blue-500"></i>
         </div>
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Beli Kripto</h1>
-        <p class="text-gray-600">Isi form pembelian dan pilih metode pembayaran</p>
+        <h1 class="text-3xl font-bold text-gray-800 mb-1">Beli Kripto</h1>
+        <p class="text-gray-500">Isi form pembelian dan pilih metode pembayaran</p>
       </div>
 
       <!-- Purchase Form -->
-      <div id="purchase-form-container" class="bg-white rounded-xl shadow-md overflow-hidden p-6 animate__animated animate__fadeInUp">
+      <div id="purchase-form-container" class="bg-white rounded-xl shadow-md overflow-hidden p-6 fade-in">
         <form id="purchase-form">
+          <!-- Pilihan Kripto -->
           <div class="mb-6">
-            <label for="crypto" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <i class="fas fa-coins mr-2 text-blue-500"></i> Pilih Kripto
-            </label>
-            <select id="crypto" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <label for="crypto" class="block text-sm font-medium text-gray-700 mb-2">Pilih Kripto</label>
+            <select id="crypto" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
               <option value="" disabled selected>Memuat daftar koin...</option>
             </select>
           </div>
 
+          <!-- Jumlah Pembelian -->
           <div class="mb-6">
-            <label for="amount" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <i class="fas fa-money-bill-wave mr-2 text-blue-500"></i> Jumlah Pembelian (Rp)
-            </label>
+            <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Jumlah Pembelian (Rp)</label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <span class="text-gray-500">Rp</span>
-              </div>
-              <input type="text" id="amount" class="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="100.000" min="10000" inputmode="numeric">
-            </div>
-            <p class="text-xs text-gray-500 mt-1">Minimal pembelian Rp 10.000</p>
-          </div>
-
-          <div class="mb-6">
-            <label for="wallet" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <i class="fas fa-wallet mr-2 text-blue-500"></i> Alamat Wallet Anda
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <i class="fas fa-address-card text-gray-400"></i>
-              </div>
-              <input type="text" id="wallet" class="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
-            </div>
-            <p class="text-xs text-gray-500 mt-1">Pastikan alamat wallet benar. Kripto akan dikirim ke alamat ini.</p>
-          </div>
-
-          <div class="mb-6">
-            <label for="payment-method" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <i class="fas fa-credit-card mr-2 text-blue-500"></i> Metode Pembayaran
-            </label>
-            <div class="grid grid-cols-2 gap-3">
-              <div class="payment-card rounded-lg p-3 text-center cursor-pointer" data-method="bca">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6 mx-auto mb-1">
-                <p class="text-xs text-gray-600">Bank BCA</p>
-              </div>
-              <div class="payment-card rounded-lg p-3 text-center cursor-pointer" data-method="dana">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-6 mx-auto mb-1">
-                <p class="text-xs text-gray-600">DANA</p>
-              </div>
-              <div class="payment-card rounded-lg p-3 text-center cursor-pointer" data-method="ovo">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-6 mx-auto mb-1">
-                <p class="text-xs text-gray-600">OVO</p>
-              </div>
-              <div class="payment-card rounded-lg p-3 text-center cursor-pointer" data-method="gopay">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-6 mx-auto mb-1">
-                <p class="text-xs text-gray-600">GOPAY</p>
-              </div>
-            </div>
-            <input type="hidden" id="payment-method" required>
-          </div>
-
-          <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-700">
-            <i class="fas fa-arrow-right mr-2"></i> Lanjutkan Pembayaran
-          </button>
-        </form>
-      </div>
-
-      <!-- Payment Confirmation Area (Hidden by Default) -->
-      <div id="payment-info" class="hidden">
-        <div class="bg-white rounded-xl shadow-md overflow-hidden p-6 animate__animated animate__fadeInUp">
-          <div class="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <h3 class="text-sm text-gray-500 mb-1">Detail Pembeli</h3>
-              <p id="confirm-wallet" class="font-medium"></p>
-            </div>
-            <div class="text-right">
-              <h3 class="text-sm text-gray-500 mb-1 hidden" id="invoice-number">Invoice #</h3>
-              <p id="confirm-invoice" class="font-mono"></p>
-            </div>
-          </div>
-
-          <div class="mb-4 border-b border-gray-200 pb-2 text-center hidden" id="invoice-header">
-            <h2 class="text-lg font-bold">Invoice Pembelian Kripto</h2>
-            <p class="text-sm text-gray-500" id="invoice-date"></p>
-          </div>
-
-          <div class="mb-4">
-            <div class="flex justify-between text-sm font-medium text-gray-600">
-              <span>Pembelian <span id="confirm-crypto"></span></span>
-              <span id="confirm-amount"></span>
-            </div>
-            <div class="flex justify-between text-sm text-gray-500">
-              <span>Biaya Layanan (5%)</span>
-              <span id="confirm-fee"></span>
-            </div>
-            <!-- Total -->
-            <div class="border-t border-gray-200 mt-2 pt-2">
-              <div class="flex justify-between font-bold text-gray-800">
-                <span>TOTAL</span>
-                <span id="confirm-total"></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <p class="text-sm text-gray-600">Selamatkan kode di bawah ini untuk mengingat pembayaran</p>
-            <p class="text-xs text-gray-500" id="confirm-code"></p>
-          </div>
-
-          <div class="mb-4">
-            <p class="text-xs text-gray-500 flex items-center">
-              <i class="fas fa-clock mr-1"></i>
-              Batas pembayaran: <span id="confirm-expiration"></span>
-            </p>
-          </div>
-
-          <button onclick="downloadInvoice()" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-md transition">
-            <i class="fas fa-check-circle mr-2"></i> Saya Sudah Bayar
-    
+                <i class
