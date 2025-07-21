@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Gaya Header & Footer */
+    /* Gaya dari header/footer referensi */
     .header-gradient {
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
     }
@@ -31,60 +31,71 @@
       transition: all 0.3s ease;
     }
     
-    /* Tampilan modal (OTP & Invoice) */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
+    /* Gaya khusus untuk form kripto */
+    .gradient-text {
+      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .modal-content {
-      background: white;
-      border-radius: 0.5rem;
-      padding: 1.5rem;
-      width: 90%;
-      max-width: 400px;
-      position: relative;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .close-modal {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.75rem;
+    
+    .coin-received {
       font-size: 1.25rem;
-      cursor: pointer;
-      color: #999;
+      font-weight: 700;
+      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-
-    /* Notifikasi copy */
-    .notification {
-      animation: notificationFade 2s forwards;
+    
+    .price-change {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
     }
-    @keyframes notificationFade {
-      0% { opacity: 1; transform: translateY(0px); }
-      100% { opacity: 0; transform: translateY(20px); }
+    
+    .price-up {
+      background-color: rgba(5, 150, 105, 0.1);
+      color: #059669;
+    }
+    
+    .price-down {
+      background-color: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+    }
+    
+    .wallet-address {
+      background-color: #f1f5f9;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      word-break: break-all;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-100">
 
-  <!-- Header -->
+  <!-- Header Persis Seperti Referensi -->
   <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center py-3">
+        <!-- Logo and Brand -->
         <div class="flex items-center space-x-2">
           <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
           <div>
             <p class="text-xs opacity-80 font-bold">Pusat Jual & Beli Kripto</p>
           </div>
         </div>
+        
+        <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-6">
           <a href="index.html" class="nav-link text-sm font-medium">Home</a>
           <a href="jualkoin.html" class="nav-link text-sm font-medium">Jual Pi</a>
@@ -93,11 +104,15 @@
           <a href="dashboard.html" class="nav-link text-sm font-medium">Live Kripto Realtime</a>
           <span class="text-xs bg-blue-400 text-white px-2 py-1 rounded-full font-bold">500+ Aset</span>
         </nav>
+        
+        <!-- Mobile Menu Button -->
         <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
           <i class="fas fa-bars text-xl"></i>
         </button>
       </div>
     </div>
+    
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
       <div class="flex flex-col space-y-3 py-2">
         <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
@@ -120,7 +135,8 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-2">Beli Kripto</h1>
         <p class="text-gray-600">Isi form pembelian dan pilih metode pembayaran</p>
       </div>
-      <!-- Card Form -->
+
+      <!-- Purchase Form -->
       <div id="purchase-form-container" class="bg-white rounded-xl shadow-md overflow-hidden p-6">
         <form id="purchase-form">
           <!-- Pilihan Kripto -->
@@ -129,7 +145,7 @@
               <i class="fas fa-coins mr-2 text-blue-500"></i> Pilih Kripto
             </label>
             <div class="relative">
-              <select id="crypto" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white">
+              <select id="crypto" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white">
                 <option value="" disabled selected>Memuat daftar koin...</option>
               </select>
               <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -137,7 +153,8 @@
               </div>
             </div>
           </div>
-          <!-- Jumlah Pembelian -->
+
+          <!-- Jumlah dalam Rupiah -->
           <div class="mb-6">
             <label for="amount" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
               <i class="fas fa-money-bill-wave mr-2 text-blue-500"></i> Jumlah Pembelian (Rp)
@@ -146,10 +163,13 @@
               <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <span class="text-gray-500">Rp</span>
               </div>
-              <input type="text" id="amount" class="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="100.000" min="10000" inputmode="numeric">
+              <input type="text" id="amount" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                     placeholder="100.000" min="10000" inputmode="numeric">
             </div>
             <p class="text-xs text-gray-500 mt-1">Minimal pembelian Rp 10.000</p>
           </div>
+
           <!-- Info Harga Real-time -->
           <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
             <div class="flex justify-center mb-3">
@@ -186,6 +206,7 @@
               <span id="rate-updated">Update: -</span>
             </div>
           </div>
+
           <!-- Alamat Wallet -->
           <div class="mb-6">
             <label for="wallet" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -195,10 +216,13 @@
               <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <i class="fas fa-address-card text-gray-400"></i>
               </div>
-              <input type="text" id="wallet" class="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
+              <input type="text" id="wallet" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                     placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
             </div>
             <p class="text-xs text-gray-500 mt-1">Pastikan alamat wallet benar. Kripto akan dikirim ke alamat ini.</p>
           </div>
+
           <!-- Metode Pembayaran -->
           <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -224,17 +248,18 @@
             </div>
             <input type="hidden" id="payment-method" required>
           </div>
-          <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md transition-transform duration-300 transform hover:scale-105">
+
+          <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.01]">
             <i class="fas fa-arrow-right mr-2"></i> Lanjutkan Pembayaran
           </button>
         </form>
       </div>
     </div>
 
-    <!-- Payment Info (Konfirmasi Detail Pembelian) -->
+    <!-- Payment Info -->
     <div id="payment-info" class="hidden max-w-md mx-auto px-4 py-8 fade-in">
       <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex justify-between items-center mb-4">
           <button onclick="backToForm()" class="text-blue-600 hover:text-blue-800 flex items-center">
             <i class="fas fa-arrow-left mr-1"></i> Kembali
           </button>
@@ -282,12 +307,13 @@
           </div>
         </div>
 
-        <!-- Instruksi Pembayaran -->
+        <!-- Info Pembayaran -->
         <div id="payment-details">
           <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
             <i class="fas fa-qrcode mr-2 text-blue-500"></i> Instruksi Pembayaran
           </h3>
-          <!-- Kartu Instruksi per Metode -->
+          
+          <!-- BCA -->
           <div id="bca-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
             <div class="text-center mb-4">
               <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-8 mx-auto mb-3">
@@ -308,6 +334,8 @@
             </button>
             <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi BCA Mobile atau ATM untuk melakukan transfer</p>
           </div>
+
+          <!-- DANA -->
           <div id="dana-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
             <div class="text-center mb-4">
               <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-8 mx-auto mb-3">
@@ -328,6 +356,8 @@
             </button>
             <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi DANA untuk melakukan transfer</p>
           </div>
+
+          <!-- OVO -->
           <div id="ovo-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
             <div class="text-center mb-4">
               <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-8 mx-auto mb-3">
@@ -348,6 +378,8 @@
             </button>
             <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi OVO untuk melakukan transfer</p>
           </div>
+
+          <!-- GOPAY -->
           <div id="gopay-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
             <div class="text-center mb-4">
               <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-8 mx-auto mb-3">
@@ -369,7 +401,7 @@
             <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi Gojek untuk melakukan transfer</p>
           </div>
         </div>
-        <!-- Tombol Konfirmasi Pembayaran -->
+
         <div class="text-center pt-4">
           <button onclick="confirmPayment()" class="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-md transition">
             <i class="fas fa-check-circle mr-2"></i> Saya Sudah Bayar
@@ -377,23 +409,33 @@
         </div>
       </div>
     </div>
-  </div>
   </main>
 
-  <!-- Footer -->
+  <!-- Footer Persis Seperti Referensi -->
   <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <!-- Kolom 1: Tentang Kami -->
         <div class="col-span-2 md:col-span-1">
           <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
           <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
           <div class="flex space-x-3">
-            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram text-lg"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter text-lg"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook text-lg"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-telegram text-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-telegram text-lg"></i>
+            </a>
           </div>
         </div>
+        
+        <!-- Kolom 2: Layanan -->
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
           <ul class="space-y-2">
@@ -403,6 +445,8 @@
             <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
           </ul>
         </div>
+        
+        <!-- Kolom 3: Bantuan -->
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
           <ul class="space-y-2">
@@ -412,6 +456,8 @@
             <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
           </ul>
         </div>
+        
+        <!-- Kolom 4: Kontak -->
         <div class="col-span-2 md:col-span-1">
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
           <ul class="space-y-2">
@@ -438,6 +484,7 @@
           </ul>
         </div>
       </div>
+      
       <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
         <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
         <p class="mt-1">PT. Ruang Digital Raya</p>
@@ -450,37 +497,6 @@
     <i class="fab fa-whatsapp text-xl"></i>
   </a>
 
-  <!-- Modal OTP -->
-  <div id="otp-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('otp-modal')">&times;</span>
-      <h2 class="text-xl font-bold mb-4 text-gray-800 text-center">Konfirmasi OTP</h2>
-      <p class="mb-4 text-gray-600 text-center">Masukkan OTP yang telah dikirim ke email/ponsel Anda untuk konfirmasi pembelian.</p>
-      <input type="text" id="otp-input" class="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Masukkan OTP">
-      <button onclick="verifyOtp()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium">Verifikasi OTP</button>
-    </div>
-  </div>
-
-  <!-- Modal Invoice -->
-  <div id="invoice-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('invoice-modal')">&times;</span>
-      <h2 class="text-xl font-bold mb-4 text-gray-800 text-center">Invoice Pembelian</h2>
-      <div id="invoice-content" class="text-gray-700">
-        <p><strong>Jenis Kripto:</strong> <span id="invoice-crypto"></span></p>
-        <p><strong>Jumlah Pembelian:</strong> <span id="invoice-amount"></span></p>
-        <p><strong>Jumlah Koin:</strong> <span id="invoice-coin"></span></p>
-        <p><strong>Metode Pembayaran:</strong> <span id="invoice-method"></span></p>
-        <p><strong>Alamat Wallet:</strong> <span id="invoice-wallet"></span></p>
-        <p><strong>Total Pembayaran:</strong> <span id="invoice-total"></span></p>
-        <p><strong>Tanggal:</strong> <span id="invoice-date"></span></p>
-        <p class="mt-3 text-sm text-gray-600">Jika pembayaran belum dikonfirmasi, jangan tutup popup ini.</p>
-      </div>
-      <button onclick="downloadInvoice()" class="mt-4 w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium">Download Invoice & Konfirmasi via WhatsApp</button>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
   <script>
     // Data koin default jika API tidak tersedia
     const defaultCryptoData = {
@@ -498,25 +514,30 @@
 
     // Variabel global
     let cryptoData = {};
-    let exchangeRate = 16400; // Default exchange rate USD ke IDR
+    let exchangeRate = 16400; // Default exchange rate USD to IDR
     let exchangeRateLastUpdated = '';
     let selectedPaymentMethod = '';
-    let previousPrices = {};
+    let previousPrices = {}; // Untuk menyimpan harga sebelumnya untuk kalkulasi perubahan
 
-    // Kembali ke form pembelian
+    // Fungsi kembali ke form
     function backToForm() {
       document.getElementById('payment-info').classList.add('hidden');
       document.getElementById('purchase-form-container').classList.remove('hidden');
     }
 
-    // Ambil data crypto dari CoinGecko
+    // Fungsi mengambil data dari CoinGecko API
     async function fetchCryptoData() {
       try {
         const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false');
+        
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+        
         const data = await response.json();
+        console.log('Data from CoinGecko:', data);
+        
+        // Format data
         const formattedData = {};
         data.forEach(coin => {
           const symbol = coin.symbol.toUpperCase();
@@ -526,20 +547,25 @@
             image: coin.image,
             lastUpdated: new Date().toISOString()
           };
+          
+          // Simpan harga sebelumnya untuk kalkulasi perubahan
           if (!previousPrices[symbol]) {
             previousPrices[symbol] = coin.current_price;
           }
         });
+        
         return formattedData;
       } catch (error) {
         console.error('Error fetching CoinGecko data:', error);
+        console.log('Using default crypto data');
         return defaultCryptoData;
       }
     }
 
-    // Ambil kurs USD ke IDR
+    // Fungsi mengambil kurs USD ke IDR
     async function fetchExchangeRate() {
       try {
+        // Coba API pertama
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         const data = await response.json();
         if (data && data.rates && data.rates.IDR) {
@@ -548,6 +574,8 @@
             updated: new Date().toISOString()
           };
         }
+        
+        // Coba API cadangan
         const backupResponse = await fetch('https://api.frankfurter.app/latest?from=USD&to=IDR');
         const backupData = await backupResponse.json();
         if (backupData && backupData.rates && backupData.rates.IDR) {
@@ -556,27 +584,44 @@
             updated: new Date().toISOString()
           };
         }
-        return { rate: 16400, updated: new Date().toISOString() };
+        
+        // Jika semua API gagal, gunakan nilai default
+        return {
+          rate: 16400,
+          updated: new Date().toISOString()
+        };
       } catch (error) {
         console.error('Error fetching exchange rate:', error);
-        return { rate: 16400, updated: new Date().toISOString() };
+        return {
+          rate: 16400,
+          updated: new Date().toISOString()
+        };
       }
     }
 
-    // Populate dropdown koin
+    // Fungsi mengisi dropdown koin
     async function populateCryptoDropdown() {
       const cryptoSelect = document.getElementById('crypto');
+      
       try {
+        // Clear existing options
         cryptoSelect.innerHTML = '';
+        
+        // Add default option
         const defaultOption = new Option('Pilih kripto...', '');
         defaultOption.disabled = true;
         defaultOption.selected = true;
         cryptoSelect.add(defaultOption);
+        
+        // Add crypto options
         for (const [symbol, data] of Object.entries(cryptoData)) {
           const option = new Option(`${data.name} (${symbol})`, symbol);
           option.dataset.image = data.image;
           cryptoSelect.add(option);
+          console.log(`Added option: ${symbol}`);
         }
+        
+        // Enable select
         cryptoSelect.disabled = false;
       } catch (error) {
         console.error('Error populating dropdown:', error);
@@ -584,61 +629,155 @@
       }
     }
 
-    // Update tampilan harga real-time
+    // Fungsi update tampilan harga
     function updatePriceDisplay(symbol) {
       const crypto = cryptoData[symbol];
       if (!crypto) return;
+      
       const priceElement = document.getElementById('realtime-price');
       const priceChangeElement = document.getElementById('price-change');
       const logoElement = document.getElementById('crypto-logo');
+      
+      // Update logo
       logoElement.src = crypto.image;
       logoElement.alt = crypto.name;
+      
+      // Update harga dalam IDR
       const priceIDR = crypto.price * exchangeRate;
       priceElement.textContent = `Rp ${priceIDR.toLocaleString('id-ID')}`;
+      priceElement.classList.remove('loading-price');
+      
+      // Update indikator perubahan harga
       if (previousPrices[symbol] && previousPrices[symbol] !== crypto.price) {
         const priceChange = ((crypto.price - previousPrices[symbol]) / previousPrices[symbol]) * 100;
         const priceChangeValue = priceChange.toFixed(2);
+        
         if (priceChange > 0) {
           priceChangeElement.textContent = `↑ ${priceChangeValue}%`;
-          priceChangeElement.className = 'price-change ml-2 text-green-600';
+          priceChangeElement.className = 'price-change ml-2 price-up';
         } else if (priceChange < 0) {
           priceChangeElement.textContent = `↓ ${Math.abs(priceChangeValue)}%`;
-          priceChangeElement.className = 'price-change ml-2 text-red-600';
+          priceChangeElement.className = 'price-change ml-2 price-down';
         } else {
           priceChangeElement.textContent = '0.00%';
-          priceChangeElement.className = 'price-change ml-2';
+          priceChangeElement.className = 'price-change ml-2 price-neutral';
         }
         priceChangeElement.classList.remove('hidden');
       }
+      
+      // Simpan harga saat ini untuk perbandingan berikutnya
       previousPrices[symbol] = crypto.price;
+      
+      // Update kurs dan waktu
       document.getElementById('current-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
       document.getElementById('rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
+      
+      // Update perhitungan
       updateCalculation();
     }
 
-    // Update perhitungan pembelian
+    // Fungsi update perhitungan
     function updateCalculation() {
       const symbol = document.getElementById('crypto').value;
       const amount = parseFloat(document.getElementById('amount').value.replace(/\./g, '')) || 0;
       const crypto = cryptoData[symbol];
+      
       if (!symbol || !crypto) {
         document.getElementById('coin-received').textContent = '0';
         document.getElementById('fee-amount').textContent = '- Rp 0';
         return;
       }
-      const fee = amount * 0.05;
+      
+      const fee = amount * 0.05; // 5% biaya
       const netAmount = amount - fee;
       const coinsReceived = netAmount / (crypto.price * exchangeRate);
+      
       document.getElementById('fee-amount').textContent = `- Rp ${fee.toLocaleString('id-ID')}`;
       document.getElementById('coin-received').textContent = coinsReceived.toFixed(8);
     }
 
-    // Fungsi konfirmasi pembayaran: jika sudah bayar, tampilkan notifikasi popup invoice,
-    // jika belum, tampilkan pesan konfirmasi. (Aksi selanjutnya: invoice dapat di-download dan mengirim WA)
+    // Fungsi untuk mengirim konfirmasi WhatsApp
+    function sendWhatsAppConfirmation() {
+      const crypto = document.getElementById('confirm-crypto').textContent;
+      const amount = document.getElementById('confirm-amount').textContent;
+      const coin = document.getElementById('confirm-coin').textContent;
+      const method = selectedPaymentMethod;
+      const total = document.getElementById('confirm-total').textContent;
+      const wallet = document.getElementById('confirm-wallet').textContent;
+      const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
+      
+      // Daftar nama metode pembayaran
+      const paymentMethodNames = {
+        'bca': 'Bank BCA',
+        'dana': 'DANA',
+        'ovo': 'OVO',
+        'gopay': 'GOPAY'
+      };
+      
+      // Format pesan WhatsApp
+      const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
+                     `================================\n` +
+                     `🔹 *Jenis Kripto:* ${crypto}\n` +
+                     `🔹 *Jumlah Pembelian:* ${amount}\n` +
+                     `🔹 *Jumlah Koin:* ${coin}\n` +
+                     `🔹 *${exchangeRateInfo}*\n` +
+                     `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
+                     `🔹 *Total Pembayaran:* ${total}\n` +
+                     `================================\n` +
+                     `📌 *Alamat Wallet Tujuan:*\n${wallet}\n\n` +
+                     `💬 *Konfirmasi Pembayaran:*\n` +
+                     `Saya telah melakukan transfer pembayaran sesuai nominal di atas.\n` +
+                     `Berikut bukti transfer yang telah dilakukan:\n` +
+                     `[Lampirkan screenshot bukti transfer]`;
+      
+      // Encode message untuk URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Buka WhatsApp
+      window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
+    }
+
+    // Copy to clipboard function
+    function copyToClipboard(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      document.body.appendChild(textarea);
+      textarea.select();
+      
+      try {
+        document.execCommand('copy');
+        // Show nice notification instead of alert
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center';
+        notification.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Berhasil disalin ke clipboard`;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('opacity-0', 'translate-y-2', 'transition-all', 'duration-300');
+          setTimeout(() => notification.remove(), 300);
+        }, 2000);
+      } catch (err) {
+        console.error('Gagal menyalin:', err);
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center';
+        notification.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> Gagal menyalin ke clipboard`;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('opacity-0', 'translate-y-2', 'transition-all', 'duration-300');
+          setTimeout(() => notification.remove(), 300);
+        }, 2000);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+
+    // Confirm payment button
     function confirmPayment() {
-      const confirmation = confirm("Pembayaran Anda telah direkam. Tekan OK untuk melanjutkan konfirmasi via WhatsApp. Jika belum melakukan konfirmasi, batalkan.");
+      const confirmation = confirm("Pembayaran Anda telah direkam. Lakukan konfirmasi melalui WhatsApp dengan menekan tombol Ok dan Lanjut Konfirmasi dengan melampirkan bukti pembayaran.");
+      
       if (confirmation) {
-        // Ubah tampilan tombol: ganti tulisan dan fungsi
         const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
         confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Lanjut Konfirmasi';
         confirmBtn.classList.remove('from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700');
@@ -648,241 +787,178 @@
       }
     }
 
-    // Kirim konfirmasi pembayaran via WhatsApp
-    function sendWhatsAppConfirmation() {
-      const crypto = document.getElementById('confirm-crypto').textContent;
-      const amount = document.getElementById('confirm-amount').textContent;
-      const coin = document.getElementById('confirm-coin').textContent;
-      const method = selectedPaymentMethod;
-      const total = document.getElementById('confirm-total').textContent;
-      const wallet = document.getElementById('confirm-wallet').textContent;
-      const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
-      const paymentMethodNames = {
-        'bca': 'Bank BCA',
-        'dana': 'DANA',
-        'ovo': 'OVO',
-        'gopay': 'GOPAY'
-      };
-      const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
-                      `--------------------------------\n` +
-                      `🔹 *Jenis Kripto:* ${crypto}\n` +
-                      `🔹 *Jumlah Pembelian:* ${amount}\n` +
-                      `🔹 *Jumlah Koin:* ${coin}\n` +
-                      `🔹 *${exchangeRateInfo}*\n` +
-                      `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
-                      `🔹 *Total Pembayaran:* ${total}\n` +
-                      `--------------------------------\n` +
-                      `📌 *Alamat Wallet:*\n${wallet}\n\n` +
-                      `💬 *Konfirmasi Pembayaran:*\nSaya telah melakukan transfer pembayaran.\n[Lampirkan bukti transfer]`;
-      window.open(`https://wa.me/6282147510780?text=${encodeURIComponent(message)}`, '_blank');
-    }
-
-    // Fungsi copy nomor rekening & tampilkan notifikasi
-    function copyToClipboard(text) {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        const notification = document.createElement('div');
-        notification.className = 'notification fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center';
-        notification.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Berhasil disalin ke clipboard`;
-        document.body.appendChild(notification);
-        setTimeout(() => {
-          notification.remove();
-        }, 2000);
-      } catch (err) {
-        console.error('Gagal menyalin:', err);
-      } finally {
-        document.body.removeChild(textarea);
-      }
-    }
-
-    // Tampilkan modal Invoice (berdasarkan detail pembelian)
-    function showInvoice() {
-      const crypto = document.getElementById('crypto').value;
-      const cryptoName = cryptoData[crypto]?.name || crypto;
-      const amountStr = document.getElementById('amount').value;
-      const coinReceived = document.getElementById('coin-received').textContent;
-      const walletAddress = document.getElementById('wallet').value;
-      const paymentMethod = document.getElementById('payment-method').value;
-      const paymentMethodNames = {
-        'bca': 'BCA',
-        'dana': 'DANA',
-        'ovo': 'OVO',
-        'gopay': 'GOPAY'
-      };
-      document.getElementById('invoice-crypto').textContent = `${cryptoName} (${crypto})`;
-      document.getElementById('invoice-amount').textContent = `Rp ${parseFloat(amountStr.replace(/\./g, '')).toLocaleString('id-ID')}`;
-      document.getElementById('invoice-coin').textContent = coinReceived;
-      document.getElementById('invoice-method').textContent = paymentMethodNames[paymentMethod] || paymentMethod;
-      document.getElementById('invoice-wallet').textContent = walletAddress;
-      document.getElementById('invoice-total').textContent = `Rp ${parseFloat(amountStr.replace(/\./g, '')).toLocaleString('id-ID')}`;
-      document.getElementById('invoice-date').textContent = new Date().toLocaleString("id-ID");
-      document.getElementById('invoice-modal').classList.remove('hidden');
-    }
-
-    // Download Invoice sebagai file HTML
-    function downloadInvoice() {
-      let invoiceHTML = `
-        <html>
-          <head>
-            <meta charset="UTF-8">
-            <title>Invoice Pembelian</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 20px; }
-              h2 { color: #2563eb; }
-              p { line-height: 1.6; }
-            </style>
-          </head>
-          <body>
-            <h2>Invoice Pembelian</h2>
-            <p><strong>Jenis Kripto:</strong> ${document.getElementById('invoice-crypto').textContent}</p>
-            <p><strong>Jumlah Pembelian:</strong> ${document.getElementById('invoice-amount').textContent}</p>
-            <p><strong>Jumlah Koin:</strong> ${document.getElementById('invoice-coin').textContent}</p>
-            <p><strong>Metode Pembayaran:</strong> ${document.getElementById('invoice-method').textContent}</p>
-            <p><strong>Alamat Wallet:</strong> ${document.getElementById('invoice-wallet').textContent}</p>
-            <p><strong>Total Pembayaran:</strong> ${document.getElementById('invoice-total').textContent}</p>
-            <p><strong>Tanggal:</strong> ${document.getElementById('invoice-date').textContent}</p>
-          </body>
-        </html>
-      `;
-      let blob = new Blob([invoiceHTML], { type: "text/html" });
-      let link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "invoice.html";
-      link.click();
-      // Setelah download, kirim konfirmasi WhatsApp
-      sendWhatsAppConfirmation();
-      // Tutup modal invoice
-      closeModal('invoice-modal');
-    }
-
-    // Fungsi tutup modal
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.add('hidden');
-    }
-
-    // Format input amount dengan separator ribuan
+    // Format input amount
     function formatAmountInput(input) {
+      // Remove non-numeric characters
       let value = input.value.replace(/[^0-9]/g, '');
+      
+      // Format with thousand separators
       if (value.length > 0) {
         value = parseInt(value, 10).toLocaleString('id-ID');
       }
+      
       input.value = value;
       updateCalculation();
     }
 
     // Inisialisasi
     document.addEventListener('DOMContentLoaded', async () => {
-      // Mobile menu toggle
-      document.getElementById('mobile-menu-button').addEventListener('click', function() {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-      });
-      document.addEventListener('click', function(e) {
-        const menu = document.getElementById('mobile-menu');
-        const button = document.getElementById('mobile-menu-button');
-        if (!menu.contains(e.target) && e.target !== button && !button.contains(e.target)) {
-          menu.classList.add('hidden');
-        }
-      });
-      // Payment method selection
-      document.querySelectorAll('.payment-card').forEach(card => {
-        card.addEventListener('click', function() {
-          document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected'));
-          this.classList.add('selected');
-          const method = this.getAttribute('data-method');
-          document.getElementById('payment-method').value = method;
-          selectedPaymentMethod = method;
+      try {
+        console.log('Initializing...');
+        
+        // Setup mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+          const menu = document.getElementById('mobile-menu');
+          menu.classList.toggle('hidden');
         });
-      });
-      // Format input amount
-      document.getElementById('amount').addEventListener('input', function() {
-        formatAmountInput(this);
-      });
 
-      // Load crypto data dan exchange rate
-      const [cryptoDataResponse, exchangeRateData] = await Promise.all([
-        fetchCryptoData(),
-        fetchExchangeRate()
-      ]);
-      cryptoData = cryptoDataResponse;
-      exchangeRate = exchangeRateData.rate;
-      exchangeRateLastUpdated = exchangeRateData.updated;
-      await populateCryptoDropdown();
-      document.getElementById('crypto').addEventListener('change', function() {
-        updatePriceDisplay(this.value);
-      });
-      // Auto update setiap 5 menit
-      setInterval(async () => {
-        cryptoData = await fetchCryptoData();
-        const exchangeRateData = await fetchExchangeRate();
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+          const menu = document.getElementById('mobile-menu');
+          const button = document.getElementById('mobile-menu-button');
+          
+          if (!menu.contains(e.target) && e.target !== button && !button.contains(e.target)) {
+            menu.classList.add('hidden');
+          }
+        });
+        
+        // Setup payment method selection
+        document.querySelectorAll('.payment-card').forEach(card => {
+          card.addEventListener('click', function() {
+            // Remove selected class from all cards
+            document.querySelectorAll('.payment-card').forEach(c => {
+              c.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            this.classList.add('selected');
+            
+            // Set payment method value
+            const method = this.getAttribute('data-method');
+            document.getElementById('payment-method').value = method;
+          });
+        });
+        
+        // Setup amount input formatting
+        document.getElementById('amount').addEventListener('input', function() {
+          formatAmountInput(this);
+        });
+        
+        // Load data
+        const [cryptoDataResponse, exchangeRateData] = await Promise.all([
+          fetchCryptoData(),
+          fetchExchangeRate()
+        ]);
+        
+        cryptoData = cryptoDataResponse;
         exchangeRate = exchangeRateData.rate;
         exchangeRateLastUpdated = exchangeRateData.updated;
-        const currentSymbol = document.getElementById('crypto').value;
-        if (currentSymbol) updatePriceDisplay(currentSymbol);
-      }, 300000);
+        
+        console.log('Crypto data loaded:', cryptoData);
+        console.log('Exchange rate:', exchangeRate);
+        
+        // Populate dropdown
+        await populateCryptoDropdown();
+        
+        // Setup event listeners
+        document.getElementById('crypto').addEventListener('change', function() {
+          updatePriceDisplay(this.value);
+        });
+        
+        // Auto-update setiap 5 menit
+        setInterval(async () => {
+          cryptoData = await fetchCryptoData();
+          const exchangeRateData = await fetchExchangeRate();
+          exchangeRate = exchangeRateData.rate;
+          exchangeRateLastUpdated = exchangeRateData.updated;
+          
+          const currentSymbol = document.getElementById('crypto').value;
+          if (currentSymbol) updatePriceDisplay(currentSymbol);
+        }, 300000); // 5 menit
+        
+      } catch (error) {
+        console.error('Initialization error:', error);
+        document.getElementById('crypto').innerHTML = 
+          '<option value="" disabled selected>Gagal memuat daftar koin</option>';
+      }
     });
 
-    // Form submission handler
+    // Form submission
     document.getElementById('purchase-form').addEventListener('submit', function(e) {
       e.preventDefault();
+      
+      // Validate form
       const amount = document.getElementById('amount').value.replace(/\./g, '');
       const wallet = document.getElementById('wallet').value;
       const paymentMethod = document.getElementById('payment-method').value;
+      
       if (!amount || parseFloat(amount) < 10000) {
         alert('Minimal pembelian Rp 10.000');
         return;
       }
+      
       if (!wallet) {
         alert('Masukkan alamat wallet Anda');
         return;
       }
+      
       if (!paymentMethod) {
         alert('Pilih metode pembayaran');
         return;
       }
+      
+      // Simpan metode pembayaran yang dipilih
       selectedPaymentMethod = paymentMethod;
+      
+      // Set confirmation values
       const crypto = document.getElementById('crypto').value;
       const cryptoName = cryptoData[crypto]?.name || crypto;
       const coinReceived = document.getElementById('coin-received').textContent;
       const walletAddress = document.getElementById('wallet').value;
+      
       document.getElementById('confirm-crypto').textContent = `${cryptoName} (${crypto})`;
       document.getElementById('confirm-amount').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
       document.getElementById('confirm-coin').textContent = coinReceived;
+      
+      // Update payment method display
       const methodDisplay = document.getElementById('confirm-method');
       methodDisplay.innerHTML = '';
+      
       const methodImg = document.createElement('img');
       methodImg.src = `https://upload.wikimedia.org/wikipedia/commons/${ 
         paymentMethod === 'bca' ? '5/5c/Bank_Central_Asia.svg' : 
         paymentMethod === 'dana' ? '7/72/Logo_dana_blue.svg' : 
         paymentMethod === 'ovo' ? 'e/eb/Logo_ovo_purple.svg' : 
-        '8/86/Gopay_logo.svg'
-      }`;
+        '8/86/Gopay_logo.svg'}`;
       methodImg.className = 'h-5 mr-2';
       methodImg.alt = paymentMethod;
+      
       const methodText = document.createElement('span');
       methodText.className = 'text-sm';
       methodText.textContent = 
         paymentMethod === 'bca' ? 'BCA' : 
         paymentMethod === 'dana' ? 'DANA' : 
         paymentMethod === 'ovo' ? 'OVO' : 'GOPAY';
+      
       methodDisplay.appendChild(methodImg);
       methodDisplay.appendChild(methodText);
+      
       document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
       document.getElementById('confirm-wallet').textContent = walletAddress;
       document.getElementById('confirm-exchange-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
       document.getElementById('confirm-rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
-      // Tampilkan detail pembayaran sesuai metode
+      
+      // Show corresponding payment details
       document.querySelectorAll('#payment-details > div').forEach(div => {
         div.classList.add('hidden');
       });
       document.getElementById(`${paymentMethod}-details`).classList.remove('hidden');
-      // Tampilkan halaman konfirmasi pembayaran
+      
+      // Show payment info
       document.getElementById('purchase-form-container').classList.add('hidden');
       document.getElementById('payment-info').classList.remove('hidden');
+      
+      // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
