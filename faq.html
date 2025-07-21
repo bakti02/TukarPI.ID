@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FAQ - TukarPI.ID | Pusat Tukar Koin PI Network</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Gunakan style yang sama dengan halaman utama */
+    .header-gradient {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .mobile-menu {
+      transition: all 0.3s ease;
+    }
+    
+    /* Style khusus FAQ */
+    .faq-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    .faq-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .faq-question {
+      background-color: #f9fafb;
+      padding: 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question:hover {
+      background-color: #f3f4f6;
+    }
+    .faq-answer {
+      padding: 0 1.25rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+      padding: 1.25rem;
+      max-height: 500px;
+    }
+    .faq-icon {
+      transition: transform 0.3s ease;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+    
+    /* Kategori FAQ */
+    .faq-category {
+      background-color: #3B82F6;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+    }
+    
+    /* Search box */
+    .search-box {
+      position: relative;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+    .search-box input {
+      padding: 0.75rem 1.25rem 0.75rem 3rem;
+      border-radius: 9999px;
+      border: 1px solid #e5e7eb;
+      width: 100%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .search-box i {
+      position: absolute;
+      left: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Header (Sama dengan halaman utama) -->
+  <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-3">
+        <!-- Logo and Brand -->
+        <div class="flex items-center space-x-2">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
+          <div>
+            <p class="text-xs opacity-80 font-bold">Pusat Jual & Beli Kripto</p>
+          </div>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="nav-link text-sm font-medium">Home</a>
+          <a href="jualkoin.html" class="nav-link text-sm font-medium">Jual Pi</a>
+          <a href="belikoin.html" class="nav-link text-sm font-medium">Beli Kripto</a>
+          <a href="affiliate.html" class="nav-link text-sm font-medium">Program Affiliate</a>
+          <a href="faq.html" class="nav-link text-sm font-medium underline">FAQ</a>
+        </nav>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
+      <div class="flex flex-col space-y-3 py-2">
+        <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
+        <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
+        <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700">Beli Kripto</a>
+        <a href="affiliate.html" class="text-white text-sm py-1 border-b border-blue-700">Program Affiliate</a>
+        <a href="faq.html" class="text-white text-sm py-1 border-b border-blue-700 font-bold">FAQ</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-8 px-4">
+    <div class="container mx-auto">
+      <!-- Hero Section FAQ -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Pertanyaan yang Sering Diajukan</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">Temukan jawaban atas pertanyaan Anda tentang layanan TukarPI.ID. Jika Anda tidak menemukan jawaban yang Anda cari, hubungi tim dukungan kami.</p>
+        
+        <!-- Search Box -->
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Cari pertanyaan..." id="faq-search">
+        </div>
+      </div>
+      
+      <!-- FAQ Content -->
+      <div class="faq-container">
+        <!-- Kategori: Umum -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200 flex items-center">
+            <i class="fas fa-info-circle text-blue-500 mr-3"></i>
+            Informasi Umum
+          </h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Apa itu TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>TukarPI.ID adalah platform terpercaya untuk menukar koin PI Network Anda dengan Rupiah atau aset kripto lainnya. Kami menyediakan layanan cepat, aman, dan dengan harga kompetitif.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Bagaimana legalitas TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>TukarPI.ID beroperasi secara legal di bawah PT. Ruang Digital Raya yang terdaftar resmi di Indonesia. Kami mematuhi semua regulasi yang berlaku terkait transaksi aset kripto.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Di mana lokasi kantor TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Kantor pusat kami berlokasi di Jakarta Selatan. Namun, semua transaksi dilakukan secara online sehingga Anda dapat mengakses layanan kami dari mana saja di Indonesia.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Kategori: Penjualan PI -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200 flex items-center">
+            <i class="fas fa-coins text-yellow-500 mr-3"></i>
+            Penjualan PI Network
+          </h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Bagaimana cara menjual PI Network di TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <ol class="list-decimal pl-5 space-y-2">
+                <li>Daftar atau login ke akun TukarPI.ID</li>
+                <li>Pilih menu "Jual PI" di dashboard</li>
+                <li>Masukkan jumlah PI yang ingin dijual</li>
+                <li>Verifikasi identitas Anda (jika pertama kali transaksi)</li>
+                <li>Ikuti instruksi transfer PI ke wallet kami</li>
+                <li>Dana akan dikirim ke rekening Anda setelah PI diterima</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Berapa minimal penjualan PI Network?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Minimal penjualan adalah 100 PI. Untuk jumlah di bawah itu, biaya transaksi mungkin tidak sebanding dengan nilai yang Anda terima.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Berapa lama proses penjualan PI sampai dana masuk?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Proses biasanya memakan waktu 5-15 menit setelah PI kami terima. Untuk transaksi pertama atau dengan jumlah besar, mungkin membutuhkan verifikasi tambahan yang memakan waktu hingga 1 jam.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Apakah ada biaya untuk penjualan PI?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Kami mengenakan biaya transaksi sebesar 1-3% tergantung jumlah PI yang dijual dan metode pembayaran yang dipilih. Biaya ini sudah termasuk dalam harga yang kami tawarkan.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Kategori: Pembelian Kripto -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200 flex items-center">
+            <i class="fas fa-shopping-cart text-green-500 mr-3"></i>
+            Pembelian Kripto
+          </h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Koin kripto apa saja yang bisa dibeli di TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Kami menyediakan 200+ aset kripto termasuk Bitcoin (BTC), Ethereum (ETH), Tether (USDT), BNB, Solana (SOL), dan banyak lagi. Anda juga bisa membeli PI Network jika tersedia.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Bagaimana cara membeli kripto di TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <ol class="list-decimal pl-5 space-y-2">
+                <li>Daftar atau login ke akun TukarPI.ID</li>
+                <li>Pilih menu "Beli Kripto"</li>
+                <li>Pilih koin yang ingin dibeli</li>
+                <li>Masukkan jumlah atau nominal pembelian</li>
+                <li>Pilih metode pembayaran (transfer bank/e-wallet)</li>
+                <li>Lakukan pembayaran sesuai instruksi</li>
+                <li>Koin akan dikirim ke wallet Anda setelah pembayaran dikonfirmasi</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Berapa minimal pembelian kripto?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Minimal pembelian setara dengan Rp50.000 untuk semua jenis kripto. Untuk koin dengan harga tinggi seperti Bitcoin, Anda bisa membeli dalam bentuk pecahan (satoshis).</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Ke mana koin yang saya beli akan dikirim?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Koin akan dikirim ke wallet kripto yang Anda daftarkan di akun TukarPI.ID. Pastikan alamat wallet yang Anda berikan benar dan sesuai dengan jenis koin yang dibeli.</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Kategori: Keamanan -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200 flex items-center">
+            <i class="fas fa-shield-alt text-purple-500 mr-3"></i>
+            Keamanan & Pembayaran
+          </h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Bagaimana keamanan transaksi di TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Kami menggunakan enkripsi SSL 256-bit untuk semua transaksi dan data pribadi. Sistem kami dilengkapi dengan:</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Verifikasi 2 langkah untuk transaksi penting</li>
+                <li>Monitoring transaksi 24/7</li>
+                <li>Proteksi terhadap serangan siber</li>
+                <li>Penyimpanan dana terpisah (cold storage untuk kripto)</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Metode pembayaran apa saja yang diterima?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Kami menerima berbagai metode pembayaran:</p>
+              <div class="grid grid-cols-2 gap-2 mt-2">
+                <div class="flex items-center">
+                  <i class="fas fa-university text-blue-500 mr-2"></i>
+                  <span>Transfer Bank (BCA, BRI, Mandiri, BNI, dll)</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="fas fa-wallet text-green-500 mr-2"></i>
+                  <span>E-Wallet (OVO, Dana, Gopay, LinkAja)</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="fas fa-qrcode text-purple-500 mr-2"></i>
+                  <span>QRIS</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="fab fa-bitcoin text-orange-500 mr-2"></i>
+                  <span>Pembayaran dengan Kripto</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Apa yang harus dilakukan jika transaksi bermasalah?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Jika Anda mengalami masalah dengan transaksi:</p>
+              <ol class="list-decimal pl-5 mt-2 space-y-1">
+                <li>Periksa terlebih dahulu status transaksi di dashboard akun Anda</li>
+                <li>Pastikan Anda telah mengikuti semua instruksi dengan benar</li>
+                <li>Jika masalah belum teratasi, hubungi CS kami melalui:
+                  <ul class="list-disc pl-5 mt-1">
+                    <li>WhatsApp: +62 821-4751-0780</li>
+                    <li>Telegram: @tukarpiid</li>
+                    <li>Email: cs@tukarpi.id</li>
+                  </ul>
+                </li>
+                <li>Siapkan bukti transaksi untuk mempercepat proses penyelesaian</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Kategori: Program Affiliate -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6 pb-2 border-b border-gray-200 flex items-center">
+            <i class="fas fa-users text-red-500 mr-3"></i>
+            Program Affiliate
+          </h2>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Apa itu Program Affiliate TukarPI.ID?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Program Affiliate memungkinkan Anda mendapatkan komisi dengan merekomendasikan TukarPI.ID kepada orang lain. Setiap transaksi yang dilakukan oleh referral Anda akan memberikan komisi hingga 0.5% dari nilai transaksi.</p>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Bagaimana cara bergabung dengan Program Affiliate?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <ol class="list-decimal pl-5 space-y-2">
+                <li>Login ke akun TukarPI.ID Anda</li>
+                <li>Buka menu "Program Affiliate"</li>
+                <li>Daftar sebagai affiliate (verifikasi mungkin diperlukan)</li>
+                <li>Dapatkan link referral unik Anda</li>
+                <li>Bagikan link tersebut ke teman/komunitas Anda</li>
+                <li>Mulai dapatkan komisi dari transaksi referral</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>Berapa besar komisi yang bisa didapatkan?</span>
+              <i class="fas fa-chevron-down faq-icon"></i>
+            </div>
+            <div class="faq-answer bg-white">
+              <p>Struktur komisi kami:</p>
+              <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>0.3% untuk transaksi jual PI Network</li>
+                <li>0.5% untuk transaksi beli kripto</li>
+                <li>Bonus tambahan 0.1% jika referral mencapai volume transaksi tertentu</li>
+              </ul>
+              <p class="mt-2">Komisi dibayarkan setiap hari Jumat langsung ke rekening atau wallet kripto Anda.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- FAQ Tidak Ditemukan -->
+      <div id="faq-not-found" class="hidden text-center py-12">
+        <i class="fas fa-search fa-3x text-gray-300 mb-4"></i>
+        <h3 class="text-xl font-semibold text-gray-700">Pertanyaan tidak ditemukan</h3>
+        <p class="text-gray-500 mt-2">Coba gunakan kata kunci lain atau hubungi tim dukungan kami.</p>
+        <a href="https://wa.me/6282147510780" class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition">
+          <i class="fab fa-whatsapp mr-2"></i> Hubungi CS
+        </a>
+      </div>
+      
+      <!-- CTA Section -->
+      <div class="bg-blue-50 rounded-xl p-6 md:p-8 mt-12 text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-3">Masih ada pertanyaan?</h2>
+        <p class="text-gray-600 mb-6 max-w-2xl mx-auto">Tim dukungan kami siap membantu Anda 7 hari seminggu dari jam 08.00 - 22.00 WIB.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="https://wa.me/6282147510780" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg transition flex items-center">
+            <i class="fab fa-whatsapp mr-2 text-xl"></i> WhatsApp
+          </a>
+          <a href="https://t.me/tukarpiid" class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition flex items-center">
+            <i class="fab fa-telegram mr-2 text-xl"></i> Telegram
+          </a>
+          <a href="mailto:cs@tukarpi.id" class="bg-gray-700 hover:bg-gray-800 text-white px-6 py-3 rounded-lg transition flex items-center">
+            <i class="fas fa-envelope mr-2 text-xl"></i> Email
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (Sama dengan halaman utama) -->
+  <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <!-- Kolom 1: Tentang Kami -->
+        <div class="col-span-2 md:col-span-1">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
+          <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook text-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-telegram text-lg"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Kolom 2: Layanan -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
+          <ul class="space-y-2">
+            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 3: Bantuan -->
+        <div>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
+          </ul>
+        </div>
+        
+        <!-- Kolom 4: Kontak -->
+        <div class="col-span-2 md:col-span-1">
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
+          <ul class="space-y-2">
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">cs@tukarpi.id</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
+              <a href="https://wa.me/6282147510780" class="text-xs md:text-sm hover:text-white">+62 821-4751-0780</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-telegram mr-2 text-xs md:text-sm"></i>
+              <a href="https://t.me/tukarpiid" class="text-xs md:text-sm hover:text-white">@tukarpiid</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">Jakarta Selatan, Indonesia</span>
+            </li>
+            <li class="mt-4">
+              <h4 class="text-white font-bold mb-2 text-xs md:text-sm">Jam Operasional</h4>
+              <p class="text-xs md:text-sm">Senin-Minggu<br>08:00 - 22:00 WIB</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
+        <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
+        <p class="mt-1">PT. Ruang Digital Raya</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50">
+    <i class="fab fa-whatsapp text-xl"></i>
+  </a>
+
+  <script>
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function(e) {
+      const menu = document.getElementById('mobile-menu');
+      const button = document.getElementById('mobile-menu-button');
+      
+      if (!menu.contains(e.target) && e.target !== button && !button.contains(e.target)) {
+        menu.classList.add('hidden');
+      }
+    });
+
+    // FAQ Accordion Functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        item.classList.toggle('active');
+        
+        // Close other items if this one is opened
+        if (item.classList.contains('active')) {
+          document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item && otherItem.classList.contains('active')) {
+              otherItem.classList.remove('active');
+            }
+          });
+        }
+      });
+    });
+
+    // FAQ Search Functionality
+    const faqSearch = document.getElementById('faq-search');
+    const faqItems = document.querySelectorAll('.faq-item');
+    const faqNotFound = document.getElementById('faq-not-found');
+    const faqCategories = document.querySelectorAll('.faq-container > div.mb-8');
+    
+    faqSearch.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      let foundItems = 0;
+      
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+        
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+          item.style.display = 'block';
+          foundItems++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Show/hide categories based on visible items
+      faqCategories.forEach(category => {
+        const itemsInCategory = category.querySelectorAll('.faq-item');
+        const visibleItems = Array.from(itemsInCategory).filter(item => 
+          item.style.display !== 'none'
+        ).length;
+        
+        if (visibleItems > 0) {
+          category.style.display = 'block';
+        } else {
+          category.style.display = 'none';
+        }
+      });
+      
+      // Show not found message if no results
+      if (foundItems === 0 && searchTerm.length > 0) {
+        faqNotFound.classList.remove('hidden');
+        document.querySelector('.faq-container').classList.add('hidden');
+      } else {
+        faqNotFound.classList.add('hidden');
+        document.querySelector('.faq-container').classList.remove('hidden');
+      }
+      
+      // If search is empty, show all
+      if (searchTerm.length === 0) {
+        faqItems.forEach(item => {
+          item.style.display = 'block';
+        });
+        faqCategories.forEach(category => {
+          category.style.display = 'block';
+        });
+        faqNotFound.classList.add('hidden');
+        document.querySelector('.faq-container').classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
