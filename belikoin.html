@@ -7,54 +7,40 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    .fade-in {
-      animation: fadeIn 0.5s ease-in-out;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8fafc;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    
+    .gradient-text {
+      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .payment-method-logo {
-      width: 60px;
-      height: 30px;
-      object-fit: contain;
-      margin: 0 auto 10px;
-      display: block;
+    
+    .card-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
     }
-    .payment-details-logo {
-      width: 80px;
-      height: 40px;
-      object-fit: contain;
-      margin: 0 auto 15px;
-      display: block;
+    
+    .payment-card {
+      transition: all 0.3s ease;
+      border: 1px solid #e2e8f0;
     }
-    .payment-logo {
-      height: 24px;
-      max-width: 80px;
-      display: inline-block;
-      vertical-align: middle;
+    
+    .payment-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-color: #c7d2fe;
     }
-    .payment-method-logo-container {
-      height: 30px;
-      display: flex;
-      align-items: center;
+    
+    .payment-card.selected {
+      border-color: #4f46e5;
+      background-color: #f5f7ff;
     }
-    #confirm-wallet {
-      font-family: monospace;
-      word-break: break-all;
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
-      max-width: 200px;
-      text-align: right;
-    }
-    #payment-info .font-mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-    .crypto-logo {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-    }
+    
     .coin-received {
       font-size: 1.25rem;
       font-weight: 700;
@@ -63,234 +49,411 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .loading-price {
-      color: #6b7280;
-      font-style: italic;
-    }
-    .animate-pulse {
-      animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
+    
     .price-change {
       font-size: 0.8rem;
       padding: 0.2rem 0.4rem;
       border-radius: 0.25rem;
     }
+    
     .price-up {
       background-color: rgba(5, 150, 105, 0.1);
       color: #059669;
     }
+    
     .price-down {
       background-color: rgba(220, 38, 38, 0.1);
       color: #dc2626;
     }
+    
     .price-neutral {
       background-color: rgba(75, 85, 99, 0.1);
       color: #4b5563;
     }
-    .exchange-rate-info {
-      font-size: 0.75rem;
-      color: #4b5563;
-      background-color: #f3f4f6;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      display: inline-block;
-      margin-top: 0.5rem;
+    
+    .wallet-address {
+      background-color: #f1f5f9;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      word-break: break-all;
+    }
+    
+    .skeleton {
+      animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      background-color: #e2e8f0;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <div class="max-w-md mx-auto p-4">
-    <!-- Header -->
-    <header class="text-center mb-8">
-      <h1 class="text-2xl font-bold text-blue-600 mb-2">Beli Kripto</h1>
-      <p class="text-gray-600">Isi form pembelian dan pilih metode pembayaran</p>
-    </header>
+<body class="min-h-screen flex flex-col">
+  <!-- Header Baru -->
+  <header class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-coins text-2xl text-yellow-400"></i>
+        <h1 class="text-xl font-bold">Kripto<span class="font-light">Trade</span></h1>
+      </div>
+      <nav class="hidden md:flex space-x-6">
+        <a href="#" class="hover:text-blue-200 transition">Beranda</a>
+        <a href="#" class="hover:text-blue-200 transition">Pasar</a>
+        <a href="#" class="hover:text-blue-200 transition">Portofolio</a>
+        <a href="#" class="hover:text-blue-200 transition">Tentang</a>
+      </nav>
+      <button class="md:hidden text-xl">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
 
-    <!-- Purchase Form -->
-    <div id="purchase-form-container" class="bg-white rounded-xl shadow-md p-6 mb-6">
-      <form id="purchase-form">
-        <!-- Pilihan Kripto -->
-        <div class="mb-6">
-          <label for="crypto" class="block text-sm font-medium text-gray-700 mb-2">Pilih Kripto</label>
-          <select id="crypto" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
-            <option value="" disabled selected>Memuat daftar koin...</option>
-          </select>
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <div class="max-w-md mx-auto p-4 py-8">
+      <!-- Header Form -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4">
+          <i class="fas fa-shopping-cart text-2xl gradient-text"></i>
         </div>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Beli Kripto</h1>
+        <p class="text-gray-600">Isi form pembelian dan pilih metode pembayaran</p>
+      </div>
 
-        <!-- Jumlah dalam Rupiah -->
-        <div class="mb-6">
-          <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Jumlah Pembelian (Rp)</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <span class="text-gray-500">Rp</span>
-            </div>
-            <input type="number" id="amount" 
-                   class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                   placeholder="100.000" min="10000">
-          </div>
-          <p class="text-xs text-gray-500 mt-1">Minimal pembelian Rp 10.000</p>
-        </div>
-
-        <!-- Info Harga Real-time -->
-        <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
-          <div class="flex justify-center mb-3">
-            <img id="crypto-logo" src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="Crypto Logo" class="w-15 h-12">
-          </div>
-          <div class="flex justify-between items-center mb-2">
-            <span class="text-sm font-medium text-blue-600">Harga Real-time</span>
-            <div class="flex items-center">
-              <span id="realtime-price" class="font-semibold text-blue-800 loading-price">Memuat harga...</span>
-              <span id="price-change" class="price-change ml-2 hidden"></span>
-            </div>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-sm font-medium text-blue-600">Biaya Layanan (5%)</span>
-            <span id="fee-amount" class="font-medium text-red-500">- Rp 0</span>
-          </div>
-          <div class="pt-3 border-t border-blue-200">
-            <p class="text-xs font-medium text-blue-500 mb-1">JUMLAH KOIN DITERIMA</p>
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-blue-600">Estimasi yang akan Anda terima</span>
-              <span id="coin-received" class="coin-received">0</span>
+      <!-- Purchase Form -->
+      <div id="purchase-form-container" class="bg-white rounded-xl shadow-md overflow-hidden card-gradient">
+        <form id="purchase-form" class="p-6">
+          <!-- Pilihan Kripto -->
+          <div class="mb-6">
+            <label for="crypto" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-coins mr-2 text-blue-500"></i> Pilih Kripto
+            </label>
+            <div class="relative">
+              <select id="crypto" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white">
+                <option value="" disabled selected>Memuat daftar koin...</option>
+              </select>
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+              </div>
             </div>
           </div>
-          <p class="exchange-rate-info mt-2">
-            <span id="current-rate">Kurs USD-IDR: Rp0</span> • 
-            <span id="rate-updated">Update: -</span>
-          </p>
-        </div>
 
-        <!-- Alamat Wallet -->
-        <div class="mb-6">
-          <label for="wallet" class="block text-sm font-medium text-gray-700 mb-2">Alamat Wallet Anda</label>
-          <input type="text" id="wallet" 
-                 class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                 placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
-          <p class="text-xs text-gray-500 mt-1">Pastikan alamat wallet benar. Kripto akan dikirim ke alamat ini.</p>
-        </div>
+          <!-- Jumlah dalam Rupiah -->
+          <div class="mb-6">
+            <label for="amount" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-money-bill-wave mr-2 text-blue-500"></i> Jumlah Pembelian (Rp)
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <span class="text-gray-500">Rp</span>
+              </div>
+              <input type="text" id="amount" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                     placeholder="100.000" min="10000" inputmode="numeric">
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Minimal pembelian Rp 10.000</p>
+          </div>
 
-        <!-- Metode Pembayaran -->
-        <div class="mb-6">
-          <label for="payment-method" class="block text-sm font-medium text-gray-700 mb-2">Metode Pembayaran</label>
-          <select id="payment-method" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
-            <option value="" disabled selected>Pilih metode pembayaran</option>
-            <option value="bca">Bank BCA</option>
-            <option value="dana">DANA</option>
-            <option value="ovo">OVO</option>
-            <option value="gopay">GOPAY</option>
-          </select>
-        </div>
+          <!-- Info Harga Real-time -->
+          <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+            <div class="flex justify-center mb-3">
+              <div id="crypto-logo-container" class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-sm">
+                <img id="crypto-logo" src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Crypto Logo" class="w-10 h-10">
+              </div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm font-medium text-blue-600 flex items-center">
+                <i class="fas fa-chart-line mr-1"></i> Harga Real-time
+              </span>
+              <div class="flex items-center">
+                <span id="realtime-price" class="font-semibold text-blue-800">Memuat harga...</span>
+                <span id="price-change" class="price-change ml-2 hidden"></span>
+              </div>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span class="text-sm font-medium text-blue-600 flex items-center">
+                <i class="fas fa-percentage mr-1"></i> Biaya Layanan (5%)
+              </span>
+              <span id="fee-amount" class="font-medium text-red-500">- Rp 0</span>
+            </div>
+            <div class="pt-3 border-t border-blue-200">
+              <p class="text-xs font-medium text-blue-500 mb-1 flex items-center">
+                <i class="fas fa-coins mr-1"></i> JUMLAH KOIN DITERIMA
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-blue-600">Estimasi yang akan Anda terima</span>
+                <span id="coin-received" class="coin-received">0</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between mt-2 text-xs text-gray-500">
+              <span id="current-rate">Kurs USD-IDR: Rp0</span>
+              <span id="rate-updated">Update: -</span>
+            </div>
+          </div>
 
-        <button type="submit" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow">
-          Lanjutkan Pembayaran
-        </button>
-      </form>
+          <!-- Alamat Wallet -->
+          <div class="mb-6">
+            <label for="wallet" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-wallet mr-2 text-blue-500"></i> Alamat Wallet Anda
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fas fa-address-card text-gray-400"></i>
+              </div>
+              <input type="text" id="wallet" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                     placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Pastikan alamat wallet benar. Kripto akan dikirim ke alamat ini.</p>
+          </div>
+
+          <!-- Metode Pembayaran -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-credit-card mr-2 text-blue-500"></i> Metode Pembayaran
+            </label>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="payment-card rounded-lg p-3 cursor-pointer" data-method="bca">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">Bank BCA</p>
+              </div>
+              <div class="payment-card rounded-lg p-3 cursor-pointer" data-method="dana">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">DANA</p>
+              </div>
+              <div class="payment-card rounded-lg p-3 cursor-pointer" data-method="ovo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">OVO</p>
+              </div>
+              <div class="payment-card rounded-lg p-3 cursor-pointer" data-method="gopay">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">GOPAY</p>
+              </div>
+            </div>
+            <input type="hidden" id="payment-method" required>
+          </div>
+
+          <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.01]">
+            <i class="fas fa-arrow-right mr-2"></i> Lanjutkan Pembayaran
+          </button>
+        </form>
+      </div>
     </div>
 
     <!-- Payment Info -->
-    <div id="payment-info" class="hidden bg-white rounded-xl shadow-md p-6 fade-in">
-      <div class="flex justify-between items-center mb-4">
-        <button onclick="backToForm()" class="text-blue-600 hover:text-blue-800">
-          <i class="fas fa-arrow-left mr-1"></i> Kembali
-        </button>
-        <h2 class="text-xl font-bold text-blue-600">Selesaikan Pembayaran</h2>
-        <div class="w-8"></div>
-      </div>
-
-      <!-- Detail Pesanan -->
-      <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-        <div class="flex justify-between mb-2">
-          <span class="text-gray-600">Kripto</span>
-          <span id="confirm-crypto" class="font-medium">BTC</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span class="text-gray-600">Jumlah Pembelian</span>
-          <span id="confirm-amount" class="font-medium">Rp 0</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span class="text-gray-600">Jumlah Koin</span>
-          <span id="confirm-coin" class="coin-received">0</span>
-        </div>
-        <div class="flex justify-between mb-2 items-center">
-          <span class="text-gray-600">Metode Pembayaran</span>
-          <div id="confirm-method" class="payment-method-logo-container"></div>
-        </div>
-        <div class="flex justify-between mb-2 items-start">
-          <span class="text-gray-600">Alamat Wallet</span>
-          <span id="confirm-wallet" class="font-mono text-sm break-all text-right max-w-[200px]">-</span>
-        </div>
-        <div class="flex justify-between border-t border-gray-200 pt-2">
-          <span class="font-medium">Total Pembayaran</span>
-          <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
-        </div>
-        <p class="exchange-rate-info mt-2">
-          <span id="confirm-exchange-rate">Kurs USD-IDR: Rp0</span> • 
-          <span id="confirm-rate-updated">Update: -</span>
-        </p>
-      </div>
-
-      <!-- Info Pembayaran -->
-      <div id="payment-details">
-        <!-- BCA -->
-        <div id="bca-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="payment-details-logo">
-          <div class="mb-4">
-            <div class="font-mono text-lg bg-white py-2 px-4 rounded">0332997201</div>
-            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
+    <div id="payment-info" class="hidden max-w-md mx-auto p-4 py-8 fade-in">
+      <div class="bg-white rounded-xl shadow-md overflow-hidden card-gradient">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-4">
+            <button onclick="backToForm()" class="text-blue-600 hover:text-blue-800 flex items-center">
+              <i class="fas fa-arrow-left mr-1"></i> Kembali
+            </button>
+            <h2 class="text-xl font-bold text-gray-800">Selesaikan Pembayaran</h2>
+            <div class="w-8"></div>
           </div>
-          <button onclick="copyToClipboard('0332997201')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
-            <i class="fas fa-copy mr-2"></i> Salin Nomor Rekening
-          </button>
-        </div>
 
-        <!-- DANA -->
-        <div id="dana-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="payment-details-logo">
-          <div class="mb-4">
-            <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
-            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
+          <!-- Detail Pesanan -->
+          <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+            <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+              <i class="fas fa-receipt mr-2 text-blue-500"></i> Detail Pesanan
+            </h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Kripto</span>
+                <span id="confirm-crypto" class="font-medium">BTC</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Jumlah Pembelian</span>
+                <span id="confirm-amount" class="font-medium">Rp 0</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Jumlah Koin</span>
+                <span id="confirm-coin" class="coin-received">0</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600">Metode Pembayaran</span>
+                <div id="confirm-method" class="flex items-center">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="Payment" class="h-5 mr-1">
+                  <span class="text-sm">BCA</span>
+                </div>
+              </div>
+              <div class="flex justify-between items-start">
+                <span class="text-gray-600">Alamat Wallet</span>
+                <span id="confirm-wallet" class="wallet-address text-sm text-right max-w-[200px]">-</span>
+              </div>
+              <div class="flex justify-between border-t border-gray-200 pt-3 mt-2">
+                <span class="font-medium">Total Pembayaran</span>
+                <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+              <span id="confirm-exchange-rate">Kurs USD-IDR: Rp0</span>
+              <span id="confirm-rate-updated">Update: -</span>
+            </div>
           </div>
-          <button onclick="copyToClipboard('087878787523')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
-            <i class="fas fa-copy mr-2"></i> Salin Nomor
-          </button>
-        </div>
 
-        <!-- OVO -->
-        <div id="ovo-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="payment-details-logo">
-          <div class="mb-4">
-            <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
-            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
+          <!-- Info Pembayaran -->
+          <div id="payment-details">
+            <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+              <i class="fas fa-qrcode mr-2 text-blue-500"></i> Instruksi Pembayaran
+            </h3>
+            
+            <!-- BCA -->
+            <div id="bca-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+              <div class="text-center mb-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-8 mx-auto mb-3">
+                <h4 class="font-medium text-gray-700">Transfer Bank BCA</h4>
+              </div>
+              <div class="space-y-3 mb-4">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Nomor Rekening</p>
+                  <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">0332997201</div>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                  <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
+                </div>
+              </div>
+              <button onclick="copyToClipboard('0332997201')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+                <i class="fas fa-copy mr-2"></i> Salin Nomor Rekening
+              </button>
+              <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi BCA Mobile atau ATM untuk melakukan transfer</p>
+            </div>
+
+            <!-- DANA -->
+            <div id="dana-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+              <div class="text-center mb-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-8 mx-auto mb-3">
+                <h4 class="font-medium text-gray-700">Transfer via DANA</h4>
+              </div>
+              <div class="space-y-3 mb-4">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Nomor DANA</p>
+                  <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                  <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
+                </div>
+              </div>
+              <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+                <i class="fas fa-copy mr-2"></i> Salin Nomor
+              </button>
+              <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi DANA untuk melakukan transfer</p>
+            </div>
+
+            <!-- OVO -->
+            <div id="ovo-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+              <div class="text-center mb-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-8 mx-auto mb-3">
+                <h4 class="font-medium text-gray-700">Transfer via OVO</h4>
+              </div>
+              <div class="space-y-3 mb-4">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Nomor OVO</p>
+                  <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                  <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
+                </div>
+              </div>
+              <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+                <i class="fas fa-copy mr-2"></i> Salin Nomor
+              </button>
+              <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi OVO untuk melakukan transfer</p>
+            </div>
+
+            <!-- GOPAY -->
+            <div id="gopay-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+              <div class="text-center mb-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-8 mx-auto mb-3">
+                <h4 class="font-medium text-gray-700">Transfer via GOPAY</h4>
+              </div>
+              <div class="space-y-3 mb-4">
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Nomor GOPAY</p>
+                  <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                  <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
+                </div>
+              </div>
+              <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+                <i class="fas fa-copy mr-2"></i> Salin Nomor
+              </button>
+              <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi Gojek untuk melakukan transfer</p>
+            </div>
           </div>
-          <button onclick="copyToClipboard('087878787523')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
-            <i class="fas fa-copy mr-2"></i> Salin Nomor
-          </button>
-        </div>
 
-        <!-- GOPAY -->
-        <div id="gopay-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4 text-center">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="payment-details-logo">
-          <div class="mb-4">
-            <div class="font-mono text-lg bg-white py-2 px-4 rounded">087878787523</div>
-            <p class="text-sm text-gray-600 mt-2">a.n. Agus Mulia Bakti</p>
+          <div class="text-center pt-4">
+            <button onclick="confirmPayment()" class="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-md transition">
+              <i class="fas fa-check-circle mr-2"></i> Saya Sudah Bayar
+            </button>
           </div>
-          <button onclick="copyToClipboard('087878787523')" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center">
-            <i class="fas fa-copy mr-2"></i> Salin Nomor
-          </button>
         </div>
-      </div>
-
-      <div class="text-center">
-        <button onclick="confirmPayment()" class="w-full py-3 px-4 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg shadow">
-          Saya Sudah Bayar
-        </button>
       </div>
     </div>
-  </div>
+  </main>
+
+  <!-- Footer Baru -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-bold mb-4 flex items-center">
+            <i class="fas fa-coins text-yellow-400 mr-2"></i> KriptoTrade
+          </h3>
+          <p class="text-gray-400 text-sm">Platform pembelian kripto mudah, aman, dan terpercaya di Indonesia.</p>
+        </div>
+        <div>
+          <h4 class="text-md font-semibold mb-4">Layanan</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Beli Kripto</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Jual Kripto</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Portofolio</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Harga Pasar</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-md font-semibold mb-4">Perusahaan</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Tentang Kami</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Kebijakan Privasi</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Hubungi Kami</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-md font-semibold mb-4">Hubungi Kami</h4>
+          <div class="space-y-2 text-sm text-gray-400">
+            <p class="flex items-center"><i class="fas fa-envelope mr-2"></i> support@kriptotrade.id</p>
+            <p class="flex items-center"><i class="fas fa-phone-alt mr-2"></i> +62 821-4751-0780</p>
+            <div class="flex space-x-4 pt-2">
+              <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-telegram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm text-gray-400">
+        <p>© 2023 KriptoTrade. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
   <script>
     // Data koin default jika API tidak tersedia
@@ -474,7 +637,7 @@
     // Fungsi update perhitungan
     function updateCalculation() {
       const symbol = document.getElementById('crypto').value;
-      const amount = parseFloat(document.getElementById('amount').value) || 0;
+      const amount = parseFloat(document.getElementById('amount').value.replace(/\./g, '')) || 0;
       const crypto = cryptoData[symbol];
       
       if (!symbol || !crypto) {
@@ -542,10 +705,27 @@
       
       try {
         document.execCommand('copy');
-        alert('Berhasil disalin ke clipboard: ' + text);
+        // Show nice notification instead of alert
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center';
+        notification.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Berhasil disalin ke clipboard`;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('opacity-0', 'translate-y-2', 'transition-all', 'duration-300');
+          setTimeout(() => notification.remove(), 300);
+        }, 2000);
       } catch (err) {
         console.error('Gagal menyalin:', err);
-        alert('Gagal menyalin ke clipboard');
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center';
+        notification.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> Gagal menyalin ke clipboard`;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('opacity-0', 'translate-y-2', 'transition-all', 'duration-300');
+          setTimeout(() => notification.remove(), 300);
+        }, 2000);
       } finally {
         document.body.removeChild(textarea);
       }
@@ -558,80 +738,53 @@
       if (confirmation) {
         const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
         confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Lanjut Konfirmasi';
-        confirmBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
-        confirmBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+        confirmBtn.classList.remove('from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700');
+        confirmBtn.classList.add('from-green-600', 'to-emerald-700', 'hover:from-green-700', 'hover:to-emerald-800');
         confirmBtn.removeAttribute('onclick');
         confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
       }
     }
 
-    // Get payment method name with logo
-    function getPaymentMethodName(method) {
-      const methods = {
-        'bca': '<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="payment-logo" alt="BCA">',
-        'dana': '<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" class="payment-logo" alt="DANA">',
-        'ovo': '<img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" class="payment-logo" alt="OVO">',
-        'gopay': '<img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" class="payment-logo" alt="GOPAY">'
-      };
-      return methods[method] || method;
+    // Format input amount
+    function formatAmountInput(input) {
+      // Remove non-numeric characters
+      let value = input.value.replace(/[^0-9]/g, '');
+      
+      // Format with thousand separators
+      if (value.length > 0) {
+        value = parseInt(value, 10).toLocaleString('id-ID');
+      }
+      
+      input.value = value;
+      updateCalculation();
     }
-
-    // Form submission
-    document.getElementById('purchase-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Validate form
-      const amount = document.getElementById('amount').value;
-      const wallet = document.getElementById('wallet').value;
-      const paymentMethod = document.getElementById('payment-method').value;
-      
-      if (!amount || amount < 10000) {
-        alert('Minimal pembelian Rp 10.000');
-        return;
-      }
-      
-      if (!wallet) {
-        alert('Masukkan alamat wallet Anda');
-        return;
-      }
-      
-      if (!paymentMethod) {
-        alert('Pilih metode pembayaran');
-        return;
-      }
-      
-      // Simpan metode pembayaran yang dipilih
-      selectedPaymentMethod = paymentMethod;
-      
-      // Set confirmation values
-      const crypto = document.getElementById('crypto').value;
-      const coinReceived = document.getElementById('coin-received').textContent;
-      const walletAddress = document.getElementById('wallet').value;
-      
-      document.getElementById('confirm-crypto').textContent = crypto;
-      document.getElementById('confirm-amount').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
-      document.getElementById('confirm-coin').textContent = coinReceived;
-      document.getElementById('confirm-method').innerHTML = getPaymentMethodName(paymentMethod);
-      document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
-      document.getElementById('confirm-wallet').textContent = walletAddress;
-      document.getElementById('confirm-exchange-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
-      document.getElementById('confirm-rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
-      
-      // Show corresponding payment details
-      document.querySelectorAll('#payment-details > div').forEach(div => {
-        div.classList.add('hidden');
-      });
-      document.getElementById(`${paymentMethod}-details`).classList.remove('hidden');
-      
-      // Show payment info
-      document.getElementById('purchase-form-container').classList.add('hidden');
-      document.getElementById('payment-info').classList.remove('hidden');
-    });
 
     // Inisialisasi
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         console.log('Initializing...');
+        
+        // Setup payment method selection
+        document.querySelectorAll('.payment-card').forEach(card => {
+          card.addEventListener('click', function() {
+            // Remove selected class from all cards
+            document.querySelectorAll('.payment-card').forEach(c => {
+              c.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            this.classList.add('selected');
+            
+            // Set payment method value
+            const method = this.getAttribute('data-method');
+            document.getElementById('payment-method').value = method;
+          });
+        });
+        
+        // Setup amount input formatting
+        document.getElementById('amount').addEventListener('input', function() {
+          formatAmountInput(this);
+        });
         
         // Load data
         const [cryptoDataResponse, exchangeRateData] = await Promise.all([
@@ -654,8 +807,6 @@
           updatePriceDisplay(this.value);
         });
         
-        document.getElementById('amount').addEventListener('input', updateCalculation);
-        
         // Auto-update setiap 5 menit
         setInterval(async () => {
           cryptoData = await fetchCryptoData();
@@ -672,6 +823,85 @@
         document.getElementById('crypto').innerHTML = 
           '<option value="" disabled selected>Gagal memuat daftar koin</option>';
       }
+    });
+
+    // Form submission
+    document.getElementById('purchase-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Validate form
+      const amount = document.getElementById('amount').value.replace(/\./g, '');
+      const wallet = document.getElementById('wallet').value;
+      const paymentMethod = document.getElementById('payment-method').value;
+      
+      if (!amount || parseFloat(amount) < 10000) {
+        alert('Minimal pembelian Rp 10.000');
+        return;
+      }
+      
+      if (!wallet) {
+        alert('Masukkan alamat wallet Anda');
+        return;
+      }
+      
+      if (!paymentMethod) {
+        alert('Pilih metode pembayaran');
+        return;
+      }
+      
+      // Simpan metode pembayaran yang dipilih
+      selectedPaymentMethod = paymentMethod;
+      
+      // Set confirmation values
+      const crypto = document.getElementById('crypto').value;
+      const cryptoName = cryptoData[crypto]?.name || crypto;
+      const coinReceived = document.getElementById('coin-received').textContent;
+      const walletAddress = document.getElementById('wallet').value;
+      
+      document.getElementById('confirm-crypto').textContent = `${cryptoName} (${crypto})`;
+      document.getElementById('confirm-amount').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
+      document.getElementById('confirm-coin').textContent = coinReceived;
+      
+      // Update payment method display
+      const methodDisplay = document.getElementById('confirm-method');
+      methodDisplay.innerHTML = '';
+      
+      const methodImg = document.createElement('img');
+      methodImg.src = `https://upload.wikimedia.org/wikipedia/commons/${ 
+        paymentMethod === 'bca' ? '5/5c/Bank_Central_Asia.svg' : 
+        paymentMethod === 'dana' ? '7/72/Logo_dana_blue.svg' : 
+        paymentMethod === 'ovo' ? 'e/eb/Logo_ovo_purple.svg' : 
+        '8/86/Gopay_logo.svg'}`;
+      methodImg.className = 'h-5 mr-2';
+      methodImg.alt = paymentMethod;
+      
+      const methodText = document.createElement('span');
+      methodText.className = 'text-sm';
+      methodText.textContent = 
+        paymentMethod === 'bca' ? 'BCA' : 
+        paymentMethod === 'dana' ? 'DANA' : 
+        paymentMethod === 'ovo' ? 'OVO' : 'GOPAY';
+      
+      methodDisplay.appendChild(methodImg);
+      methodDisplay.appendChild(methodText);
+      
+      document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
+      document.getElementById('confirm-wallet').textContent = walletAddress;
+      document.getElementById('confirm-exchange-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
+      document.getElementById('confirm-rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
+      
+      // Show corresponding payment details
+      document.querySelectorAll('#payment-details > div').forEach(div => {
+        div.classList.add('hidden');
+      });
+      document.getElementById(`${paymentMethod}-details`).classList.remove('hidden');
+      
+      // Show payment info
+      document.getElementById('purchase-form-container').classList.add('hidden');
+      document.getElementById('payment-info').classList.remove('hidden');
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
