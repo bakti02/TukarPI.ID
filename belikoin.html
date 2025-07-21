@@ -760,6 +760,9 @@
       
       // Format pesan WhatsApp
       const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
+                      `   *PT. RUANG DIGITAL RAYA*\n` +
+                      `         *TukarPI.ID*\n` +
+                      `        toLocaleString()\n` +
                      `================================\n` +
                      `🔹 *Jenis Kripto:* ${crypto}\n` +
                      `🔹 *Jumlah Pembelian:* ${amount}\n` +
@@ -772,7 +775,7 @@
                      `💬 *Konfirmasi Pembayaran:*\n` +
                      `Saya telah melakukan transfer pembayaran sesuai nominal di atas.\n` +
                      `Berikut bukti transfer yang telah dilakukan:\n` +
-                     `[Lampirkan screenshot bukti transfer]`;
+                     `[~Lampirkan screenshot bukti transfer~]`;
       
       // Encode message untuk URL
       const encodedMessage = encodeURIComponent(message);
