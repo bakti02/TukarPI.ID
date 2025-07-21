@@ -9,6 +9,152 @@
   <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Modern Banner Slider */
+    .banner-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/6; /* Rasio yang lebih baik */
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    @media (max-width: 768px) {
+      .banner-container {
+        aspect-ratio: 16/9; /* Lebih tinggi di mobile */
+      }
+    }
+    
+    .banner-slides {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .banner-slide {
+      min-width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .banner-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    
+    .banner-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      padding: 1.5rem;
+      color: white;
+    }
+    
+    .banner-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    
+    .banner-description {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .banner-indicators {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 10;
+    }
+    
+    .banner-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .banner-indicator.active {
+      background-color: white;
+      transform: scale(1.2);
+    }
+    
+    .banner-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1rem;
+      z-index: 10;
+    }
+    
+    .banner-nav-btn {
+      background-color: rgba(255,255,255,0.2);
+      backdrop-filter: blur(5px);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    
+    .banner-nav-btn:hover {
+      background-color: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+    
+    /* Trading View Button Style */
+    .trading-nav-btn {
+      position: relative;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #3B82F6;
+      background-color: rgba(59, 130, 246, 0.1);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    .trading-nav-btn:hover {
+      background-color: rgba(59, 130, 246, 0.2);
+      color: #2563EB;
+    }
+    
+    .trading-nav-btn.active {
+      background-color: #3B82F6;
+      color: white;
+      box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+    }
+    
+    .trading-nav-btn i {
+      margin-right: 0.25rem;
+      font-size: 0.65rem;
+    }
+    
+    /* Existing styles... */
     .crypto-container {
       display: flex;
       flex-wrap: wrap;
@@ -100,6 +246,23 @@
         padding: 0.2rem 0.4rem;
         font-size: 0.65rem;
       }
+      
+      .banner-title {
+        font-size: 1rem;
+      }
+      
+      .banner-description {
+        font-size: 0.75rem;
+      }
+      
+      .banner-overlay {
+        padding: 1rem;
+      }
+      
+      .trading-nav-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
+      }
     }
     
     /* Show more button */
@@ -143,7 +306,7 @@
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800 text-[10px] md:text-sm">
-  <!-- New Professional Header -->
+  <!-- Header -->
   <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center py-3">
@@ -185,14 +348,71 @@
   </header>
 
   <main class="p-3 space-y-8 container mx-auto">
-    <section class="bg-white rounded-xl shadow p-3 md:p-5">
-      <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-1">Selamat Datang di TukarPi Dashboard</h2>
-      <p class="text-gray-600 text-[10px]">Pantau harga 200+ aset kripto secara realtime</p>
+    <!-- Modern Banner Slider -->
+    <section class="banner-container">
+      <div class="banner-slides" id="bannerSlides">
+        <!-- Banner 1 -->
+        <div class="banner-slide">
+          <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55?q=80&w=2232&auto=format&fit=crop" 
+               alt="Tukar Koin PI Network" 
+               class="banner-image">
+          <div class="banner-overlay">
+            <h3 class="banner-title">Tukar Koin PI Network Anda</h3>
+            <p class="banner-description">Proses cepat dan aman dengan harga terbaik</p>
+          </div>
+        </div>
+        
+        <!-- Banner 2 -->
+        <div class="banner-slide">
+          <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=2231&auto=format&fit=crop" 
+               alt="Beli Kripto Terpercaya" 
+               class="banner-image">
+          <div class="banner-overlay">
+            <h3 class="banner-title">Beli Kripto Terpercaya</h3>
+            <p class="banner-description">200+ aset kripto tersedia dengan harga kompetitif</p>
+          </div>
+        </div>
+        
+        <!-- Banner 3 -->
+        <div class="banner-slide">
+          <img src="https://images.unsplash.com/photo-1621761293029-45b772b6af8a?q=80&w=2232&auto=format&fit=crop" 
+               alt="Program Affiliate" 
+               class="banner-image">
+          <div class="banner-overlay">
+            <h3 class="banner-title">Program Affiliate</h3>
+            <p class="banner-description">Dapatkan komisi hingga 0.5% dari setiap transaksi</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Banner Indicators -->
+      <div class="banner-indicators" id="bannerIndicators">
+        <div class="banner-indicator active" data-index="0"></div>
+        <div class="banner-indicator" data-index="1"></div>
+        <div class="banner-indicator" data-index="2"></div>
+      </div>
+      
+      <!-- Navigation Arrows -->
+      <div class="banner-nav">
+        <button class="banner-nav-btn" id="prevBanner">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="banner-nav-btn" id="nextBanner">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
     </section>
 
+    <!-- Crypto Price Section -->
     <section class="relative">
       <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
-        <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+        <div class="flex items-center gap-2">
+          <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+          <!-- Trading View Button -->
+          <a href="tradingview.html" class="trading-nav-btn">
+            <i class="fas fa-chart-line"></i> Trading View
+          </a>
+        </div>
         <div class="flex gap-2 flex-wrap" id="filter-buttons">
           <button class="filter-btn active" data-filter="all">Semua</button>
           <button class="filter-btn" data-filter="payment">Pembayaran</button>
@@ -220,7 +440,7 @@
     </section>
   </main>
 
-  <!-- New Professional Footer -->
+  <!-- Footer -->
   <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
@@ -307,6 +527,105 @@
   </a>
 
   <script>
+    // Modern Banner Slider Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const bannerSlides = document.getElementById('bannerSlides');
+      const indicators = document.querySelectorAll('.banner-indicator');
+      const prevBtn = document.getElementById('prevBanner');
+      const nextBtn = document.getElementById('nextBanner');
+      let currentIndex = 0;
+      const slideCount = document.querySelectorAll('.banner-slide').length;
+      let interval;
+      
+      // Function to go to a specific slide
+      function goToSlide(index) {
+        currentIndex = (index + slideCount) % slideCount; // Handle wrap-around
+        const translateX = -currentIndex * 100;
+        bannerSlides.style.transform = `translateX(${translateX}%)`;
+        
+        // Update indicators
+        indicators.forEach((indicator, i) => {
+          if (i === currentIndex) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
+        
+        // Reset timer
+        resetInterval();
+      }
+      
+      // Function to go to next slide
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+      
+      // Function to go to previous slide
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+      
+      // Function to reset the auto-slide interval
+      function resetInterval() {
+        clearInterval(interval);
+        interval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+      }
+      
+      // Set up click events for indicators
+      indicators.forEach(indicator => {
+        indicator.addEventListener('click', function() {
+          const index = parseInt(this.dataset.index);
+          goToSlide(index);
+        });
+      });
+      
+      // Set up navigation buttons
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+      
+      // Start auto-sliding
+      resetInterval();
+      
+      // Pause on hover
+      bannerSlides.addEventListener('mouseenter', () => {
+        clearInterval(interval);
+      });
+      
+      bannerSlides.addEventListener('mouseleave', resetInterval);
+      
+      // Handle keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+          nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+          prevSlide();
+        }
+      });
+      
+      // Handle swipe on touch devices
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      bannerSlides.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, {passive: true});
+      
+      bannerSlides.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, {passive: true});
+      
+      function handleSwipe() {
+        const threshold = 50; // Minimum swipe distance
+        if (touchEndX < touchStartX - threshold) {
+          nextSlide(); // Swipe left
+        } else if (touchEndX > touchStartX + threshold) {
+          prevSlide(); // Swipe right
+        }
+      }
+    });
+
     // Mobile Menu Toggle
     document.getElementById('mobile-menu-button').addEventListener('click', function() {
       const menu = document.getElementById('mobile-menu');
