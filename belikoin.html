@@ -778,91 +778,48 @@
 
     // Fungsi untuk generate invoice PDF
     function generateInvoice() {
+      const now = new Date();
+      const paymentDue = new Date(Date.now() + 24*60*60*1000);
+      
       const element = document.createElement('div');
       element.className = 'invoice-card p-8 max-w-2xl mx-auto';
       element.innerHTML = `
-        <!-- Header Perusahaan -->
-        <div class="text-center mb-8">
-          <h1 class="text-3xl font-bold text-gray-800 mb-1">PT. RUANG DIGITAL RAYA</h1>
-          <h2 class="text-xl text-blue-600 font-medium mb-1">TukarPI.ID</h2>
-          <p class="text-gray-500 italic">Jl. TB. Simatumpang, Jakarta Selatan</p>
-          
-          <!-- Info Invoice -->
-          <div class="mt-4 border-t border-gray-200 pt-4">
-            <h3 class="text-2xl font-bold text-gray-800">INVOICE</h3>
-            <p class="text-gray-500">${new Date().toLocaleString('id-ID', {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'long',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}</p>
-          </div>
-        </div>
-        
-        <!-- Info Pembeli & Nomor Invoice -->
-        <div class="grid grid-cols-2 gap-6 mb-8">
+        <!-- Header Dokumen -->
+        <header class="flex justify-between items-start mb-8 border-b pb-6">
           <div>
-            <h3 class="text-sm font-medium text-gray-500 mb-2">Detail Pembeli</h3>
-            <p class="font-medium">${document.getElementById('wallet').value || '-'}</p>
+            <h1 class="text-2xl font-bold text-gray-800">PT. RUANG DIGITAL RAYA</h1>
+            <h2 class="text-xl text-blue-600 font-medium">TukarPI.ID</h2>
+            <p class="text-gray-500 text-sm italic">Jl. TB. Simatumpang, Jakarta Selatan</p>
           </div>
           <div class="text-right">
-            <h3 class="text-sm font-medium text-gray-500 mb-2">Nomor Invoice</h3>
-            <p class="font-mono text-blue-600">INV-${Date.now().toString().slice(-6)}</p>
+            <h3 class="text-2xl font-bold text-gray-800">INVOICE</h3>
+            <p class="text-gray-500 text-sm">${now.toLocaleString('id-ID', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric'
+            })}</p>
           </div>
-        </div>
-        
-        <!-- Tabel Item -->
-        <div class="border-t border-b border-gray-200 py-4 mb-6">
-          <div class="flex justify-between font-medium text-gray-700">
-            <span class="w-1/2">Deskripsi</span>
-            <span class="w-1/4 text-right">Jumlah</span>
-            <span class="w-1/4 text-right">Total</span>
+        </header>
+    
+        <!-- Info Pembeli & Pembayaran -->
+        <div class="grid grid-cols-2 gap-8 mb-8">
+          <div>
+            <h4 class="font-medium text-gray-700 mb-2">Detail Pembeli</h4>
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-sm text-gray-600 mb-1">Alamat Wallet</p>
+              <p class="font-mono text-sm break-all">${document.getElementById('wallet').value || '-'}</p>
+            </div>
           </div>
-        </div>
-        
-        <!-- Detail Pembelian -->
-        <div class="mb-4 flex justify-between items-center">
-          <span class="w-1/2">Pembelian ${document.getElementById('confirm-crypto').textContent}</span>
-          <span class="w-1/4 text-right">1</span>
-          <span class="w-1/4 text-right">${document.getElementById('confirm-amount').textContent}</span>
-        </div>
-        
-        <div class="mb-2 flex justify-between text-sm text-gray-600">
-          <span class="w-3/4">Biaya Layanan (5%)</span>
-          <span class="w-1/4 text-right">${document.getElementById('fee-amount').textContent}</span>
-        </div>
-        
-        <!-- Total -->
-        <div class="border-t border-gray-200 mt-6 pt-4 flex justify-between font-bold text-lg">
-          <span>TOTAL PEMBAYARAN</span>
-          <span class="text-blue-600">${document.getElementById('confirm-total').textContent}</span>
-        </div>
-        
-        <!-- Metode Pembayaran -->
-        <div class="mt-8 pt-6 border-t border-gray-200">
-          <h4 class="font-medium text-gray-700 mb-2">Detail Pembayaran</h4>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
+          <div>
+            <h4 class="font-medium text-gray-700 mb-2">Detail Pembayaran</h4>
+            <div class="bg-gray-50 p-3 rounded-lg">
               <p class="text-sm text-gray-600 mb-1">Metode Pembayaran</p>
               <p class="font-medium">${selectedPaymentMethod === 'bca' ? 'Bank BCA' : 
                 selectedPaymentMethod === 'dana' ? 'DANA' : 
                 selectedPaymentMethod === 'ovo' ? 'OVO' : 'GOPAY'}</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-600 mb-1">Nomor Tujuan</p>
-              <p class="font-mono">${selectedPaymentMethod === 'bca' ? '0332997201' : '087878787523'}</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
-              <p class="font-medium">Agus Mulia Bakti</p>
-            </div>
-            <div>
-              <p class="text-sm text-gray-600 mb-1">Batas Pembayaran</p>
-              <p class="font-medium">${new Date(Date.now() + 24*60*60*1000).toLocaleString('id-ID', {
-                weekday: 'long',
-                day: 'numeric',
+              <p class="text-sm text-gray-600 mt-2 mb-1">Batas Pembayaran</p>
+              <p class="font-medium">${paymentDue.toLocaleString('id-ID', {
+                day: '2-digit',
                 month: 'long',
                 year: 'numeric',
                 hour: '2-digit',
@@ -871,47 +828,129 @@
             </div>
           </div>
         </div>
-        
-        <!-- Detail Pengiriman -->
-        <div class="mt-8 pt-6 border-t border-gray-200">
-          <h4 class="font-medium text-gray-700 mb-2">Detail Pengiriman Kripto</h4>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <p class="text-sm text-gray-600 mb-1">Jenis Kripto</p>
-            <p class="font-medium mb-3">${document.getElementById('confirm-crypto').textContent}</p>
-            
-            <p class="text-sm text-gray-600 mb-1">Jumlah Koin</p>
-            <p class="font-medium mb-3">${document.getElementById('confirm-coin').textContent}</p>
-            
-            <p class="text-sm text-gray-600 mb-1">Alamat Wallet Tujuan</p>
-            <p class="font-mono text-sm bg-gray-100 p-2 rounded break-all">${document.getElementById('wallet').value}</p>
+    
+        <!-- Detail Transaksi -->
+        <div class="mb-6">
+          <h4 class="font-medium text-gray-700 mb-3">Detail Transaksi</h4>
+          <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <table class="w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="py-2 px-4 text-left text-sm font-medium text-gray-500">Deskripsi</th>
+                  <th class="py-2 px-4 text-right text-sm font-medium text-gray-500">Jumlah</th>
+                  <th class="py-2 px-4 text-right text-sm font-medium text-gray-500">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-gray-200">
+                  <td class="py-3 px-4">
+                    <p class="font-medium">${document.getElementById('confirm-crypto').textContent}</p>
+                    <p class="text-sm text-gray-500">Kurs: ${document.getElementById('confirm-exchange-rate').textContent}</p>
+                    <p class="text-sm text-gray-500">Harga: ${document.getElementById('realtime-price').textContent}</p>
+                  </td>
+                  <td class="py-3 px-4 text-right">1</td>
+                  <td class="py-3 px-4 text-right">${document.getElementById('confirm-amount').textContent}</td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-4 text-sm text-gray-600">Biaya Layanan (5%)</td>
+                  <td class="py-3 px-4 text-right"></td>
+                  <td class="py-3 px-4 text-right text-red-500">${document.getElementById('fee-amount').textContent}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-        
-        <!-- Footer -->
-        <div class="mt-8 pt-6 border-t border-gray-200 text-xs text-gray-500 text-center">
-          <p>Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
-          <p class="mt-1">TukarPI.ID adalah platform resmi penukaran kripto terdaftar</p>
+    
+        <!-- Total Pembayaran -->
+        <div class="flex justify-end mb-8">
+          <div class="w-64">
+            <div class="flex justify-between py-2 border-b border-gray-200">
+              <span class="font-medium">Subtotal</span>
+              <span>${document.getElementById('confirm-amount').textContent}</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-gray-200">
+              <span class="font-medium">Biaya Layanan</span>
+              <span class="text-red-500">${document.getElementById('fee-amount').textContent}</span>
+            </div>
+            <div class="flex justify-between py-2 font-bold text-lg">
+              <span>TOTAL</span>
+              <span class="text-blue-600">${document.getElementById('confirm-total').textContent}</span>
+            </div>
+          </div>
         </div>
+    
+        <!-- Detail Koin -->
+        <div class="mb-8">
+          <h4 class="font-medium text-gray-700 mb-3">Detail Koin</h4>
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Jenis Kripto</p>
+                <p class="font-medium">${document.getElementById('confirm-crypto').textContent}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Jumlah Koin</p>
+                <p class="font-medium">${document.getElementById('confirm-coin').textContent}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Harga per Koin</p>
+                <p class="font-medium">${document.getElementById('realtime-price').textContent}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Kurs yang Berlaku</p>
+                <p class="font-medium">${document.getElementById('confirm-exchange-rate').textContent}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Instruksi Pembayaran -->
+        <div class="mb-8">
+          <h4 class="font-medium text-gray-700 mb-3">Instruksi Pembayaran</h4>
+          <div class="bg-blue-50 p-4 rounded-lg">
+            <div class="flex items-start">
+              <div class="mr-4 mt-1">
+                <i class="fas fa-info-circle text-blue-500"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-700 mb-2">Silahkan transfer pembayaran ke:</p>
+                <p class="font-mono bg-white p-2 rounded inline-block">${
+                  selectedPaymentMethod === 'bca' ? 'BCA 0332997201' : 
+                  selectedPaymentMethod === 'dana' ? 'DANA 087878787523' : 
+                  selectedPaymentMethod === 'ovo' ? 'OVO 087878787523' : 'GOPAY 087878787523'
+                }</p>
+                <p class="text-sm text-gray-700 mt-2">Atas Nama: <span class="font-medium">Agus Mulia Bakti</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Footer -->
+        <footer class="text-center text-xs text-gray-500 border-t pt-6">
+          <p>Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
+          <p class="mt-1">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
+          <p class="mt-4">Invoice ID: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Date.now().toString().slice(-4)}</p>
+        </footer>
       `;
-      
+    
       // Konfigurasi PDF
       const opt = {
-        margin: 10,
-        filename: `invoice-tukarpi-${Date.now()}.pdf`,
+        margin: [20, 15, 15, 15], // top, right, bottom, left
+        filename: `Invoice-TukarPI-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
           scale: 2,
           logging: false,
-          useCORS: true
+          useCORS: true,
+          letterRendering: true
         },
         jsPDF: { 
           unit: 'mm', 
           format: 'a4', 
-          orientation: 'portrait',
-          hotfixes: ["px_scaling"]
+          orientation: 'portrait'
         }
       };
-      
+    
       // Generate PDF dengan nomor halaman
       html2pdf()
         .set(opt)
@@ -926,7 +965,7 @@
             pdf.setTextColor(150);
             pdf.text(
               `Halaman ${i} dari ${totalPages}`,
-              pdf.internal.pageSize.getWidth() - 30,
+              pdf.internal.pageSize.getWidth() - 20,
               pdf.internal.pageSize.getHeight() - 10
             );
           }
