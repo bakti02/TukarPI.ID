@@ -544,7 +544,7 @@
   <script>
     // Data koin default jika API tidak tersedia
     const defaultCryptoData = {
-      'USDT': { name: 'Tether', price: 15500, image: 'https://cryptologos.cc/logos/tether-usdt-logo.png' },
+      'USDT': { name: 'Tether', price: 16400, image: 'https://cryptologos.cc/logos/tether-usdt-logo.png' },
       'SHIB': { name: 'Shiba Inu', price: 0.0282, image: 'https://cryptologos.cc/logos/shiba-inu-shib-logo.png' }
     };
 
@@ -754,7 +754,7 @@
       const message = `*INVOICE PEMBELIAN KRIPTO*\n` +
                       `*PT. RUANG DIGITAL RAYA*\n` +
                       `*TukarPI.ID*\n` +
-                      `~Jl. TB. Simatumpang, Jakarta Selatan~\n` +
+                      `_Jl. TB. Simatumpang, Jakarta Selatan_\n` +
                      `================================\n` +
                      `🔹 *Jenis Kripto:* ${crypto}\n` +
                      `🔹 *Jumlah Pembelian:* ${amount}\n` +
@@ -767,7 +767,7 @@
                      `💬 *Konfirmasi Pembayaran:*\n` +
                      `Saya telah melakukan transfer pembayaran sesuai nominal di atas.\n` +
                      `Berikut bukti transfer yang telah dilakukan:\n` +
-                     `[~Lampirkan screenshot bukti transfer~]`;
+                     `_[Lampirkan screenshot bukti transfer]_`;
       
       // Encode message untuk URL
       const encodedMessage = encodeURIComponent(message);
