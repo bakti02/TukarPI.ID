@@ -13,7 +13,7 @@
     .banner-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 16/6; /* Rasio yang lebih baik */
+      aspect-ratio: 16/6;
       overflow: hidden;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -21,7 +21,7 @@
     
     @media (max-width: 768px) {
       .banner-container {
-        aspect-ratio: 16/9; /* Lebih tinggi di mobile */
+        aspect-ratio: 16/9;
       }
     }
     
@@ -154,31 +154,76 @@
       font-size: 0.65rem;
     }
     
-    /* Existing styles... */
+    /* Crypto Cards */
     .crypto-container {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
       padding-bottom: 0.5rem;
     }
+    
     .crypto-card {
       position: relative;
       flex: 0 0 calc(20% - 1rem);
       transition: all 0.3s ease;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      cursor: pointer;
+      background-color: white;
+      border-radius: 0.75rem;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-top: 4px solid;
     }
+    
+    .crypto-card:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+    
     .crypto-container::-webkit-scrollbar {
       display: none;
     }
+    
     @keyframes pulse-up {
       0% { background-color: rgba(74, 222, 128, 0.1); }
       100% { background-color: transparent; }
     }
+    
     @keyframes pulse-down {
       0% { background-color: rgba(239, 68, 68, 0.1); }
       100% { background-color: transparent; }
     }
+    
     .price-up { animation: pulse-up 1s; }
     .price-down { animation: pulse-down 1s; }
+    
+    .price-update {
+      transition: all 0.5s ease;
+      position: relative;
+    }
+    
+    .price-update::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: currentColor;
+      opacity: 0.1;
+      border-radius: 0.25rem;
+      animation: fadeOut 1s forwards;
+    }
+    
+    @keyframes fadeOut {
+      to { opacity: 0; }
+    }
+    
     .flame-badge {
       position: absolute;
       right: -8px;
@@ -198,43 +243,114 @@
       border: 0.5px solid rgba(255, 255, 255, 0.5);
       line-height: 1.2;
     }
+    
     .percentage-up {
       background-color: rgba(16, 185, 129, 0.9);
       color: white;
     }
+    
     .percentage-down {
       background-color: rgba(239, 68, 68, 0.9);
       color: white;
     }
     
+    /* Filter Buttons */
     .filter-btn {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 0.5rem;
       font-size: 0.75rem;
       transition: all 0.2s;
       border: 1px solid #e5e7eb;
+      background-color: white;
+      color: #4b5563;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
     }
+    
+    .filter-btn:hover {
+      background-color: #f3f4f6;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
     .filter-btn.active {
       background-color: #3B82F6;
       color: white;
       border-color: #3B82F6;
+      box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+    }
+    
+    .filter-btn i {
+      font-size: 0.65rem;
+    }
+    
+    /* Refresh Button */
+    .refresh-btn {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      color: #3B82F6;
+      transition: transform 0.3s ease;
+    }
+    
+    .refresh-btn:hover {
+      transform: rotate(45deg);
+    }
+    
+    .refresh-btn:active {
+      transform: rotate(360deg);
+    }
+    
+    .refresh-btn.loading {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
     /* Penyesuaian ukuran font untuk harga rendah */
     .price-low {
       font-size: 0.7rem;
     }
+    
     .price-very-low {
       font-size: 0.6rem;
     }
+    
     .price-micro {
       font-size: 0.55rem;
       letter-spacing: 0.5px;
     }
+    
     .truncate-mark {
       color: #999;
       font-size: 0.6em;
       margin-left: 1px;
+    }
+    
+    /* Show more button */
+    .show-more-btn {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      background: #f0f0f0;
+      border-radius: 0.25rem;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      display: none;
+      transition: all 0.2s;
+    }
+    
+    .show-more-btn:hover {
+      background: #e0e0e0;
+    }
+    
+    .show-more-btn.visible {
+      display: block;
     }
     
     /* Mobile styles */
@@ -242,6 +358,7 @@
       .crypto-card {
         flex: 0 0 calc(33.33% - 1rem);
       }
+      
       .filter-btn {
         padding: 0.2rem 0.4rem;
         font-size: 0.65rem;
@@ -265,28 +382,15 @@
       }
     }
     
-    /* Show more button */
-    .show-more-btn {
-      width: 100%;
-      text-align: center;
-      padding: 0.5rem;
-      background: #f0f0f0;
-      border-radius: 0.25rem;
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
-      display: none; /* Hidden by default */
-    }
-    .show-more-btn.visible {
-      display: block;
-    }
-    
     /* New header styles */
     .header-gradient {
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
     }
+    
     .nav-link {
       position: relative;
     }
+    
     .nav-link::after {
       content: '';
       position: absolute;
@@ -297,9 +401,11 @@
       background: white;
       transition: width 0.3s ease;
     }
+    
     .nav-link:hover::after {
       width: 100%;
     }
+    
     .mobile-menu {
       transition: all 0.3s ease;
     }
@@ -408,21 +514,42 @@
       <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
         <div class="flex items-center gap-2">
           <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+          <button id="refresh-btn" class="refresh-btn" title="Refresh data">
+            <i class="fas fa-sync-alt"></i>
+          </button>
           <!-- Trading View Button -->
           <a href="tradingview.html" class="trading-nav-btn">
             <i class="fas fa-chart-line"></i> Trading View
           </a>
         </div>
         <div class="flex gap-2 flex-wrap" id="filter-buttons">
-          <button class="filter-btn active" data-filter="all">Semua</button>
-          <button class="filter-btn" data-filter="payment">Pembayaran</button>
-          <button class="filter-btn" data-filter="stable">Stablecoin</button>
-          <button class="filter-btn" data-filter="defi">DeFi</button>
-          <button class="filter-btn" data-filter="meme">Meme</button>
-          <button class="filter-btn" data-filter="layer1">Layer 1</button>
-          <button class="filter-btn" data-filter="layer2">Layer 2</button>
-          <button class="filter-btn" data-filter="nft">NFT</button>
-          <button class="filter-btn" data-filter="baru">Koin Baru</button>
+          <button class="filter-btn active" data-filter="all">
+            <i class="fas fa-coins"></i> Semua
+          </button>
+          <button class="filter-btn" data-filter="payment">
+            <i class="fas fa-money-bill-wave"></i> Pembayaran
+          </button>
+          <button class="filter-btn" data-filter="stable">
+            <i class="fas fa-shield-alt"></i> Stablecoin
+          </button>
+          <button class="filter-btn" data-filter="defi">
+            <i class="fas fa-university"></i> DeFi
+          </button>
+          <button class="filter-btn" data-filter="meme">
+            <i class="fas fa-dog"></i> Meme
+          </button>
+          <button class="filter-btn" data-filter="layer1">
+            <i class="fas fa-layer-group"></i> Layer 1
+          </button>
+          <button class="filter-btn" data-filter="layer2">
+            <i class="fas fa-layer-group"></i> Layer 2
+          </button>
+          <button class="filter-btn" data-filter="nft">
+            <i class="fas fa-image"></i> NFT
+          </button>
+          <button class="filter-btn" data-filter="baru">
+            <i class="fas fa-star"></i> Koin Baru
+          </button>
         </div>
       </div>
       
@@ -537,13 +664,11 @@
       const slideCount = document.querySelectorAll('.banner-slide').length;
       let interval;
       
-      // Function to go to a specific slide
       function goToSlide(index) {
-        currentIndex = (index + slideCount) % slideCount; // Handle wrap-around
+        currentIndex = (index + slideCount) % slideCount;
         const translateX = -currentIndex * 100;
         bannerSlides.style.transform = `translateX(${translateX}%)`;
         
-        // Update indicators
         indicators.forEach((indicator, i) => {
           if (i === currentIndex) {
             indicator.classList.add('active');
@@ -552,27 +677,22 @@
           }
         });
         
-        // Reset timer
         resetInterval();
       }
       
-      // Function to go to next slide
       function nextSlide() {
         goToSlide(currentIndex + 1);
       }
       
-      // Function to go to previous slide
       function prevSlide() {
         goToSlide(currentIndex - 1);
       }
       
-      // Function to reset the auto-slide interval
       function resetInterval() {
         clearInterval(interval);
-        interval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        interval = setInterval(nextSlide, 5000);
       }
       
-      // Set up click events for indicators
       indicators.forEach(indicator => {
         indicator.addEventListener('click', function() {
           const index = parseInt(this.dataset.index);
@@ -580,21 +700,17 @@
         });
       });
       
-      // Set up navigation buttons
       nextBtn.addEventListener('click', nextSlide);
       prevBtn.addEventListener('click', prevSlide);
       
-      // Start auto-sliding
       resetInterval();
       
-      // Pause on hover
       bannerSlides.addEventListener('mouseenter', () => {
         clearInterval(interval);
       });
       
       bannerSlides.addEventListener('mouseleave', resetInterval);
       
-      // Handle keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowRight') {
           nextSlide();
@@ -603,7 +719,6 @@
         }
       });
       
-      // Handle swipe on touch devices
       let touchStartX = 0;
       let touchEndX = 0;
       
@@ -617,11 +732,11 @@
       }, {passive: true});
       
       function handleSwipe() {
-        const threshold = 50; // Minimum swipe distance
+        const threshold = 50;
         if (touchEndX < touchStartX - threshold) {
-          nextSlide(); // Swipe left
+          nextSlide();
         } else if (touchEndX > touchStartX + threshold) {
-          prevSlide(); // Swipe right
+          prevSlide();
         }
       }
     });
@@ -632,7 +747,6 @@
       menu.classList.toggle('hidden');
     });
 
-    // Close mobile menu when clicking outside
     document.addEventListener('click', function(e) {
       const menu = document.getElementById('mobile-menu');
       const button = document.getElementById('mobile-menu-button');
@@ -698,7 +812,7 @@
         'looksrare', 'rari-token', 'nftx', 'ufo-gaming', 'vulcan-forged',
         'dust-protocol', 'sudoswap', 'nftearth', 'nft-art-finance', 'bnpl-pay'
       ],
-      baru: [ // Koin baru rilis (2024-2025)
+      baru: [
         'berachain', 'monad', 'etherfi', 'puffer-finance', 'eigenlayer',
         'saga', 'dymension', 'zetachain', 'altlayer', 'xai',
         'portal', 'pandora', 'wormhole', 'omni-network', 'karak',
@@ -706,7 +820,7 @@
       ]
     };
 
-    // 1. Format harga dengan 12 digit dan tanda >
+    // Format harga dengan 12 digit dan tanda >
     function formatPrice(price) {
       if (price >= 1) {
         return `$${price.toLocaleString(undefined, { maximumFractionDigits: 4 })}`;
@@ -715,13 +829,10 @@
       } else if (price >= 0.0001) {
         return `$${price.toFixed(6).replace(/\.?0+$/, '')}`;
       } else {
-        // Untuk harga < 0.0001 (hingga 12 digit)
         const formatted = price.toFixed(12);
         const trimmed = formatted.replace(/(\..*?)0+$/, '$1').replace(/\.$/, '');
-        
-        // Cek apakah nilai sebenarnya lebih panjang dari yang ditampilkan
         const fullValue = price.toString();
-        const isTruncated = fullValue.length > trimmed.length + 1; // +1 untuk tanda $
+        const isTruncated = fullValue.length > trimmed.length + 1;
         
         return `<span class="price-micro">
           $${trimmed}${isTruncated ? '<span class="truncate-mark">></span>' : ''}
@@ -729,8 +840,13 @@
       }
     }
 
-    // 2. Fungsi untuk membatasi tampilan awal (2 baris di mobile)
+    // Variabel untuk menyimpan state tampilkan semua
+    let showAllState = false;
+    
+    // Fungsi untuk membatasi tampilan awal
     function limitInitialDisplay() {
+      if (showAllState) return;
+      
       const container = document.getElementById('crypto-container');
       const activeFilter = container.dataset.filtered || 'all';
       const cards = container.querySelectorAll('.crypto-card');
@@ -741,7 +857,6 @@
       let visibleCount = 0;
       let totalFiltered = 0;
 
-      // Hitung total kartu yang sesuai filter
       cards.forEach(card => {
         if (activeFilter === 'all' || card.dataset.category === activeFilter) {
           totalFiltered++;
@@ -761,7 +876,6 @@
         }
       });
 
-      // Tampilkan tombol hanya jika ada lebih banyak kartu yang sesuai filter
       if (totalFiltered > initialLimit) {
         showMoreBtn.classList.add('visible');
       } else {
@@ -769,7 +883,7 @@
       }
     }
     
-    // 3. Fungsi untuk menampilkan semua kartu YANG SESUAI FILTER
+    // Fungsi untuk menampilkan semua kartu YANG SESUAI FILTER
     function showAllCards() {
       const container = document.getElementById('crypto-container');
       const activeFilter = container.dataset.filtered || 'all';
@@ -783,11 +897,24 @@
       });
       
       showMoreBtn.classList.remove('visible');
+      showAllState = true;
     }
 
-    // 4. Render kartu kripto dengan kategori
+    // Render kartu kripto dengan kategori
     function renderOptimizedCards(data) {
       const container = document.getElementById('crypto-container');
+      
+      // Simpan harga sebelumnya untuk animasi
+      const previousPrices = {};
+      container.querySelectorAll('.crypto-card').forEach(card => {
+        const symbol = card.querySelector('h3').textContent.trim();
+        const priceEl = card.querySelector('[data-current-price]');
+        if (priceEl) {
+          previousPrices[symbol] = parseFloat(priceEl.dataset.currentPrice);
+        }
+      });
+      
+      // Render kartu baru
       container.innerHTML = '';
       
       data.forEach(coin => {
@@ -800,10 +927,13 @@
           }
         }
         
+        const previousPrice = previousPrices[coin.symbol.toUpperCase()];
+        const priceChanged = previousPrice && previousPrice !== coin.current_price;
+        
         const card = document.createElement('div');
         card.className = `crypto-card bg-white rounded-xl shadow p-2 flex flex-col items-center text-center border-t-4 ${
           coin.price_change_percentage_24h >= 0 ? 'border-green-500' : 'border-red-500'
-        }`;
+        } ${priceChanged ? 'price-update' : ''}`;
         card.dataset.category = category;
 
         const img = document.createElement('img');
@@ -831,17 +961,20 @@
         
         card.prepend(img);
         container.appendChild(card);
+        
+        if (priceChanged) {
+          card.style.setProperty('--price-color', 
+            coin.current_price > previousPrice ? '#10B981' : '#EF4444');
+        }
       });
       
-      // Terapkan limit tampilan awal
       limitInitialDisplay();
-      
-      // Simpan data untuk filtering
       container.dataset.filtered = 'all';
     }
 
-    // 5. Fungsi filter yang diperbaiki
+    // Fungsi filter yang diperbaiki
     function filterCoins(category) {
+      showAllState = false;
       const container = document.getElementById('crypto-container');
       const cards = container.querySelectorAll('.crypto-card');
       const showMoreBtn = document.getElementById('show-more-btn');
@@ -885,12 +1018,34 @@
       }
     }
 
-    // 6. Fungsi fetch data
+    // Fungsi refresh data
+    async function refreshData() {
+      const btn = document.getElementById('refresh-btn');
+      btn.classList.add('loading');
+      
+      try {
+        await fetchOptimizedData();
+        // Tampilkan notifikasi refresh berhasil
+        const container = document.getElementById('crypto-container');
+        const notification = document.createElement('div');
+        notification.className = 'text-center text-green-500 text-xs mb-2';
+        notification.textContent = 'Data diperbarui ' + new Date().toLocaleTimeString();
+        container.parentNode.insertBefore(notification, container);
+        
+        // Hapus notifikasi setelah 3 detik
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      } finally {
+        btn.classList.remove('loading');
+      }
+    }
+
+    // Fungsi fetch data
     async function fetchOptimizedData() {
       const cached = getCachedData();
       if (cached) {
         renderOptimizedCards(cached);
-        // Terapkan filter yang aktif sebelumnya
         const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
         filterCoins(activeFilter);
       }
@@ -909,9 +1064,7 @@
             ...coinCategories.baru
           ])
         ].join(',');
-        console.log(`Total aset: ${allCoinIds.split(',').length}`);
-        console.log(`Contoh output: ${allCoinIds.substring(0, 100)}...`);
-        // Hasil akhir akan berupa string dengan format: "bitcoin,ethereum,solana,..."
+        
         const response = await fetch(
           `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${allCoinIds}&order=market_cap_desc&per_page=200&page=1&sparkline=false`
         );
@@ -919,7 +1072,6 @@
         setCachedData(data);
         renderOptimizedCards(data);
         
-        // Terapkan filter yang aktif setelah render
         const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
         filterCoins(activeFilter);
       } catch (error) {
@@ -929,6 +1081,21 @@
           container.innerHTML = '<p class="text-red-500">Gagal memuat data. Silakan coba lagi nanti.</p>';
         }
       }
+    }
+
+    // Cache data di localStorage
+    function getCachedData() {
+      const cached = localStorage.getItem('cryptoCache');
+      if (!cached) return null;
+      const { timestamp, data } = JSON.parse(cached);
+      return (Date.now() - timestamp < 300000) ? data : null;
+    }
+
+    function setCachedData(data) {
+      localStorage.setItem('cryptoCache', JSON.stringify({
+        timestamp: Date.now(),
+        data: data
+      }));
     }
 
     // Inisialisasi
@@ -946,6 +1113,9 @@
       // Setup show more button
       document.getElementById('show-more-btn').addEventListener('click', showAllCards);
       
+      // Setup refresh button
+      document.getElementById('refresh-btn').addEventListener('click', refreshData);
+      
       // Handle resize
       window.addEventListener('resize', () => {
         if (document.getElementById('crypto-container').dataset.filtered) {
@@ -960,21 +1130,6 @@
         fetchOptimizedData();
       }
     }, 60000);
-    
-    // 1. Cache data di localStorage
-    function getCachedData() {
-      const cached = localStorage.getItem('cryptoCache');
-      if (!cached) return null;
-      const { timestamp, data } = JSON.parse(cached);
-      return (Date.now() - timestamp < 300000) ? data : null;
-    }
-
-    function setCachedData(data) {
-      localStorage.setItem('cryptoCache', JSON.stringify({
-        timestamp: Date.now(),
-        data: data
-      }));
-    }
   </script>
 </body>
 </html>
