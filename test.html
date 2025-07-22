@@ -839,7 +839,15 @@
             <img src="https://bakti02.github.io/TukarPI.ID/flame-21186.gif" 
                  class="flame-badge" 
                  loading="lazy"
+                 style="width: 30px; height: 30px;"
                  alt="Kenaikan signifikan">
+          ` : ''}
+          ${coin.price_change_percentage_24h <= -5 ? `
+            <img src="https://bakti02.github.io/TukarPI.ID/danger.gif" 
+                 class="flame-badge" 
+                 loading="lazy"
+                 style="width: 32px; height: 32px;"
+                 alt="Penurunan signifikan">
           ` : ''}
           <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
           <p class="text-xs font-bold" data-current-price="${coin.current_price}">
