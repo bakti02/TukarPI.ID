@@ -7,7 +7,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://api.coingecko.com">
   <link rel="preload" as="image" href="https://bakti02.github.io/TukarPI.ID/flame-21186.gif">
-  <link rel="preload" as="image" href="https://bakti02.github.io/15-23-06-837_512.gif">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* Modern Banner Slider */
@@ -437,20 +436,18 @@
 
     <!-- Crypto Price Section -->
     <section class="relative">
-      <div class="flex items-center gap-2">
-        <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
-        <button id="refresh-btn" class="refresh-btn ml-2 text-blue-500 hover:text-blue-700" title="Refresh data">
-          <i class="fas fa-sync-alt"></i>
-        </button>
-        <!-- Trading View Button -->
-        <a href="tradingview.html" class="trading-nav-btn">
-          <i class="fas fa-chart-line"></i> Trading View
-        </a>
-        <!-- Prediction Button (added) -->
-        <a href="prediksi-koin.html" class="trading-nav-btn">
-          <i class="fas fa-crystal-ball"></i> Prediksi
-        </a>
-      </div>
+      <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <h2 class="text-sm md:text-base font-semibold">Harga Kripto Realtime</h2>
+          <!-- 1. TOMBOL REFRESH DITAMBAHKAN -->
+          <button id="refresh-btn" class="refresh-btn ml-2 text-blue-500 hover:text-blue-700" title="Refresh data">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <!-- Trading View Button -->
+          <a href="tradingview.html" class="trading-nav-btn">
+            <i class="fas fa-chart-line"></i> Trading View
+          </a>
+        </div>
         <!-- 4. MENU FILTER DIPERBAIKI -->
         <div class="flex gap-2 flex-wrap" id="filter-buttons">
           <button class="filter-btn active flex items-center" data-filter="all">
@@ -583,17 +580,6 @@
   </a>
 
   <script>
-    // Auto-refresh when dashboard.html loads
-    if (window.location.pathname.includes('dashboard.html')) {
-      document.addEventListener('DOMContentLoaded', async function() {
-        const refreshBtn = document.getElementById('refresh-btn');
-        if (refreshBtn) {
-          refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-          await fetchOptimizedData();
-          refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
-        }
-      });
-    }
     // Modern Banner Slider Functionality
     document.addEventListener('DOMContentLoaded', function() {
       const bannerSlides = document.getElementById('bannerSlides');
@@ -849,15 +835,7 @@
             <img src="https://bakti02.github.io/TukarPI.ID/flame-21186.gif" 
                  class="flame-badge" 
                  loading="lazy"
-                 style="width: 28px; height: 28px;"
                  alt="Kenaikan signifikan">
-          ` : ''}
-          ${coin.price_change_percentage_24h <= -5 ? `
-            <img src="https://bakti02.github.io/15-23-06-837_512.gif" 
-                 class="flame-badge" 
-                 loading="lazy"
-                 style="width: 28px; height: 28px;"
-                 alt="Penurunan signifikan">
           ` : ''}
           <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
           <p class="text-xs font-bold" data-current-price="${coin.current_price}">
