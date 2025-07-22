@@ -279,8 +279,8 @@
             </div>
             <p class="disclaimer-text mt-2">* Harga mainnet saat ini: <span id="mainnet-price-value">Rp 0</span></p>
             <p class="disclaimer-text mt-2">
-              <span id="current-rate">*Kurs USD-IDR: Rp0</span></p> 
-              <span id="rate-updated">• Update: -</span>
+              <span id="current-rate">*Kurs USD-IDR: Rp0</span> • 
+              <span id="rate-updated">Update: -</span>
             </p>
           </div>
 
@@ -380,8 +380,8 @@
             <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
           </div>
           <p class="disclaimer-text mt-2">* Harga mainnet saat ini: <span id="confirm-mainnet-price">Rp 0</span></p>
-          <p class="exchange-rate-info mt-2">
-            <span id="confirm-exchange-rate">Kurs USD-IDR: Rp0</span> • 
+          <p class="disclaimer-text mt-2">
+            <span id="confirm-exchange-rate">* Kurs USD-IDR: Rp0</span> • 
             <span id="confirm-rate-updated">Update: -</span>
           </p>
         </div>
@@ -500,11 +500,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50 animate-float">
-    <i class="fab fa-whatsapp text-xl"></i>
-  </a>
 
   <!-- Popup Konfirmasi Penjualan -->
   <div id="confirmationPopup" class="fixed inset-0 z-50 flex items-center justify-center hidden popup-overlay">
@@ -814,7 +809,7 @@
                      `2. Pastikan akun Anda sudah KYC\n` +
                      `3. Jangan kirim dari wallet exchange\n` +
                      `4. Proses membutuhkan waktu 5-15 menit setelah transfer\n\n` +
-                     `🔄 *Status:* Menunggu transfer Pi Network`;
+                     `🔄 *Status:* _Menunggu Konfirmasi hasil transfer koin Pi Network_`;
       
       const whatsappUrl = `https://wa.me/6282147510780?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
@@ -828,7 +823,7 @@
               <div class="text-left bg-gray-100 p-3 rounded-lg my-3">
                 <p class="font-semibold">Alamat Wallet:</p>
                 <p class="font-mono bg-white p-2 rounded">GCHDZHABCDEF1234567890</p>
-                <p class="text-sm mt-2">Pastikan transfer sudah sesuai dengan jumlah yang tertera.</p>
+                <p class="disclaimer-text mt-2">*Pastikan Anda transfer koin PI Network ke alamat wallet ini.</p>
               </div>`,
         icon: 'question',
         showCancelButton: true,
