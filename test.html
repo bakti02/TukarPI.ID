@@ -4,337 +4,514 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prediksi Kripto AI | TukarPI.ID - Analisis Neural & On-Chain</title>
+  <meta name="description" content="Platform prediksi kripto berbasis AI dengan analisis deep learning dan on-chain data untuk trader Indonesia">
+  <meta name="keywords" content="prediksi bitcoin, analisis kripto AI, tukar pi network, harga crypto">
+  
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="Prediksi Kripto AI | TukarPI.ID">
+  <meta property="og:description" content="Platform prediksi kripto berbasis AI dengan akurasi tinggi">
+  <meta property="og:image" content="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png">
+  <meta property="og:url" content="https://bakti02.github.io/TukarPI.ID/test.html">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png">
+  
+  <!-- CSS & Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- TradingView Widget -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  
   <style>
-    /* Animasi dan gaya yang lebih modern */
+    :root {
+      --primary: #2563eb;
+      --secondary: #1e40af;
+      --accent: #3b82f6;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+    
+    /* Animations */
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
-    @keyframes pulse-glow {
-      0% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
-      50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
-      100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
-    @keyframes pulse-glow-red {
-      0% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
-      50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.8); }
-      100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); }
+    
+    .gradient-text {
+      background: linear-gradient(90deg, #3b82f6, #10b981);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
+    
     .coin-card {
-      transition: all 0.3s ease;
-      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backface-visibility: hidden;
     }
+    
     .coin-card:hover {
-      animation: float 2s ease-in-out infinite;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
+    
     .strong-buy {
-      border-left: 4px solid #10B981;
+      border-left: 4px solid var(--success);
       background: linear-gradient(to right, rgba(16, 185, 129, 0.03), transparent);
     }
+    
     .strong-sell {
-      border-left: 4px solid #EF4444;
+      border-left: 4px solid var(--danger);
       background: linear-gradient(to right, rgba(239, 68, 68, 0.03), transparent);
     }
-    .prediction-gauge {
-      height: 6px;
-      border-radius: 3px;
-      background: linear-gradient(to right, #EF4444, #F59E0B, #10B981);
+    
+    .skeleton {
+      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
     }
-    .glow-buy {
-      animation: pulse-glow 2s infinite;
+    
+    @keyframes shimmer {
+      to { background-position: -200% 0; }
     }
-    .glow-sell {
-      animation: pulse-glow-red 2s infinite;
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
     }
-    .fade-in {
-      animation: fadeIn 0.8s ease-out;
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
     }
-    .ai-chip {
-      background: linear-gradient(135deg, #6EE7B7 0%, #3B82F6 100%);
-      color: white;
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
     }
-    .trend-indicator {
-      width: 0; 
-      height: 0; 
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-    }
-    .trend-up {
-      border-bottom: 8px solid #10B981;
-    }
-    .trend-down {
-      border-top: 8px solid #EF4444;
-    }
-    .compact-card {
-      padding: 0.75rem;
+    
+    /* TradingView Chart Container */
+    .tradingview-widget-container {
+      height: 100%;
+      width: 100%;
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-900 to-blue-600 text-white shadow-lg sticky top-0 z-50">
+<body class="antialiased">
+  <!-- Header with Navigation -->
+  <header class="bg-gradient-to-r from-blue-900 to-blue-700 text-white shadow-lg sticky top-0 z-50">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center py-3">
-        <div class="flex items-center space-x-2">
-          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
+        <div class="flex items-center space-x-3">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 w-auto">
           <div>
-            <p class="text-xs opacity-80 font-bold">AI Crypto Prediction Engine</p>
+            <h1 class="text-lg font-bold">TukarPI<span class="text-blue-300">.ID</span></h1>
+            <p class="text-xs opacity-80 font-medium">AI Crypto Prediction</p>
           </div>
         </div>
+        
         <nav class="hidden md:flex items-center space-x-6">
-          <a href="index.html" class="text-sm font-medium hover:text-blue-200">Home</a>
-          <a href="dashboard.html" class="text-sm font-medium hover:text-blue-200">Live Kripto</a>
-          <a href="prediksi.html" class="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-bold flex items-center">
-            <i class="fas fa-robot mr-1"></i> Prediksi AI
+          <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center">
+            <i class="fas fa-home mr-1"></i> Home
+          </a>
+          <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center">
+            <i class="fas fa-chart-line mr-1"></i> Market
+          </a>
+          <a href="#" class="bg-white text-blue-700 px-4 py-1 rounded-full text-sm font-bold flex items-center transition-all hover:bg-blue-50">
+            <i class="fas fa-robot mr-1"></i> AI Predictions
+          </a>
+          <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center">
+            <i class="fas fa-wallet mr-1"></i> Wallet
           </a>
         </nav>
-        <button id="mobile-menu-button" class="md:hidden text-white">
-          <i class="fas fa-bars text-xl"></i>
-        </button>
+        
+        <div class="flex items-center space-x-4">
+          <button class="hidden md:block bg-blue-600 hover:bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium transition-colors">
+            <i class="fas fa-sign-in-alt mr-1"></i> Login
+          </button>
+          <button id="mobile-menu-button" class="md:hidden text-white">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-6 space-y-8">
-    <!-- Hero Section dengan AI Focus -->
-    <section class="bg-gradient-to-r from-blue-800 to-blue-600 rounded-xl p-6 text-white shadow-lg fade-in relative overflow-hidden">
-      <div class="absolute right-0 top-0 opacity-10">
+  <!-- Mobile Menu (Hidden by default) -->
+  <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white py-2 px-4">
+    <div class="flex flex-col space-y-3">
+      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
+        <i class="fas fa-home mr-2"></i> Home
+      </a>
+      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
+        <i class="fas fa-chart-line mr-2"></i> Market
+      </a>
+      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
+        <i class="fas fa-robot mr-2"></i> AI Predictions
+      </a>
+      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
+        <i class="fas fa-wallet mr-2"></i> Wallet
+      </a>
+      <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors w-full text-center">
+        <i class="fas fa-sign-in-alt mr-1"></i> Login
+      </button>
+    </div>
+  </div>
+
+  <main class="container mx-auto px-4 py-8">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-800 to-blue-600 rounded-2xl p-6 md:p-8 text-white shadow-xl mb-8 relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 opacity-20">
         <i class="fas fa-robot text-[200px]"></i>
       </div>
       <div class="max-w-3xl relative z-10">
-        <div class="flex items-center mb-2">
-          <span class="ai-chip px-3 py-1 rounded-full text-xs font-bold mr-2">
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold flex items-center">
             <i class="fas fa-bolt mr-1"></i> AI POWERED
           </span>
-          <span class="bg-white/20 px-2 py-1 rounded-full text-xs">
-            Real-time Updates
+          <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold flex items-center">
+            <i class="fas fa-sync-alt mr-1"></i> REAL-TIME DATA
+          </span>
+          <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold flex items-center">
+            <i class="fas fa-shield-alt mr-1"></i> SECURE
           </span>
         </div>
-        <h1 class="text-2xl md:text-3xl font-bold mb-3">Prediksi Kripto Generasi Baru</h1>
-        <p class="text-blue-100 mb-4">
+        
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+          Prediksi Pasar Kripto dengan <span class="gradient-text">Kecerdasan Buatan</span>
+        </h1>
+        
+        <p class="text-blue-100 mb-6 text-lg">
           Kombinasi <span class="font-semibold">Deep Learning (LSTM + Transformers)</span> dan <span class="font-semibold">Analisis On-Chain Multi-Sumber</span> 
           dengan akurasi backtesting 82.7% dalam 90 hari terakhir
         </p>
-        <div class="flex flex-wrap gap-3">
-          <div class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center">
-            <i class="fas fa-brain mr-1"></i> 5-Layer AI Model
+        
+        <div class="flex flex-wrap gap-3 mb-6">
+          <div class="bg-white/10 px-4 py-2 rounded-lg text-sm flex items-center">
+            <i class="fas fa-brain mr-2"></i> 5-Layer Neural Network
           </div>
-          <div class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center">
-            <i class="fas fa-link mr-1"></i> 18 Parameter On-Chain
+          <div class="bg-white/10 px-4 py-2 rounded-lg text-sm flex items-center">
+            <i class="fas fa-link mr-2"></i> 18 Parameter On-Chain
           </div>
-          <div class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center">
-            <i class="fas fa-clock mr-1"></i> Update Setiap 10 Menit
+          <div class="bg-white/10 px-4 py-2 rounded-lg text-sm flex items-center">
+            <i class="fas fa-clock mr-2"></i> Update Setiap 5 Menit
           </div>
-          <div class="bg-white/10 px-3 py-1 rounded-full text-xs flex items-center">
-            <i class="fas fa-robot mr-1"></i> AI Trend Analysis
-          </div>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-xl font-bold transition-colors flex items-center justify-center">
+            <i class="fas fa-play-circle mr-2"></i> Demo AI
+          </button>
+          <button class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center justify-center">
+            <i class="fas fa-chart-bar mr-2"></i> Lihat Prediksi
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- Quick Stats Bar -->
-    <section class="grid grid-cols-2 md:grid-cols-4 gap-4 fade-in">
-      <div class="bg-white rounded-lg shadow p-4 flex items-center">
-        <div class="bg-green-100 p-2 rounded-full mr-3 text-green-600">
-          <i class="fas fa-arrow-up"></i>
-        </div>
+    <!-- Market Overview Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <div>
-          <p class="text-xs text-gray-500">Accuracy (7D)</p>
-          <p class="font-bold">83.2%</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-lg shadow p-4 flex items-center">
-        <div class="bg-blue-100 p-2 rounded-full mr-3 text-blue-600">
-          <i class="fas fa-coins"></i>
-        </div>
-        <div>
-          <p class="text-xs text-gray-500">Assets Tracked</p>
-          <p class="font-bold">142</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-lg shadow p-4 flex items-center">
-        <div class="bg-purple-100 p-2 rounded-full mr-3 text-purple-600">
-          <i class="fas fa-bolt"></i>
-        </div>
-        <div>
-          <p class="text-xs text-gray-500">Last Update</p>
-          <p class="font-bold" id="update-time">Just now</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-lg shadow p-4 flex items-center">
-        <div class="bg-yellow-100 p-2 rounded-full mr-3 text-yellow-600">
-          <i class="fas fa-star"></i>
-        </div>
-        <div>
-          <p class="text-xs text-gray-500">Top Performer</p>
-          <p class="font-bold">SOL +12.3%</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Rekomendasi Strong Buy - Versi Compact -->
-    <section class="fade-in">
-      <div class="flex justify-between items-center mb-4">
-        <div>
-          <h2 class="text-xl font-bold text-green-600 flex items-center">
-            <i class="fas fa-arrow-up mr-2"></i>AI Strong Buy Signals
+          <h2 class="text-xl font-bold text-gray-800 flex items-center">
+            <i class="fas fa-chart-pie text-blue-500 mr-2"></i>
+            Market Overview
           </h2>
-          <p class="text-xs text-gray-500">Kombinasi momentum teknis dan fundamental kuat</p>
+          <p class="text-gray-500 text-sm">Data pasar kripto secara real-time</p>
         </div>
-        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-          Confidence Threshold > 75%
-        </span>
+        <div class="mt-3 md:mt-0">
+          <select class="bg-gray-100 border border-gray-200 text-gray-700 py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+            <option>24 Jam Terakhir</option>
+            <option>7 Hari Terakhir</option>
+            <option>30 Hari Terakhir</option>
+          </select>
+        </div>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3" id="strong-buy-container">
-        <!-- Skeleton loading -->
-        <div class="coin-card strong-buy bg-white rounded-lg shadow p-4 flex items-center animate-pulse">
-          <div class="h-8 w-8 bg-gray-200 rounded-full mr-3"></div>
-          <div class="flex-1">
-            <div class="h-4 w-16 bg-gray-200 rounded mb-2"></div>
-            <div class="h-3 w-full bg-gray-100 rounded"></div>
-          </div>
-        </div>
-        <!-- Diulang 3x -->
-      </div>
-    </section>
-
-    <!-- Rekomendasi Strong Sell - Versi Compact -->
-    <section class="fade-in">
-      <div class="flex justify-between items-center mb-4">
-        <div>
-          <h2 class="text-xl font-bold text-red-600 flex items-center">
-            <i class="fas fa-arrow-down mr-2"></i>AI Risk Warnings
-          </h2>
-          <p class="text-xs text-gray-500">Aset dengan risiko koreksi tinggi berdasarkan AI</p>
-        </div>
-        <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">
-          Sell Confidence > 70%
-        </span>
+      <!-- TradingView Widget -->
+      <div class="tradingview-widget-container mb-6" style="height: 400px;">
+        <div id="tradingview-chart" style="height: 100%;"></div>
       </div>
       
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3" id="strong-sell-container">
-        <!-- Skeleton loading -->
-        <div class="coin-card strong-sell bg-white rounded-lg shadow p-4 flex items-center animate-pulse">
-          <div class="h-8 w-8 bg-gray-200 rounded-full mr-3"></div>
-          <div class="flex-1">
-            <div class="h-4 w-16 bg-gray-200 rounded mb-2"></div>
-            <div class="h-3 w-full bg-gray-100 rounded"></div>
+      <!-- Market Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <div class="flex items-center mb-2">
+            <div class="bg-green-100 p-2 rounded-full mr-3">
+              <i class="fas fa-arrow-up text-green-600"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Market Cap</p>
+              <p class="font-bold">$1.24T</p>
+            </div>
           </div>
+          <p class="text-xs text-green-600 font-medium">+2.4% (24h)</p>
         </div>
-        <!-- Diulang 3x -->
+        
+        <div class="bg-gray-50 rounded-lg p-4">
+          <div class="flex items-center mb-2">
+            <div class="bg-blue-100 p-2 rounded-full mr-3">
+              <i class="fas fa-exchange-alt text-blue-600"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Volume (24h)</p>
+              <p class="font-bold">$42.8B</p>
+            </div>
+          </div>
+          <p class="text-xs text-blue-600 font-medium">+15.7%</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-4">
+          <div class="flex items-center mb-2">
+            <div class="bg-purple-100 p-2 rounded-full mr-3">
+              <i class="fas fa-coins text-purple-600"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Active Cryptos</p>
+              <p class="font-bold">10,234</p>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500">+42 baru</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-4">
+          <div class="flex items-center mb-2">
+            <div class="bg-yellow-100 p-2 rounded-full mr-3">
+              <i class="fas fa-star text-yellow-600"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Dominance</p>
+              <p class="font-bold">BTC: 48.2%</p>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500">ETH: 18.7%</p>
+        </div>
       </div>
     </section>
 
-    <!-- AI Prediction Dashboard -->
-    <section class="bg-white rounded-xl shadow-lg overflow-hidden fade-in">
-      <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-        <h3 class="text-lg font-semibold flex items-center">
-          <i class="fas fa-robot text-blue-500 mr-2"></i>
-          AI Prediction Dashboard
+    <!-- AI Predictions Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-gray-800 flex items-center">
+            <i class="fas fa-robot text-blue-500 mr-2"></i>
+            AI Crypto Predictions
+          </h2>
+          <p class="text-gray-500 text-sm">Sinyal trading berbasis analisis AI multi-model</p>
+        </div>
+        <div class="mt-3 md:mt-0 flex items-center">
+          <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mr-2">
+            <i class="fas fa-sync-alt mr-1"></i> Updated: <span id="update-time">Just now</span>
+          </span>
+          <button id="refresh-btn" class="bg-gray-100 hover:bg-gray-200 p-1 rounded-full transition-colors">
+            <i class="fas fa-redo text-gray-600"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Prediction Tabs -->
+      <div class="border-b border-gray-200 mb-6">
+        <div class="flex space-x-4">
+          <button class="prediction-tab active px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
+            <i class="fas fa-bolt mr-1"></i> Strong Signals
+          </button>
+          <button class="prediction-tab px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+            <i class="fas fa-list mr-1"></i> All Assets
+          </button>
+          <button class="prediction-tab px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+            <i class="fas fa-chart-line mr-1"></i> Technical
+          </button>
+          <button class="prediction-tab px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+            <i class="fas fa-link mr-1"></i> On-Chain
+          </button>
+        </div>
+      </div>
+      
+      <!-- Strong Buy Signals -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <h3 class="text-lg font-bold text-green-600 mr-2">
+              <i class="fas fa-arrow-up mr-1"></i> Strong Buy
+            </h3>
+            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+              Confidence > 80%
+            </span>
+          </div>
+          <a href="#" class="text-xs text-blue-600 hover:underline flex items-center">
+            View all <i class="fas fa-chevron-right ml-1"></i>
+          </a>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="strong-buy-container">
+          <!-- Skeleton Loading -->
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+        </div>
+      </div>
+      
+      <!-- Strong Sell Signals -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <h3 class="text-lg font-bold text-red-600 mr-2">
+              <i class="fas fa-arrow-down mr-1"></i> Strong Sell
+            </h3>
+            <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">
+              Risk > 75%
+            </span>
+          </div>
+          <a href="#" class="text-xs text-blue-600 hover:underline flex items-center">
+            View all <i class="fas fa-chevron-right ml-1"></i>
+          </a>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="strong-sell-container">
+          <!-- Skeleton Loading -->
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Analysis Dashboard -->
+    <section class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+      <div class="border-b border-gray-200 px-6 py-4 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+          <i class="fas fa-tachometer-alt text-blue-500 mr-2"></i>
+          AI Analysis Dashboard
         </h3>
-        <div class="flex space-x-2">
-          <button class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Neural</button>
-          <button class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full">On-Chain</button>
-          <button class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">Sentiment</button>
-        </div>
       </div>
+      
       <div class="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
-        <!-- Neural Network -->
-        <div class="p-5">
-          <div class="flex items-center mb-3">
+        <!-- Neural Network Analysis -->
+        <div class="p-6">
+          <div class="flex items-center mb-4">
             <div class="bg-blue-100 p-2 rounded-full mr-3">
               <i class="fas fa-brain text-blue-600"></i>
             </div>
             <div>
-              <h4 class="font-bold">Deep Learning Model</h4>
+              <h4 class="font-bold text-gray-800">Neural Network</h4>
               <p class="text-xs text-gray-500">LSTM + Transformer Hybrid</p>
             </div>
           </div>
-          <div class="space-y-3">
+          
+          <div class="space-y-4">
             <div>
-              <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
                 <span>Accuracy (7D)</span>
-                <span>84.1%</span>
+                <span class="font-bold">84.1%</span>
               </div>
               <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div class="h-full bg-blue-500 rounded-full" style="width: 84%"></div>
               </div>
             </div>
+            
             <div>
-              <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
                 <span>Win Rate</span>
-                <span>78.6%</span>
+                <span class="font-bold">78.6%</span>
               </div>
               <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div class="h-full bg-blue-400 rounded-full" style="width: 79%"></div>
               </div>
             </div>
-            <div class="text-xs text-gray-600 mt-4">
-              <p class="font-semibold flex items-center">
-                <i class="fas fa-lightbulb text-yellow-500 mr-1"></i> AI Insight:
-              </p>
-              <p class="mt-1">Model mendeteksi pola bullish kuat di aset layer-1 dengan volume meningkat.</p>
+            
+            <div class="bg-blue-50 p-3 rounded-lg mt-4">
+              <div class="flex items-start">
+                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
+                <div>
+                  <p class="text-xs font-semibold text-blue-800 mb-1">AI Insight:</p>
+                  <p class="text-xs text-blue-700">Model mendeteksi pola bullish kuat di aset layer-1 dengan volume meningkat dan RSI oversold.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         
-        <!-- On-Chain -->
-        <div class="p-5">
-          <div class="flex items-center mb-3">
+        <!-- On-Chain Analysis -->
+        <div class="p-6">
+          <div class="flex items-center mb-4">
             <div class="bg-purple-100 p-2 rounded-full mr-3">
               <i class="fas fa-link text-purple-600"></i>
             </div>
             <div>
-              <h4 class="font-bold">On-Chain Intelligence</h4>
-              <p class="text-xs text-gray-500">18 Key Metrics</p>
+              <h4 class="font-bold text-gray-800">On-Chain Metrics</h4>
+              <p class="text-xs text-gray-500">18 Key Indicators</p>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="bg-gray-50 p-2 rounded">
-              <p class="text-gray-500">NVT Ratio</p>
-              <p class="font-bold text-green-600">42.1 <span class="trend-indicator trend-up ml-1 inline-block"></span></p>
+          
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-gray-500 mb-1">NVT Ratio</p>
+              <p class="font-bold text-green-600 flex items-center">
+                42.1 <span class="trend-indicator trend-up ml-1"></span>
+              </p>
             </div>
-            <div class="bg-gray-50 p-2 rounded">
-              <p class="text-gray-500">SOPR</p>
-              <p class="font-bold text-red-600">1.12 <span class="trend-indicator trend-down ml-1 inline-block"></span></p>
+            
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-gray-500 mb-1">SOPR</p>
+              <p class="font-bold text-red-600 flex items-center">
+                1.12 <span class="trend-indicator trend-down ml-1"></span>
+              </p>
             </div>
-            <div class="bg-gray-50 p-2 rounded">
-              <p class="text-gray-500">Exchange Netflow</p>
+            
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-gray-500 mb-1">Exchange Netflow</p>
               <p class="font-bold text-green-600">-1,245 BTC</p>
             </div>
-            <div class="bg-gray-50 p-2 rounded">
-              <p class="text-gray-500">Whale Transactions</p>
-              <p class="font-bold text-green-600">+28%</p>
+            
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <p class="text-gray-500 mb-1">Whale Transactions</p>
+              <p class="font-bold text-green-600">+28% (24h)</p>
             </div>
           </div>
-          <div class="text-xs text-gray-600 mt-3">
-            <p class="font-semibold flex items-center">
-              <i class="fas fa-lightbulb text-yellow-500 mr-1"></i> On-Chain Alert:
-            </p>
-            <p class="mt-1">Whale accumulation terdeteksi di BTC dan ETH dengan NVT menunjukkan undervaluation.</p>
+          
+          <div class="bg-purple-50 p-3 rounded-lg mt-4">
+            <div class="flex items-start">
+              <i class="fas fa-bell text-purple-500 mt-1 mr-2"></i>
+              <div>
+                <p class="text-xs font-semibold text-purple-800 mb-1">On-Chain Alert:</p>
+                <p class="text-xs text-purple-700">Whale accumulation terdeteksi di BTC dan ETH dengan NVT menunjukkan undervaluation.</p>
+              </div>
+            </div>
           </div>
         </div>
         
-        <!-- Sentiment & AI -->
-        <div class="p-5">
-          <div class="flex items-center mb-3">
+        <!-- Market Sentiment -->
+        <div class="p-6">
+          <div class="flex items-center mb-4">
             <div class="bg-green-100 p-2 rounded-full mr-3">
               <i class="fas fa-comment-dots text-green-600"></i>
             </div>
             <div>
-              <h4 class="font-bold">AI Sentiment Analysis</h4>
-              <p class="text-xs text-gray-500">Real-time NLP Engine</p>
+              <h4 class="font-bold text-gray-800">Market Sentiment</h4>
+              <p class="text-xs text-gray-500">Real-time NLP Analysis</p>
             </div>
           </div>
-          <div class="flex items-center justify-between mb-3">
+          
+          <div class="flex items-center justify-between mb-4">
             <div class="text-center">
               <p class="text-xs text-gray-500">Positive</p>
               <p class="font-bold text-green-600">68%</p>
@@ -348,211 +525,368 @@
               <p class="font-bold text-red-600">7%</p>
             </div>
           </div>
+          
           <div class="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
-            <div class="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-full" style="width: 100%"></div>
+            <div class="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-full"></div>
           </div>
-          <div class="text-xs text-gray-600">
-            <p class="font-semibold flex items-center">
-              <i class="fas fa-lightbulb text-yellow-500 mr-1"></i> Market Sentiment:
-            </p>
-            <p class="mt-1">Sentimen positif dominan (68%) dengan pembicaraan tentang ETF crypto dan layer-2 solutions meningkat 42%.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Why Follow These Predictions -->
-    <section class="bg-white rounded-xl shadow-lg overflow-hidden fade-in">
-      <div class="border-b border-gray-200 px-6 py-4">
-        <h3 class="text-lg font-semibold flex items-center">
-          <i class="fas fa-question-circle text-blue-500 mr-2"></i>
-          Mengapa Mengikuti Prediksi Ini?
-        </h3>
-      </div>
-      <div class="grid md:grid-cols-2 gap-6 p-6">
-        <div class="flex items-start">
-          <img src="https://img.icons8.com/color/48/000000/artificial-intelligence.png" alt="AI" class="h-10 w-10 mr-3">
-          <div>
-            <h4 class="font-bold mb-1">Kecerdasan Buatan Multi-Model</h4>
-            <p class="text-sm text-gray-600">Kami menggabungkan 3 model AI berbeda (LSTM, Transformer, Gradient Boosting) untuk mengurangi bias dan meningkatkan akurasi prediksi.</p>
-          </div>
-        </div>
-        <div class="flex items-start">
-          <img src="https://img.icons8.com/color/48/000000/blockchain-technology.png" alt="Blockchain" class="h-10 w-10 mr-3">
-          <div>
-            <h4 class="font-bold mb-1">Data On-Chain Real-time</h4>
-            <p class="text-sm text-gray-600">Analisis 18 parameter on-chain termasuk whale movement, exchange flow, dan aktivitas smart contract untuk melihat pergerakan uang nyata.</p>
-          </div>
-        </div>
-        <div class="flex items-start">
-          <img src="https://img.icons8.com/color/48/000000/positive-dynamic.png" alt="Performance" class="h-10 w-10 mr-3">
-          <div>
-            <h4 class="font-bold mb-1">Rekam Jejak Terbukti</h4>
-            <p class="text-sm text-gray-600">Dalam backtesting 90 hari, model kami mencapai win rate 78.6% dengan risk/reward ratio 1:2.8 pada aset besar.</p>
-          </div>
-        </div>
-        <div class="flex items-start">
-          <img src="https://img.icons8.com/color/48/000000/clock--v1.png" alt="Clock" class="h-10 w-10 mr-3">
-          <div>
-            <h4 class="font-bold mb-1">Update Setiap 10 Menit</h4>
-            <p class="text-sm text-gray-600">Prediksi diperbarui setiap 10 menit dengan data terbaru, memastikan Anda tidak ketinggalan peluang atau peringatan risiko.</p>
+          
+          <div class="bg-green-50 p-3 rounded-lg">
+            <div class="flex items-start">
+              <i class="fas fa-chart-line text-green-500 mt-1 mr-2"></i>
+              <div>
+                <p class="text-xs font-semibold text-green-800 mb-1">Sentiment Trend:</p>
+                <p class="text-xs text-green-700">Pembicaraan tentang ETF crypto meningkat 42% dengan sentimen positif dominan.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Trading Signals Explanation -->
-    <section class="bg-gray-50 rounded-xl p-6 fade-in">
-      <h3 class="text-lg font-semibold mb-4 flex items-center">
-        <i class="fas fa-signal text-blue-500 mr-2"></i>
-        Cara Membaca Sinyal AI Kami
-      </h3>
-      <div class="grid md:grid-cols-3 gap-4">
-        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
-          <h4 class="font-bold text-green-600 mb-2">Strong Buy (80-100%)</h4>
-          <p class="text-sm text-gray-600">AI mendeteksi konfirmasi bullish dari minimal 3 indikator (teknis, on-chain, sentimen) dengan risiko rendah.</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-yellow-500">
-          <h4 class="font-bold text-yellow-600 mb-2">Neutral/Hold (50-79%)</h4>
-          <p class="text-sm text-gray-600">Tidak ada sinyal kuat, aset dalam range trading atau menunggu konfirmasi lebih lanjut.</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-red-500">
-          <h4 class="font-bold text-red-600 mb-2">Strong Sell (80-100%)</h4>
-          <p class="text-sm text-gray-600">AI mendeteksi multiple bearish confirmation dengan probabilitas koreksi tinggi (>75%).</p>
-        </div>
-      </div>
-      <div class="mt-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <h4 class="font-bold text-blue-600 mb-2 flex items-center">
-          <i class="fas fa-lightbulb mr-2"></i> Tip Trading dengan AI:
-        </h4>
-        <p class="text-sm text-blue-800">
-          Untuk hasil optimal, gabungkan sinyal AI dengan manajemen risiko pribadi. Sinyal dengan confidence >85% memiliki historical accuracy 89%. Selalu gunakan stop-loss meski confidence tinggi.
+    <!-- How It Works Section -->
+    <section class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">
+          Bagaimana AI Kami Bekerja?
+        </h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          Platform kami menggabungkan berbagai teknologi canggih untuk memberikan prediksi kripto paling akurat
         </p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Step 1 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center">
+          <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-database text-blue-600 text-2xl"></i>
+          </div>
+          <h3 class="font-bold text-lg text-gray-800 mb-2">Data Collection</h3>
+          <p class="text-gray-600 text-sm">
+            Mengumpulkan data dari 12+ sumber termasuk harga historis, on-chain metrics, dan sentimen sosial media
+          </p>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center">
+          <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-brain text-purple-600 text-2xl"></i>
+          </div>
+          <h3 class="font-bold text-lg text-gray-800 mb-2">AI Processing</h3>
+          <p class="text-gray-600 text-sm">
+            3 model AI berbeda menganalisis data menggunakan LSTM, Transformer, dan algoritma machine learning
+          </p>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="bg-gray-50 rounded-xl p-6 text-center">
+          <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-chart-bar text-green-600 text-2xl"></i>
+          </div>
+          <h3 class="font-bold text-lg text-gray-800 mb-2">Prediction Engine</h3>
+          <p class="text-gray-600 text-sm">
+            Hasil analisis digabungkan untuk menghasilkan sinyal trading dengan confidence score
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white text-center mb-8">
+      <h2 class="text-2xl font-bold mb-4">Mulai Gunakan Prediksi AI Kami Hari Ini</h2>
+      <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+        Bergabunglah dengan 15.000+ trader yang sudah menggunakan platform kami untuk meningkatkan profitabilitas trading mereka
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-xl font-bold transition-colors">
+          <i class="fas fa-user-plus mr-2"></i> Daftar Gratis
+        </button>
+        <button class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-bold transition-colors">
+          <i class="fas fa-play-circle mr-2"></i> Lihat Demo
+        </button>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+  <footer class="bg-gray-900 text-gray-400 py-12">
     <div class="container mx-auto px-4">
-      <div class="grid md:grid-cols-4 gap-8">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <!-- Column 1 -->
         <div>
           <div class="flex items-center mb-4">
-            <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-6 mr-2">
+            <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mr-2">
             <span class="font-bold text-white">AI Crypto Predictions</span>
           </div>
-          <p class="text-xs mb-4">Platform prediksi kripto berbasis AI dengan akurasi tertinggi untuk trader Indonesia.</p>
+          <p class="text-sm mb-4">
+            Platform prediksi kripto berbasis AI dengan akurasi tertinggi untuk trader Indonesia.
+          </p>
           <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-telegram"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-discord"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-telegram fa-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-twitter fa-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-discord fa-lg"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-youtube fa-lg"></i>
+            </a>
           </div>
         </div>
+        
+        <!-- Column 2 -->
         <div>
-          <h4 class="text-white text-sm font-bold mb-4">Navigasi</h4>
-          <ul class="space-y-2 text-xs">
-            <li><a href="#" class="hover:text-white">Home</a></li>
-            <li><a href="#" class="hover:text-white">Prediksi AI</a></li>
-            <li><a href="#" class="hover:text-white">Live Market</a></li>
-            <li><a href="#" class="hover:text-white">Cara Kerja</a></li>
+          <h4 class="text-white text-sm font-bold mb-4 uppercase">Navigation</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Home</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">AI Predictions</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Market Data</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">How It Works</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Pricing</a></li>
           </ul>
         </div>
+        
+        <!-- Column 3 -->
         <div>
-          <h4 class="text-white text-sm font-bold mb-4">Sumber Data</h4>
-          <ul class="space-y-2 text-xs">
-            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 text-xs"></i> Binance API</li>
-            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 text-xs"></i> Glassnode</li>
-            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 text-xs"></i> Santiment</li>
-            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2 text-xs"></i> CoinGecko</li>
+          <h4 class="text-white text-sm font-bold mb-4 uppercase">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Blog</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">API Documentation</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Help Center</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Community</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Status</a></li>
           </ul>
         </div>
+        
+        <!-- Column 4 -->
         <div>
-          <h4 class="text-white text-sm font-bold mb-4">Disclaimer</h4>
-          <p class="text-xs mb-4">Prediksi bukan jaminan hasil. Trading kripto berisiko tinggi. Lakukan riset mandiri sebelum mengambil keputusan investasi.</p>
-          <button class="text-xs bg-blue-600 text-white px-3 py-1 rounded-full flex items-center">
-            <i class="fas fa-robot mr-1"></i> Try AI Bot Demo
-          </button>
+          <h4 class="text-white text-sm font-bold mb-4 uppercase">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Cookie Policy</a></li>
+            <li><a href="#" class="text-sm hover:text-white transition-colors">Disclaimer</a></li>
+          </ul>
         </div>
       </div>
-      <div class="border-t border-gray-800 mt-8 pt-6 text-xs text-center">
+      
+      <div class="border-t border-gray-800 pt-6 text-sm text-center">
         <p>© 2023 TukarPI.ID AI Prediction Engine. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
+  <!-- Mobile Bottom Navigation -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-50">
+    <div class="flex justify-around">
+      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-blue-600">
+        <i class="fas fa-home mb-1"></i>
+        <span class="text-xs">Home</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-gray-500">
+        <i class="fas fa-chart-line mb-1"></i>
+        <span class="text-xs">Market</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-gray-500">
+        <i class="fas fa-robot mb-1"></i>
+        <span class="text-xs">AI</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-gray-500">
+        <i class="fas fa-user mb-1"></i>
+        <span class="text-xs">Account</span>
+      </a>
+    </div>
+  </div>
+
   <script>
-  // 1. Struktur Data Kosong untuk Real-Time Update
-  let predictionData = {
-    lastUpdated: "",
-    strongBuy: [
-      { symbol: "BTC", name: "Bitcoin", price: "Loading...", change24h: "0%", confidence: 88 },
-      { symbol: "ETH", name: "Ethereum", price: "Loading...", change24h: "0%", confidence: 84 }
-    ],
-    strongSell: [
-      { symbol: "DOGE", name: "Dogecoin", price: "Loading...", change24h: "0%", confidence: 81 }
-    ]
-  };
-
-  // 2. Fungsi Fetch Harga Real-Time
-  async function fetchRealTimePrices() {
-    try {
-      const response = await fetch(
-        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,dogecoin&vs_currencies=usd&include_24hr_change=true'
-      );
-      const prices = await response.json();
-      
-      // Update Data
-      predictionData.strongBuy[0].price = `$${prices.bitcoin.usd.toLocaleString()}`;
-      predictionData.strongBuy[0].change24h = `${prices.bitcoin.usd_24h_change.toFixed(2)}%`;
-      
-      predictionData.strongBuy[1].price = `$${prices.ethereum.usd.toLocaleString()}`;
-      predictionData.strongBuy[1].change24h = `${prices.ethereum.usd_24h_change.toFixed(2)}%`;
-      
-      predictionData.strongSell[0].price = `$${prices.dogecoin.usd.toLocaleString()}`;
-      predictionData.strongSell[0].change24h = `${prices.dogecoin.usd_24h_change.toFixed(2)}%`;
-      
-      predictionData.lastUpdated = new Date().toLocaleString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-      
-      renderData(); // Update UI
-    } catch (error) {
-      console.error("Gagal update harga:", error);
-      // Fallback: Tampilkan pesan error di UI
-      document.getElementById('update-time').textContent = "Gagal memuat data terbaru";
-    }
-  }
-
-  // 3. Render Data ke UI
-  function renderData() {
-    document.getElementById('update-time').textContent = predictionData.lastUpdated;
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    });
     
-    // Render Strong Buy
-    const buyContainer = document.getElementById('strong-buy-container');
-    buyContainer.innerHTML = predictionData.strongBuy.map(coin => `
-      <div class="coin-card strong-buy bg-white rounded-lg shadow p-4 flex items-center">
-        <img src="https://cryptologos.cc/logos/${coin.name.toLowerCase()}-${coin.symbol.toLowerCase()}-logo.png" 
-             class="h-8 w-8 mr-3">
-        <div class="flex-1 min-w-0">
+    // Tab Switching
+    document.querySelectorAll('.prediction-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.prediction-tab').forEach(t => t.classList.remove('active', 'text-blue-600', 'border-blue-600'));
+        document.querySelectorAll('.prediction-tab').forEach(t => t.classList.add('text-gray-500'));
+        this.classList.add('active', 'text-blue-600', 'border-blue-600');
+        this.classList.remove('text-gray-500');
+      });
+    });
+    
+    // TradingView Widget
+    new TradingView.widget({
+      "autosize": true,
+      "symbol": "BINANCE:BTCUSDT",
+      "interval": "D",
+      "timezone": "Etc/UTC",
+      "theme": "light",
+      "style": "1",
+      "locale": "en",
+      "toolbar_bg": "#f1f3f6",
+      "enable_publishing": false,
+      "hide_top_toolbar": false,
+      "hide_side_toolbar": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview-chart"
+    });
+    
+    // Data Fetching and Rendering
+    let predictionData = {
+      lastUpdated: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      strongBuy: [
+        { 
+          symbol: "BTC", 
+          name: "Bitcoin", 
+          price: "$37,842.15", 
+          change24h: "+2.4%", 
+          confidence: 88,
+          image: "https://cryptologos.cc/logos/bitcoin-btc-logo.png"
+        },
+        { 
+          symbol: "ETH", 
+          name: "Ethereum", 
+          price: "$2,045.67", 
+          change24h: "+3.1%", 
+          confidence: 84,
+          image: "https://cryptologos.cc/logos/ethereum-eth-logo.png"
+        },
+        { 
+          symbol: "SOL", 
+          name: "Solana", 
+          price: "$58.92", 
+          change24h: "+5.7%", 
+          confidence: 82,
+          image: "https://cryptologos.cc/logos/solana-sol-logo.png"
+        },
+        { 
+          symbol: "ADA", 
+          name: "Cardano", 
+          price: "$0.38", 
+          change24h: "+1.9%", 
+          confidence: 79,
+          image: "https://cryptologos.cc/logos/cardano-ada-logo.png"
+        }
+      ],
+      strongSell: [
+        { 
+          symbol: "DOGE", 
+          name: "Dogecoin", 
+          price: "$0.082", 
+          change24h: "-3.2%", 
+          confidence: 81,
+          image: "https://cryptologos.cc/logos/dogecoin-doge-logo.png"
+        },
+        { 
+          symbol: "SHIB", 
+          name: "Shiba Inu", 
+          price: "$0.000008", 
+          change24h: "-4.5%", 
+          confidence: 78,
+          image: "https://cryptologos.cc/logos/shiba-inu-shib-logo.png"
+        },
+        { 
+          symbol: "XRP", 
+          name: "Ripple", 
+          price: "$0.62", 
+          change24h: "-1.8%", 
+          confidence: 75,
+          image: "https://cryptologos.cc/logos/xrp-xrp-logo.png"
+        },
+        { 
+          symbol: "MATIC", 
+          name: "Polygon", 
+          price: "$0.76", 
+          change24h: "-2.3%", 
+          confidence: 72,
+          image: "https://cryptologos.cc/logos/polygon-matic-logo.png"
+        }
+      ]
+    };
+    
+    function renderPredictionData() {
+      // Update last updated time
+      document.getElementById('update-time').textContent = predictionData.lastUpdated;
+      
+      // Render Strong Buy Cards
+      const buyContainer = document.getElementById('strong-buy-container');
+      buyContainer.innerHTML = predictionData.strongBuy.map(coin => `
+        <div class="coin-card strong-buy bg-white rounded-lg shadow p-4">
+          <div class="flex items-center mb-3">
+            <img src="${coin.image}" alt="${coin.name}" class="h-8 w-8 mr-3">
+            <div>
+              <h3 class="font-bold text-gray-800">${coin.symbol}</h3>
+              <p class="text-xs text-gray-500">${coin.name}</p>
+            </div>
+          </div>
           <div class="flex justify-between items-center">
-            <h3 class="text-sm font-bold truncate">${coin.symbol}</h3>
-            <span class="text-xs px-1 rounded ${coin.change24h.includes('-') ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}">
+            <p class="font-bold text-gray-800">${coin.price}</p>
+            <span class="text-xs px-2 py-1 rounded-full ${coin.change24h.startsWith('+') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
               ${coin.change24h}
             </span>
           </div>
-          <p class="text-sm font-semibold truncate">${coin.price}</p>
+          <div class="mt-3">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>AI Confidence</span>
+              <span class="font-bold">${coin.confidence}%</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-green-500 rounded-full" style="width: ${coin.confidence}%"></div>
+            </div>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `).join('');
+      
+      // Render Strong Sell Cards
+      const sellContainer = document.getElementById('strong-sell-container');
+      sellContainer.innerHTML = predictionData.strongSell.map(coin => `
+        <div class="coin-card strong-sell bg-white rounded-lg shadow p-4">
+          <div class="flex items-center mb-3">
+            <img src="${coin.image}" alt="${coin.name}" class="h-8 w-8 mr-3">
+            <div>
+              <h3 class="font-bold text-gray-800">${coin.symbol}</h3>
+              <p class="text-xs text-gray-500">${coin.name}</p>
+            </div>
+          </div>
+          <div class="flex justify-between items-center">
+            <p class="font-bold text-gray-800">${coin.price}</p>
+            <span class="text-xs px-2 py-1 rounded-full ${coin.change24h.startsWith('+') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+              ${coin.change24h}
+            </span>
+          </div>
+          <div class="mt-3">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Risk Level</span>
+              <span class="font-bold">${coin.confidence}%</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-red-500 rounded-full" style="width: ${coin.confidence}%"></div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
     
-    // Render Strong Sell (sama seperti di atas)
-  }
-
-  // 4. Auto-Refresh Setiap 30 Detik
-  setInterval(fetchRealTimePrices, 30000);
-  fetchRealTimePrices(); // Load awal
-</script>
+    // Refresh Button
+    document.getElementById('refresh-btn').addEventListener('click', function() {
+      // Show loading state
+      const updateTime = document.getElementById('update-time');
+      updateTime.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-1"></i> Updating...';
+      
+      // Simulate API call
+      setTimeout(() => {
+        predictionData.lastUpdated = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        renderPredictionData();
+      }, 1500);
+    });
+    
+    // Initial render
+    setTimeout(() => {
+      renderPredictionData();
+    }, 1000);
+  </script>
 </body>
 </html>
