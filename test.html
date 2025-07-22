@@ -772,6 +772,17 @@
 
     // Variabel untuk state tampilkan semua
     let showAllState = false;
+
+    // Auto-refresh when dashboard.html loads
+    if (window.location.pathname.includes('dashboard.html')) {
+      document.addEventListener('DOMContentLoaded', async function() {
+        const refreshBtn = document.getElementById('refresh-btn');
+        if (refreshBtn) {
+          refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+          await fetchOptimizedData();
+          refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+        }
+      });
     
     // 1. FUNGSI REFRESH DATA (BARU)
     document.getElementById('refresh-btn').addEventListener('click', async function() {
