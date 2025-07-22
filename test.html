@@ -198,7 +198,7 @@
         <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Home</a>
         <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Jual Pi</a>
         <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Beli Kripto</a>
-        <a href="afiliate.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Program Affiliate</a>
+        <a href="affiliate.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Program Affiliate</a>
         <a href="dashboard.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Live Kripto Realtime</a>
       </div>
     </div>
@@ -408,11 +408,8 @@
               <i class="fas fa-exclamation-triangle mr-1"></i> Transaksi yang tidak memenuhi syarat di atas tidak akan diproses dan tidak dapat dikembalikan.
             </p>
           </div>
-          <button onclick="copyAllPaymentInfo()" class="w-full max-w-xs mx-auto py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center mb-3 transition">
-            <i class="fas fa-copy mr-2"></i> Salin Semua Info Pembayaran
-          </button>
           <button onclick="copyToClipboard('GCHDZHABCDEF1234567890')" class="w-full max-w-xs mx-auto py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg flex items-center justify-center transition">
-            <i class="fas fa-wallet mr-2"></i> Salin Alamat Wallet Saja
+            <i class="fas fa-wallet mr-2"></i> Salin Alamat Wallet
           </button>
         </div>
 
@@ -453,10 +450,10 @@
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
+            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
           </ul>
         </div>
         
@@ -464,10 +461,10 @@
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
+            <li><a href="cara-pemesanan.html" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
+            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+            <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="policy.html" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
           </ul>
         </div>
         
@@ -570,7 +567,7 @@
         </div>
         
         <h3 class="text-xl font-bold mb-2">Penjualan Sedang Diproses</h3>
-        <p class="text-gray-600 mb-6">Silakan tunggu sebentar, kami sedang mempersiapkan detail transaksi Anda.</p>
+        <p class="text-gray-600 mb-6">Hore!!! uang akan segera Anda terima, kami telah mempersiapkan detail transaksi Anda.</p>
         
         <div class="bg-blue-50 p-4 rounded-lg mb-6">
           <p class="text-sm text-blue-700">
@@ -592,8 +589,8 @@
     const defaultCryptoData = {
       'PI': { 
         name: 'Pi Network (Pre-Mainnet)', 
-        price: 150000 * 0.25, // Harga contoh dalam IDR (25% dari mainnet)
-        mainnetPrice: 150000, // Harga mainnet penuh
+        price: 7000 * 0.25, // Harga contoh dalam IDR (25% dari mainnet)
+        mainnetPrice: 7000, // Harga mainnet penuh
         image: 'https://brandlogos.net/wp-content/uploads/2025/02/pi_network-logo_brandlogos.net_mkrbu-512x512.png',
         lastUpdated: new Date().toISOString()
       }
@@ -674,7 +671,7 @@
         }
 
         const randomVariation = (Math.random() * 0.1 - 0.05);
-        const defaultMainnetPrice = 150000 * (1 + randomVariation);
+        const defaultMainnetPrice = 7000 * (1 + randomVariation);
         const preMainnetPrice = defaultMainnetPrice * 0.25;
         
         return {
@@ -685,8 +682,8 @@
       } catch (error) {
         console.error('Error fetching Pi Network price:', error);
         return {
-          price: 150000 * 0.25,
-          mainnetPrice: 150000,
+          price: 7000 * 0.25,
+          mainnetPrice: 7000,
           lastUpdated: new Date().toISOString()
         };
       }
