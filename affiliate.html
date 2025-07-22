@@ -79,6 +79,11 @@
     }
     .mobile-menu {
       transition: all 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
+    }
+    .mobile-menu.open {
+      max-height: 500px;
     }
   </style>
 </head>
@@ -113,7 +118,7 @@
     </div>
     
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
+    <div id="mobile-menu" class="mobile-menu md:hidden bg-blue-900 px-4">
       <div class="flex flex-col space-y-3 py-2">
         <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
         <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
@@ -557,10 +562,22 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-    // Mobile Menu Toggle
-    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+    // Mobile Menu Toggle - Perbaikan utama di sini
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton.addEventListener('click', function() {
+      mobileMenu.classList.toggle('open');
+      
+      // Ganti ikon antara bars dan times
+      const icon = this.querySelector('i');
+      if (mobileMenu.classList.contains('open')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
     });
 
     // FAQ Accordion
@@ -595,9 +612,6 @@
       }).then(() => {
         // Reset form
         this.reset();
-        
-        // Redirect to thank you page or do something else
-        // window.location.href = 'thank-you.html';
       });
     });
 
@@ -611,3 +625,11 @@
           <div class="aspect-w-16 aspect-h-9">
             <iframe class="w-full h-64 md:h-96" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
+        `,
+        showConfirmButton: false,
+        width: '800px'
+      });
+    });
+  </script>
+</body>
+</html>
