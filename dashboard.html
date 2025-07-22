@@ -839,33 +839,19 @@
         img.src = coin.image;
         
         card.innerHTML = `
-          ${coin.price_change_percentage_24h >= 2 ? `
+          ${coin.price_change_percentage_24h >= 5 ? `
             <img src="https://bakti02.github.io/TukarPI.ID/whale.gif" 
                  class="flame-badge" 
                  loading="lazy"
-                 style="width: 35px; height: 32px;"
+                 style="width: 38px; height: 35px;"
                  alt="Kenaikan signifikan">
-          ` : ''}
-          ${coin.price_change_percentage_24h >= 5 ? `
-            <img src="https://bakti02.github.io/TukarPI.ID/flame-21186.gif" 
-                 class="flame-badge" 
-                 loading="lazy"
-                 style="width: 32px; height: 32px;"
-                 alt="kenaikan sangat signifikan">
-          ` : ''}
-          ${coin.price_change_percentage_24h <= -25 ? `
-            <img src="https://bakti02.github.io/TukarPI.ID/15-23-06-837_512.gif" 
-                 class="flame-badge" 
-                 loading="lazy"
-                 style="width: 28px; height: 28px;"
-                 alt="Penurunan signifikan">
           ` : ''}
           ${coin.price_change_percentage_24h <= -5 ? `
             <img src="https://bakti02.github.io/TukarPI.ID/frog.gif" 
                  class="flame-badge" 
                  loading="lazy"
                  style="width: 35px; height: 35px;"
-                 alt="Penurunan sangat signifikan">
+                 alt="Penurunan signifikan">
           ` : ''}
           <h3 class="text-[10px] font-semibold">${coin.symbol.toUpperCase()}</h3>
           <p class="text-xs font-bold" data-current-price="${coin.current_price}">
