@@ -216,7 +216,10 @@
       transition: all 0.2s;
       border: 1px solid #e5e7eb;
       background-color: white;
+      margin: 0.1rem; /* Tambahkan margin kecil */
+      white-space: nowrap; /* Pastikan teks tidak wrap */
     }
+
     .filter-btn.active {
       background-color: #3B82F6;
       color: white;
@@ -255,10 +258,6 @@
       .crypto-card {
         flex: 0 0 calc(33.33% - 1rem);
       }
-      .filter-btn {
-        padding: 0.2rem 0.4rem;
-        font-size: 0.65rem;
-      }
       
       .banner-title {
         font-size: 1rem;
@@ -275,6 +274,15 @@
       .trading-nav-btn {
         padding: 0.3rem 0.6rem;
         font-size: 0.7rem;
+      }
+      
+      .filter-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.7rem;
+      }
+      
+      .nav-buttons-container {
+        gap: 0.3rem;
       }
     }
     
@@ -437,7 +445,7 @@
 
     <!-- Crypto Price Section -->
     <section class="relative">
-      <div class="flex items-center gap-2">
+      <div class="nav-buttons-container">
         <h2 class="text-sm md:text-base font-semibold">Kripto Realtime</h2>
         <button id="refresh-btn" class="refresh-btn ml-2 text-blue-500 hover:text-blue-700" title="Refresh data">
           <i class="fas fa-sync-alt"></i>
@@ -446,13 +454,13 @@
         <a href="tradingview.html" class="trading-nav-btn">
           <i class="fas fa-chart-line"></i> Trading View
         </a>
-        <!-- Prediction Button (added) -->
+        <!-- Prediction Button -->
         <a href="prediksi-koin.html" class="trading-nav-btn">
           <i class="fas fa-chart-line"></i> Prediksi
         </a>
       </div>
-      
-        <!-- 4. MENU FILTER DIPERBAIKI -->
+      <!-- 4. MENU FILTER DIPERBAIKI -->
+      <div class="filter-section">
         <div class="flex gap-2 flex-wrap" id="filter-buttons">
           <button class="filter-btn active flex items-center" data-filter="all">
             <i class="fas fa-coins mr-1"></i> Semua
@@ -483,19 +491,17 @@
           </button>
         </div>
       </div>
-    </div>
       
         <!-- 5. GRID KOIN DITAMBAH ANIMASI -->
-        <div class="crypto-container" id="crypto-container">
-          <!-- Skeleton loader -->
-          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-          <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
-        </div>
-        <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
+      <div class="crypto-container" id="crypto-container">
+        <!-- Skeleton loader -->
+        <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+        <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+        <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+        <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
+        <div class="crypto-card bg-gray-200 rounded-xl h-24 animate-pulse"></div>
       </div>
+      <button class="show-more-btn" id="show-more-btn">Tampilkan Semua</button>
     </section>
   </main>
 
