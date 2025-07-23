@@ -646,7 +646,7 @@
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script>
      // Fungsi menghasilkan PNG
-    async function generateInvoice() {
+     async function generateInvoice() {
       const crypto = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
       const price = document.getElementById('confirm-price').textContent;
@@ -779,35 +779,6 @@
         console.error('Error generating invoice:', error);
         document.body.removeChild(element);
         alert('Gagal menghasilkan invoice. Silakan coba lagi.');
-      }
-    }
-      // Create PDF
-      const opt = {
-        margin: 10,
-        filename: `Invoice_TukarPI_${new Date().getTime()}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-      
-      try {
-        await html2pdf().set(opt).from(element).save();
-        Swal.fire({
-          title: 'Invoice Downloaded',
-          text: 'Invoice berhasil diunduh',
-          icon: 'success',
-          timer: 2000,
-          showConfirmButton: false
-        });
-      } catch (error) {
-        console.error('Error generating PDF:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'Gagal mengunduh invoice',
-          icon: 'error'
-        });
-      } finally {
-        document.body.removeChild(element);
       }
     }
     // Function to show invoice preview
