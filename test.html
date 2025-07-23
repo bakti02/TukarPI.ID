@@ -1028,18 +1028,24 @@
     
             <!-- Instruksi Pembayaran -->
             <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
-            <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
-              <table width="100%">
-                <tr>
-                  <td width="24" valign="top" style="padding-right: 8px;">
-                    <span style="color: #2563eb; font-size: 16px;">ℹ️</span>
-                  </td>
-                  <td>
-                    <p style="font-size: 13px; margin: 0 0 8px 0;">Silahkan transfer pembayaran ke:</p>
-                       <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">${getPaymentMethodDetails(selectedPaymentMethod)}</p>
-                      </p>
-                    </div>
-                    <p style="font-size: 13px; margin: 8px 0 0 0;">Atas Nama: <span style="font-weight: 500;">Agus Mulia Bakti</span></p>
+            <div style="background-color: white; padding: 12px; border-radius: 8px; margin: 8px 0; border: 1px solid #e2e8f0;">
+              <p style="font-size: 13px; margin: 0 0 8px 0; color: #64748b;">Silahkan transfer pembayaran ke:</p>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 4px; margin: 8px 0;">
+                <p style="margin: 0;">
+                  <span style="font-family: 'Courier New', monospace; 
+                             font-size: 14px;
+                             font-weight: bold;
+                             word-break: break-all;
+                             color: #1e293b;
+                             letter-spacing: 0.5px;">
+                        ${getPaymentMethodDetails(selectedPaymentMethod)}
+                      </span>
+                    </p>
+                  </div>
+                    <p style="font-size: 13px; margin: 8px 0 0 0; color: #64748b;">
+                      Atas Nama: <span style="font-weight: 500; color: #1e293b;">Agus Mulia Bakti</span>
+                    </p>
+                  </div>
                   </td>
                 </tr>
               </table>
