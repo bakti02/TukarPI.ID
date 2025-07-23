@@ -1151,13 +1151,14 @@
         filename: `Invoice-TukarPI-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 5,
+          scale: 1.5,
           logging: false,
           useCORS: true,
           letterRendering: true,
           allowTaint: true,
-          width: 210 * 3.78, // Konversi mm ke pixel (210mm A4)
-          height: 297 * 3.78 // Konversi mm ke pixel (297mm A4)
+          windowWidth: 794, // Lebar A4 dalam pixel
+          x: 0, // Pastikan mulai dari kiri atas
+          y: 0  // Pastikan mulai dari kiri atas
         },
         jsPDF: { 
           unit: 'mm',
