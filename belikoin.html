@@ -813,6 +813,7 @@
       // Isi template invoice
       element.innerHTML = `
         <style>
+          @page {
             size: A4;
             margin: 0;
           }
@@ -1154,7 +1155,7 @@
           logging: false,
           useCORS: true,
           letterRendering: true,
-          allowTaint: true
+          allowTaint: true,
           width: 210 * 3.78, // Konversi mm ke pixel (210mm A4)
           height: 297 * 3.78 // Konversi mm ke pixel (297mm A4)
         },
