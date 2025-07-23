@@ -190,6 +190,151 @@
         margin: 0 !important;
       }
     }
+    
+    /* SweetAlert Custom Styles */
+    .custom-swal-container {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .custom-swal-popup {
+      border-radius: 16px !important;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    }
+    
+    .custom-swal-title {
+      font-size: 1.5rem !important;
+      color: #1e3a8a !important;
+      font-weight: 700 !important;
+      margin-bottom: 1.5rem !important;
+    }
+    
+    .swal2-icon-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .swal2-icon-gradient {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    }
+    
+    .swal2-icon-content {
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    
+    .wallet-address-box {
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 1rem 0;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .wallet-icon {
+      background: #2563eb;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+    }
+    
+    .wallet-address {
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      flex-grow: 1;
+      word-break: break-all;
+    }
+    
+    .copy-btn {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    
+    .copy-btn:hover {
+      background: #e2e8f0;
+      color: #2563eb;
+    }
+    
+    .swal2-notice {
+      background: #f0f9ff;
+      color: #0369a1;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      border-left: 4px solid #0ea5e9;
+    }
+    
+    .swal2-notice i {
+      margin-right: 8px;
+    }
+    
+    .custom-swal-confirm-btn {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 10px !important;
+      padding: 12px 24px !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3) !important;
+      transition: all 0.3s !important;
+    }
+    
+    .custom-swal-confirm-btn:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4) !important;
+    }
+    
+    .custom-swal-cancel-btn {
+      background: white !important;
+      color: #64748b !important;
+      border: 1px solid #e2e8f0 !important;
+      border-radius: 10px !important;
+      padding: 12px 24px !important;
+      font-weight: 600 !important;
+      transition: all 0.3s !important;
+    }
+    
+    .custom-swal-cancel-btn:hover {
+      background: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+    }
+    
+    /* Animations */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .swal2-show-animation {
+      animation: pulse 0.3s ease;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-50">
@@ -1121,27 +1266,62 @@
       const whatsappUrl = `https://wa.me/6282147510780?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
     }
-
-    // Fungsi untuk menampilkan konfirmasi pembayaran
+// POPUP KONFIRMASI PEMBAYARAN
     function confirmPayment() {
       Swal.fire({
-        title: 'Konfirmasi Penjualan',
-        html: `Apakah Anda sudah mentransfer Pi Network ke alamat wallet tujuan?<br><br>
-              <div class="text-left bg-gray-100 p-3 rounded-lg my-3">
-                <p class="font-semibold">Alamat Wallet:</p>
-                <p class="font-mono bg-white p-2 rounded">GCHDZHABCDEF1234567890</p>
-                <p class="disclaimer-text mt-2">*Pastikan Anda mengirim koin PI Network ke wallet ini.</p>
-              </div>`,
-        icon: 'question',
+        title: '<strong>Konfirmasi Transfer PI</strong>',
+        html: `
+          <div class="swal2-container">
+            <div class="swal2-icon-container">
+              <div class="swal2-icon-gradient">
+                <div class="swal2-icon-content">✓</div>
+              </div>
+            </div>
+            
+            <div class="swal2-content">
+              <p class="swal2-text">Anda akan mengkonfirmasi transfer PI Network ke:</p>
+              
+              <div class="wallet-address-box">
+                <div class="wallet-icon">
+                  <i class="fas fa-wallet"></i>
+                </div>
+                <div class="wallet-address">GCHDZHABCDEF1234567890</div>
+                <button class="copy-btn" onclick="copyToClipboard('GCHDZHABCDEF1234567890')">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+              
+              <div class="swal2-notice">
+                <i class="fas fa-info-circle"></i> Pastikan transfer dari wallet utama yang sudah KYC
+              </div>
+            </div>
+          </div>
+        `,
         showCancelButton: true,
-        confirmButtonText: 'Ya, Sudah Transfer',
-        cancelButtonText: 'Belum',
-        confirmButtonColor: '#10B981',
-        cancelButtonColor: '#EF4444',
-        reverseButtons: true
+        confirmButtonText: '<i class="fas fa-check-circle"></i> Sudah Transfer',
+        cancelButtonText: '<i class="fas fa-times-circle"></i> Belum',
+        focusConfirm: false,
+        customClass: {
+          container: 'custom-swal-container',
+          popup: 'custom-swal-popup',
+          title: 'custom-swal-title',
+          htmlContainer: 'custom-swal-html',
+          confirmButton: 'custom-swal-confirm-btn',
+          cancelButton: 'custom-swal-cancel-btn'
+        },
+        buttonsStyling: false,
+        reverseButtons: true,
+        showClass: {
+          popup: 'swal2-show-animation',
+          backdrop: 'swal2-backdrop-show'
+        },
+        hideClass: {
+          popup: 'swal2-hide-animation',
+          backdrop: 'swal2-backdrop-hide'
+        }
       }).then((result) => {
         if (result.isConfirmed) {
-          // Tampilkan popup processing yang lebih elegan
+          // Tampilkan popup processing
           const processingPopup = document.getElementById('processingPopup');
           processingPopup.classList.remove('hidden');
           document.querySelector('.popup-overlay').classList.remove('hidden');
@@ -1149,14 +1329,13 @@
           
           // Set timeout untuk simulasi proses
           setTimeout(() => {
-            // Update WhatsApp button href dengan data transaksi
             const whatsappButton = document.getElementById('whatsappButton');
             whatsappButton.onclick = sendWhatsAppConfirmation;
           }, 1500);
         }
       });
     }
-
+    
     // Fungsi untuk menyalin teks ke clipboard
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text).then(() => {
