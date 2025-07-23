@@ -869,25 +869,25 @@
             margin-right: 8px;
           }
               /* Tambahkan ini: */
-        @media print {
-          body {
-            font-size: 10pt !important;
+          @media print {
+            body {
+              font-size: 10pt !important;
+            }
+            h1 {
+              font-size: 14pt !important;
+              margin-bottom: 5mm !important;
+            }
+            h2, h3 {
+              font-size: 12pt !important;
+            }
+            p, td, th {
+              font-size: 10pt !important;
+              line-height: 1.2 !important;
+            }
+            .invoice-table td, .invoice-table th {
+              padding: 2mm !important;
+            }
           }
-          h1 {
-            font-size: 14pt !important;
-            margin-bottom: 5mm !important;
-          }
-          h2, h3 {
-            font-size: 12pt !important;
-          }
-          p, td, th {
-            font-size: 10pt !important;
-            line-height: 1.2 !important;
-          }
-          .invoice-table td, .invoice-table th {
-            padding: 2mm !important;
-          }
-        }
         </style>
 
         <!-- Header Invoice -->
