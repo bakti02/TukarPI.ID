@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beli Kripto - TukarPI.ID</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <style>
@@ -777,14 +778,14 @@
     }
 
 <!-- Replace the existing generateInvoice() function with this new version -->
-    // Fungsi utama untuk generate invoice
+     // Fungsi utama untuk generate invoice
     async function generateInvoice() {
       // Validasi metode pembayaran
       if (!selectedPaymentMethod) {
         showNotification('Metode pembayaran belum dipilih!', 'error');
         return;
       }
-
+    
       // Ambil semua data yang diperlukan
       const cryptoType = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
@@ -870,7 +871,6 @@
             vertical-align: middle;
             margin-right: 8px;
           }
-              /* Tambahkan ini: */
           @media print {
             body {
               font-size: 10pt !important;
@@ -891,198 +891,198 @@
             }
           }
         </style>
-
+    
         <!-- Header Invoice -->
-      <div class="avoid-break">
-        <div class="invoice-header">
-          <table width="100%">
-            <tr>
-              <td>
-                <div style="display: flex; align-items: center;">
-                  <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" class="logo" alt="Logo TukarPI.ID">
-                  <div>
-                    <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">PT. RUANG DIGITAL RAYA</h1>
-                    <h2 style="font-size: 16px; color: #2563eb; margin: 0 0 4px 0;">TukarPI.ID</h2>
-                    <p style="font-style: italic; color: #64748b; font-size: 12px; margin: 0;">Jl. TB. Simatumpang, Jakarta Selatan</p>
+        <div class="avoid-break">
+          <div class="invoice-header">
+            <table width="100%">
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center;">
+                    <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" class="logo" alt="Logo TukarPI.ID">
+                    <div>
+                      <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">PT. RUANG DIGITAL RAYA</h1>
+                      <h2 style="font-size: 16px; color: #2563eb; margin: 0 0 4px 0;">Website: https://tukarpi.id</h2>
+                      <p style="font-style: italic; color: #64748b; font-size: 12px; margin: 0;">Jl. TB. Simatumpang, Jakarta Selatan</p>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td style="text-align: right;">
-                <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">INVOICE</h1>
-                <p style="color: #64748b; font-size: 12px; margin: 0;">
-                  ${now.toLocaleString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
-                </p>
-                <p style="color: #64748b; font-size: 10px; margin: 4px 0 0 0;">
-                  No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}
-                </p>
-              </td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- Info Pembeli & Pembayaran -->
-        <table width="100%" style="margin-bottom: 16px;">
-          <tr>
-            <td width="50%" valign="top">
-              <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembeli</h3>
-              <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
-                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Alamat Wallet</p>
-                <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">${walletAddress}</p>
-              </div>
-            </td>
-            <td width="50%" valign="top">
-              <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembayaran</h3>
-              <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
-                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
-                <p style="font-weight: 500; margin: 0 0 8px 0; font-size: 12px;">
-                  ${getPaymentMethodDisplay(selectedPaymentMethod)}
-                </p>
-                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Batas Pembayaran</p>
-                <p style="font-weight: 500; margin: 0; font-size: 12px;">
-                  ${paymentDue.toLocaleString('id-ID', {
-                      day: '2-digit',
-                      month: 'long',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                  })}
-                </p>
-              </div>
-            </td>
-          </tr>
-        </table>
-
-        <!-- Detail Transaksi -->
-        <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Transaksi</h3>
-        <table class="invoice-table" style="margin-bottom: 16px;">
-          <thead>
-            <tr>
-              <th style="width: 60%;">Deskripsi</th>
-              <th style="width: 20%; text-align: right;">Jumlah</th>
-              <th style="width: 20%; text-align: right;">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <p style="font-weight: 500; margin: 0 0 4px 0; font-size: 12px;">${cryptoType}</p>
-                <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${exchangeRateInfo}</p>
-                <p style="font-size: 11px; color: #64748b; margin: 0;">${realtimePrice}</p>
-              </td>
-              <td class="text-right" style="font-size: 12px;">1</td>
-              <td class="text-right" style="font-size: 12px;">${amount}</td>
-            </tr>
-            <tr>
-              <td style="font-size: 12px; color: #64748b;">Biaya Layanan (5%)</td>
-              <td class="text-right"></td>
-              <td class="text-right" style="color: #ef4444; font-size: 12px;">${fee}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Total Pembayaran -->
-      <div class="avoid-break">
-        <div class="total-box">
+                </td>
+                <td style="text-align: right;">
+                  <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">INVOICE</h1>
+                  <p style="color: #64748b; font-size: 12px; margin: 0;">
+                    ${now.toLocaleString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
+                  </p>
+                  <p style="color: #64748b; font-size: 10px; margin: 4px 0 0 0;">
+                    No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </div>
+    
+          <!-- Info Pembeli & Pembayaran -->
           <table width="100%" style="margin-bottom: 16px;">
             <tr>
-              <td style="padding: 4px 0; font-size: 13px;">Subtotal</td>
-              <td style="padding: 4px 0; text-align: right; font-size: 13px;">${amount}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 0; font-size: 13px;">Biaya Layanan</td>
-              <td style="padding: 4px 0; text-align: right; font-size: 13px; color: #ef4444;">${fee}</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; font-weight: bold;">TOTAL</td>
-              <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">
-                ${total}
+              <td width="50%" valign="top">
+                <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembeli</h3>
+                <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Alamat Wallet</p>
+                  <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">${walletAddress}</p>
+                </div>
               </td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- Detail Koin -->
-        <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Koin</h3>
-        <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
-          <table width="100%">
-            <tr>
-              <td width="25%" style="padding: 4px 0;">
-                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jenis Kripto</p>
-                <p style="font-weight: 500; margin: 0; font-size: 12px;">${cryptoType}</p>
-              </td>
-              <td width="25%" style="padding: 4px 0;">
-                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jumlah Koin</p>
-                <p style="font-weight: 500; margin: 0; font-size: 12px;">${coinAmount}</p>
-              </td>
-              <td width="25%" style="padding: 4px 0;">
-                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Harga per Koin</p>
-                <p style="font-weight: 500; margin: 0; font-size: 12px;">${realtimePrice}</p>
-              </td>
-              <td width="25%" style="padding: 4px 0;">
-                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Kurs yang Berlaku</p>
-                <p style="font-weight: 500; margin: 0; font-size: 12px;">${exchangeRateInfo}</p>
-              </td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- Instruksi Pembayaran -->
-        <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
-        <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
-          <table width="100%">
-            <tr>
-              <td width="24" valign="top" style="padding-right: 8px;">
-                <span style="color: #2563eb; font-size: 16px;">ℹ️</span>
-              </td>
-              <td>
-                <p style="font-size: 13px; margin: 0 0 8px 0;">Silahkan transfer pembayaran ke:</p>
-                <div style="background-color: white; padding: 8px; border-radius: 4px; display: inline-block;">
-                  <p style="font-family: monospace; font-weight: 500; margin: 0;">
-                    ${getPaymentMethodDetails(selectedPaymentMethod)}
+              <td width="50%" valign="top">
+                <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembayaran</h3>
+                <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
+                  <p style="font-weight: 500; margin: 0 0 8px 0; font-size: 12px;">
+                    ${getPaymentMethodDisplay(selectedPaymentMethod)}
+                  </p>
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Batas Pembayaran</p>
+                  <p style="font-weight: 500; margin: 0; font-size: 12px;">
+                    ${paymentDue.toLocaleString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })}
                   </p>
                 </div>
-                <p style="font-size: 13px; margin: 8px 0 0 0;">Atas Nama: <span style="font-weight: 500;">Agus Mulia Bakti</span></p>
               </td>
             </tr>
           </table>
-        </div>
-
-        <!-- Catatan -->
-      <div class="avoid-break">
-        <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
-          <table width="100%">
-            <tr>
-              <td width="24" valign="top" style="padding-right: 8px;">
-                <span style="color: #dc2626; font-size: 16px;">⚠️</span>
-              </td>
-              <td>
-                <p style="font-size: 13px; margin: 0 0 4px 0; font-weight: 500;">Penting:</p>
-                <ul style="font-size: 12px; margin: 0; padding-left: 16px;">
-                  <li>Transfer tepat sesuai nominal total pembayaran</li>
-                  <li>Batalkan transaksi jika tidak membayar dalam 24 jam</li>
-                  <li>Hubungi CS jika mengalami kendala pembayaran</li>
-                </ul>
-              </td>
-            </tr>
+    
+          <!-- Detail Transaksi -->
+          <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Transaksi</h3>
+          <table class="invoice-table" style="margin-bottom: 16px;">
+            <thead>
+              <tr>
+                <th style="width: 60%;">Deskripsi</th>
+                <th style="width: 20%; text-align: right;">Jumlah</th>
+                <th style="width: 20%; text-align: right;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <p style="font-weight: 500; margin: 0 0 4px 0; font-size: 12px;">${cryptoType}</p>
+                  <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${exchangeRateInfo}</p>
+                  <p style="font-size: 11px; color: #64748b; margin: 0;">${realtimePrice}</p>
+                </td>
+                <td class="text-right" style="font-size: 12px;">1</td>
+                <td class="text-right" style="font-size: 12px;">${amount}</td>
+              </tr>
+              <tr>
+                <td style="font-size: 12px; color: #64748b;">Biaya Layanan (5%)</td>
+                <td class="text-right"></td>
+                <td class="text-right" style="color: #ef4444; font-size: 12px;">*Otomatis Terhitung</td>
+              </tr>
+            </tbody>
           </table>
-        </div>
-
-        <!-- Footer -->
-      <div class="avoid-break">
-        <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-          <p style="margin: 0 0 4px 0;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
-          <p style="margin: 0 0 4px 0;">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
-          <p style="margin: 0;">© ${now.getFullYear()} TukarPI.ID - All Rights Reserved</p>
+    
+          <!-- Total Pembayaran -->
+          <div class="avoid-break">
+            <div class="total-box">
+              <table width="100%" style="margin-bottom: 16px;">
+                <tr>
+                  <td style="padding: 4px 0; font-size: 13px;">Subtotal</td>
+                  <td style="padding: 4px 0; text-align: right; font-size: 13px;">${amount}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 4px 0; font-size: 13px;">Biaya Layanan</td>
+                  <td style="padding: 4px 0; text-align: right; font-size: 13px; color: #ef4444;">*Otomatis Terhitung</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; font-weight: bold;">TOTAL</td>
+                  <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">
+                    ${total}
+                  </td>
+                </tr>
+              </table>
+            </div>
+    
+            <!-- Detail Koin -->
+            <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Koin</h3>
+            <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
+              <table width="100%">
+                <tr>
+                  <td width="25%" style="padding: 4px 0;">
+                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jenis Kripto</p>
+                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${cryptoType}</p>
+                  </td>
+                  <td width="25%" style="padding: 4px 0;">
+                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jumlah Koin</p>
+                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${coinAmount}</p>
+                  </td>
+                  <td width="25%" style="padding: 4px 0;">
+                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Harga per Koin</p>
+                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${realtimePrice}</p>
+                  </td>
+                  <td width="25%" style="padding: 4px 0;">
+                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Kurs yang Berlaku</p>
+                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${exchangeRateInfo}</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+    
+            <!-- Instruksi Pembayaran -->
+            <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
+            <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
+              <table width="100%">
+                <tr>
+                  <td width="24" valign="top" style="padding-right: 8px;">
+                    <span style="color: #2563eb; font-size: 16px;">ℹ️</span>
+                  </td>
+                  <td>
+                    <p style="font-size: 13px; margin: 0 0 8px 0;">Silahkan transfer pembayaran ke:</p>
+                       <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">${getPaymentMethodDetails(selectedPaymentMethod)}</p>
+                      </p>
+                    </div>
+                    <p style="font-size: 13px; margin: 8px 0 0 0;">Atas Nama: <span style="font-weight: 500;">Agus Mulia Bakti</span></p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+    
+            <!-- Catatan -->
+            <div class="avoid-break">
+              <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
+                <table width="100%">
+                  <tr>
+                    <td width="24" valign="top" style="padding-right: 8px;">
+                      <span style="color: #dc2626; font-size: 16px;">⚠️</span>
+                    </td>
+                    <td>
+                      <p style="font-size: 13px; margin: 0 0 4px 0; font-weight: 500;">Penting:</p>
+                      <ul style="font-size: 12px; margin: 0; padding-left: 16px;">
+                        <li>Transfer tepat sesuai nominal total pembayaran</li>
+                        <li>Batalkan transaksi jika tidak membayar dalam 24 jam</li>
+                        <li>Hubungi CS jika mengalami kendala pembayaran</li>
+                      </ul>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+    
+              <!-- Footer -->
+              <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                <p style="margin: 0 0 4px 0;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
+                <p style="margin: 0 0 4px 0;">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
+                <p style="margin: 0;">© ${now.getFullYear()} TukarPI.ID - All Rights Reserved</p>
+              </div>
+            </div>
+          </div>
         </div>
       `;
-
+    
       // Tambahkan ke DOM
       document.body.appendChild(element);
       
       // Tampilkan modal pilihan
       showInvoiceOptionsModal(element);
     }
-
+    
     // Fungsi untuk menampilkan modal pilihan invoice
     function showInvoiceOptionsModal(invoiceElement) {
       const modal = document.createElement('div');
@@ -1102,7 +1102,7 @@
             <button onclick="downloadInvoiceNow(this)" 
                     class="flex flex-col items-center justify-center p-4 border border-blue-200 rounded-lg hover:bg-blue-50 transition hover:shadow-md">
               <i class="fas fa-download text-2xl text-blue-500 mb-2"></i>
-              <span class="font-medium">Download PDF</span>
+              <span class="font-medium">Download PNG</span>
               <span class="text-xs text-gray-500 mt-1">Simpan ke perangkat</span>
             </button>
             
@@ -1125,7 +1125,7 @@
       modal._invoiceElement = invoiceElement;
       document.body.appendChild(modal);
     }
-
+    
     // Fungsi untuk menutup modal invoice
     function closeInvoiceModal(btn) {
       const modal = btn.closest('.popup-overlay');
@@ -1137,69 +1137,54 @@
       }
       modal.remove();
     }
-
-    // Fungsi untuk langsung download invoice
+    
+    // Fungsi untuk langsung download invoice sebagai PNG
     async function downloadInvoiceNow(btn) {
       const modal = btn.closest('.popup-overlay');
       const element = modal._invoiceElement;
       
       // Tampilkan elemen sebelum konversi
       element.style.visibility = 'visible';
-      
-      // Konfigurasi PDF
-      const opt = {
-        margin: [5, 5, 5, 5],
-        filename: `Invoice-TukarPI-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
+    
+      try {
+        // Gunakan html2canvas untuk konversi ke gambar
+        const canvas = await html2canvas(element, {
           scale: 2,
           logging: false,
           useCORS: true,
-          letterRendering: true,
           allowTaint: true,
-          width: 210 * 3.78, // Lebar A4 dalam pixel (210mm * 3.78)
-          height: 297 * 3.78 // Tinggi A4 dalam pixel (297mm * 3.78)
-        },
-        jsPDF: { 
-          unit: 'mm',
-          format: 'a4',
-          orientation: 'portrait'
-        }
-      };
-
-      try {
-        // Generate PDF
-        await html2pdf()
-          .set(opt)
-          .from(element)
-          .toPdf()
-          .get('pdf')
-          .then(function(pdf) {
-            const totalPages = pdf.internal.getNumberOfPages();
-            for(let i = 1; i <= totalPages; i++) {
-              pdf.setPage(i);
-              pdf.setFontSize(8);
-              pdf.setTextColor(150);
-              pdf.text(
-                `Halaman ${i} dari ${totalPages}`,
-                pdf.internal.pageSize.getWidth() - 20,
-                pdf.internal.pageSize.getHeight() - 10
-              );
-            }
-          })
-          .save();
-          
+          scrollX: 0,
+          scrollY: 0,
+          width: element.scrollWidth,
+          height: element.scrollHeight,
+          windowWidth: element.scrollWidth
+        });
+    
+        // Konversi canvas ke data URL
+        const imageData = canvas.toDataURL('image/png');
+        
+        // Buat link download
+        const link = document.createElement('a');
+        const timestamp = new Date().getTime();
+        link.download = `Invoice-TukarPI-${timestamp}.png`;
+        link.href = imageData;
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
         // Tampilkan notifikasi sukses
-        showNotification('Invoice berhasil didownload', 'success');
+        showNotification('Invoice berhasil didownload sebagai PNG', 'success');
       } catch (error) {
-        console.error('Error generating PDF:', error);
-        showNotification('Gagal membuat invoice', 'error');
+        console.error('Error generating image:', error);
+        showNotification('Gagal membuat gambar invoice', 'error');
       } finally {
         // Hapus modal dan elemen invoice
         closeInvoiceModal(btn);
       }
     }
-
+    
     // Fungsi untuk preview invoice sebelum download
     function previewInvoice(btn) {
       const modal = btn.closest('.popup-overlay');
@@ -1232,7 +1217,7 @@
               Tutup
             </button>
             <button onclick="downloadFromPreview(this)" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
-              <i class="fas fa-download mr-2"></i> Download
+              <i class="fas fa-download mr-2"></i> Download PNG
             </button>
           </div>
         </div>
@@ -1248,7 +1233,7 @@
       // Tampilkan preview modal
       document.body.appendChild(previewModal);
     }
-
+    
     // Fungsi untuk menutup preview modal
     function closePreviewModal(btn) {
       const previewModal = btn.closest('.popup-overlay');
@@ -1260,8 +1245,8 @@
       // Kembalikan ke modal pilihan
       showInvoiceOptionsModal(invoiceElement);
     }
-
-    // Fungsi untuk download dari preview
+    
+    // Fungsi untuk download dari preview sebagai PNG
     async function downloadFromPreview(btn) {
       const previewModal = btn.closest('.popup-overlay');
       const invoiceElement = previewModal._invoiceElement;
@@ -1269,15 +1254,47 @@
       // Tutup preview modal
       previewModal.remove();
       
-      // Lakukan download
-      await downloadInvoiceNow({ closest: () => ({ _invoiceElement: invoiceElement }) });
-      
-      // Hapus elemen invoice
-      if (invoiceElement && invoiceElement.parentNode) {
-        document.body.removeChild(invoiceElement);
+      try {
+        // Gunakan html2canvas untuk konversi ke gambar
+        const canvas = await html2canvas(invoiceElement, {
+          scale: 2,
+          logging: false,
+          useCORS: true,
+          allowTaint: true,
+          scrollX: 0,
+          scrollY: 0,
+          width: invoiceElement.scrollWidth,
+          height: invoiceElement.scrollHeight,
+          windowWidth: invoiceElement.scrollWidth
+        });
+    
+        // Konversi canvas ke data URL
+        const imageData = canvas.toDataURL('image/png');
+        
+        // Buat link download
+        const link = document.createElement('a');
+        const timestamp = new Date().getTime();
+        link.download = `Invoice-TukarPI-${timestamp}.png`;
+        link.href = imageData;
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Tampilkan notifikasi sukses
+        showNotification('Invoice berhasil didownload sebagai PNG', 'success');
+      } catch (error) {
+        console.error('Error generating image:', error);
+        showNotification('Gagal membuat gambar invoice', 'error');
+      } finally {
+        // Hapus elemen invoice
+        if (invoiceElement && invoiceElement.parentNode) {
+          document.body.removeChild(invoiceElement);
+        }
       }
     }
-
+    
     // Fungsi helper untuk menampilkan metode pembayaran
     function getPaymentMethodDisplay(method) {
       const methods = {
@@ -1288,7 +1305,7 @@
       };
       return methods[method] || method;
     }
-
+    
     // Fungsi helper untuk detail metode pembayaran
     function getPaymentMethodDetails(method) {
       const methods = {
@@ -1299,7 +1316,7 @@
       };
       return methods[method] || '';
     }
-
+    
     // Fungsi untuk menampilkan notifikasi
     function showNotification(message, type) {
       const notification = document.createElement('div');
@@ -1317,7 +1334,6 @@
         setTimeout(() => notification.remove(), 500);
       }, 3000);
     }
-  
     // Copy to clipboard function dengan popup modern
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text).then(() => {
