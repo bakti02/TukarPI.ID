@@ -777,15 +777,13 @@
     }
 
 <!-- Replace the existing generateInvoice() function with this new version -->
-      // Fungsi utama untuk generate invoice
+        // Fungsi utama untuk generate invoice
     async function generateInvoice() {
-      // Validasi metode pembayaran
       if (!selectedPaymentMethod) {
         showNotification('Metode pembayaran belum dipilih!', 'error');
         return;
       }
     
-      // Ambil semua data yang diperlukan
       const cryptoType = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
       const coinAmount = document.getElementById('confirm-coin').textContent;
@@ -797,11 +795,10 @@
       const now = new Date();
       const paymentDue = new Date(Date.now() + 24*60*60*1000);
       
-      // Buat elemen untuk invoice
       const element = document.createElement('div');
       element.className = 'invoice-container';
       element.style.width = '210mm';
-      element.style.minHeight = '297mm'; // Set tinggi A4
+      element.style.minHeight = '297mm';
       element.style.padding = '15mm';
       element.style.margin = '0 auto';
       element.style.boxSizing = 'border-box';
@@ -810,7 +807,6 @@
       element.style.position = 'relative';
       element.style.visibility = 'hidden';
       
-      // Isi template invoice
       element.innerHTML = `
         <style>
           @page {
@@ -830,6 +826,8 @@
             box-sizing: border-box;
             font-family: 'Helvetica', 'Arial', sans-serif;
             position: relative;
+            top: 0;
+            left: 0;
           }
           .page-break {
             page-break-after: always;
@@ -838,12 +836,11 @@
             page-break-inside: avoid;
           }
           .invoice-header {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
           }
           .invoice-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
           }
           .invoice-table th {
             background-color: #f8fafc;
@@ -862,7 +859,6 @@
           .total-box {
             width: 200px;
             margin-left: auto;
-            margin-bottom: 20px;
           }
           .logo {
             height: 40px;
@@ -876,9 +872,6 @@
           @media print {
             body {
               font-size: 10pt !important;
-            }
-            .invoice-container {
-              padding: 15mm !important;
             }
             h1 {
               font-size: 14pt !important;
@@ -897,7 +890,6 @@
           }
         </style>
     
-        <!-- Header Invoice -->
         <div class="avoid-break">
           <div class="invoice-header">
             <table width="100%">
@@ -925,8 +917,7 @@
             </table>
           </div>
     
-          <!-- Info Pembeli & Pembayaran -->
-          <table width="100%" style="margin-bottom: 20px;">
+          <table width="100%" style="margin-bottom: 16px;">
             <tr>
               <td width="50%" valign="top">
                 <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembeli</h3>
@@ -957,9 +948,8 @@
             </tr>
           </table>
     
-          <!-- Detail Transaksi -->
           <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Transaksi</h3>
-          <table class="invoice-table">
+          <table class="invoice-table" style="margin-bottom: 16px;">
             <thead>
               <tr>
                 <th style="width: 60%;">Deskripsi</th>
@@ -985,10 +975,9 @@
             </tbody>
           </table>
     
-          <!-- Total Pembayaran -->
           <div class="avoid-break">
             <div class="total-box">
-              <table width="100%" style="margin-bottom: 20px;">
+              <table width="100%" style="margin-bottom: 16px;">
                 <tr>
                   <td style="padding: 4px 0; font-size: 13px;">Subtotal</td>
                   <td style="padding: 4px 0; text-align: right; font-size: 13px;">${amount}</td>
@@ -1006,9 +995,8 @@
               </table>
             </div>
     
-            <!-- Detail Koin -->
             <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Koin</h3>
-            <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+            <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
               <table width="100%">
                 <tr>
                   <td width="25%" style="padding: 4px 0;">
@@ -1031,9 +1019,8 @@
               </table>
             </div>
     
-            <!-- Instruksi Pembayaran -->
             <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
-            <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+            <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
               <table width="100%">
                 <tr>
                   <td width="24" valign="top" style="padding-right: 8px;">
@@ -1052,9 +1039,8 @@
               </table>
             </div>
     
-            <!-- Catatan -->
             <div class="avoid-break">
-              <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+              <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
                 <table width="100%">
                   <tr>
                     <td width="24" valign="top" style="padding-right: 8px;">
@@ -1072,7 +1058,6 @@
                 </table>
               </div>
     
-              <!-- Footer -->
               <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
                 <p style="margin: 0 0 4px 0;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
                 <p style="margin: 0 0 4px 0;">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
@@ -1083,24 +1068,19 @@
         </div>
       `;
     
-      // Tambahkan ke DOM
       document.body.appendChild(element);
-      
-      // Tampilkan modal pilihan
       showInvoiceOptionsModal(element);
     }
     
-    // Fungsi untuk download invoice (diperbarui)
+    // Fungsi untuk download invoice (versi diperbarui untuk posisi yang tepat)
     async function downloadInvoiceNow(btn) {
       const modal = btn.closest('.popup-overlay');
       const element = modal._invoiceElement;
       
-      // Tampilkan elemen sebelum konversi
       element.style.visibility = 'visible';
       
-      // Konfigurasi PDF yang diperbarui
       const opt = {
-        margin: 0,
+        margin: [0, 0, 0, 0],
         filename: `Invoice-TukarPI-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
@@ -1109,21 +1089,20 @@
           useCORS: true,
           letterRendering: true,
           allowTaint: true,
-          width: 210 * 3.78, // Lebar A4 dalam pixel (210mm * 3.78)
-          height: element.scrollHeight, // Gunakan tinggi elemen
-          windowWidth: element.scrollWidth // Gunakan lebar elemen
+          width: 794, // Lebar A4 dalam pixel (210mm * 3.78)
+          height: element.scrollHeight,
+          windowWidth: element.scrollWidth,
+          scrollX: 0,
+          scrollY: 0
         },
         jsPDF: { 
           unit: 'mm',
           format: 'a4',
-          orientation: 'portrait',
-          putOnlyUsedFonts: true,
-          hotfixes: ["px_scaling"] // Fix untuk masalah scaling
+          orientation: 'portrait'
         }
       };
     
       try {
-        // Generate PDF
         await html2pdf()
           .set(opt)
           .from(element)
@@ -1144,17 +1123,15 @@
           })
           .save();
           
-        // Tampilkan notifikasi sukses
         showNotification('Invoice berhasil didownload', 'success');
       } catch (error) {
         console.error('Error generating PDF:', error);
         showNotification('Gagal membuat invoice', 'error');
       } finally {
-        // Hapus modal dan elemen invoice
         closeInvoiceModal(btn);
       }
     }
-      
+          
     // Copy to clipboard function dengan popup modern
     function copyToClipboard(text) {
       navigator.clipboard.writeText(text).then(() => {
