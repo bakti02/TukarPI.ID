@@ -3,16 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beli Kripto - TukarPI.ID</title>
+  <title>Jual Pi Network (Pre-Mainnet) | TukarPI.ID</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
-    /* Gaya dari header/footer referensi */
+    /* Base Styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+      background-color: #f8fafc;
+    }
+    
+    /* Header Styles */
     .header-gradient {
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
     }
     .nav-link {
       position: relative;
+      transition: all 0.3s ease;
     }
     .nav-link::after {
       content: '';
@@ -29,17 +42,15 @@
     }
     .mobile-menu {
       transition: all 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
+    }
+    .mobile-menu.active {
+      max-height: 500px;
     }
     
-    /* Gaya khusus untuk form kripto */
-    .gradient-text {
-      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    .coin-received {
+    /* Form Styles */
+    .money-received {
       font-size: 1.25rem;
       font-weight: 700;
       background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
@@ -47,201 +58,253 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    
-    .price-change {
-      font-size: 0.8rem;
-      padding: 0.2rem 0.4rem;
-      border-radius: 0.25rem;
+    .highlight-box {
+      background-color: #f0f9ff;
+      border-left: 4px solid #3b82f6;
+      padding: 1rem;
+      margin: 1rem 0;
+      transition: all 0.3s ease;
+    }
+    .highlight-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    .disclaimer-text {
+      font-size: 0.75rem;
+      color: #6b7280;
+      font-style: italic;
     }
     
-    .price-up {
-      background-color: rgba(5, 150, 105, 0.1);
-      color: #059669;
-    }
-    
-    .price-down {
-      background-color: rgba(220, 38, 38, 0.1);
-      color: #dc2626;
-    }
-    
-    .wallet-address {
-      background-color: #f1f5f9;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      word-break: break-all;
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    
+    /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes slideIn {
+      from { transform: translateX(20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .animate-slide-in {
+      animation: slideIn 0.5s ease-out forwards;
+    }
+    
+    /* Card Hover Effects */
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3b82f6;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2563eb;
+    }
+    
+    /* Popup Styles */
+    .popup-overlay {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+    }
+    .popup-content {
+      transition: all 0.3s ease;
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    .popup-content.active {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    /* Loading Spinner */
+    .spinner {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Scroll Animations */
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    .scroll-animate.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col bg-gray-100">
-
-  <!-- Header Persis Seperti Referensi -->
+<body class="min-h-screen flex flex-col bg-gray-50">
+  <!-- Header -->
   <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center py-3">
         <!-- Logo and Brand -->
         <div class="flex items-center space-x-2">
-          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
-          <div>
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 animate-slide-in">
+          <div class="animate-slide-in" style="animation-delay: 0.1s">
             <p class="text-xs opacity-80 font-bold">Pusat Jual & Beli Kripto</p>
           </div>
         </div>
         
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-6">
-          <a href="index.html" class="nav-link text-sm font-medium">Home</a>
-          <a href="jualkoin.html" class="nav-link text-sm font-medium">Jual Pi</a>
-          <a href="belikoin.html" class="nav-link text-sm font-medium">Beli Kripto</a>
-          <a href="affiliate.html" class="nav-link text-sm font-medium">Program Affiliate</a>
-          <a href="dashboard.html" class="nav-link text-sm font-medium">Live Kripto Realtime</a>
-          <span class="text-xs bg-blue-400 text-white px-2 py-1 rounded-full font-bold">500+ Aset</span>
+          <a href="index.html" class="nav-link text-sm font-medium animate-slide-in" style="animation-delay: 0.2s">Home</a>
+          <a href="jualkoin.html" class="nav-link text-sm font-medium animate-slide-in" style="animation-delay: 0.3s">Jual Pi</a>
+          <a href="belikoin.html" class="nav-link text-sm font-medium animate-slide-in" style="animation-delay: 0.4s">Beli Kripto</a>
+          <a href="affiliate.html" class="nav-link text-sm font-medium animate-slide-in" style="animation-delay: 0.5s">Program Affiliate</a>
+          <a href="dashboard.html" class="nav-link text-sm font-medium animate-slide-in" style="animation-delay: 0.6s">Live Kripto Realtime</a>
+          <span class="text-xs bg-blue-400 text-white px-2 py-1 rounded-full font-bold animate-slide-in" style="animation-delay: 0.7s">500+ Aset</span>
         </nav>
         
         <!-- Mobile Menu Button -->
-        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none animate-slide-in" style="animation-delay: 0.3s">
           <i class="fas fa-bars text-xl"></i>
         </button>
       </div>
     </div>
     
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
+    <div id="mobile-menu" class="mobile-menu md:hidden bg-blue-900 px-4">
       <div class="flex flex-col space-y-3 py-2">
-        <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
-        <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
-        <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700">Beli Kripto</a>
-        <a href="afiliate.html" class="text-white text-sm py-1 border-b border-blue-700">Program Affiliate</a>
-        <a href="dashboard.html" class="text-white text-sm py-1 border-b border-blue-700">Live Kripto Realtime</a>
+        <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Home</a>
+        <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Jual Pi</a>
+        <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Beli Kripto</a>
+        <a href="affiliate.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Program Affiliate</a>
+        <a href="dashboard.html" class="text-white text-sm py-1 border-b border-blue-700 transition hover:pl-2">Live Kripto Realtime</a>
       </div>
     </div>
   </header>
 
-  <!-- Konten Utama (Form Beli Kripto) -->
+  <!-- Main Content -->
   <main class="flex-grow py-8">
     <div class="max-w-md mx-auto px-4">
       <!-- Header Form -->
-      <div class="text-center mb-8">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4">
-          <i class="fas fa-shopping-cart text-2xl gradient-text"></i>
+      <div class="text-center mb-8 scroll-animate">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4 animate-float">
+          <img src="https://brandlogos.net/wp-content/uploads/2025/02/pi_network-logo_brandlogos.net_mkrbu-512x512.png" 
+               alt="Pi Network" class="w-10 h-10">
         </div>
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Beli Kripto</h1>
-        <p class="text-gray-600">Isi form pembelian dan pilih metode pembayaran</p>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Jual Pi Network Anda</h1>
       </div>
 
       <!-- Purchase Form -->
-      <div id="purchase-form-container" class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+      <div id="purchase-form-container" class="bg-white rounded-xl shadow-md p-6 mb-6 scroll-animate card-hover">
         <form id="purchase-form">
-          <!-- Pilihan Kripto -->
-          <div class="mb-6">
-            <label for="crypto" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <i class="fas fa-coins mr-2 text-blue-500"></i> Pilih Kripto
-            </label>
-            <div class="relative">
-              <select id="crypto" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white">
-                <option value="" disabled selected>Memuat daftar koin...</option>
-              </select>
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <i class="fas fa-search text-gray-400"></i>
+          <!-- Info Kripto -->
+          <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 transition hover:shadow-md">
+            <div class="flex justify-center mb-3">
+              <img src="https://brandlogos.net/wp-content/uploads/2025/02/pi_network-logo_brandlogos.net_mkrbu-512x512.png" 
+                   alt="Pi Network Logo" class="w-12 h-12">
+            </div>
+            <div class="text-center">
+              <h3 class="font-bold text-blue-600">Pi Network (PI) - Pre-Mainnet</h3>
+              <p class="text-sm text-gray-600">Jual Pi Network Anda dengan harga terbaik</p>
+              <div class="highlight-box mt-3 text-left">
+                <p class="text-sm font-medium text-blue-700"><i class="fas fa-info-circle mr-1"></i> Harga dihitung 25% dari nilai mainnet selama masa airdrop</p>
+                <p class="text-sm font-medium text-blue-700 mt-1"><i class="fas fa-exclamation-triangle mr-1"></i> Hanya menerima Pi dari akun yang sudah KYC</p>
               </div>
             </div>
           </div>
 
-          <!-- Jumlah dalam Rupiah -->
-          <div class="mb-6">
+          <!-- Jumlah dalam Koin -->
+          <div class="mb-6 scroll-animate" style="animation-delay: 0.1s">
             <label for="amount" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <i class="fas fa-money-bill-wave mr-2 text-blue-500"></i> Jumlah Pembelian (Rp)
+              <i class="fas fa-coins mr-2 text-blue-500"></i> Jumlah Penjualan (PI)
             </label>
             <div class="relative">
               <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <span class="text-gray-500">Rp</span>
+                <span class="text-gray-500">PI</span>
               </div>
-              <input type="text" id="amount" 
-                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                     placeholder="100.000" min="10000" inputmode="numeric">
+              <input type="number" id="amount" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                     placeholder="100" min="10" step="1">
             </div>
-            <p class="text-xs text-gray-500 mt-1">Minimal pembelian Rp 10.000</p>
+            <p class="text-xs text-gray-500 mt-1">Minimal penjualan 10 PI (tanpa desimal)</p>
           </div>
 
           <!-- Info Harga Real-time -->
-          <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
-            <div class="flex justify-center mb-3">
-              <div id="crypto-logo-container" class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-sm">
-                <img id="crypto-logo" src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Crypto Logo" class="w-10 h-10">
-              </div>
-            </div>
+          <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 scroll-animate" style="animation-delay: 0.2s">
             <div class="flex justify-between items-center mb-2">
               <span class="text-sm font-medium text-blue-600 flex items-center">
-                <i class="fas fa-chart-line mr-1"></i> Harga Real-time
+                <i class="fas fa-chart-line mr-1"></i> Harga Realtime (Pre-Mainnet)
               </span>
               <div class="flex items-center">
-                <span id="realtime-price" class="font-semibold text-blue-800">Memuat harga...</span>
+                <span id="realtime-price" class="font-semibold text-blue-800 loading-price">Memuat harga...</span>
                 <span id="price-change" class="price-change ml-2 hidden"></span>
               </div>
             </div>
             <div class="flex justify-between mb-2">
               <span class="text-sm font-medium text-blue-600 flex items-center">
-                <i class="fas fa-percentage mr-1"></i> Biaya Layanan (5%)
+                <i class="fas fa-percentage mr-1"></i> Biaya Layanan (2%)
               </span>
               <span id="fee-amount" class="font-medium text-red-500">- Rp 0</span>
             </div>
             <div class="pt-3 border-t border-blue-200">
               <p class="text-xs font-medium text-blue-500 mb-1 flex items-center">
-                <i class="fas fa-coins mr-1"></i> JUMLAH KOIN DITERIMA
+                <i class="fas fa-money-bill-wave mr-1"></i> JUMLAH UANG DITERIMA
               </p>
               <div class="flex justify-between items-center">
                 <span class="text-sm text-blue-600">Estimasi yang akan Anda terima</span>
-                <span id="coin-received" class="coin-received">0</span>
+                <span id="money-received" class="money-received">Rp 0</span>
               </div>
             </div>
-            <div class="flex items-center justify-between mt-2 text-xs text-gray-500">
-              <span id="current-rate">Kurs USD-IDR: Rp0</span>
+            <p class="disclaimer-text mt-2">* Harga mainnet saat ini: <span id="mainnet-price-value">Rp 0</span></p>
+            <p class="flex items-center justify-between mt-2 text-xs text-gray-500">
+              <span id="current-rate">*Kurs USD-IDR: Rp0</span> 
               <span id="rate-updated">Update: -</span>
-            </div>
-          </div>
-
-          <!-- Alamat Wallet -->
-          <div class="mb-6">
-            <label for="wallet" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
-              <i class="fas fa-wallet mr-2 text-blue-500"></i> Alamat Wallet Anda
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <i class="fas fa-address-card text-gray-400"></i>
-              </div>
-              <input type="text" id="wallet" 
-                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
-                     placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
-            </div>
-            <p class="text-xs text-gray-500 mt-1">Pastikan alamat wallet benar. Kripto akan dikirim ke alamat ini.</p>
+            </p>
           </div>
 
           <!-- Metode Pembayaran -->
-          <div class="mb-6">
+          <div class="mb-6 scroll-animate" style="animation-delay: 0.3s">
             <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
               <i class="fas fa-credit-card mr-2 text-blue-500"></i> Metode Pembayaran
             </label>
             <div class="grid grid-cols-2 gap-3">
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="bca">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="bca">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">Bank BCA</p>
               </div>
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="dana">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="dana">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">DANA</p>
               </div>
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="ovo">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="ovo">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">OVO</p>
               </div>
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="gopay">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="gopay">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">GOPAY</p>
               </div>
@@ -249,169 +312,127 @@
             <input type="hidden" id="payment-method" required>
           </div>
 
-          <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.01]">
-            <i class="fas fa-arrow-right mr-2"></i> Lanjutkan Pembayaran
+          <!-- Nomor Rekening -->
+          <div class="mb-6 scroll-animate" style="animation-delay: 0.4s">
+            <label for="account-number" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-wallet mr-2 text-blue-500"></i> Masukkan Nomor Rekening
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fas fa-credit-card text-gray-400"></i>
+              </div>
+              <input type="text" id="account-number" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" 
+                     placeholder="Contoh: 1234567890" required>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Pastikan nomor rekening benar. Pembayaran akan dikirim ke rekening ini.</p>
+          </div>
+
+          <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.01] scroll-animate" style="animation-delay: 0.5s">
+            <i class="fas fa-arrow-right mr-2"></i> Lanjutkan Penjualan
           </button>
         </form>
       </div>
-    </div>
 
-    <!-- Payment Info -->
-    <div id="payment-info" class="hidden max-w-md mx-auto px-4 py-8 fade-in">
-      <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+      <!-- Payment Info -->
+      <div id="payment-info" class="hidden bg-white rounded-xl shadow-md p-6">
         <div class="flex justify-between items-center mb-4">
-          <button onclick="backToForm()" class="text-blue-600 hover:text-blue-800 flex items-center">
+          <button onclick="backToForm()" class="text-blue-600 hover:text-blue-800 flex items-center transition">
             <i class="fas fa-arrow-left mr-1"></i> Kembali
           </button>
-          <h2 class="text-xl font-bold text-gray-800">Selesaikan Pembayaran</h2>
+          <h2 class="text-xl font-bold text-gray-800">Konfirmasi Penjualan</h2>
           <div class="w-8"></div>
         </div>
 
+        <!-- Added Invoice and Copy Buttons -->
+        <div class="flex justify-center gap-3 mb-6">
+          <button onclick="generateInvoice()" class="flex items-center justify-center px-4 py-2 bg-white border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition">
+            <i class="fas fa-download mr-2"></i> Download Invoice
+          </button>
+          <button onclick="copyAllPaymentInfo()" class="flex items-center justify-center px-4 py-2 bg-white border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition">
+            <i class="fas fa-copy mr-2"></i> Salin Info
+          </button>
+        </div>
+
         <!-- Detail Pesanan -->
-        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
-          <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
-            <i class="fas fa-receipt mr-2 text-blue-500"></i> Detail Pesanan
-          </h3>
-          <div class="space-y-3">
-            <div class="flex justify-between">
-              <span class="text-gray-600">Kripto</span>
-              <span id="confirm-crypto" class="font-medium">BTC</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Jumlah Pembelian</span>
-              <span id="confirm-amount" class="font-medium">Rp 0</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Jumlah Koin</span>
-              <span id="confirm-coin" class="coin-received">0</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-600">Metode Pembayaran</span>
-              <div id="confirm-method" class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="Payment" class="h-5 mr-1">
-                <span class="text-sm">BCA</span>
-              </div>
-            </div>
-            <div class="flex justify-between items-start">
-              <span class="text-gray-600">Alamat Wallet</span>
-              <span id="confirm-wallet" class="wallet-address text-sm text-right max-w-[200px]">-</span>
-            </div>
-            <div class="flex justify-between border-t border-gray-200 pt-3 mt-2">
-              <span class="font-medium">Total Pembayaran</span>
-              <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg card-hover">
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Kripto</span>
+            <span id="confirm-crypto" class="font-medium">PI (Pre-Mainnet)</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Jumlah Penjualan</span>
+            <span id="confirm-amount" class="font-medium">0 PI</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Harga per PI</span>
+            <span id="confirm-price" class="font-medium">Rp 0</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Jumlah Uang</span>
+            <span id="confirm-money" class="money-received">Rp 0</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span class="text-gray-600">Biaya Layanan (2%)</span>
+            <span id="confirm-fee" class="font-medium text-red-500">- Rp 0</span>
+          </div>
+          <div class="flex justify-between mb-2 items-center">
+            <span class="text-gray-600">Metode Pembayaran</span>
+            <div id="confirm-method" class="flex items-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="Payment" class="h-5 mr-1">
+              <span class="text-sm">BCA</span>
             </div>
           </div>
-          <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+          <div class="flex justify-between mb-2 items-start">
+            <span class="text-gray-600">Nomor Rekening Anda</span>
+            <span id="confirm-account" class="text-sm text-right max-w-[200px] break-all bg-gray-100 p-2 rounded">-</span>
+          </div>
+          <div class="flex justify-between border-t border-gray-200 pt-2">
+            <span class="font-medium">Total Pembayaran</span>
+            <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
+          </div>
+          <p class="disclaimer-text mt-2">* Harga mainnet saat ini: <span id="confirm-mainnet-price">Rp 0</span></p>
+          <p class="flex items-center justify-between mt-2 text-xs text-gray-500">
             <span id="confirm-exchange-rate">Kurs USD-IDR: Rp0</span>
             <span id="confirm-rate-updated">Update: -</span>
-          </div>
+          </p>
         </div>
 
-        <!-- Info Pembayaran -->
-        <div id="payment-details">
-          <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
-            <i class="fas fa-qrcode mr-2 text-blue-500"></i> Instruksi Pembayaran
-          </h3>
-          
-          <!-- BCA -->
-          <div id="bca-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
-            <div class="text-center mb-4">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-8 mx-auto mb-3">
-              <h4 class="font-medium text-gray-700">Transfer Bank BCA</h4>
-            </div>
-            <div class="space-y-3 mb-4">
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Nomor Rekening</p>
-                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">0332997201</div>
-              </div>
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
-                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
-              </div>
-            </div>
-            <button onclick="copyToClipboard('0332997201')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
-              <i class="fas fa-copy mr-2"></i> Salin Nomor Rekening
-            </button>
-            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi BCA Mobile atau ATM untuk melakukan transfer</p>
+        <!-- Info Transfer Pi -->
+        <div class="mb-6 p-6 bg-blue-50 rounded-lg text-center card-hover">
+          <img src="https://brandlogos.net/wp-content/uploads/2025/02/pi_network-logo_brandlogos.net_mkrbu-512x512.png" alt="Pi Network" class="h-16 mx-auto mb-3">
+          <div class="mb-4">
+            <div class="font-mono text-lg bg-white py-2 px-4 rounded">GCHDZHABCDEF1234567890</div>
+            <p class="text-sm text-gray-600 mt-2">Alamat Wallet Pi Network Tujuan</p>
           </div>
-
-          <!-- DANA -->
-          <div id="dana-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
-            <div class="text-center mb-4">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-8 mx-auto mb-3">
-              <h4 class="font-medium text-gray-700">Transfer via DANA</h4>
-            </div>
-            <div class="space-y-3 mb-4">
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Nomor DANA</p>
-                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
-              </div>
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
-                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
-              </div>
-            </div>
-            <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
-              <i class="fas fa-copy mr-2"></i> Salin Nomor
-            </button>
-            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi DANA untuk melakukan transfer</p>
+          <div class="text-left mb-4 bg-white p-4 rounded-lg border border-blue-200">
+            <h4 class="font-bold text-blue-600 mb-2">Petunjuk Transfer:</h4>
+            <ol class="list-decimal list-inside text-sm text-gray-700 space-y-2">
+              <li>Silakan transfer Pi Network ke alamat wallet di atas</li>
+              <li class="font-semibold text-blue-700">Khusus menerima koin PI Network Pre-Mainnet</li>
+              <li>Pastikan Anda mengirim dari wallet utama (main wallet) Anda</li>
+              <li>Transaksi harus berasal dari akun Pi Network yang terverifikasi KYC</li>
+              <li>Jangan mengirim Pi dari wallet exchange atau pihak ketiga</li>
+            </ol>
+            <p class="text-xs text-red-500 mt-3">
+              <i class="fas fa-exclamation-triangle mr-1"></i> Transaksi yang tidak memenuhi syarat di atas tidak akan diproses dan tidak dapat dikembalikan.
+            </p>
           </div>
-
-          <!-- OVO -->
-          <div id="ovo-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
-            <div class="text-center mb-4">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-8 mx-auto mb-3">
-              <h4 class="font-medium text-gray-700">Transfer via OVO</h4>
-            </div>
-            <div class="space-y-3 mb-4">
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Nomor OVO</p>
-                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
-              </div>
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
-                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
-              </div>
-            </div>
-            <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
-              <i class="fas fa-copy mr-2"></i> Salin Nomor
-            </button>
-            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi OVO untuk melakukan transfer</p>
-          </div>
-
-          <!-- GOPAY -->
-          <div id="gopay-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
-            <div class="text-center mb-4">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-8 mx-auto mb-3">
-              <h4 class="font-medium text-gray-700">Transfer via GOPAY</h4>
-            </div>
-            <div class="space-y-3 mb-4">
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Nomor GOPAY</p>
-                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
-              </div>
-              <div>
-                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
-                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
-              </div>
-            </div>
-            <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
-              <i class="fas fa-copy mr-2"></i> Salin Nomor
-            </button>
-            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi Gojek untuk melakukan transfer</p>
-          </div>
+          <button onclick="copyToClipboard('GCHDZHABCDEF1234567890')" class="w-full max-w-xs mx-auto py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg flex items-center justify-center transition">
+            <i class="fas fa-wallet mr-2"></i> Salin Alamat Wallet
+          </button>
         </div>
 
-        <div class="text-center pt-4">
-          <button onclick="confirmPayment()" class="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-md transition">
-            <i class="fas fa-check-circle mr-2"></i> Saya Sudah Bayar
+        <div class="text-center">
+          <button onclick="confirmPayment()" class="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-md transition animate-pulse">
+            <i class="fas fa-check-circle mr-2"></i> Saya Sudah Transfer Pi Network
           </button>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Footer Persis Seperti Referensi -->
+  <!-- Footer -->
   <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
@@ -439,10 +460,10 @@
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
+            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm">Legalitas</a></li>
           </ul>
         </div>
         
@@ -450,10 +471,10 @@
         <div>
           <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Panduan Penukaran</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
-            <li><a href="#" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
+            <li><a href="panduan-jual-beli.html" class="hover:text-white transition text-xs md:text-sm">Panduan Jual & Beli</a></li>
+            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+            <li><a href="syarat-ketentuan.html" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="policy.html" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
           </ul>
         </div>
         
@@ -492,80 +513,109 @@
     </div>
   </footer>
 
-  <!-- Floating WhatsApp Button -->
-  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50">
-    <i class="fab fa-whatsapp text-xl"></i>
-  </a>
+  <!-- Popup Konfirmasi Penjualan -->
+  <div id="confirmationPopup" class="fixed inset-0 z-50 flex items-center justify-center hidden popup-overlay">
+    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 popup-content">
+      <h3 class="text-xl font-bold mb-4 text-center">Konfirmasi Penjualan PI</h3>
+      
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b pb-2">
+          <span class="font-medium">Rate Saat Ini:</span>
+          <span class="font-bold text-green-600">1 PI = Rp 12,500</span>
+        </div>
+        
+        <div class="flex items-center justify-between border-b pb-2">
+          <span class="font-medium">Minimal Penukaran:</span>
+          <span class="font-bold">5 PI</span>
+        </div>
+        
+        <div class="flex items-center justify-between border-b pb-2">
+          <span class="font-medium">Estimasi Waktu:</span>
+          <span class="font-bold">1-5 menit</span>
+        </div>
+        
+        <div class="flex items-center justify-between border-b pb-2">
+          <span class="font-medium">Metode Pembayaran:</span>
+          <span class="font-bold">Bank Transfer / E-Wallet</span>
+        </div>
+        
+        <div class="mt-6">
+          <label for="piAmount" class="block text-sm font-medium mb-1">Jumlah PI yang akan ditukar:</label>
+          <input type="number" id="piAmount" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Misal: 10">
+        </div>
+        
+        <div class="mt-4">
+          <label for="bankAccount" class="block text-sm font-medium mb-1">Nomor Rekening/E-Wallet:</label>
+          <input type="text" id="bankAccount" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Contoh: 081234567890 (DANA/OVO)">
+        </div>
+      </div>
+      
+      <div class="mt-8 flex flex-col space-y-3">
+        <button onclick="processTransaction()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          Konfirmasi & Lanjutkan
+        </button>
+      </div>
+    </div>
+  </div>
 
+  <!-- Popup Proses Penjualan -->
+  <div id="processingPopup" class="fixed inset-0 z-50 flex items-center justify-center hidden popup-overlay">
+    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 popup-content">
+      <div class="text-center">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500 spinner" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        
+        <h3 class="text-xl font-bold mb-2">Penjualan Sedang Diproses</h3>
+        <p class="text-gray-600 mb-6">Hore!!! uang akan segera Anda terima, kami telah mempersiapkan detail transaksi Anda.</p>
+        
+        <div class="bg-blue-50 p-4 rounded-lg mb-6">
+          <p class="text-sm text-blue-700">
+            <strong>Penting:</strong> Siapkan screenshot bukti transfer PI Anda untuk dikirim ke admin.
+          </p>
+        </div>
+        
+        <button id="whatsappButton" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition flex items-center justify-center">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="h-5 w-5 mr-2">
+          Kirim Konfirmasi via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     // Data koin default jika API tidak tersedia
     const defaultCryptoData = {
-      'BTC': { name: 'Bitcoin', price: 520000000, image: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png' },
-      'ETH': { name: 'Ethereum', price: 32000000, image: 'https://cryptologos.cc/logos/ethereum-eth-logo.png' },
-      'USDT': { name: 'Tether', price: 15500, image: 'https://cryptologos.cc/logos/tether-usdt-logo.png' },
-      'BNB': { name: 'BNB', price: 5000000, image: 'https://cryptologos.cc/logos/bnb-bnb-logo.png' },
-      'SOL': { name: 'Solana', price: 1500000, image: 'https://cryptologos.cc/logos/solana-sol-logo.png' },
-      'XRP': { name: 'XRP', price: 8000, image: 'https://cryptologos.cc/logos/xrp-xrp-logo.png' },
-      'ADA': { name: 'Cardano', price: 5000, image: 'https://cryptologos.cc/logos/cardano-ada-logo.png' },
-      'DOGE': { name: 'Dogecoin', price: 1000, image: 'https://cryptologos.cc/logos/dogecoin-doge-logo.png' },
-      'DOT': { name: 'Polkadot', price: 70000, image: 'https://cryptologos.cc/logos/polkadot-new-dot-logo.png' },
-      'SHIB': { name: 'Shiba Inu', price: 0.0002, image: 'https://cryptologos.cc/logos/shiba-inu-shib-logo.png' }
+      'PI': { 
+        name: 'Pi Network (Pre-Mainnet)', 
+        price: 7000 * 0.25, // Harga contoh dalam IDR (25% dari mainnet)
+        mainnetPrice: 7000, // Harga mainnet penuh
+        image: 'https://brandlogos.net/wp-content/uploads/2025/02/pi_network-logo_brandlogos.net_mkrbu-512x512.png',
+        lastUpdated: new Date().toISOString()
+      }
     };
 
     // Variabel global
     let cryptoData = {};
-    let exchangeRate = 16400; // Default exchange rate USD to IDR
+    let previousPrice = 0;
+    let exchangeRate = 16000; // Nilai default kurs USD-IDR
     let exchangeRateLastUpdated = '';
     let selectedPaymentMethod = '';
-    let previousPrices = {}; // Untuk menyimpan harga sebelumnya untuk kalkulasi perubahan
 
-    // Fungsi kembali ke form
-    function backToForm() {
-      document.getElementById('payment-info').classList.add('hidden');
-      document.getElementById('purchase-form-container').classList.remove('hidden');
+    // Fungsi untuk memformat angka tanpa desimal
+    function formatNumberNoDecimal(num) {
+      return Math.floor(num).toLocaleString('id-ID');
     }
 
-    // Fungsi mengambil data dari CoinGecko API
-    async function fetchCryptoData() {
+    // Fungsi untuk mendapatkan kurs USD-IDR real-time
+    async function getExchangeRate() {
       try {
-        const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false');
-        
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        
-        const data = await response.json();
-        console.log('Data from CoinGecko:', data);
-        
-        // Format data
-        const formattedData = {};
-        data.forEach(coin => {
-          const symbol = coin.symbol.toUpperCase();
-          formattedData[symbol] = {
-            name: coin.name,
-            price: coin.current_price,
-            image: coin.image,
-            lastUpdated: new Date().toISOString()
-          };
-          
-          // Simpan harga sebelumnya untuk kalkulasi perubahan
-          if (!previousPrices[symbol]) {
-            previousPrices[symbol] = coin.current_price;
-          }
-        });
-        
-        return formattedData;
-      } catch (error) {
-        console.error('Error fetching CoinGecko data:', error);
-        console.log('Using default crypto data');
-        return defaultCryptoData;
-      }
-    }
-
-    // Fungsi mengambil kurs USD ke IDR
-    async function fetchExchangeRate() {
-      try {
-        // Coba API pertama
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         const data = await response.json();
         if (data && data.rates && data.rates.IDR) {
@@ -575,7 +625,6 @@
           };
         }
         
-        // Coba API cadangan
         const backupResponse = await fetch('https://api.frankfurter.app/latest?from=USD&to=IDR');
         const backupData = await backupResponse.json();
         if (backupData && backupData.rates && backupData.rates.IDR) {
@@ -585,71 +634,119 @@
           };
         }
         
-        // Jika semua API gagal, gunakan nilai default
         return {
-          rate: 16400,
+          rate: 16000,
           updated: new Date().toISOString()
         };
       } catch (error) {
         console.error('Error fetching exchange rate:', error);
         return {
-          rate: 16400,
+          rate: 16000,
           updated: new Date().toISOString()
         };
       }
     }
 
-    // Fungsi mengisi dropdown koin
-    async function populateCryptoDropdown() {
-      const cryptoSelect = document.getElementById('crypto');
-      
+    // Fungsi untuk mendapatkan harga Pi Network dari beberapa sumber
+    async function fetchPiNetworkPrice() {
       try {
-        // Clear existing options
-        cryptoSelect.innerHTML = '';
+        const exchangeData = await getExchangeRate();
+        exchangeRate = exchangeData.rate;
+        exchangeRateLastUpdated = exchangeData.updated;
         
-        // Add default option
-        const defaultOption = new Option('Pilih kripto...', '');
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        cryptoSelect.add(defaultOption);
+        document.getElementById('current-rate').textContent = `Kurs USD-IDR: Rp ${formatNumberNoDecimal(exchangeRate)}`;
+        document.getElementById('rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
         
-        // Add crypto options
-        for (const [symbol, data] of Object.entries(cryptoData)) {
-          const option = new Option(`${data.name} (${symbol})`, symbol);
-          option.dataset.image = data.image;
-          cryptoSelect.add(option);
-          console.log(`Added option: ${symbol}`);
+        try {
+          const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd');
+          const data = await response.json();
+          if (data['pi-network'] && data['pi-network'].usd) {
+            const usdPrice = data['pi-network'].usd;
+            const mainnetPrice = usdPrice * exchangeRate;
+            const preMainnetPrice = mainnetPrice * 0.25;
+            
+            return {
+              price: preMainnetPrice,
+              mainnetPrice: mainnetPrice,
+              lastUpdated: new Date().toISOString()
+            };
+          }
+        } catch (e) {
+          console.log('CoinGecko API tidak tersedia untuk Pi Network');
         }
+
+        const randomVariation = (Math.random() * 0.1 - 0.05);
+        const defaultMainnetPrice = 7000 * (1 + randomVariation);
+        const preMainnetPrice = defaultMainnetPrice * 0.25;
         
-        // Enable select
-        cryptoSelect.disabled = false;
+        return {
+          price: preMainnetPrice,
+          mainnetPrice: defaultMainnetPrice,
+          lastUpdated: new Date().toISOString()
+        };
       } catch (error) {
-        console.error('Error populating dropdown:', error);
-        cryptoSelect.innerHTML = '<option value="" disabled selected>Gagal memuat data koin</option>';
+        console.error('Error fetching Pi Network price:', error);
+        return {
+          price: 7000 * 0.25,
+          mainnetPrice: 7000,
+          lastUpdated: new Date().toISOString()
+        };
+      }
+    }
+
+    // Fungsi mengambil data crypto
+    async function fetchCryptoData() {
+      try {
+        const piPriceData = await fetchPiNetworkPrice();
+        
+        return {
+          'PI': {
+            name: 'Pi Network (Pre-Mainnet)',
+            price: piPriceData.price,
+            mainnetPrice: piPriceData.mainnetPrice,
+            image: 'https://brandlogos.net/wp-content/uploads/2025/02/pi_network-logo_brandlogos.net_mkrbu-512x512.png',
+            lastUpdated: piPriceData.lastUpdated
+          }
+        };
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        return defaultCryptoData;
       }
     }
 
     // Fungsi update tampilan harga
-    function updatePriceDisplay(symbol) {
-      const crypto = cryptoData[symbol];
-      if (!crypto) return;
-      
+    function updatePriceDisplay() {
       const priceElement = document.getElementById('realtime-price');
       const priceChangeElement = document.getElementById('price-change');
-      const logoElement = document.getElementById('crypto-logo');
+      const mainnetPriceElement = document.getElementById('mainnet-price-value');
+      const confirmMainnetPriceElement = document.getElementById('confirm-mainnet-price');
+      const confirmExchangeRateElement = document.getElementById('confirm-exchange-rate');
+      const confirmRateUpdatedElement = document.getElementById('confirm-rate-updated');
+      const crypto = cryptoData['PI'];
       
-      // Update logo
-      logoElement.src = crypto.image;
-      logoElement.alt = crypto.name;
+      if (!crypto) {
+        priceElement.textContent = 'Harga tidak tersedia';
+        priceElement.classList.remove('loading-price');
+        priceChangeElement.classList.add('hidden');
+        return;
+      }
       
-      // Update harga dalam IDR
-      const priceIDR = crypto.price * exchangeRate;
-      priceElement.textContent = `Rp ${priceIDR.toLocaleString('id-ID')}`;
+      // Update harga dalam IDR (pre-mainnet) tanpa desimal
+      const formattedPrice = `Rp ${formatNumberNoDecimal(crypto.price)} per PI`;
+      priceElement.textContent = formattedPrice;
       priceElement.classList.remove('loading-price');
       
+      // Update mainnet price display tanpa desimal
+      mainnetPriceElement.textContent = `Rp ${formatNumberNoDecimal(crypto.mainnetPrice)}`;
+      confirmMainnetPriceElement.textContent = `Rp ${formatNumberNoDecimal(crypto.mainnetPrice)}`;
+      
+      // Update exchange rate info tanpa desimal
+      confirmExchangeRateElement.textContent = `Kurs USD-IDR: Rp ${formatNumberNoDecimal(exchangeRate)}`;
+      confirmRateUpdatedElement.textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
+      
       // Update indikator perubahan harga
-      if (previousPrices[symbol] && previousPrices[symbol] !== crypto.price) {
-        const priceChange = ((crypto.price - previousPrices[symbol]) / previousPrices[symbol]) * 100;
+      if (previousPrice > 0) {
+        const priceChange = ((crypto.price - previousPrice) / previousPrice) * 100;
         const priceChangeValue = priceChange.toFixed(2);
         
         if (priceChange > 0) {
@@ -665,48 +762,39 @@
         priceChangeElement.classList.remove('hidden');
       }
       
-      // Simpan harga saat ini untuk perbandingan berikutnya
-      previousPrices[symbol] = crypto.price;
-      
-      // Update kurs dan waktu
-      document.getElementById('current-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
-      document.getElementById('rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
-      
-      // Update perhitungan
+      previousPrice = crypto.price;
       updateCalculation();
     }
 
     // Fungsi update perhitungan
     function updateCalculation() {
-      const symbol = document.getElementById('crypto').value;
-      const amount = parseFloat(document.getElementById('amount').value.replace(/\./g, '')) || 0;
-      const crypto = cryptoData[symbol];
+      const amount = parseFloat(document.getElementById('amount').value) || 0;
+      const crypto = cryptoData['PI'];
       
-      if (!symbol || !crypto) {
-        document.getElementById('coin-received').textContent = '0';
+      if (!crypto) {
+        document.getElementById('money-received').textContent = 'Rp 0';
         document.getElementById('fee-amount').textContent = '- Rp 0';
         return;
       }
       
-      const fee = amount * 0.05; // 5% biaya
-      const netAmount = amount - fee;
-      const coinsReceived = netAmount / (crypto.price * exchangeRate);
+      const totalValue = amount * crypto.price;
+      const fee = totalValue * 0.02;
+      const netAmount = totalValue - fee;
       
-      document.getElementById('fee-amount').textContent = `- Rp ${fee.toLocaleString('id-ID')}`;
-      document.getElementById('coin-received').textContent = coinsReceived.toFixed(8);
+      // Tampilkan tanpa desimal
+      document.getElementById('fee-amount').textContent = `- Rp ${formatNumberNoDecimal(fee)}`;
+      document.getElementById('money-received').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
     }
 
     // Fungsi untuk mengirim konfirmasi WhatsApp
     function sendWhatsAppConfirmation() {
       const crypto = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
-      const coin = document.getElementById('confirm-coin').textContent;
+      const money = document.getElementById('confirm-money').textContent;
       const method = selectedPaymentMethod;
       const total = document.getElementById('confirm-total').textContent;
-      const wallet = document.getElementById('confirm-wallet').textContent;
-      const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
+      const account = document.getElementById('confirm-account').textContent;
       
-      // Daftar nama metode pembayaran
       const paymentMethodNames = {
         'bca': 'Bank BCA',
         'dana': 'DANA',
@@ -714,253 +802,370 @@
         'gopay': 'GOPAY'
       };
       
-      // Format pesan WhatsApp
-      const message = `📋 *INVOICE PEMBELIAN KRIPTO*\n\n` +
+      const message = `📢 *KONFIRMASI PENJUALAN PI NETWORK (PRE-MAINNET)* 📢\n\n` +
                      `================================\n` +
-                     `🔹 *Jenis Kripto:* ${crypto}\n` +
-                     `🔹 *Jumlah Pembelian:* ${amount}\n` +
-                     `🔹 *Jumlah Koin:* ${coin}\n` +
-                     `🔹 *${exchangeRateInfo}*\n` +
+                     `🔹 *Kripto Dijual:* ${crypto}\n` +
+                     `🔹 *Jumlah Pi Network:* ${amount}\n` +
+                     `🔹 *Harga per PI:* ${document.getElementById('confirm-price').textContent}\n` +
+                     `🔹 *Kurs USD-IDR:* ${document.getElementById('confirm-exchange-rate').textContent}\n` +
                      `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
+                     `🔹 *Nomor Rekening:* ${account}\n\n` +
+                     `🔹 *Biaya Layanan (2%):* ${document.getElementById('confirm-fee').textContent}\n` +
                      `🔹 *Total Pembayaran:* ${total}\n` +
-                     `================================\n` +
-                     `📌 *Alamat Wallet Tujuan:*\n${wallet}\n\n` +
-                     `💬 *Konfirmasi Pembayaran:*\n` +
-                     `Saya telah melakukan transfer pembayaran sesuai nominal di atas.\n` +
-                     `Berikut bukti transfer yang telah dilakukan:\n` +
-                     `[Lampirkan screenshot bukti transfer]`;
+
+                     `🔐 *Alamat Wallet Tujuan:*\n` +
+                     `GCHDZHABCDEF1234567890\n\n` +
+                     `📌 *Catatan:*\n` +
+                     `1. Transfer Pi Network dari wallet utama Anda\n` +
+                     `2. Pastikan akun Anda sudah KYC\n` +
+                     `3. Jangan kirim dari wallet exchange\n` +
+                     `4. Proses membutuhkan waktu 5-15 menit setelah transfer\n\n` +
+                     `🔄 *Status:* _Menunggu Konfirmasi hasil transfer koin Pi Network_`;
       
-      // Encode message untuk URL
-      const encodedMessage = encodeURIComponent(message);
-      
-      // Buka WhatsApp
-      window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
+      const whatsappUrl = `https://wa.me/6282147510780?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
     }
 
-    // Copy to clipboard function
-    function copyToClipboard(text) {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      textarea.style.position = 'fixed';
-      document.body.appendChild(textarea);
-      textarea.select();
-      
-      try {
-        document.execCommand('copy');
-        // Show nice notification instead of alert
-        const notification = document.createElement('div');
-        notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center';
-        notification.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Berhasil disalin ke clipboard`;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-          notification.classList.add('opacity-0', 'translate-y-2', 'transition-all', 'duration-300');
-          setTimeout(() => notification.remove(), 300);
-        }, 2000);
-      } catch (err) {
-        console.error('Gagal menyalin:', err);
-        const notification = document.createElement('div');
-        notification.className = 'fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center';
-        notification.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> Gagal menyalin ke clipboard`;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-          notification.classList.add('opacity-0', 'translate-y-2', 'transition-all', 'duration-300');
-          setTimeout(() => notification.remove(), 300);
-        }, 2000);
-      } finally {
-        document.body.removeChild(textarea);
-      }
-    }
-
-    // Confirm payment button
+    // Fungsi untuk menampilkan konfirmasi pembayaran
     function confirmPayment() {
-      const confirmation = confirm("Pembayaran Anda telah direkam. Lakukan konfirmasi melalui WhatsApp dengan menekan tombol Ok dan Lanjut Konfirmasi dengan melampirkan bukti pembayaran.");
-      
-      if (confirmation) {
-        const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
-        confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Lanjut Konfirmasi';
-        confirmBtn.classList.remove('from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700');
-        confirmBtn.classList.add('from-green-600', 'to-emerald-700', 'hover:from-green-700', 'hover:to-emerald-800');
-        confirmBtn.removeAttribute('onclick');
-        confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
-      }
+      Swal.fire({
+        title: 'Konfirmasi Penjualan',
+        html: `Apakah Anda sudah mentransfer Pi Network ke alamat wallet tujuan?<br><br>
+              <div class="text-left bg-gray-100 p-3 rounded-lg my-3">
+                <p class="font-semibold">Alamat Wallet:</p>
+                <p class="font-mono bg-white p-2 rounded">GCHDZHABCDEF1234567890</p>
+                <p class="disclaimer-text mt-2">*Pastikan Anda mengirim koin PI Network ke wallet ini.</p>
+              </div>`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Sudah Transfer',
+        cancelButtonText: 'Belum',
+        confirmButtonColor: '#10B981',
+        cancelButtonColor: '#EF4444',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Tampilkan popup processing yang lebih elegan
+          const processingPopup = document.getElementById('processingPopup');
+          processingPopup.classList.remove('hidden');
+          document.querySelector('.popup-overlay').classList.remove('hidden');
+          document.querySelector('#processingPopup .popup-content').classList.add('active');
+          
+          // Set timeout untuk simulasi proses
+          setTimeout(() => {
+            // Update WhatsApp button href dengan data transaksi
+            const whatsappButton = document.getElementById('whatsappButton');
+            whatsappButton.onclick = sendWhatsAppConfirmation;
+          }, 1500);
+        }
+      });
     }
 
-    // Format input amount
-    function formatAmountInput(input) {
-      // Remove non-numeric characters
-      let value = input.value.replace(/[^0-9]/g, '');
-      
-      // Format with thousand separators
-      if (value.length > 0) {
-        value = parseInt(value, 10).toLocaleString('id-ID');
-      }
-      
-      input.value = value;
-      updateCalculation();
+    // Fungsi untuk menyalin teks ke clipboard
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        Swal.fire({
+          title: 'Tersalin!',
+          text: 'Alamat wallet berhasil disalin ke clipboard',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }).catch(err => {
+        console.error('Gagal menyalin: ', err);
+        Swal.fire({
+          title: 'Gagal',
+          text: 'Gagal menyalin alamat wallet',
+          icon: 'error'
+        });
+      });
     }
 
-    // Inisialisasi
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        console.log('Initializing...');
-        
-        // Setup mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-          const menu = document.getElementById('mobile-menu');
-          menu.classList.toggle('hidden');
+    // Fungsi untuk menyalin semua info pembayaran
+    function copyAllPaymentInfo() {
+      const crypto = document.getElementById('confirm-crypto').textContent;
+      const amount = document.getElementById('confirm-amount').textContent;
+      const price = document.getElementById('confirm-price').textContent;
+      const money = document.getElementById('confirm-money').textContent;
+      const fee = document.getElementById('confirm-fee').textContent;
+      const total = document.getElementById('confirm-total').textContent;
+      const method = document.getElementById('confirm-method').textContent.trim();
+      const account = document.getElementById('confirm-account').textContent;
+      const wallet = 'GCHDZHABCDEF1234567890';
+      const mainnetPrice = document.getElementById('confirm-mainnet-price').textContent;
+      const exchangeRate = document.getElementById('confirm-exchange-rate').textContent;
+      
+      const textToCopy = `=== DETAIL PENJUALAN PI NETWORK ===
+      
+Kripto: ${crypto}
+Jumlah: ${amount}
+Harga per PI: ${price}
+Harga Mainnet: ${mainnetPrice}
+${exchangeRate}
+  
+Jumlah Diterima: ${money}
+Biaya Layanan: ${fee}
+Total Pembayaran: ${total}
+  
+Metode Pembayaran: ${method}
+Nomor Rekening: ${account}
+  
+ALAMAT WALLET TUJUAN:
+${wallet}
+  
+CATATAN:
+- Transfer Pi Network dari wallet utama Anda
+- Pastikan akun Anda sudah KYC
+- Jangan kirim dari wallet exchange
+- Proses membutuhkan waktu 5-15 menit setelah transfer`;
+      
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        Swal.fire({
+          title: 'Tersalin!',
+          text: 'Semua info pembayaran berhasil disalin',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
         });
+      }).catch(err => {
+        console.error('Gagal menyalin: ', err);
+        Swal.fire({
+          title: 'Gagal',
+          text: 'Gagal menyalin info pembayaran',
+          icon: 'error'
+        });
+      });
+    }
 
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-          const menu = document.getElementById('mobile-menu');
-          const button = document.getElementById('mobile-menu-button');
-          
-          if (!menu.contains(e.target) && e.target !== button && !button.contains(e.target)) {
-            menu.classList.add('hidden');
-          }
-        });
-        
-        // Setup payment method selection
-        document.querySelectorAll('.payment-card').forEach(card => {
-          card.addEventListener('click', function() {
-            // Remove selected class from all cards
-            document.querySelectorAll('.payment-card').forEach(c => {
-              c.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked card
-            this.classList.add('selected');
-            
-            // Set payment method value
-            const method = this.getAttribute('data-method');
-            document.getElementById('payment-method').value = method;
-          });
-        });
-        
-        // Setup amount input formatting
-        document.getElementById('amount').addEventListener('input', function() {
-          formatAmountInput(this);
-        });
-        
-        // Load data
-        const [cryptoDataResponse, exchangeRateData] = await Promise.all([
-          fetchCryptoData(),
-          fetchExchangeRate()
-        ]);
-        
-        cryptoData = cryptoDataResponse;
-        exchangeRate = exchangeRateData.rate;
-        exchangeRateLastUpdated = exchangeRateData.updated;
-        
-        console.log('Crypto data loaded:', cryptoData);
-        console.log('Exchange rate:', exchangeRate);
-        
-        // Populate dropdown
-        await populateCryptoDropdown();
-        
-        // Setup event listeners
-        document.getElementById('crypto').addEventListener('change', function() {
-          updatePriceDisplay(this.value);
-        });
-        
-        // Auto-update setiap 5 menit
-        setInterval(async () => {
-          cryptoData = await fetchCryptoData();
-          const exchangeRateData = await fetchExchangeRate();
-          exchangeRate = exchangeRateData.rate;
-          exchangeRateLastUpdated = exchangeRateData.updated;
-          
-          const currentSymbol = document.getElementById('crypto').value;
-          if (currentSymbol) updatePriceDisplay(currentSymbol);
-        }, 300000); // 5 menit
-        
-      } catch (error) {
-        console.error('Initialization error:', error);
-        document.getElementById('crypto').innerHTML = 
-          '<option value="" disabled selected>Gagal memuat daftar koin</option>';
-      }
-    });
+    // Fungsi untuk kembali ke form
+    function backToForm() {
+      document.getElementById('purchase-form-container').classList.remove('hidden');
+      document.getElementById('payment-info').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-    // Form submission
-    document.getElementById('purchase-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+    // Fungsi untuk menampilkan info pembayaran
+    function showPaymentInfo() {
+      const amount = parseFloat(document.getElementById('amount').value) || 0;
+      const accountNumber = document.getElementById('account-number').value;
       
-      // Validate form
-      const amount = document.getElementById('amount').value.replace(/\./g, '');
-      const wallet = document.getElementById('wallet').value;
-      const paymentMethod = document.getElementById('payment-method').value;
-      
-      if (!amount || parseFloat(amount) < 10000) {
-        alert('Minimal pembelian Rp 10.000');
+      if (amount < 10) {
+        Swal.fire({
+          title: 'Jumlah Minimal',
+          text: 'Minimal penjualan adalah 10 PI',
+          icon: 'warning'
+        });
         return;
       }
       
-      if (!wallet) {
-        alert('Masukkan alamat wallet Anda');
+      if (!accountNumber) {
+        Swal.fire({
+          title: 'Nomor Rekening Kosong',
+          text: 'Silakan masukkan nomor rekening tujuan pembayaran',
+          icon: 'warning'
+        });
         return;
       }
       
-      if (!paymentMethod) {
-        alert('Pilih metode pembayaran');
+      if (!selectedPaymentMethod) {
+        Swal.fire({
+          title: 'Metode Pembayaran',
+          text: 'Silakan pilih metode pembayaran',
+          icon: 'warning'
+        });
         return;
       }
       
-      // Simpan metode pembayaran yang dipilih
-      selectedPaymentMethod = paymentMethod;
+      const crypto = cryptoData['PI'];
+      const totalValue = amount * crypto.price;
+      const fee = totalValue * 0.02;
+      const netAmount = totalValue - fee;
       
-      // Set confirmation values
-      const crypto = document.getElementById('crypto').value;
-      const cryptoName = cryptoData[crypto]?.name || crypto;
-      const coinReceived = document.getElementById('coin-received').textContent;
-      const walletAddress = document.getElementById('wallet').value;
-      
-      document.getElementById('confirm-crypto').textContent = `${cryptoName} (${crypto})`;
-      document.getElementById('confirm-amount').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
-      document.getElementById('confirm-coin').textContent = coinReceived;
+      // Update confirm section
+      document.getElementById('confirm-amount').textContent = `${formatNumberNoDecimal(amount)} PI`;
+      document.getElementById('confirm-price').textContent = `Rp ${formatNumberNoDecimal(crypto.price)}`;
+      document.getElementById('confirm-money').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
+      document.getElementById('confirm-fee').textContent = `- Rp ${formatNumberNoDecimal(fee)}`;
+      document.getElementById('confirm-total').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
+      document.getElementById('confirm-account').textContent = accountNumber;
       
       // Update payment method display
-      const methodDisplay = document.getElementById('confirm-method');
-      methodDisplay.innerHTML = '';
+      const methodImages = {
+        'bca': 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg',
+        'dana': 'https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg',
+        'ovo': 'https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg',
+        'gopay': 'https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg'
+      };
       
-      const methodImg = document.createElement('img');
-      methodImg.src = `https://upload.wikimedia.org/wikipedia/commons/${ 
-        paymentMethod === 'bca' ? '5/5c/Bank_Central_Asia.svg' : 
-        paymentMethod === 'dana' ? '7/72/Logo_dana_blue.svg' : 
-        paymentMethod === 'ovo' ? 'e/eb/Logo_ovo_purple.svg' : 
-        '8/86/Gopay_logo.svg'}`;
-      methodImg.className = 'h-5 mr-2';
-      methodImg.alt = paymentMethod;
+      const methodNames = {
+        'bca': 'Bank BCA',
+        'dana': 'DANA',
+        'ovo': 'OVO',
+        'gopay': 'GOPAY'
+      };
       
-      const methodText = document.createElement('span');
-      methodText.className = 'text-sm';
-      methodText.textContent = 
-        paymentMethod === 'bca' ? 'BCA' : 
-        paymentMethod === 'dana' ? 'DANA' : 
-        paymentMethod === 'ovo' ? 'OVO' : 'GOPAY';
-      
-      methodDisplay.appendChild(methodImg);
-      methodDisplay.appendChild(methodText);
-      
-      document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
-      document.getElementById('confirm-wallet').textContent = walletAddress;
-      document.getElementById('confirm-exchange-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
-      document.getElementById('confirm-rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
-      
-      // Show corresponding payment details
-      document.querySelectorAll('#payment-details > div').forEach(div => {
-        div.classList.add('hidden');
-      });
-      document.getElementById(`${paymentMethod}-details`).classList.remove('hidden');
+      const confirmMethodElement = document.getElementById('confirm-method');
+      confirmMethodElement.innerHTML = `
+        <img src="${methodImages[selectedPaymentMethod]}" alt="${selectedPaymentMethod}" class="h-5 mr-1">
+        <span class="text-sm">${methodNames[selectedPaymentMethod]}</span>
+      `;
       
       // Show payment info
       document.getElementById('purchase-form-container').classList.add('hidden');
       document.getElementById('payment-info').classList.remove('hidden');
-      
-      // Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Fungsi untuk menampilkan popup konfirmasi penjualan
+    function showConfirmationPopup() {
+      const popup = document.getElementById('confirmationPopup');
+      popup.classList.remove('hidden');
+      document.querySelector('.popup-overlay').classList.remove('hidden');
+      setTimeout(() => {
+        document.querySelector('#confirmationPopup .popup-content').classList.add('active');
+      }, 10);
+    }
+
+    // Fungsi untuk memproses transaksi
+    function processTransaction() {
+      const piAmount = document.getElementById('piAmount').value;
+      const bankAccount = document.getElementById('bankAccount').value;
+      
+      if (!piAmount || !bankAccount) {
+        Swal.fire({
+          title: 'Data Tidak Lengkap',
+          text: 'Harap isi semua field yang diperlukan',
+          icon: 'warning'
+        });
+        return;
+      }
+      
+      // Tutup popup konfirmasi
+      document.getElementById('confirmationPopup').classList.add('hidden');
+      document.querySelector('.popup-overlay').classList.add('hidden');
+      
+      // Tampilkan popup processing
+      const processingPopup = document.getElementById('processingPopup');
+      processingPopup.classList.remove('hidden');
+      document.querySelector('.popup-overlay').classList.remove('hidden');
+      setTimeout(() => {
+        document.querySelector('#processingPopup .popup-content').classList.add('active');
+      }, 10);
+      
+      // Update WhatsApp button href dengan data transaksi
+      const whatsappButton = document.getElementById('whatsappButton');
+      const message = `Hallo Admin TukarPI.ID, saya ingin menukar koin PI Network%0A%0ANama Lengkap: %0AJumlah Token PI: ${piAmount}%0ANama Bank/ E-wallet: %0ANomor Rekening: ${bankAccount}%0A%0ASaya sudah membaca syarat dan ketentuan.`;
+      whatsappButton.setAttribute('onclick', `window.open('https://wa.me/6282147510780?text=${message}', '_blank')`);
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Inisialisasi data
+      cryptoData = await fetchCryptoData();
+      updatePriceDisplay();
+      
+      // Auto-refresh harga setiap 30 detik
+      setInterval(async () => {
+        cryptoData = await fetchCryptoData();
+        updatePriceDisplay();
+      }, 30000);
+      
+      // Event listener untuk input jumlah
+      document.getElementById('amount').addEventListener('input', updateCalculation);
+      
+      // Event listener untuk form submission
+      document.getElementById('purchase-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        showPaymentInfo();
+      });
+      
+      // Event listener untuk metode pembayaran
+      document.querySelectorAll('.payment-card').forEach(card => {
+        card.addEventListener('click', function() {
+          // Hapus selected class dari semua card
+          document.querySelectorAll('.payment-card').forEach(c => {
+            c.classList.remove('border-blue-500', 'bg-blue-50');
+            c.classList.add('border-gray-200');
+          });
+          
+          // Tambahkan selected class ke card yang diklik
+          this.classList.remove('border-gray-200');
+          this.classList.add('border-blue-500', 'bg-blue-50');
+          
+          // Set selected payment method
+          selectedPaymentMethod = this.dataset.method;
+          document.getElementById('payment-method').value = selectedPaymentMethod;
+        });
+      });
+      
+      // Event listener untuk mobile menu
+      document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('active');
+      });
+      
+      // Event listener untuk klik di luar popup
+      document.querySelectorAll('.popup-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+          if (e.target === this) {
+            this.classList.add('hidden');
+            document.querySelectorAll('.popup-content').forEach(content => {
+              content.classList.remove('active');
+            });
+            document.getElementById('confirmationPopup').classList.add('hidden');
+            document.getElementById('processingPopup').classList.add('hidden');
+          }
+        });
+      });
+      
+      // Scroll animations
+      const scrollElements = document.querySelectorAll('.scroll-animate');
+      
+      const elementInView = (el, dividend = 1) => {
+        const elementTop = el.getBoundingClientRect().top;
+        return (
+          elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+        );
+      };
+      
+      const displayScrollElement = (element) => {
+        element.classList.add('show');
+      };
+      
+      const handleScrollAnimation = () => {
+        scrollElements.forEach((el) => {
+          if (elementInView(el, 1.25)) {
+            displayScrollElement(el);
+          }
+        });
+      };
+      
+      window.addEventListener('scroll', () => {
+        handleScrollAnimation();
+      });
+      
+      // Inisialisasi animasi saat load
+      handleScrollAnimation();
     });
+
+    // Style untuk perubahan harga
+    document.head.insertAdjacentHTML('beforeend', `
+      <style>
+        .price-up {
+          color: #10B981;
+        }
+        .price-down {
+          color: #EF4444;
+        }
+        .price-neutral {
+          color: #6B7280;
+        }
+        .loading-price {
+          color: #6B7280;
+          font-style: italic;
+        }
+      </style>
+    `);
   </script>
 </body>
 </html>
