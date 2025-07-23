@@ -1151,7 +1151,7 @@
         filename: `Invoice-TukarPI-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 0,
+          scale: 1,
           logging: false,
           useCORS: true,
           letterRendering: true,
