@@ -894,51 +894,88 @@
     
         <!-- Header Invoice -->
         <div class="avoid-break">
-          <div class="invoice-header">
+          <div class="invoice-header" style="margin-bottom: 24px;">
             <table width="100%">
               <tr>
                 <td>
-                  <div style="display: flex; align-items: center;">
-                    <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" class="logo" alt="Logo TukarPI.ID">
+                  <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 60px; height: 60px; background: #2563eb; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                      <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" class="logo" alt="Logo TukarPI.ID" style="width: 80%; filter: brightness(0) invert(1);">
+                    </div>
                     <div>
-                      <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">PT. RUANG DIGITAL RAYA</h1>
-                      <h2 style="font-size: 16px; color: #2563eb; margin: 0 0 4px 0;">Website: https://tukarpi.id</h2>
-                      <p style="font-style: italic; color: #64748b; font-size: 12px; margin: 0;">Jl. TB. Simatumpang, Jakarta Selatan</p>
+                      <h1 style="font-size: 18px; font-weight: 700; margin: 0 0 4px 0; color: #1e293b; letter-spacing: -0.5px;">PT. RUANG DIGITAL RAYA</h1>
+                      <h2 style="font-size: 14px; color: #2563eb; margin: 0 0 6px 0; font-weight: 600;">https://tukarpi.id</h2>
+                      <p style="font-style: italic; color: #64748b; font-size: 12px; margin: 0; display: flex; align-items: center; gap: 4px;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.7;">
+                          <path d="M12 12.5C13.6569 12.5 15 11.1569 15 9.5C15 7.84315 13.6569 6.5 12 6.5C10.3431 6.5 9 7.84315 9 9.5C9 11.1569 10.3431 12.5 12 12.5Z" fill="#64748b"/>
+                          <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.6193 11.5 9.5 10.3807 9.5 9C9.5 7.61929 10.6193 6.5 12 6.5C13.3807 6.5 14.5 7.61929 14.5 9C14.5 10.3807 13.3807 11.5 12 11.5Z" fill="#64748b"/>
+                        </svg>
+                        Jl. TB. Simatumpang, Jakarta Selatan
+                      </p>
                     </div>
                   </div>
                 </td>
                 <td style="text-align: right;">
-                  <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">INVOICE</h1>
-                  <p style="color: #64748b; font-size: 12px; margin: 0;">
-                    ${now.toLocaleString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
-                  </p>
-                  <p style="color: #64748b; font-size: 10px; margin: 4px 0 0 0;">
-                    No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}
-                  </p>
+                  <div style="background: #2563eb; display: inline-block; padding: 8px 16px; border-radius: 6px; margin-bottom: 8px;">
+                    <h1 style="font-size: 16px; font-weight: 700; margin: 0; color: white; letter-spacing: 0.5px;">INVOICE</h1>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 2px;">
+                    <p style="color: #64748b; font-size: 12px; margin: 0; display: flex; align-items: center; justify-content: flex-end; gap: 4px;">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.7;">
+                        <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 2V6" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 2V6" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 10H21" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      ${now.toLocaleString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
+                    </p>
+                    <p style="color: #64748b; font-size: 10px; margin: 0; font-family: monospace;">
+                      No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}
+                    </p>
+                  </div>
                 </td>
               </tr>
             </table>
           </div>
-    
+        
           <!-- Info Pembeli & Pembayaran -->
-          <table width="100%" style="margin-bottom: 16px;">
-            <tr>
-              <td width="50%" valign="top">
-                <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembeli</h3>
-                <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
-                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Alamat Wallet</p>
-                  <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">${walletAddress}</p>
-                </div>
-              </td>
-              <td width="50%" valign="top">
-                <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembayaran</h3>
-                <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
-                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
-                  <p style="font-weight: 500; margin: 0 0 8px 0; font-size: 12px;">
+          <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+            <div style="flex: 1; background: white; border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Detail Pembeli
+              </h3>
+              <div style="background-color: #f8fafc; padding: 12px; border-radius: 6px; border-left: 3px solid #2563eb;">
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 6px 0; font-weight: 500;">Alamat Wallet</p>
+                <p style="font-family: 'Roboto Mono', monospace; font-size: 13px; word-break: break-all; margin: 0; color: #1e293b; font-weight: 500;">${walletAddress}</p>
+              </div>
+            </div>
+            
+            <div style="flex: 1; background: white; border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 1V23" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Detail Pembayaran
+              </h3>
+              <div style="background-color: #f8fafc; padding: 12px; border-radius: 6px; border-left: 3px solid #2563eb;">
+                <div style="margin-bottom: 10px;">
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0; font-weight: 500;">Metode Pembayaran</p>
+                  <p style="font-weight: 600; margin: 0; font-size: 13px; color: #1e293b;">
                     ${getPaymentMethodDisplay(selectedPaymentMethod)}
                   </p>
-                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Batas Pembayaran</p>
-                  <p style="font-weight: 500; margin: 0; font-size: 12px;">
+                </div>
+                <div>
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0; font-weight: 500;">Batas Pembayaran</p>
+                  <p style="font-weight: 600; margin: 0; font-size: 13px; color: #1e293b; display: flex; align-items: center; gap: 4px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12 6V12L16 14" stroke="#1e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                     ${paymentDue.toLocaleString('id-ID', {
                         day: '2-digit',
                         month: 'long',
@@ -948,152 +985,197 @@
                     })}
                   </p>
                 </div>
-              </td>
-            </tr>
-          </table>
-    
+              </div>
+            </div>
+          </div>
+        
           <!-- Detail Transaksi -->
-          <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Transaksi</h3>
-          <table class="invoice-table" style="margin-bottom: 16px;">
-            <thead>
-              <tr>
-                <th style="width: 60%;">Deskripsi</th>
-                <th style="width: 20%; text-align: right;">Jumlah</th>
-                <th style="width: 20%; text-align: right;">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <p style="font-weight: 500; margin: 0 0 4px 0; font-size: 12px;">${cryptoType}</p>
-                  <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${exchangeRateInfo}</p>
-                  <p style="font-size: 11px; color: #64748b; margin: 0;">${realtimePrice}</p>
-                </td>
-                <td class="text-right" style="font-size: 12px;">1</td>
-                <td class="text-right" style="font-size: 12px;">${amount}</td>
-              </tr>
-              <tr>
-                <td style="font-size: 12px; color: #64748b;">Biaya Layanan (5%)</td>
-                <td class="text-right"></td>
-                <td class="text-right" style="color: #ef4444; font-size: 12px;">*Otomatis Terhitung</td>
-              </tr>
-            </tbody>
-          </table>
-    
+          <div style="margin-bottom: 24px;">
+            <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Detail Transaksi
+            </h3>
+            <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <table width="100%" style="border-collapse: collapse;">
+                <thead>
+                  <tr style="background-color: #f1f5f9;">
+                    <th style="padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 600; color: #64748b;">Deskripsi</th>
+                    <th style="padding: 12px 16px; text-align: right; font-size: 12px; font-weight: 600; color: #64748b;">Jumlah</th>
+                    <th style="padding: 12px 16px; text-align: right; font-size: 12px; font-weight: 600; color: #64748b;">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 12px 16px;">
+                      <p style="font-weight: 600; margin: 0 0 4px 0; font-size: 13px; color: #1e293b;">${cryptoType}</p>
+                      <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${exchangeRateInfo}</p>
+                      <p style="font-size: 11px; color: #64748b; margin: 0;">${realtimePrice}</p>
+                    </td>
+                    <td style="padding: 12px 16px; text-align: right; font-size: 13px; color: #1e293b;">1</td>
+                    <td style="padding: 12px 16px; text-align: right; font-size: 13px; color: #1e293b; font-weight: 600;">${amount}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 12px 16px; font-size: 12px; color: #64748b;">Biaya Layanan (5%)</td>
+                    <td style="padding: 12px 16px;"></td>
+                    <td style="padding: 12px 16px; text-align: right; color: #ef4444; font-size: 12px; font-weight: 500;">*Otomatis Terhitung</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        
           <!-- Total Pembayaran -->
-          <div class="avoid-break">
-            <div class="total-box">
-              <table width="100%" style="margin-bottom: 16px;">
+          <div class="avoid-break" style="margin-bottom: 24px;">
+            <div style="background: white; border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 16px 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 1V23" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Ringkasan Pembayaran
+              </h3>
+              <table width="100%" style="margin-bottom: 8px;">
                 <tr>
-                  <td style="padding: 4px 0; font-size: 13px;">Subtotal</td>
-                  <td style="padding: 4px 0; text-align: right; font-size: 13px;">${amount}</td>
+                  <td style="padding: 8px 0; font-size: 13px; color: #64748b;">Subtotal</td>
+                  <td style="padding: 8px 0; text-align: right; font-size: 13px; color: #1e293b;">${amount}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 4px 0; font-size: 13px;">Biaya Layanan</td>
-                  <td style="padding: 4px 0; text-align: right; font-size: 13px; color: #ef4444;">*Otomatis Terhitung</td>
+                  <td style="padding: 8px 0; font-size: 13px; color: #64748b;">Biaya Layanan</td>
+                  <td style="padding: 8px 0; text-align: right; font-size: 13px; color: #ef4444;">*Otomatis Terhitung</td>
                 </tr>
                 <tr>
-                  <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; font-weight: bold;">TOTAL</td>
-                  <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">
+                  <td style="padding: 12px 0; border-top: 1px solid #e2e8f0; font-weight: bold; font-size: 14px; color: #1e293b;">TOTAL</td>
+                  <td style="padding: 12px 0; border-top: 1px solid #e2e8f0; text-align: right; font-weight: bold; font-size: 16px; color: #2563eb;">
                     ${total}
                   </td>
                 </tr>
               </table>
             </div>
-    
-            <!-- Detail Koin -->
-            <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Koin</h3>
-            <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
-              <table width="100%">
-                <tr>
-                  <td width="25%" style="padding: 4px 0;">
-                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jenis Kripto</p>
-                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${cryptoType}</p>
-                  </td>
-                  <td width="25%" style="padding: 4px 0;">
-                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jumlah Koin</p>
-                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${coinAmount}</p>
-                  </td>
-                  <td width="25%" style="padding: 4px 0;">
-                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Harga per Koin</p>
-                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${realtimePrice}</p>
-                  </td>
-                  <td width="25%" style="padding: 4px 0;">
-                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Kurs yang Berlaku</p>
-                    <p style="font-weight: 500; margin: 0; font-size: 12px;">${exchangeRateInfo}</p>
-                  </td>
-                </tr>
-              </table>
-            </div>
-    
-            <!-- Instruksi Pembayaran - Versi Premium -->
-            <div style="margin-bottom: 20px;">
-              <h3 style="font-size: 15px; font-weight: 600; margin: 0 0 12px 0; color: #334155; position: relative; padding-left: 16px;">
-                <span style="position: absolute; left: 0; top: 3px; width: 8px; height: 8px; background: #2563eb; border-radius: 50%;"></span>
-                INSTRUKSI PEMBAYARAN
-              </h3>
-              
-              <div style="background: white; padding: 16px; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
-                <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                  <div style="flex-shrink: 0; margin-right: 12px;">
-                    <div style="width: 40px; height: 40px; background: #eff6ff; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                      <span style="font-size: 18px; color: #2563eb;">⇄</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p style="font-size: 13px; margin: 0 0 4px 0; color: #64748b;">Transfer ke:</p>
-                    <div style="background: #f8fafc; padding: 10px 12px; border-radius: 6px; border-left: 3px solid #2563eb;">
-                      <p style="margin: 0; font-family: 'Courier New', monospace; font-size: 14px; font-weight: 700; color: #1e293b; letter-spacing: 0.5px;">
-                        ${getPaymentMethodDetails(selectedPaymentMethod)}
-                      </p>
-                    </div>
-                  </div>
+          </div>
+        
+          <!-- Detail Koin -->
+          <div style="margin-bottom: 24px;">
+            <h3 style="font-size: 14px; font-weight: 600; margin: 0 0 12px 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 9H9.01" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M15 9H15.01" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Detail Koin
+            </h3>
+            <div style="background-color: white; padding: 16px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+                <div>
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 6px 0; font-weight: 500;">Jenis Kripto</p>
+                  <p style="font-weight: 600; margin: 0; font-size: 13px; color: #1e293b;">${cryptoType}</p>
                 </div>
-                
-                <div style="display: flex; align-items: center;">
-                  <div style="flex-shrink: 0; margin-right: 12px;">
-                    <div style="width: 40px; height: 40px; background: #f0fdf4; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                      <span style="font-size: 18px; color: #16a34a;">👤</span>
-                    </div>
-                  </div>
-                  <div>
-                    <p style="font-size: 13px; margin: 0 0 4px 0; color: #64748b;">Atas Nama:</p>
-                    <p style="margin: 0; font-size: 14px; font-weight: 600; color: #1e293b;">Agus Mulia Bakti</p>
-                  </div>
+                <div>
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 6px 0; font-weight: 500;">Jumlah Koin</p>
+                  <p style="font-weight: 600; margin: 0; font-size: 13px; color: #1e293b;">${coinAmount}</p>
                 </div>
-              </div>
-            </div>
-    
-            <!-- Catatan -->
-            <div class="avoid-break">
-              <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
-                <table width="100%">
-                  <tr>
-                    <td width="24" valign="top" style="padding-right: 8px;">
-                      <span style="color: #dc2626; font-size: 16px;">⚠️</span>
-                    </td>
-                    <td>
-                      <p style="font-size: 13px; margin: 0 0 4px 0; font-weight: 500;">Penting:</p>
-                      <ul style="font-size: 12px; margin: 0; padding-left: 16px;">
-                        <li>Transfer tepat sesuai nominal total pembayaran</li>
-                        <li>Batalkan transaksi jika tidak membayar dalam 24 jam</li>
-                        <li>Hubungi CS jika mengalami kendala pembayaran</li>
-                      </ul>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-    
-              <!-- Footer -->
-              <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                <p style="margin: 0 0 4px 0;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
-                <p style="margin: 0 0 4px 0;">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
-                <p style="margin: 0;">© ${now.getFullYear()} TukarPI.ID - All Rights Reserved</p>
+                <div>
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 6px 0; font-weight: 500;">Harga per Koin</p>
+                  <p style="font-weight: 600; margin: 0; font-size: 13px; color: #1e293b;">${realtimePrice}</p>
+                </div>
+                <div>
+                  <p style="font-size: 12px; color: #64748b; margin: 0 0 6px 0; font-weight: 500;">Kurs yang Berlaku</p>
+                  <p style="font-weight: 600; margin: 0; font-size: 13px; color: #1e293b;">${exchangeRateInfo}</p>
+                </div>
               </div>
             </div>
           </div>
+        
+          <!-- Instruksi Pembayaran -->
+          <div style="margin-bottom: 24px;">
+            <h3 style="font-size: 15px; font-weight: 700; margin: 0 0 16px 0; color: #1e293b; position: relative; padding-left: 24px;">
+              <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; background: #2563eb; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 16V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 8H12.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              INSTRUKSI PEMBAYARAN
+            </h3>
+            
+            <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+              <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px;">
+                <div style="flex-shrink: 0; width: 48px; height: 48px; background: #eff6ff; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9 9H9.01" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 9H15.01" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div style="flex: 1;">
+                  <p style="font-size: 13px; margin: 0 0 8px 0; color: #64748b; font-weight: 500;">Transfer ke:</p>
+                  <div style="background: #f8fafc; padding: 12px 16px; border-radius: 8px; border-left: 3px solid #2563eb;">
+                    <p style="margin: 0; font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700; color: #1e293b; letter-spacing: 0.5px;">
+                      ${getPaymentMethodDetails(selectedPaymentMethod)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: flex-start; gap: 16px;">
+                <div style="flex-shrink: 0; width: 48px; height: 48px; background: #f0fdf4; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div style="flex: 1;">
+                  <p style="font-size: 13px; margin: 0 0 8px 0; color: #64748b; font-weight: 500;">Atas Nama:</p>
+                  <p style="margin: 0; font-size: 15px; font-weight: 700; color: #1e293b;">Agus Mulia Bakti</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Catatan -->
+          <div class="avoid-break" style="margin-bottom: 24px;">
+            <div style="background-color: #fff7ed; padding: 16px; border-radius: 8px; border-left: 4px solid #f97316;">
+              <div style="display: flex; gap: 12px;">
+                <div style="flex-shrink: 0; width: 24px; height: 24px; background: #f97316; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 8V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16H12.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <p style="font-size: 13px; margin: 0 0 8px 0; font-weight: 600; color: #9a3412;">Penting untuk diperhatikan:</p>
+                  <ul style="font-size: 12px; margin: 0; padding-left: 16px; list-style-type: none;">
+                    <li style="margin-bottom: 6px; position: relative; padding-left: 16px;">
+                      <span style="position: absolute; left: 0; top: 6px; width: 4px; height: 4px; background: #9a3412; border-radius: 50%;"></span>
+                      Transfer tepat sesuai nominal total pembayaran
+                    </li>
+                    <li style="margin-bottom: 6px; position: relative; padding-left: 16px;">
+                      <span style="position: absolute; left: 0; top: 6px; width: 4px; height: 4px; background: #9a3412; border-radius: 50%;"></span>
+                      Batalkan transaksi jika tidak membayar dalam 24 jam
+                    </li>
+                    <li style="position: relative; padding-left: 16px;">
+                      <span style="position: absolute; left: 0; top: 6px; width: 4px; height: 4px; background: #9a3412; border-radius: 50%;"></span>
+                      Hubungi CS jika mengalami kendala pembayaran
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Footer -->
+          <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 8px;">
+            <p style="margin: 0 0 6px 0; letter-spacing: 0.3px;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
+            <p style="margin: 0 0 6px 0; font-weight: 500; color: #1e293b;">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
+            <p style="margin: 0;">© ${now.getFullYear()} TukarPI.ID - All Rights Reserved</p>
+          </div>
         </div>
-      `;
+        ;
     
       // Tambahkan ke DOM
       document.body.appendChild(element);
