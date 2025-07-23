@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     /* Base Styles */
     body {
@@ -175,18 +174,19 @@
       margin: 0 auto;
     }
     
+    .invoice-container {
+      background: white !important;
+      width: 800px !important;
+      margin: 0 auto !important;
+      padding: 20px !important;
+      box-shadow: none !important;
+    }
+    
     @media print {
-      body * {
-        visibility: hidden;
-      }
-      .invoice-container, .invoice-container * {
-        visibility: visible;
-      }
       .invoice-container {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
       }
     }
   </style>
@@ -647,115 +647,74 @@
   <script>
     // New function to generate invoice
     async function generateInvoice() {
-      const crypto = document.getElementById('confirm-crypto').textContent;
-      const amount = document.getElementById('confirm-amount').textContent;
-      const price = document.getElementById('confirm-price').textContent;
-      const money = document.getElementById('confirm-money').textContent;
-      const fee = document.getElementById('confirm-fee').textContent;
-      const total = document.getElementById('confirm-total').textContent;
-      const method = document.getElementById('confirm-method').textContent.trim();
-      const account = document.getElementById('confirm-account').textContent;
-      const wallet = 'GCHDZHABCDEF1234567890';
-      const mainnetPrice = document.getElementById('confirm-mainnet-price').textContent;
-      const exchangeRate = document.getElementById('confirm-exchange-rate').textContent;
-      const now = new Date();
-      const invoiceHTML = document.getElementById('invoicePreviewContent').innerHTML;
-      
-      const element = document.createElement('div');
-      element.innerHTML = invoiceHTML;
-      element.className = 'invoice-container';
-      element.style.width = '210mm';
-      element.style.padding = '15mm';
-      element.style.margin = '0 auto';
-      element.style.background = 'white';
-      element.style.boxSizing = 'border-box';
-      element.style.fontFamily = "'Inter', sans-serif";
-
-      element.innerHTML = `
-        <style>
-          @page { size: A4; margin: 0; }
-          body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-          .invoice-header { border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1.5rem; }
-          .invoice-title { font-size: 1.5rem; font-weight: 700; color: #1e40af; }
-          .invoice-details { margin-top: 1rem; }
-          .invoice-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-          .invoice-table th { text-align: left; padding: 0.5rem; background-color: #f3f4f6; }
-          .invoice-table td { padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
-          .text-right { text-align: right; }
-          .total-row { font-weight: 600; }
-          .notes { margin-top: 1.5rem; font-size: 0.875rem; color: #6b7280; }
-        </style>
-
-        <div class="invoice-header">
-          <div class="flex justify-between items-center">
-            <div>
-              <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-10">
-              <p class="text-sm text-gray-600 mt-1">PT. Ruang Digital Raya</p>
-            </div>
-            <div class="text-right">
-              <h1 class="invoice-title">INVOICE PENJUALAN</h1>
-              <p class="text-sm text-gray-600">No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}</p>
-              <p class="text-sm text-gray-600">Tanggal: ${now.toLocaleDateString('id-ID')}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="invoice-details">
-          <table class="invoice-table">
-            <tr>
-              <th width="30%">Kripto</th>
-              <td>${crypto}</td>
-            </tr>
-            <tr>
-              <th>Jumlah</th>
-              <td>${amount}</td>
-            </tr>
-            <tr>
-              <th>Harga per PI</th>
-              <td>${price}</td>
-            </tr>
-            <tr>
-              <th>Metode Pembayaran</th>
-              <td>${method}</td>
-            </tr>
-            <tr>
-              <th>Rekening Tujuan</th>
-              <td>${account}</td>
-            </tr>
-          </table>
-
-          <table class="invoice-table">
-            <tr>
-              <th>Deskripsi</th>
-              <th class="text-right">Jumlah</th>
-            </tr>
-            <tr>
-              <td>Penjualan ${amount}</td>
-              <td class="text-right">${money}</td>
-            </tr>
-            <tr>
-              <td>Biaya Layanan (2%)</td>
-              <td class="text-right">${fee}</td>
-            </tr>
-            <tr class="total-row">
-              <td>Total Pembayaran</td>
-              <td class="text-right">${total}</td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="notes">
-          <h3 class="font-bold mb-2">Catatan:</h3>
-          <p>1. Silakan transfer Pi Network ke alamat wallet berikut:</p>
-          <p class="font-mono bg-gray-100 p-2 my-2 rounded">${wallet}</p>
-          <p>2. Pastikan transfer dari wallet utama yang sudah KYC</p>
-          <p>3. Proses pembayaran akan dilakukan setelah transfer PI diterima</p>
-          <p>4. Invoice ini sah dan diterbitkan secara elektronik</p>
-        </div>
-      `;
-
-      document.body.appendChild(element);
-      
+      try {
+        // 1. Tutup preview jika terbuka
+        if (typeof closeInvoicePreview === 'function') {
+          closeInvoicePreview();
+        }
+    
+        // 2. Tampilkan loading
+        Swal.fire({
+          title: 'Membuat Invoice',
+          html: 'Sedang mengkonversi ke gambar PNG...',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+    
+        // 3. Ambil elemen invoice dari preview
+        const invoiceElement = document.getElementById('invoicePreviewContent').firstChild;
+        
+        // 4. Konfigurasi html2canvas
+        const options = {
+          scale: 2, // Kualitas 2x lebih tinggi
+          logging: false,
+          useCORS: true, // Untuk gambar eksternal
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: invoiceElement.scrollWidth,
+          windowHeight: invoiceElement.scrollHeight
+        };
+    
+        // 5. Konversi ke canvas
+        const canvas = await html2canvas(invoiceElement, options);
+        
+        // 6. Konversi canvas ke PNG
+        const imageData = canvas.toDataURL('image/png', 1.0); // Kualitas maksimal
+        
+        // 7. Buat link download
+        const link = document.createElement('a');
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        link.download = `Invoice_TukarPI_${timestamp}.png`;
+        link.href = imageData;
+        
+        // 8. Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // 9. Tutup loading dan tampilkan notifikasi sukses
+        Swal.fire({
+          title: 'Berhasil!',
+          text: 'Invoice berhasil diunduh sebagai PNG',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+        
+      } catch (error) {
+        console.error('Error generating invoice:', error);
+        Swal.fire({
+          title: 'Gagal',
+          text: 'Terjadi kesalahan saat membuat invoice: ' + error.message,
+          icon: 'error'
+        });
+      }
+    }
+          
       // Create PDF
       const opt = {
         margin: 10,
