@@ -801,8 +801,8 @@
       const element = document.createElement('div');
       element.className = 'invoice-container';
       element.style.width = '210mm';
-      element.style.minHeight = '297mm';
-      element.style.padding = '15mm';
+      element.style.minHeight = 'auto';
+      element.style.padding = '10mm';
       element.style.margin = '0 auto';
       element.style.boxSizing = 'border-box';
       element.style.fontFamily = "'Helvetica', 'Arial', sans-serif";
@@ -813,17 +813,38 @@
       // Isi template invoice
       element.innerHTML = `
         <style>
+          @page {
+            size: A4;
+            margin: 0;
+          }
+           body {
+            margin: 0;
+            padding: 0;
+            font-size: 12pt;
+          }
+          .pdf-mode {
+            margin: 0 !important;
+            padding: 0 !important;
+          }
           .invoice-container {
-            width: 210mm;
-            min-height: 297mm;
-            padding: 15mm;
+            width: 190mm;
+            min-height: 277mm; /* 297mm - 20mm margin */
+            padding: 5mm 10mm; /* Atas lebih kecil */
             margin: 0 auto;
             box-sizing: border-box;
-            font-family: 'Helvetica', 'Arial', sans-serif;
-            background: white;
+            position: relative;
+          }
+          .page-break {
+            page-break-after: always;
+          }
+          .avoid-break {
+            page-break-inside: avoid;
           }
           .invoice-header {
-            margin-bottom: 12px;
+            position: absolute;
+            top: 5mm;
+            left: 10mm;
+            right: 10mm;
           }
           .invoice-table {
             width: 100%;
@@ -856,9 +877,42 @@
             vertical-align: middle;
             margin-right: 8px;
           }
+              /* Tambahkan ini: */
+          @media print {
+            body {
+              padding: 0 !important;
+            }
+            h1 {
+              font-size: 14pt !important;
+              margin-bottom: 5mm !important;
+            }
+            h2, h3 {
+              font-size: 12pt !important;
+            }
+            p, td, th {
+              font-size: 10pt !important;
+              line-height: 1.2 !important;
+            }
+            .invoice-table td, .invoice-table th {
+              padding: 2mm !important;
+            }
+            .invoice-content {
+              margin-top: 35mm; /* Sesuaikan dengan tinggi header */
+            }
+            .pdf-mode .invoice-container {
+              padding-top: 5mm !important;
+            }
+            .pdf-mode .invoice-header {
+              position: absolute;
+              top: 5mm;
+              left: 10mm;
+              right: 10mm;
+            }
+          }
         </style>
 
         <!-- Header Invoice -->
+      <div class="avoid-break">
         <div class="invoice-header">
           <table width="100%">
             <tr>
@@ -946,6 +1000,7 @@
         </table>
 
         <!-- Total Pembayaran -->
+      <div class="avoid-break">
         <div class="total-box">
           <table width="100%" style="margin-bottom: 16px;">
             <tr>
@@ -1012,6 +1067,7 @@
         </div>
 
         <!-- Catatan -->
+      <div class="avoid-break">
         <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
           <table width="100%">
             <tr>
@@ -1031,6 +1087,7 @@
         </div>
 
         <!-- Footer -->
+      <div class="avoid-break">
         <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
           <p style="margin: 0 0 4px 0;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
           <p style="margin: 0 0 4px 0;">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
@@ -1108,27 +1165,40 @@
       // Tampilkan elemen sebelum konversi
       element.style.visibility = 'visible';
       
-      // Konfigurasi PDF
+     // Konfigurasi PDF
       const opt = {
-        margin: [15, 15, 15, 15],
+        margin: [0, 0, 0, 0], // Gunakan margin 0 untuk kontrol penuh
         filename: `Invoice-TukarPI-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { 
+          type: 'jpeg', 
+          quality: 0.98 
+        },
         html2canvas: { 
-          scale: 2,
+          scale: 1.5, // Scale 1.5 lebih optimal
+          scrollX: 0,
+          scrollY: -window.scrollY, // Kompensasi scroll
           logging: false,
           useCORS: true,
           letterRendering: true,
-          allowTaint: true
+          allowTaint: true,
+          windowWidth: 794, // 210mm in px (210*3.78)
+          windowHeight: 1123, // 297mm in px (297*3.78)
+          onclone: function(clonedDoc) {
+            clonedDoc.body.classList.add('pdf-mode');
+          }
         },
         jsPDF: { 
           unit: 'mm',
           format: 'a4',
-          orientation: 'portrait'
+          orientation: 'portrait',
+          hotfixes: ["px_scaling"] // Fix untuk masalah scaling
         }
       };
-
+      
       try {
-        // Generate PDF
+        // Tambahkan class pdf-mode sebelum render
+        document.body.classList.add('pdf-mode');
+        
         await html2pdf()
           .set(opt)
           .from(element)
@@ -1148,6 +1218,13 @@
             }
           })
           .save();
+          
+      } catch (error) {
+        console.error('PDF Generation Error:', error);
+      } finally {
+        // Hapus class setelah selesai
+        document.body.classList.remove('pdf-mode');
+      }
           
         // Tampilkan notifikasi sukses
         showNotification('Invoice berhasil didownload', 'success');
