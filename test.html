@@ -1,892 +1,1607 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prediksi Kripto AI | TukarPI.ID - Analisis Neural & On-Chain</title>
-  <meta name="description" content="Platform prediksi kripto berbasis AI dengan analisis deep learning dan on-chain data untuk trader Indonesia">
-  <meta name="keywords" content="prediksi bitcoin, analisis kripto AI, tukar pi network, harga crypto">
-  
-  <!-- Open Graph / Social Media Meta Tags -->
-  <meta property="og:title" content="Prediksi Kripto AI | TukarPI.ID">
-  <meta property="og:description" content="Platform prediksi kripto berbasis AI dengan akurasi tinggi">
-  <meta property="og:image" content="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png">
-  <meta property="og:url" content="https://bakti02.github.io/TukarPI.ID/test.html">
-  
-  <!-- Favicon -->
-  <link rel="icon" href="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png">
-  
-  <!-- CSS & Fonts -->
+  <title>Beli Kripto - TukarPI.ID</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- TradingView Widget -->
-  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <style>
-    :root {
-      --primary: #2563eb;
-      --secondary: #1e40af;
-      --accent: #3b82f6;
-      --success: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
+    /* Gaya dari header/footer referensi */
+    .header-gradient {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    }
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: white;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .mobile-menu {
+      transition: all 0.3s ease;
     }
     
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f8fafc;
-      color: #1e293b;
-    }
-    
-    /* Animations */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    
+    /* Gaya khusus untuk form kripto */
     .gradient-text {
-      background: linear-gradient(90deg, #3b82f6, #10b981);
+      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
       -webkit-background-clip: text;
       background-clip: text;
-      color: transparent;
+      -webkit-text-fill-color: transparent;
     }
     
-    .coin-card {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      backface-visibility: hidden;
+    .coin-received {
+      font-size: 1.25rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #2563eb 0%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     
-    .coin-card:hover {
+    .price-change {
+      font-size: 0.8rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+    }
+    
+    .price-up {
+      background-color: rgba(5, 150, 105, 0.1);
+      color: #059669;
+    }
+    
+    .price-down {
+      background-color: rgba(220, 38, 38, 0.1);
+      color: #dc2626;
+    }
+    
+    .wallet-address {
+      background-color: #f1f5f9;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      word-break: break-all;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    /* Animasi baru */
+    .card-hover {
+      transition: all 0.3s ease;
+      transform: translateY(0);
+    }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Popup modern */
+    .popup-overlay {
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+    }
+    
+    /* Invoice card */
+    .invoice-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+    }
+    
+    /* Payment card */
+    .payment-card {
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+    }
+    
+    .payment-card.selected {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.5);
       transform: translateY(-3px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     }
     
-    .strong-buy {
-      border-left: 4px solid var(--success);
-      background: linear-gradient(to right, rgba(16, 185, 129, 0.03), transparent);
-    }
-    
-    .strong-sell {
-      border-left: 4px solid var(--danger);
-      background: linear-gradient(to right, rgba(239, 68, 68, 0.03), transparent);
-    }
-    
-    .skeleton {
-      background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-    }
-    
-    @keyframes shimmer {
-      to { background-position: -200% 0; }
-    }
-    
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-    
-    /* TradingView Chart Container */
-    .tradingview-widget-container {
-      height: 100%;
-      width: 100%;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
-<body class="antialiased">
-  <!-- Header with Navigation -->
-  <header class="bg-gradient-to-r from-blue-900 to-blue-700 text-white shadow-lg sticky top-0 z-50">
+<body class="min-h-screen flex flex-col bg-gray-100">
+
+  <!-- Header -->
+  <header class="header-gradient text-white shadow-lg sticky top-0 z-50">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center py-3">
-        <div class="flex items-center space-x-3">
-          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 w-auto">
+        <!-- Logo and Brand -->
+        <div class="flex items-center space-x-2">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8">
           <div>
-            <h1 class="text-lg font-bold">TukarPI<span class="text-blue-300">.ID</span></h1>
-            <p class="text-xs opacity-80 font-medium">AI Crypto Prediction</p>
+            <p class="text-xs opacity-80 font-bold">Pusat Jual & Beli Kripto</p>
           </div>
         </div>
         
+        <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-6">
-          <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center">
-            <i class="fas fa-home mr-1"></i> Home
-          </a>
-          <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center">
-            <i class="fas fa-chart-line mr-1"></i> Market
-          </a>
-          <a href="#" class="bg-white text-blue-700 px-4 py-1 rounded-full text-sm font-bold flex items-center transition-all hover:bg-blue-50">
-            <i class="fas fa-robot mr-1"></i> AI Predictions
-          </a>
-          <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center">
-            <i class="fas fa-wallet mr-1"></i> Wallet
-          </a>
+          <a href="index.html" class="nav-link text-sm font-medium">Home</a>
+          <a href="jualkoin.html" class="nav-link text-sm font-medium">Jual Pi</a>
+          <a href="belikoin.html" class="nav-link text-sm font-medium">Beli Kripto</a>
+          <a href="affiliate.html" class="nav-link text-sm font-medium">Program Affiliate</a>
+          <a href="dashboard.html" class="nav-link text-sm font-medium">Live Kripto Realtime</a>
+          <span class="text-xs bg-blue-400 text-white px-2 py-1 rounded-full font-bold">500+ Aset</span>
         </nav>
         
-        <div class="flex items-center space-x-4">
-          <button class="hidden md:block bg-blue-600 hover:bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium transition-colors">
-            <i class="fas fa-sign-in-alt mr-1"></i> Login
-          </button>
-          <button id="mobile-menu-button" class="md:hidden text-white">
-            <i class="fas fa-bars text-xl"></i>
-          </button>
-        </div>
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu hidden md:hidden bg-blue-900 px-4 py-2">
+      <div class="flex flex-col space-y-3 py-2">
+        <a href="index.html" class="text-white text-sm py-1 border-b border-blue-700">Home</a>
+        <a href="jualkoin.html" class="text-white text-sm py-1 border-b border-blue-700">Jual Pi</a>
+        <a href="belikoin.html" class="text-white text-sm py-1 border-b border-blue-700">Beli Kripto</a>
+        <a href="affiliate.html" class="text-white text-sm py-1 border-b border-blue-700">Program Affiliate</a>
+        <a href="dashboard.html" class="text-white text-sm py-1 border-b border-blue-700">Live Kripto Realtime</a>
       </div>
     </div>
   </header>
 
-  <!-- Mobile Menu (Hidden by default) -->
-  <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white py-2 px-4">
-    <div class="flex flex-col space-y-3">
-      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
-        <i class="fas fa-home mr-2"></i> Home
-      </a>
-      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
-        <i class="fas fa-chart-line mr-2"></i> Market
-      </a>
-      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
-        <i class="fas fa-robot mr-2"></i> AI Predictions
-      </a>
-      <a href="#" class="text-sm font-medium hover:text-blue-200 transition-colors flex items-center py-2">
-        <i class="fas fa-wallet mr-2"></i> Wallet
-      </a>
-      <button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors w-full text-center">
-        <i class="fas fa-sign-in-alt mr-1"></i> Login
-      </button>
+  <!-- Konten Utama (Form Beli Kripto) -->
+  <main class="flex-grow py-8">
+    <div class="max-w-md mx-auto px-4">
+      <!-- Header Form -->
+      <div class="text-center mb-8 animate__animated animate__fadeIn">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4">
+          <i class="fas fa-shopping-cart text-2xl gradient-text"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Beli Kripto</h1>
+        <p class="text-gray-600">Isi form pembelian dan pilih metode pembayaran</p>
+      </div>
+
+      <!-- Purchase Form -->
+      <div id="purchase-form-container" class="bg-white rounded-xl shadow-md overflow-hidden p-6 animate__animated animate__fadeInUp">
+        <form id="purchase-form">
+          <!-- Pilihan Kripto -->
+          <div class="mb-6">
+            <label for="crypto" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-coins mr-2 text-blue-500"></i> Pilih Kripto
+            </label>
+            <div class="relative">
+              <select id="crypto" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white">
+                <option value="" disabled selected>Memuat daftar koin...</option>
+              </select>
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Jumlah dalam Rupiah -->
+          <div class="mb-6">
+            <label for="amount" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-money-bill-wave mr-2 text-blue-500"></i> Jumlah Pembelian (Rp)
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <span class="text-gray-500">Rp</span>
+              </div>
+              <input type="text" id="amount" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                     placeholder="100.000" min="10000" inputmode="numeric">
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Minimal pembelian Rp 10.000</p>
+          </div>
+
+          <!-- Info Harga Real-time -->
+          <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 card-hover">
+            <div class="flex justify-center mb-3">
+              <div id="crypto-logo-container" class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-sm">
+                <img id="crypto-logo" src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="Crypto Logo" class="w-10 h-10">
+              </div>
+            </div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm font-medium text-blue-600 flex items-center">
+                <i class="fas fa-chart-line mr-1"></i> Harga Real-time
+              </span>
+              <div class="flex items-center">
+                <span id="realtime-price" class="font-semibold text-blue-800">Memuat harga...</span>
+                <span id="price-change" class="price-change ml-2 hidden"></span>
+              </div>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span class="text-sm font-medium text-blue-600 flex items-center">
+                <i class="fas fa-percentage mr-1"></i> Biaya Layanan (5%)
+              </span>
+              <span id="fee-amount" class="font-medium text-red-500">- Rp 0</span>
+            </div>
+            <div class="pt-3 border-t border-blue-200">
+              <p class="text-xs font-medium text-blue-500 mb-1 flex items-center">
+                <i class="fas fa-coins mr-1"></i> JUMLAH KOIN DITERIMA
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-blue-600">Estimasi yang akan Anda terima</span>
+                <span id="coin-received" class="coin-received">0</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between mt-2 text-xs text-gray-500">
+              <span id="current-rate">Kurs USD-IDR: Rp0</span>
+              <span id="rate-updated">Update: -</span>
+            </div>
+          </div>
+
+          <!-- Alamat Wallet -->
+          <div class="mb-6">
+            <label for="wallet" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-wallet mr-2 text-blue-500"></i> Alamat Wallet Anda
+            </label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fas fa-address-card text-gray-400"></i>
+              </div>
+              <input type="text" id="wallet" 
+                     class="block w-full pl-10 p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" 
+                     placeholder="Contoh: bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" required>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Pastikan alamat wallet benar. Kripto akan dikirim ke alamat ini.</p>
+          </div>
+
+          <!-- Metode Pembayaran -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+              <i class="fas fa-credit-card mr-2 text-blue-500"></i> Metode Pembayaran
+            </label>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="bca">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">Bank BCA</p>
+              </div>
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="dana">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">DANA</p>
+              </div>
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="ovo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">OVO</p>
+              </div>
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300" data-method="gopay">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-6 mx-auto mb-1">
+                <p class="text-xs text-center text-gray-600">GOPAY</p>
+              </div>
+            </div>
+            <input type="hidden" id="payment-method" required>
+          </div>
+
+          <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 transform hover:scale-[1.01]">
+            <i class="fas fa-arrow-right mr-2"></i> Lanjutkan Pembayaran
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <main class="container mx-auto px-4 py-8">
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-blue-800 to-blue-600 rounded-2xl p-6 md:p-8 text-white shadow-xl mb-8 relative overflow-hidden">
-      <div class="absolute -right-10 -top-10 opacity-20">
-        <i class="fas fa-robot text-[200px]"></i>
-      </div>
-      <div class="max-w-3xl relative z-10">
-        <div class="flex flex-wrap items-center gap-2 mb-4">
-          <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold flex items-center">
-            <i class="fas fa-bolt mr-1"></i> AI POWERED
-          </span>
-          <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold flex items-center">
-            <i class="fas fa-sync-alt mr-1"></i> REAL-TIME DATA
-          </span>
-          <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-bold flex items-center">
-            <i class="fas fa-shield-alt mr-1"></i> SECURE
-          </span>
-        </div>
-        
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-          Prediksi Pasar Kripto dengan <span class="gradient-text">Kecerdasan Buatan</span>
-        </h1>
-        
-        <p class="text-blue-100 mb-6 text-lg">
-          Kombinasi <span class="font-semibold">Deep Learning (LSTM + Transformers)</span> dan <span class="font-semibold">Analisis On-Chain Multi-Sumber</span> 
-          dengan akurasi backtesting 82.7% dalam 90 hari terakhir
-        </p>
-        
-        <div class="flex flex-wrap gap-3 mb-6">
-          <div class="bg-white/10 px-4 py-2 rounded-lg text-sm flex items-center">
-            <i class="fas fa-brain mr-2"></i> 5-Layer Neural Network
-          </div>
-          <div class="bg-white/10 px-4 py-2 rounded-lg text-sm flex items-center">
-            <i class="fas fa-link mr-2"></i> 18 Parameter On-Chain
-          </div>
-          <div class="bg-white/10 px-4 py-2 rounded-lg text-sm flex items-center">
-            <i class="fas fa-clock mr-2"></i> Update Setiap 5 Menit
-          </div>
-        </div>
-        
-        <div class="flex flex-col sm:flex-row gap-3">
-          <button class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-xl font-bold transition-colors flex items-center justify-center">
-            <i class="fas fa-play-circle mr-2"></i> Demo AI
+    <!-- Payment Info -->
+    <div id="payment-info" class="hidden max-w-md mx-auto px-4 py-8 fade-in">
+      <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+        <div class="flex justify-between items-center mb-4">
+          <button onclick="backToForm()" class="text-blue-600 hover:text-blue-800 flex items-center">
+            <i class="fas fa-arrow-left mr-1"></i> Kembali
           </button>
-          <button class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center justify-center">
-            <i class="fas fa-chart-bar mr-2"></i> Lihat Prediksi
-          </button>
+          <h2 class="text-xl font-bold text-gray-800">Selesaikan Pembayaran</h2>
+          <div class="w-8"></div>
         </div>
-      </div>
-    </section>
 
-    <!-- Market Overview Section -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-        <div>
-          <h2 class="text-xl font-bold text-gray-800 flex items-center">
-            <i class="fas fa-chart-pie text-blue-500 mr-2"></i>
-            Market Overview
-          </h2>
-          <p class="text-gray-500 text-sm">Data pasar kripto secara real-time</p>
-        </div>
-        <div class="mt-3 md:mt-0">
-          <select class="bg-gray-100 border border-gray-200 text-gray-700 py-2 px-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-            <option>24 Jam Terakhir</option>
-            <option>7 Hari Terakhir</option>
-            <option>30 Hari Terakhir</option>
-          </select>
-        </div>
-      </div>
-      
-      <!-- TradingView Widget -->
-      <div class="tradingview-widget-container mb-6" style="height: 400px;">
-        <div id="tradingview-chart" style="height: 100%;"></div>
-      </div>
-      
-      <!-- Market Stats -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="flex items-center mb-2">
-            <div class="bg-green-100 p-2 rounded-full mr-3">
-              <i class="fas fa-arrow-up text-green-600"></i>
+        <!-- Detail Pesanan -->
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+          <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+            <i class="fas fa-receipt mr-2 text-blue-500"></i> Detail Pesanan
+          </h3>
+          <div class="space-y-3">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Kripto</span>
+              <span id="confirm-crypto" class="font-medium">BTC</span>
             </div>
-            <div>
-              <p class="text-xs text-gray-500">Market Cap</p>
-              <p class="font-bold">$1.24T</p>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Jumlah Pembelian</span>
+              <span id="confirm-amount" class="font-medium">Rp 0</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Jumlah Koin</span>
+              <span id="confirm-coin" class="coin-received">0</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Metode Pembayaran</span>
+              <div id="confirm-method" class="flex items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="Payment" class="h-5 mr-1">
+                <span class="text-sm">BCA</span>
+              </div>
+            </div>
+            <div class="flex justify-between items-start">
+              <span class="text-gray-600">Alamat Wallet</span>
+              <span id="confirm-wallet" class="wallet-address text-sm text-right max-w-[200px]">-</span>
+            </div>
+            <div class="flex justify-between border-t border-gray-200 pt-3 mt-2">
+              <span class="font-medium">Total Pembayaran</span>
+              <span id="confirm-total" class="font-bold text-blue-600">Rp 0</span>
             </div>
           </div>
-          <p class="text-xs text-green-600 font-medium">+2.4% (24h)</p>
-        </div>
-        
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="flex items-center mb-2">
-            <div class="bg-blue-100 p-2 rounded-full mr-3">
-              <i class="fas fa-exchange-alt text-blue-600"></i>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Volume (24h)</p>
-              <p class="font-bold">$42.8B</p>
-            </div>
+          <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+            <span id="confirm-exchange-rate">Kurs USD-IDR: Rp0</span>
+            <span id="confirm-rate-updated">Update: -</span>
           </div>
-          <p class="text-xs text-blue-600 font-medium">+15.7%</p>
         </div>
-        
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="flex items-center mb-2">
-            <div class="bg-purple-100 p-2 rounded-full mr-3">
-              <i class="fas fa-coins text-purple-600"></i>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Active Cryptos</p>
-              <p class="font-bold">10,234</p>
-            </div>
-          </div>
-          <p class="text-xs text-gray-500">+42 baru</p>
-        </div>
-        
-        <div class="bg-gray-50 rounded-lg p-4">
-          <div class="flex items-center mb-2">
-            <div class="bg-yellow-100 p-2 rounded-full mr-3">
-              <i class="fas fa-star text-yellow-600"></i>
-            </div>
-            <div>
-              <p class="text-xs text-gray-500">Dominance</p>
-              <p class="font-bold">BTC: 48.2%</p>
-            </div>
-          </div>
-          <p class="text-xs text-gray-500">ETH: 18.7%</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- AI Predictions Section -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-        <div>
-          <h2 class="text-xl font-bold text-gray-800 flex items-center">
-            <i class="fas fa-robot text-blue-500 mr-2"></i>
-            AI Crypto Predictions
-          </h2>
-          <p class="text-gray-500 text-sm">Sinyal trading berbasis analisis AI multi-model</p>
-        </div>
-        <div class="mt-3 md:mt-0 flex items-center">
-          <span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded mr-2">
-            <i class="fas fa-sync-alt mr-1"></i> Updated: <span id="update-time">Just now</span>
-          </span>
-          <button id="refresh-btn" class="bg-gray-100 hover:bg-gray-200 p-1 rounded-full transition-colors">
-            <i class="fas fa-redo text-gray-600"></i>
-          </button>
-        </div>
-      </div>
-      
-      <!-- Prediction Tabs -->
-      <div class="border-b border-gray-200 mb-6">
-        <div class="flex space-x-4">
-          <button class="prediction-tab active px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600">
-            <i class="fas fa-bolt mr-1"></i> Strong Signals
-          </button>
-          <button class="prediction-tab px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-            <i class="fas fa-list mr-1"></i> All Assets
-          </button>
-          <button class="prediction-tab px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-            <i class="fas fa-chart-line mr-1"></i> Technical
-          </button>
-          <button class="prediction-tab px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
-            <i class="fas fa-link mr-1"></i> On-Chain
-          </button>
-        </div>
-      </div>
-      
-      <!-- Strong Buy Signals -->
-      <div class="mb-8">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center">
-            <h3 class="text-lg font-bold text-green-600 mr-2">
-              <i class="fas fa-arrow-up mr-1"></i> Strong Buy
-            </h3>
-            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-              Confidence > 80%
-            </span>
-          </div>
-          <a href="#" class="text-xs text-blue-600 hover:underline flex items-center">
-            View all <i class="fas fa-chevron-right ml-1"></i>
-          </a>
-        </div>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="strong-buy-container">
-          <!-- Skeleton Loading -->
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-        </div>
-      </div>
-      
-      <!-- Strong Sell Signals -->
-      <div>
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center">
-            <h3 class="text-lg font-bold text-red-600 mr-2">
-              <i class="fas fa-arrow-down mr-1"></i> Strong Sell
-            </h3>
-            <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">
-              Risk > 75%
-            </span>
-          </div>
-          <a href="#" class="text-xs text-blue-600 hover:underline flex items-center">
-            View all <i class="fas fa-chevron-right ml-1"></i>
-          </a>
-        </div>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="strong-sell-container">
-          <!-- Skeleton Loading -->
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-          <div class="coin-card skeleton rounded-lg p-4 h-24"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- AI Analysis Dashboard -->
-    <section class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
-      <div class="border-b border-gray-200 px-6 py-4 bg-gray-50">
-        <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-          <i class="fas fa-tachometer-alt text-blue-500 mr-2"></i>
-          AI Analysis Dashboard
-        </h3>
-      </div>
-      
-      <div class="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
-        <!-- Neural Network Analysis -->
-        <div class="p-6">
-          <div class="flex items-center mb-4">
-            <div class="bg-blue-100 p-2 rounded-full mr-3">
-              <i class="fas fa-brain text-blue-600"></i>
-            </div>
-            <div>
-              <h4 class="font-bold text-gray-800">Neural Network</h4>
-              <p class="text-xs text-gray-500">LSTM + Transformer Hybrid</p>
-            </div>
-          </div>
+        <!-- Info Pembayaran -->
+        <div id="payment-details">
+          <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+            <i class="fas fa-qrcode mr-2 text-blue-500"></i> Instruksi Pembayaran
+          </h3>
           
-          <div class="space-y-4">
-            <div>
-              <div class="flex justify-between text-sm text-gray-600 mb-1">
-                <span>Accuracy (7D)</span>
-                <span class="font-bold">84.1%</span>
-              </div>
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-blue-500 rounded-full" style="width: 84%"></div>
-              </div>
+          <!-- BCA -->
+          <div id="bca-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+            <div class="text-center mb-4">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-8 mx-auto mb-3">
+              <h4 class="font-medium text-gray-700">Transfer Bank BCA</h4>
             </div>
-            
-            <div>
-              <div class="flex justify-between text-sm text-gray-600 mb-1">
-                <span>Win Rate</span>
-                <span class="font-bold">78.6%</span>
-              </div>
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-blue-400 rounded-full" style="width: 79%"></div>
-              </div>
-            </div>
-            
-            <div class="bg-blue-50 p-3 rounded-lg mt-4">
-              <div class="flex items-start">
-                <i class="fas fa-lightbulb text-yellow-500 mt-1 mr-2"></i>
-                <div>
-                  <p class="text-xs font-semibold text-blue-800 mb-1">AI Insight:</p>
-                  <p class="text-xs text-blue-700">Model mendeteksi pola bullish kuat di aset layer-1 dengan volume meningkat dan RSI oversold.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- On-Chain Analysis -->
-        <div class="p-6">
-          <div class="flex items-center mb-4">
-            <div class="bg-purple-100 p-2 rounded-full mr-3">
-              <i class="fas fa-link text-purple-600"></i>
-            </div>
-            <div>
-              <h4 class="font-bold text-gray-800">On-Chain Metrics</h4>
-              <p class="text-xs text-gray-500">18 Key Indicators</p>
-            </div>
-          </div>
-          
-          <div class="grid grid-cols-2 gap-3 text-sm">
-            <div class="bg-gray-50 p-3 rounded-lg">
-              <p class="text-gray-500 mb-1">NVT Ratio</p>
-              <p class="font-bold text-green-600 flex items-center">
-                42.1 <span class="trend-indicator trend-up ml-1"></span>
-              </p>
-            </div>
-            
-            <div class="bg-gray-50 p-3 rounded-lg">
-              <p class="text-gray-500 mb-1">SOPR</p>
-              <p class="font-bold text-red-600 flex items-center">
-                1.12 <span class="trend-indicator trend-down ml-1"></span>
-              </p>
-            </div>
-            
-            <div class="bg-gray-50 p-3 rounded-lg">
-              <p class="text-gray-500 mb-1">Exchange Netflow</p>
-              <p class="font-bold text-green-600">-1,245 BTC</p>
-            </div>
-            
-            <div class="bg-gray-50 p-3 rounded-lg">
-              <p class="text-gray-500 mb-1">Whale Transactions</p>
-              <p class="font-bold text-green-600">+28% (24h)</p>
-            </div>
-          </div>
-          
-          <div class="bg-purple-50 p-3 rounded-lg mt-4">
-            <div class="flex items-start">
-              <i class="fas fa-bell text-purple-500 mt-1 mr-2"></i>
+            <div class="space-y-3 mb-4">
               <div>
-                <p class="text-xs font-semibold text-purple-800 mb-1">On-Chain Alert:</p>
-                <p class="text-xs text-purple-700">Whale accumulation terdeteksi di BTC dan ETH dengan NVT menunjukkan undervaluation.</p>
+                <p class="text-sm text-gray-600 mb-1">Nomor Rekening</p>
+                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">0332997201</div>
               </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Market Sentiment -->
-        <div class="p-6">
-          <div class="flex items-center mb-4">
-            <div class="bg-green-100 p-2 rounded-full mr-3">
-              <i class="fas fa-comment-dots text-green-600"></i>
-            </div>
-            <div>
-              <h4 class="font-bold text-gray-800">Market Sentiment</h4>
-              <p class="text-xs text-gray-500">Real-time NLP Analysis</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center justify-between mb-4">
-            <div class="text-center">
-              <p class="text-xs text-gray-500">Positive</p>
-              <p class="font-bold text-green-600">68%</p>
-            </div>
-            <div class="text-center">
-              <p class="text-xs text-gray-500">Neutral</p>
-              <p class="font-bold text-yellow-600">25%</p>
-            </div>
-            <div class="text-center">
-              <p class="text-xs text-gray-500">Negative</p>
-              <p class="font-bold text-red-600">7%</p>
-            </div>
-          </div>
-          
-          <div class="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
-            <div class="h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 rounded-full"></div>
-          </div>
-          
-          <div class="bg-green-50 p-3 rounded-lg">
-            <div class="flex items-start">
-              <i class="fas fa-chart-line text-green-500 mt-1 mr-2"></i>
               <div>
-                <p class="text-xs font-semibold text-green-800 mb-1">Sentiment Trend:</p>
-                <p class="text-xs text-green-700">Pembicaraan tentang ETF crypto meningkat 42% dengan sentimen positif dominan.</p>
+                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
               </div>
             </div>
+            <button onclick="copyToClipboard('0332997201')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+              <i class="fas fa-copy mr-2"></i> Salin Nomor Rekening
+            </button>
+            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi BCA Mobile atau ATM untuk melakukan transfer</p>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- How It Works Section -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">
-          Bagaimana AI Kami Bekerja?
-        </h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">
-          Platform kami menggabungkan berbagai teknologi canggih untuk memberikan prediksi kripto paling akurat
-        </p>
-      </div>
-      
-      <div class="grid md:grid-cols-3 gap-6">
-        <!-- Step 1 -->
-        <div class="bg-gray-50 rounded-xl p-6 text-center">
-          <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-database text-blue-600 text-2xl"></i>
+          <!-- DANA -->
+          <div id="dana-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+            <div class="text-center mb-4">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-8 mx-auto mb-3">
+              <h4 class="font-medium text-gray-700">Transfer via DANA</h4>
+            </div>
+            <div class="space-y-3 mb-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Nomor DANA</p>
+                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
+              </div>
+            </div>
+            <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+              <i class="fas fa-copy mr-2"></i> Salin Nomor
+            </button>
+            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi DANA untuk melakukan transfer</p>
           </div>
-          <h3 class="font-bold text-lg text-gray-800 mb-2">Data Collection</h3>
-          <p class="text-gray-600 text-sm">
-            Mengumpulkan data dari 12+ sumber termasuk harga historis, on-chain metrics, dan sentimen sosial media
-          </p>
-        </div>
-        
-        <!-- Step 2 -->
-        <div class="bg-gray-50 rounded-xl p-6 text-center">
-          <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-brain text-purple-600 text-2xl"></i>
-          </div>
-          <h3 class="font-bold text-lg text-gray-800 mb-2">AI Processing</h3>
-          <p class="text-gray-600 text-sm">
-            3 model AI berbeda menganalisis data menggunakan LSTM, Transformer, dan algoritma machine learning
-          </p>
-        </div>
-        
-        <!-- Step 3 -->
-        <div class="bg-gray-50 rounded-xl p-6 text-center">
-          <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i class="fas fa-chart-bar text-green-600 text-2xl"></i>
-          </div>
-          <h3 class="font-bold text-lg text-gray-800 mb-2">Prediction Engine</h3>
-          <p class="text-gray-600 text-sm">
-            Hasil analisis digabungkan untuk menghasilkan sinyal trading dengan confidence score
-          </p>
-        </div>
-      </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-8 text-white text-center mb-8">
-      <h2 class="text-2xl font-bold mb-4">Mulai Gunakan Prediksi AI Kami Hari Ini</h2>
-      <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
-        Bergabunglah dengan 15.000+ trader yang sudah menggunakan platform kami untuk meningkatkan profitabilitas trading mereka
-      </p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <button class="bg-white text-blue-700 hover:bg-blue-50 px-6 py-3 rounded-xl font-bold transition-colors">
-          <i class="fas fa-user-plus mr-2"></i> Daftar Gratis
-        </button>
-        <button class="bg-blue-500 hover:bg-blue-400 text-white px-6 py-3 rounded-xl font-bold transition-colors">
-          <i class="fas fa-play-circle mr-2"></i> Lihat Demo
-        </button>
+          <!-- OVO -->
+          <div id="ovo-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+            <div class="text-center mb-4">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-8 mx-auto mb-3">
+              <h4 class="font-medium text-gray-700">Transfer via OVO</h4>
+            </div>
+            <div class="space-y-3 mb-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Nomor OVO</p>
+                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
+              </div>
+            </div>
+            <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+              <i class="fas fa-copy mr-2"></i> Salin Nomor
+            </button>
+            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi OVO untuk melakukan transfer</p>
+          </div>
+
+          <!-- GOPAY -->
+          <div id="gopay-details" class="hidden bg-blue-50 p-6 rounded-lg mb-4">
+            <div class="text-center mb-4">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-8 mx-auto mb-3">
+              <h4 class="font-medium text-gray-700">Transfer via GOPAY</h4>
+            </div>
+            <div class="space-y-3 mb-4">
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Nomor GOPAY</p>
+                <div class="font-mono text-lg bg-white py-2 px-4 rounded text-center">087878787523</div>
+              </div>
+              <div>
+                <p class="text-sm text-gray-600 mb-1">Atas Nama</p>
+                <p class="bg-white py-2 px-4 rounded text-center">Agus Mulia Bakti</p>
+              </div>
+            </div>
+            <button onclick="copyToClipboard('087878787523')" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition">
+              <i class="fas fa-copy mr-2"></i> Salin Nomor
+            </button>
+            <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi Gojek untuk melakukan transfer</p>
+          </div>
+        </div>
+
+        <!-- Tombol Download Invoice dan Konfirmasi -->
+        <div class="flex justify-center gap-3 mt-6">
+          <button onclick="generateInvoice()" class="flex items-center justify-center px-4 py-2 bg-white border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition">
+            <i class="fas fa-download mr-2"></i> Download Invoice
+          </button>
+          <button onclick="confirmPayment()" class="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition">
+            <i class="fas fa-check-circle mr-2"></i> Konfirmasi Pembayaran
+          </button>
+        </div>
       </div>
-    </section>
+    </div>
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-400 py-12">
+  <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
     <div class="container mx-auto px-4">
-      <div class="grid md:grid-cols-4 gap-8 mb-8">
-        <!-- Column 1 -->
-        <div>
-          <div class="flex items-center mb-4">
-            <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mr-2">
-            <span class="font-bold text-white">AI Crypto Predictions</span>
-          </div>
-          <p class="text-sm mb-4">
-            Platform prediksi kripto berbasis AI dengan akurasi tertinggi untuk trader Indonesia.
-          </p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fab fa-telegram fa-lg"></i>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <!-- Kolom 1: Tentang Kami -->
+        <div class="col-span-2 md:col-span-1">
+          <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" class="h-8 mb-3">
+          <p class="text-xs md:text-sm mb-3">Platform tukar koin PI Network ke Rupiah tercepat dan terpercaya di Indonesia.</p>
+          <div class="flex space-x-3">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram text-lg"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fab fa-twitter fa-lg"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter text-lg"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fab fa-discord fa-lg"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook text-lg"></i>
             </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fab fa-youtube fa-lg"></i>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-telegram text-lg"></i>
             </a>
           </div>
         </div>
         
-        <!-- Column 2 -->
+        <!-- Kolom 2: Layanan -->
         <div>
-          <h4 class="text-white text-sm font-bold mb-4 uppercase">Navigation</h4>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Layanan</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Home</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">AI Predictions</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Market Data</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">How It Works</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Pricing</a></li>
+            <li><a href="jualkoin.html" class="hover:text-white transition text-xs md:text-sm">Jual PI Network Anda</a></li>
+            <li><a href="belikoin.html" class="hover:text-white transition text-xs md:text-sm">Beli Kripto</a></li>
+            <li><a href="affiliate.html" class="hover:text-white transition text-xs md:text-sm">Program Affiliate</a></li>
+            <li><a href="legalitas.html" class="hover:text-white transition text-xs md:text-sm">Legalitas Usaha</a></li>
           </ul>
         </div>
         
-        <!-- Column 3 -->
+        <!-- Kolom 3: Bantuan -->
         <div>
-          <h4 class="text-white text-sm font-bold mb-4 uppercase">Resources</h4>
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Bantuan</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Blog</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">API Documentation</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Help Center</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Community</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Status</a></li>
+            <li><a href="panduan-jual-beli.html" class="hover:text-white transition text-xs md:text-sm">Panduan Jual & Beli</a></li>
+            <li><a href="faq.html" class="hover:text-white transition text-xs md:text-sm">FAQ</a></li>
+            <li><a href="ketentuan.html" class="hover:text-white transition text-xs md:text-sm">Syarat & Ketentuan</a></li>
+            <li><a href="policy.html" class="hover:text-white transition text-xs md:text-sm">Kebijakan Privasi</a></li>
           </ul>
         </div>
         
-        <!-- Column 4 -->
-        <div>
-          <h4 class="text-white text-sm font-bold mb-4 uppercase">Legal</h4>
+        <!-- Kolom 4: Kontak -->
+        <div class="col-span-2 md:col-span-1">
+          <h3 class="text-white font-bold mb-3 text-sm md:text-base">Kontak</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Terms of Service</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Privacy Policy</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Cookie Policy</a></li>
-            <li><a href="#" class="text-sm hover:text-white transition-colors">Disclaimer</a></li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">cs@tukarpi.id</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-whatsapp mr-2 text-xs md:text-sm"></i>
+              <a href="https://wa.me/6282147510780" class="text-xs md:text-sm hover:text-white">+62 821-4751-0780</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fab fa-telegram mr-2 text-xs md:text-sm"></i>
+              <a href="https://t.me/tukarpiid" class="text-xs md:text-sm hover:text-white">@tukarpiid</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-map-marker-alt mr-2 text-xs md:text-sm"></i>
+              <span class="text-xs md:text-sm">Jakarta Selatan, Indonesia</span>
+            </li>
+            <li class="mt-4">
+              <h4 class="text-white font-bold mb-2 text-xs md:text-sm">Jam Operasional</h4>
+              <p class="text-xs md:text-sm">Senin-Minggu<br>08:00 - 22:00 WIB</p>
+            </li>
           </ul>
         </div>
       </div>
       
-      <div class="border-t border-gray-800 pt-6 text-sm text-center">
-        <p>© 2023 TukarPI.ID AI Prediction Engine. All rights reserved.</p>
+      <div class="border-t border-gray-800 mt-6 pt-6 text-xs text-center">
+        <p>&copy; 2025 TukarPI.ID. All rights reserved.</p>
+        <p class="mt-1">PT. Ruang Digital Raya</p>
       </div>
     </div>
   </footer>
 
-  <!-- Mobile Bottom Navigation -->
-  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-50">
-    <div class="flex justify-around">
-      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-blue-600">
-        <i class="fas fa-home mb-1"></i>
-        <span class="text-xs">Home</span>
-      </a>
-      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-gray-500">
-        <i class="fas fa-chart-line mb-1"></i>
-        <span class="text-xs">Market</span>
-      </a>
-      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-gray-500">
-        <i class="fas fa-robot mb-1"></i>
-        <span class="text-xs">AI</span>
-      </a>
-      <a href="#" class="flex flex-col items-center justify-center py-3 px-4 text-gray-500">
-        <i class="fas fa-user mb-1"></i>
-        <span class="text-xs">Account</span>
-      </a>
-    </div>
-  </div>
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/6282147510780" class="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl transition transform hover:scale-110 z-50">
+    <i class="fab fa-whatsapp text-xl"></i>
+  </a>
 
+  <!-- Script Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
   <script>
-    // Mobile Menu Toggle
-    document.getElementById('mobile-menu-button').addEventListener('click', function() {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
-    });
-    
-    // Tab Switching
-    document.querySelectorAll('.prediction-tab').forEach(tab => {
-      tab.addEventListener('click', function() {
-        document.querySelectorAll('.prediction-tab').forEach(t => t.classList.remove('active', 'text-blue-600', 'border-blue-600'));
-        document.querySelectorAll('.prediction-tab').forEach(t => t.classList.add('text-gray-500'));
-        this.classList.add('active', 'text-blue-600', 'border-blue-600');
-        this.classList.remove('text-gray-500');
-      });
-    });
-    
-    // TradingView Widget
-    new TradingView.widget({
-      "autosize": true,
-      "symbol": "BINANCE:BTCUSDT",
-      "interval": "D",
-      "timezone": "Etc/UTC",
-      "theme": "light",
-      "style": "1",
-      "locale": "en",
-      "toolbar_bg": "#f1f3f6",
-      "enable_publishing": false,
-      "hide_top_toolbar": false,
-      "hide_side_toolbar": false,
-      "allow_symbol_change": true,
-      "container_id": "tradingview-chart"
-    });
-    
-    // Data Fetching and Rendering
-    let predictionData = {
-      lastUpdated: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
-      strongBuy: [
-        { 
-          symbol: "BTC", 
-          name: "Bitcoin", 
-          price: "$37,842.15", 
-          change24h: "+2.4%", 
-          confidence: 88,
-          image: "https://cryptologos.cc/logos/bitcoin-btc-logo.png"
-        },
-        { 
-          symbol: "ETH", 
-          name: "Ethereum", 
-          price: "$2,045.67", 
-          change24h: "+3.1%", 
-          confidence: 84,
-          image: "https://cryptologos.cc/logos/ethereum-eth-logo.png"
-        },
-        { 
-          symbol: "SOL", 
-          name: "Solana", 
-          price: "$58.92", 
-          change24h: "+5.7%", 
-          confidence: 82,
-          image: "https://cryptologos.cc/logos/solana-sol-logo.png"
-        },
-        { 
-          symbol: "ADA", 
-          name: "Cardano", 
-          price: "$0.38", 
-          change24h: "+1.9%", 
-          confidence: 79,
-          image: "https://cryptologos.cc/logos/cardano-ada-logo.png"
-        }
-      ],
-      strongSell: [
-        { 
-          symbol: "DOGE", 
-          name: "Dogecoin", 
-          price: "$0.082", 
-          change24h: "-3.2%", 
-          confidence: 81,
-          image: "https://cryptologos.cc/logos/dogecoin-doge-logo.png"
-        },
-        { 
-          symbol: "SHIB", 
-          name: "Shiba Inu", 
-          price: "$0.000008", 
-          change24h: "-4.5%", 
-          confidence: 78,
-          image: "https://cryptologos.cc/logos/shiba-inu-shib-logo.png"
-        },
-        { 
-          symbol: "XRP", 
-          name: "Ripple", 
-          price: "$0.62", 
-          change24h: "-1.8%", 
-          confidence: 75,
-          image: "https://cryptologos.cc/logos/xrp-xrp-logo.png"
-        },
-        { 
-          symbol: "MATIC", 
-          name: "Polygon", 
-          price: "$0.76", 
-          change24h: "-2.3%", 
-          confidence: 72,
-          image: "https://cryptologos.cc/logos/polygon-matic-logo.png"
-        }
-      ]
+    // Data koin default jika API tidak tersedia
+    const defaultCryptoData = {
+      'USDT': { name: 'Tether', price: 16400, image: 'https://cryptologos.cc/logos/tether-usdt-logo.png' },
+      'SHIB': { name: 'Shiba Inu', price: 0.0282, image: 'https://cryptologos.cc/logos/shiba-inu-shib-logo.png' }
     };
-    
-    function renderPredictionData() {
-      // Update last updated time
-      document.getElementById('update-time').textContent = predictionData.lastUpdated;
-      
-      // Render Strong Buy Cards
-      const buyContainer = document.getElementById('strong-buy-container');
-      buyContainer.innerHTML = predictionData.strongBuy.map(coin => `
-        <div class="coin-card strong-buy bg-white rounded-lg shadow p-4">
-          <div class="flex items-center mb-3">
-            <img src="${coin.image}" alt="${coin.name}" class="h-8 w-8 mr-3">
-            <div>
-              <h3 class="font-bold text-gray-800">${coin.symbol}</h3>
-              <p class="text-xs text-gray-500">${coin.name}</p>
-            </div>
-          </div>
-          <div class="flex justify-between items-center">
-            <p class="font-bold text-gray-800">${coin.price}</p>
-            <span class="text-xs px-2 py-1 rounded-full ${coin.change24h.startsWith('+') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-              ${coin.change24h}
-            </span>
-          </div>
-          <div class="mt-3">
-            <div class="flex justify-between text-xs text-gray-500 mb-1">
-              <span>AI Confidence</span>
-              <span class="font-bold">${coin.confidence}%</span>
-            </div>
-            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div class="h-full bg-green-500 rounded-full" style="width: ${coin.confidence}%"></div>
-            </div>
-          </div>
-        </div>
-      `).join('');
-      
-      // Render Strong Sell Cards
-      const sellContainer = document.getElementById('strong-sell-container');
-      sellContainer.innerHTML = predictionData.strongSell.map(coin => `
-        <div class="coin-card strong-sell bg-white rounded-lg shadow p-4">
-          <div class="flex items-center mb-3">
-            <img src="${coin.image}" alt="${coin.name}" class="h-8 w-8 mr-3">
-            <div>
-              <h3 class="font-bold text-gray-800">${coin.symbol}</h3>
-              <p class="text-xs text-gray-500">${coin.name}</p>
-            </div>
-          </div>
-          <div class="flex justify-between items-center">
-            <p class="font-bold text-gray-800">${coin.price}</p>
-            <span class="text-xs px-2 py-1 rounded-full ${coin.change24h.startsWith('+') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-              ${coin.change24h}
-            </span>
-          </div>
-          <div class="mt-3">
-            <div class="flex justify-between text-xs text-gray-500 mb-1">
-              <span>Risk Level</span>
-              <span class="font-bold">${coin.confidence}%</span>
-            </div>
-            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div class="h-full bg-red-500 rounded-full" style="width: ${coin.confidence}%"></div>
-            </div>
-          </div>
-        </div>
-      `).join('');
+
+    // Variabel global
+    let cryptoData = {};
+    let exchangeRate = 16400; // Default exchange rate USD to IDR
+    let exchangeRateLastUpdated = '';
+    let selectedPaymentMethod = '';
+    let previousPrices = {}; // Untuk menyimpan harga sebelumnya untuk kalkulasi perubahan
+
+    // Fungsi kembali ke form
+    function backToForm() {
+      document.getElementById('payment-info').classList.add('hidden');
+      document.getElementById('purchase-form-container').classList.remove('hidden');
     }
-    
-    // Refresh Button
-    document.getElementById('refresh-btn').addEventListener('click', function() {
-      // Show loading state
-      const updateTime = document.getElementById('update-time');
-      updateTime.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-1"></i> Updating...';
+
+    // Fungsi mengambil data dari CoinGecko API
+    async function fetchCryptoData() {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false');
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        console.log('Data from CoinGecko:', data);
+        
+        // Format data
+        const formattedData = {};
+        data.forEach(coin => {
+          const symbol = coin.symbol.toUpperCase();
+          formattedData[symbol] = {
+            name: coin.name,
+            price: coin.current_price,
+            image: coin.image,
+            lastUpdated: new Date().toISOString()
+          };
+          
+          // Simpan harga sebelumnya untuk kalkulasi perubahan
+          if (!previousPrices[symbol]) {
+            previousPrices[symbol] = coin.current_price;
+          }
+        });
+        
+        return formattedData;
+      } catch (error) {
+        console.error('Error fetching CoinGecko data:', error);
+        console.log('Using default crypto data');
+        return defaultCryptoData;
+      }
+    }
+
+    // Fungsi mengambil kurs USD ke IDR
+    async function fetchExchangeRate() {
+      try {
+        // Coba API pertama
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const data = await response.json();
+        if (data && data.rates && data.rates.IDR) {
+          return {
+            rate: data.rates.IDR,
+            updated: new Date().toISOString()
+          };
+        }
+        
+        // Coba API cadangan
+        const backupResponse = await fetch('https://api.frankfurter.app/latest?from=USD&to=IDR');
+        const backupData = await backupResponse.json();
+        if (backupData && backupData.rates && backupData.rates.IDR) {
+          return {
+            rate: backupData.rates.IDR,
+            updated: new Date().toISOString()
+          };
+        }
+        
+        // Jika semua API gagal, gunakan nilai default
+        return {
+          rate: 16400,
+          updated: new Date().toISOString()
+        };
+      } catch (error) {
+        console.error('Error fetching exchange rate:', error);
+        return {
+          rate: 16400,
+          updated: new Date().toISOString()
+        };
+      }
+    }
+
+    // Fungsi mengisi dropdown koin
+    async function populateCryptoDropdown() {
+      const cryptoSelect = document.getElementById('crypto');
       
-      // Simulate API call
+      try {
+        // Clear existing options
+        cryptoSelect.innerHTML = '';
+        
+        // Add default option
+        const defaultOption = new Option('Pilih kripto...', '');
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        cryptoSelect.add(defaultOption);
+        
+        // Add crypto options
+        for (const [symbol, data] of Object.entries(cryptoData)) {
+          const option = new Option(`${data.name} (${symbol})`, symbol);
+          option.dataset.image = data.image;
+          cryptoSelect.add(option);
+          console.log(`Added option: ${symbol}`);
+        }
+        
+        // Enable select
+        cryptoSelect.disabled = false;
+      } catch (error) {
+        console.error('Error populating dropdown:', error);
+        cryptoSelect.innerHTML = '<option value="" disabled selected>Gagal memuat data koin</option>';
+      }
+    }
+
+    // Fungsi update tampilan harga
+    function updatePriceDisplay(symbol) {
+      const crypto = cryptoData[symbol];
+      if (!crypto) return;
+      
+      const priceElement = document.getElementById('realtime-price');
+      const priceChangeElement = document.getElementById('price-change');
+      const logoElement = document.getElementById('crypto-logo');
+      
+      // Update logo
+      logoElement.src = crypto.image;
+      logoElement.alt = crypto.name;
+      
+      // Update harga dalam IDR
+      const priceIDR = crypto.price * exchangeRate;
+      priceElement.textContent = `Rp ${priceIDR.toLocaleString('id-ID')}`;
+      priceElement.classList.remove('loading-price');
+      
+      // Update indikator perubahan harga
+      if (previousPrices[symbol] && previousPrices[symbol] !== crypto.price) {
+        const priceChange = ((crypto.price - previousPrices[symbol]) / previousPrices[symbol]) * 100;
+        const priceChangeValue = priceChange.toFixed(2);
+        
+        if (priceChange > 0) {
+          priceChangeElement.textContent = `↑ ${priceChangeValue}%`;
+          priceChangeElement.className = 'price-change ml-2 price-up';
+        } else if (priceChange < 0) {
+          priceChangeElement.textContent = `↓ ${Math.abs(priceChangeValue)}%`;
+          priceChangeElement.className = 'price-change ml-2 price-down';
+        } else {
+          priceChangeElement.textContent = '0.00%';
+          priceChangeElement.className = 'price-change ml-2 price-neutral';
+        }
+        priceChangeElement.classList.remove('hidden');
+      }
+      
+      // Simpan harga saat ini untuk perbandingan berikutnya
+      previousPrices[symbol] = crypto.price;
+      
+      // Update kurs dan waktu
+      document.getElementById('current-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
+      document.getElementById('rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
+      
+      // Update perhitungan
+      updateCalculation();
+    }
+
+    // Fungsi update perhitungan
+    function updateCalculation() {
+      const symbol = document.getElementById('crypto').value;
+      const amount = parseFloat(document.getElementById('amount').value.replace(/\./g, '')) || 0;
+      const crypto = cryptoData[symbol];
+      
+      if (!symbol || !crypto) {
+        document.getElementById('coin-received').textContent = '0';
+        document.getElementById('fee-amount').textContent = '- Rp 0';
+        return;
+      }
+      
+      const fee = amount * 0.05; // 5% biaya
+      const netAmount = amount - fee;
+      const coinsReceived = netAmount / (crypto.price * exchangeRate);
+      
+      document.getElementById('fee-amount').textContent = `- Rp ${fee.toLocaleString('id-ID')}`;
+      document.getElementById('coin-received').textContent = coinsReceived.toFixed(8);
+    }
+
+    // Fungsi untuk mengirim konfirmasi WhatsApp
+    function sendWhatsAppConfirmation() {
+      const crypto = document.getElementById('confirm-crypto').textContent;
+      const amount = document.getElementById('confirm-amount').textContent;
+      const coin = document.getElementById('confirm-coin').textContent;
+      const method = selectedPaymentMethod;
+      const total = document.getElementById('confirm-total').textContent;
+      const wallet = document.getElementById('confirm-wallet').textContent;
+      const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
+      
+      // Daftar nama metode pembayaran
+      const paymentMethodNames = {
+        'bca': 'Bank BCA',
+        'dana': 'DANA',
+        'ovo': 'OVO',
+        'gopay': 'GOPAY'
+      };
+      
+      // Format pesan WhatsApp
+      const message = `*INVOICE PEMBELIAN KRIPTO*\n` +
+                      `*PT. RUANG DIGITAL RAYA*\n` +
+                      `*TukarPI.ID*\n` +
+                      `_Jl. TB. Simatumpang, Jakarta Selatan_\n` +
+                     `================================\n` +
+                     `🔹 *Jenis Kripto:* ${crypto}\n` +
+                     `🔹 *Jumlah Pembelian:* ${amount}\n` +
+                     `🔹 *Jumlah Koin:* ${coin}\n` +
+                     `🔹 *${exchangeRateInfo}*\n` +
+                     `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
+                     `🔹 *Total Pembayaran:* ${total}\n` +
+                     `================================\n` +
+                     `📌 *Alamat Wallet Tujuan:*\n${wallet}\n\n` +
+                     `💬 *Konfirmasi Pembayaran:*\n` +
+                     `Saya telah melakukan transfer pembayaran sesuai nominal di atas.\n` +
+                     `Berikut bukti transfer yang telah dilakukan:\n` +
+                     `_[Lampirkan screenshot bukti transfer]_`;
+      
+      // Encode message untuk URL
+      const encodedMessage = encodeURIComponent(message);
+      
+      // Buka WhatsApp
+      window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
+    }
+
+<!-- Replace the existing generateInvoice() function with this new version -->
+    // Fungsi utama untuk generate invoice
+    async function generateInvoice() {
+      // Validasi metode pembayaran
+      if (!selectedPaymentMethod) {
+        showNotification('Metode pembayaran belum dipilih!', 'error');
+        return;
+      }
+
+      // Ambil semua data yang diperlukan
+      const cryptoType = document.getElementById('confirm-crypto').textContent;
+      const amount = document.getElementById('confirm-amount').textContent;
+      const coinAmount = document.getElementById('confirm-coin').textContent;
+      const fee = document.getElementById('fee-amount').textContent;
+      const total = document.getElementById('confirm-total').textContent;
+      const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
+      const realtimePrice = document.getElementById('realtime-price').textContent;
+      const walletAddress = document.getElementById('wallet').value || '-';
+      const now = new Date();
+      const paymentDue = new Date(Date.now() + 24*60*60*1000);
+      
+      // Buat elemen untuk invoice
+      const element = document.createElement('div');
+      element.className = 'invoice-container';
+      element.style.width = '210mm';
+      element.style.minHeight = '297mm';
+      element.style.padding = '15mm';
+      element.style.margin = '0 auto';
+      element.style.boxSizing = 'border-box';
+      element.style.fontFamily = "'Helvetica', 'Arial', sans-serif";
+      element.style.background = 'white';
+      element.style.position = 'relative';
+      element.style.visibility = 'hidden';
+      
+      // Isi template invoice
+      element.innerHTML = `
+        <style>
+          .invoice-container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm;
+            margin: 0 auto;
+            box-sizing: border-box;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            background: white;
+          }
+          .invoice-header {
+            margin-bottom: 12px;
+          }
+          .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+          .invoice-table th {
+            background-color: #f8fafc;
+            text-align: left;
+            padding: 8px;
+            font-size: 12px;
+          }
+          .invoice-table td {
+            padding: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 12px;
+          }
+          .text-right {
+            text-align: right;
+          }
+          .total-box {
+            width: 200px;
+            margin-left: auto;
+          }
+          .logo {
+            height: 40px;
+            margin-right: 12px;
+          }
+          .payment-method-logo {
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+          }
+        </style>
+
+        <!-- Header Invoice -->
+        <div class="invoice-header">
+          <table width="100%">
+            <tr>
+              <td>
+                <div style="display: flex; align-items: center;">
+                  <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" class="logo" alt="Logo TukarPI.ID">
+                  <div>
+                    <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">PT. RUANG DIGITAL RAYA</h1>
+                    <h2 style="font-size: 16px; color: #2563eb; margin: 0 0 4px 0;">TukarPI.ID</h2>
+                    <p style="font-style: italic; color: #64748b; font-size: 12px; margin: 0;">Jl. TB. Simatumpang, Jakarta Selatan</p>
+                  </div>
+                </div>
+              </td>
+              <td style="text-align: right;">
+                <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">INVOICE</h1>
+                <p style="color: #64748b; font-size: 12px; margin: 0;">
+                  ${now.toLocaleString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
+                </p>
+                <p style="color: #64748b; font-size: 10px; margin: 4px 0 0 0;">
+                  No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}
+                </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Info Pembeli & Pembayaran -->
+        <table width="100%" style="margin-bottom: 16px;">
+          <tr>
+            <td width="50%" valign="top">
+              <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembeli</h3>
+              <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Alamat Wallet</p>
+                <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">${walletAddress}</p>
+              </div>
+            </td>
+            <td width="50%" valign="top">
+              <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembayaran</h3>
+              <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
+                <p style="font-weight: 500; margin: 0 0 8px 0; font-size: 12px;">
+                  ${getPaymentMethodDisplay(selectedPaymentMethod)}
+                </p>
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Batas Pembayaran</p>
+                <p style="font-weight: 500; margin: 0; font-size: 12px;">
+                  ${paymentDue.toLocaleString('id-ID', {
+                      day: '2-digit',
+                      month: 'long',
+                      year: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                  })}
+                </p>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Detail Transaksi -->
+        <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Transaksi</h3>
+        <table class="invoice-table" style="margin-bottom: 16px;">
+          <thead>
+            <tr>
+              <th style="width: 60%;">Deskripsi</th>
+              <th style="width: 20%; text-align: right;">Jumlah</th>
+              <th style="width: 20%; text-align: right;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <p style="font-weight: 500; margin: 0 0 4px 0; font-size: 12px;">${cryptoType}</p>
+                <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${exchangeRateInfo}</p>
+                <p style="font-size: 11px; color: #64748b; margin: 0;">${realtimePrice}</p>
+              </td>
+              <td class="text-right" style="font-size: 12px;">1</td>
+              <td class="text-right" style="font-size: 12px;">${amount}</td>
+            </tr>
+            <tr>
+              <td style="font-size: 12px; color: #64748b;">Biaya Layanan (5%)</td>
+              <td class="text-right"></td>
+              <td class="text-right" style="color: #ef4444; font-size: 12px;">${fee}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Total Pembayaran -->
+        <div class="total-box">
+          <table width="100%" style="margin-bottom: 16px;">
+            <tr>
+              <td style="padding: 4px 0; font-size: 13px;">Subtotal</td>
+              <td style="padding: 4px 0; text-align: right; font-size: 13px;">${amount}</td>
+            </tr>
+            <tr>
+              <td style="padding: 4px 0; font-size: 13px;">Biaya Layanan</td>
+              <td style="padding: 4px 0; text-align: right; font-size: 13px; color: #ef4444;">${fee}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; font-weight: bold;">TOTAL</td>
+              <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">
+                ${total}
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Detail Koin -->
+        <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Koin</h3>
+        <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
+          <table width="100%">
+            <tr>
+              <td width="25%" style="padding: 4px 0;">
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jenis Kripto</p>
+                <p style="font-weight: 500; margin: 0; font-size: 12px;">${cryptoType}</p>
+              </td>
+              <td width="25%" style="padding: 4px 0;">
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jumlah Koin</p>
+                <p style="font-weight: 500; margin: 0; font-size: 12px;">${coinAmount}</p>
+              </td>
+              <td width="25%" style="padding: 4px 0;">
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Harga per Koin</p>
+                <p style="font-weight: 500; margin: 0; font-size: 12px;">${realtimePrice}</p>
+              </td>
+              <td width="25%" style="padding: 4px 0;">
+                <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Kurs yang Berlaku</p>
+                <p style="font-weight: 500; margin: 0; font-size: 12px;">${exchangeRateInfo}</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Instruksi Pembayaran -->
+        <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
+        <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
+          <table width="100%">
+            <tr>
+              <td width="24" valign="top" style="padding-right: 8px;">
+                <span style="color: #2563eb; font-size: 16px;">ℹ️</span>
+              </td>
+              <td>
+                <p style="font-size: 13px; margin: 0 0 8px 0;">Silahkan transfer pembayaran ke:</p>
+                <div style="background-color: white; padding: 8px; border-radius: 4px; display: inline-block;">
+                  <p style="font-family: monospace; font-weight: 500; margin: 0;">
+                    ${getPaymentMethodDetails(selectedPaymentMethod)}
+                  </p>
+                </div>
+                <p style="font-size: 13px; margin: 8px 0 0 0;">Atas Nama: <span style="font-weight: 500;">Agus Mulia Bakti</span></p>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Catatan -->
+        <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
+          <table width="100%">
+            <tr>
+              <td width="24" valign="top" style="padding-right: 8px;">
+                <span style="color: #dc2626; font-size: 16px;">⚠️</span>
+              </td>
+              <td>
+                <p style="font-size: 13px; margin: 0 0 4px 0; font-weight: 500;">Penting:</p>
+                <ul style="font-size: 12px; margin: 0; padding-left: 16px;">
+                  <li>Transfer tepat sesuai nominal total pembayaran</li>
+                  <li>Batalkan transaksi jika tidak membayar dalam 24 jam</li>
+                  <li>Hubungi CS jika mengalami kendala pembayaran</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+          <p style="margin: 0 0 4px 0;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
+          <p style="margin: 0 0 4px 0;">TukarPI.ID - Platform Penukaran Kripto Terdaftar</p>
+          <p style="margin: 0;">© ${now.getFullYear()} TukarPI.ID - All Rights Reserved</p>
+        </div>
+      `;
+
+      // Tambahkan ke DOM
+      document.body.appendChild(element);
+      
+      // Tampilkan modal pilihan
+      showInvoiceOptionsModal(element);
+    }
+
+    // Fungsi untuk menampilkan modal pilihan invoice
+    function showInvoiceOptionsModal(invoiceElement) {
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn';
+      modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+      modal.style.backdropFilter = 'blur(5px)';
+      
+      modal.innerHTML = `
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn" style="box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+          <div class="text-center mb-6">
+            <i class="fas fa-file-invoice text-4xl text-blue-500 mb-3"></i>
+            <h3 class="text-xl font-bold text-gray-800 mb-1">Pilihan Invoice</h3>
+            <p class="text-gray-600">Pilih cara Anda ingin melihat invoice</p>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <button onclick="downloadInvoiceNow(this)" 
+                    class="flex flex-col items-center justify-center p-4 border border-blue-200 rounded-lg hover:bg-blue-50 transition hover:shadow-md">
+              <i class="fas fa-download text-2xl text-blue-500 mb-2"></i>
+              <span class="font-medium">Download PDF</span>
+              <span class="text-xs text-gray-500 mt-1">Simpan ke perangkat</span>
+            </button>
+            
+            <button onclick="previewInvoice(this)" 
+                    class="flex flex-col items-center justify-center p-4 border border-blue-200 rounded-lg hover:bg-blue-50 transition hover:shadow-md">
+              <i class="fas fa-eye text-2xl text-blue-500 mb-2"></i>
+              <span class="font-medium">Preview</span>
+              <span class="text-xs text-gray-500 mt-1">Lihat sebelum download</span>
+            </button>
+          </div>
+          
+          <button onclick="closeInvoiceModal(this)" 
+                  class="w-full mt-6 py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition">
+            Batal
+          </button>
+        </div>
+      `;
+      
+      // Simpan referensi elemen invoice
+      modal._invoiceElement = invoiceElement;
+      document.body.appendChild(modal);
+    }
+
+    // Fungsi untuk menutup modal invoice
+    function closeInvoiceModal(btn) {
+      const modal = btn.closest('.popup-overlay');
+      const invoiceElement = modal._invoiceElement;
+      
+      // Hapus elemen invoice dan modal
+      if (invoiceElement && invoiceElement.parentNode) {
+        document.body.removeChild(invoiceElement);
+      }
+      modal.remove();
+    }
+
+    // Fungsi untuk langsung download invoice
+    async function downloadInvoiceNow(btn) {
+      const modal = btn.closest('.popup-overlay');
+      const element = modal._invoiceElement;
+      
+      // Tampilkan elemen sebelum konversi
+      element.style.visibility = 'visible';
+      
+      // Konfigurasi PDF
+      const opt = {
+        margin: [15, 15, 15, 15],
+        filename: `Invoice-TukarPI-${new Date().getFullYear()}${String(new Date().getMonth()+1).padStart(2,'0')}${String(new Date().getDate()).padStart(2,'0')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          logging: false,
+          useCORS: true,
+          letterRendering: true,
+          allowTaint: true
+        },
+        jsPDF: { 
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        }
+      };
+
+      try {
+        // Generate PDF
+        await html2pdf()
+          .set(opt)
+          .from(element)
+          .toPdf()
+          .get('pdf')
+          .then(function(pdf) {
+            const totalPages = pdf.internal.getNumberOfPages();
+            for(let i = 1; i <= totalPages; i++) {
+              pdf.setPage(i);
+              pdf.setFontSize(8);
+              pdf.setTextColor(150);
+              pdf.text(
+                `Halaman ${i} dari ${totalPages}`,
+                pdf.internal.pageSize.getWidth() - 20,
+                pdf.internal.pageSize.getHeight() - 10
+              );
+            }
+          })
+          .save();
+          
+        // Tampilkan notifikasi sukses
+        showNotification('Invoice berhasil didownload', 'success');
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        showNotification('Gagal membuat invoice', 'error');
+      } finally {
+        // Hapus modal dan elemen invoice
+        closeInvoiceModal(btn);
+      }
+    }
+
+    // Fungsi untuk preview invoice sebelum download
+    function previewInvoice(btn) {
+      const modal = btn.closest('.popup-overlay');
+      const element = modal._invoiceElement;
+      
+      // Tampilkan elemen invoice
+      element.style.visibility = 'visible';
+      
+      // Buat popup preview
+      const previewModal = document.createElement('div');
+      previewModal.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn';
+      previewModal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+      previewModal.style.backdropFilter = 'blur(5px)';
+      
+      previewModal.innerHTML = `
+        <div class="bg-white rounded-xl p-0 max-w-4xl w-full mx-4 h-[90vh] flex flex-col animate__animated animate__zoomIn" style="box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+          <div class="flex justify-between items-center p-4 border-b">
+            <h3 class="text-lg font-bold">Preview Invoice</h3>
+            <button onclick="closePreviewModal(this)" class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          
+          <div class="flex-1 overflow-auto p-4">
+            ${element.innerHTML}
+          </div>
+          
+          <div class="flex justify-end p-4 border-t gap-2">
+            <button onclick="closePreviewModal(this)" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg">
+              Tutup
+            </button>
+            <button onclick="downloadFromPreview(this)" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+              <i class="fas fa-download mr-2"></i> Download
+            </button>
+          </div>
+        </div>
+      `;
+      
+      // Simpan referensi elemen
+      previewModal._invoiceElement = element;
+      previewModal._originalModal = modal;
+      
+      // Hapus modal pilihan
+      modal.remove();
+      
+      // Tampilkan preview modal
+      document.body.appendChild(previewModal);
+    }
+
+    // Fungsi untuk menutup preview modal
+    function closePreviewModal(btn) {
+      const previewModal = btn.closest('.popup-overlay');
+      const invoiceElement = previewModal._invoiceElement;
+      
+      // Hapus preview modal
+      previewModal.remove();
+      
+      // Kembalikan ke modal pilihan
+      showInvoiceOptionsModal(invoiceElement);
+    }
+
+    // Fungsi untuk download dari preview
+    async function downloadFromPreview(btn) {
+      const previewModal = btn.closest('.popup-overlay');
+      const invoiceElement = previewModal._invoiceElement;
+      
+      // Tutup preview modal
+      previewModal.remove();
+      
+      // Lakukan download
+      await downloadInvoiceNow({ closest: () => ({ _invoiceElement: invoiceElement }) });
+      
+      // Hapus elemen invoice
+      if (invoiceElement && invoiceElement.parentNode) {
+        document.body.removeChild(invoiceElement);
+      }
+    }
+
+    // Fungsi helper untuk menampilkan metode pembayaran
+    function getPaymentMethodDisplay(method) {
+      const methods = {
+        'bca': '<img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="payment-method-logo" alt="BCA"> Bank BCA',
+        'dana': '<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" class="payment-method-logo" alt="DANA"> DANA',
+        'ovo': '<img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" class="payment-method-logo" alt="OVO"> OVO',
+        'gopay': '<img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" class="payment-method-logo" alt="GOPAY"> GOPAY'
+      };
+      return methods[method] || method;
+    }
+
+    // Fungsi helper untuk detail metode pembayaran
+    function getPaymentMethodDetails(method) {
+      const methods = {
+        'bca': 'BCA 0332997201',
+        'dana': 'DANA 087878787523',
+        'ovo': 'OVO 087878787523',
+        'gopay': 'GOPAY 087878787523'
+      };
+      return methods[method] || '';
+    }
+
+    // Fungsi untuk menampilkan notifikasi
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `fixed bottom-4 right-4 ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+      } text-white px-4 py-3 rounded-lg shadow-lg flex items-center animate__animated animate__fadeInUp`;
+      notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+        <span>${message}</span>
+      `;
+      document.body.appendChild(notification);
+      
       setTimeout(() => {
-        predictionData.lastUpdated = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-        renderPredictionData();
-      }, 1500);
+        notification.classList.add('animate__fadeOut');
+        setTimeout(() => notification.remove(), 500);
+      }, 3000);
+    }
+  
+    // Copy to clipboard function dengan popup modern
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        // Buat popup modern
+        const popup = document.createElement('div');
+        popup.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn';
+        popup.innerHTML = `
+          <div class="bg-white rounded-xl p-6 max-w-sm w-full mx-4 animate__animated animate__zoomIn">
+            <div class="flex justify-center text-green-500 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-center text-gray-800 mb-2">Berhasil Disalin!</h3>
+            <p class="text-gray-600 text-center mb-4">Nomor rekening telah disalin ke clipboard</p>
+            <div class="bg-gray-100 p-3 rounded-lg">
+              <code class="text-sm font-mono text-gray-800 break-all">${text}</code>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" class="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+              Tutup
+            </button>
+          </div>
+        `;
+        document.body.appendChild(popup);
+        
+        // Auto close setelah 3 detik
+        setTimeout(() => {
+          popup.classList.add('animate__fadeOut');
+          setTimeout(() => popup.remove(), 500);
+        }, 3000);
+      }).catch(err => {
+        console.error('Gagal menyalin:', err);
+        // Tampilkan popup error
+        const popup = document.createElement('div');
+        popup.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn';
+        popup.innerHTML = `
+          <div class="bg-white rounded-xl p-6 max-w-sm w-full mx-4 animate__animated animate__zoomIn">
+            <div class="flex justify-center text-red-500 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-center text-gray-800 mb-2">Gagal Menyalin</h3>
+            <p class="text-gray-600 text-center mb-4">Silahkan coba lagi atau salin manual</p>
+            <div class="bg-gray-100 p-3 rounded-lg">
+              <code class="text-sm font-mono text-gray-800 break-all">${text}</code>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" class="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+              Tutup
+            </button>
+          </div>
+        `;
+        document.body.appendChild(popup);
+      });
+    }
+
+    // Confirm payment dengan popup modern
+    async function confirmPayment() {
+      // Buat popup konfirmasi modern
+      const popup = document.createElement('div');
+      popup.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn';
+      popup.innerHTML = `
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn">
+          <div class="flex justify-center text-blue-500 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Konfirmasi Pembayaran</h3>
+          
+          <div class="flex flex-col space-y-4 mb-6">
+            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+              <input type="radio" id="confirm-yes" name="payment-confirm" class="h-5 w-5 text-blue-600" checked>
+              <label for="confirm-yes" class="ml-3 flex-1">
+                <span class="block font-medium">Sudah Transfer</span>
+                <span class="block text-sm text-gray-500">Saya sudah melakukan pembayaran</span>
+              </label>
+            </div>
+            
+            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+              <input type="radio" id="confirm-no" name="payment-confirm" class="h-5 w-5 text-blue-600">
+              <label for="confirm-no" class="ml-3 flex-1">
+                <span class="block font-medium">Belum Transfer</span>
+                <span class="block text-sm text-gray-500">Saya akan bayar nanti</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="flex space-x-3">
+            <button onclick="this.parentElement.parentElement.remove()" class="flex-1 py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition">
+              Batal
+            </button>
+            <button onclick="processPaymentConfirmation(this)" class="flex-1 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+              Lanjutkan
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(popup);
+    }
+
+    function processPaymentConfirmation(btn) {
+      const isConfirmed = document.getElementById('confirm-yes').checked;
+      
+      if (isConfirmed) {
+        // Tutup popup
+        btn.closest('.popup-overlay').remove();
+        
+        // Update tombol konfirmasi
+        const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
+        confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Konfirmasi via WhatsApp';
+        confirmBtn.classList.remove('from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700');
+        confirmBtn.classList.add('from-green-600', 'to-emerald-700', 'hover:from-green-700', 'hover:to-emerald-800');
+        confirmBtn.removeAttribute('onclick');
+        confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
+        
+        // Tampilkan notifikasi
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center animate__animated animate__fadeInUp';
+        notification.innerHTML = `
+          <i class="fas fa-check-circle mr-2"></i>
+          <span>Silahkan lanjutkan konfirmasi via WhatsApp</span>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('animate__fadeOut');
+          setTimeout(() => notification.remove(), 500);
+        }, 3000);
+      } else {
+        // Tampilkan pesan untuk belum transfer
+        const popup = document.querySelector('.popup-overlay');
+        popup.innerHTML = `
+          <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn">
+            <div class="flex justify-center text-yellow-500 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Pembayaran Belum Dilakukan</h3>
+            <p class="text-gray-600 text-center mb-6">Silahkan lakukan pembayaran terlebih dahulu sebelum melanjutkan. Invoice telah tersedia untuk Anda download.</p>
+            <button onclick="this.parentElement.parentElement.remove()" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+              Mengerti
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // Format input amount
+    function formatAmountInput(input) {
+      // Remove non-numeric characters
+      let value = input.value.replace(/[^0-9]/g, '');
+      
+      // Format with thousand separators
+      if (value.length > 0) {
+        value = parseInt(value, 10).toLocaleString('id-ID');
+      }
+      
+      input.value = value;
+      updateCalculation();
+    }
+
+    // Inisialisasi
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        console.log('Initializing...');
+        
+        // Setup mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+          const menu = document.getElementById('mobile-menu');
+          menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+          const menu = document.getElementById('mobile-menu');
+          const button = document.getElementById('mobile-menu-button');
+          
+          if (!menu.contains(e.target) && e.target !== button && !button.contains(e.target)) {
+            menu.classList.add('hidden');
+          }
+        });
+        
+        // Setup payment method selection
+        document.querySelectorAll('.payment-card').forEach(card => {
+          card.addEventListener('click', function() {
+            // Remove selected class from all cards
+            document.querySelectorAll('.payment-card').forEach(c => {
+              c.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            this.classList.add('selected');
+            
+            // Set payment method value
+            const method = this.getAttribute('data-method');
+            document.getElementById('payment-method').value = method;
+          });
+        });
+        
+        // Setup amount input formatting
+        document.getElementById('amount').addEventListener('input', function() {
+          formatAmountInput(this);
+        });
+        
+        // Load data
+        const [cryptoDataResponse, exchangeRateData] = await Promise.all([
+          fetchCryptoData(),
+          fetchExchangeRate()
+        ]);
+        
+        cryptoData = cryptoDataResponse;
+        exchangeRate = exchangeRateData.rate;
+        exchangeRateLastUpdated = exchangeRateData.updated;
+        
+        console.log('Crypto data loaded:', cryptoData);
+        console.log('Exchange rate:', exchangeRate);
+        
+        // Populate dropdown
+        await populateCryptoDropdown();
+        
+        // Setup event listeners
+        document.getElementById('crypto').addEventListener('change', function() {
+          updatePriceDisplay(this.value);
+        });
+        
+        // Auto-update setiap 1 menit
+        setInterval(async () => {
+          cryptoData = await fetchCryptoData();
+          const exchangeRateData = await fetchExchangeRate();
+          exchangeRate = exchangeRateData.rate;
+          exchangeRateLastUpdated = exchangeRateData.updated;
+          
+          const currentSymbol = document.getElementById('crypto').value;
+          if (currentSymbol) updatePriceDisplay(currentSymbol);
+        }, 300000); // 1 menit
+        
+      } catch (error) {
+        console.error('Initialization error:', error);
+        document.getElementById('crypto').innerHTML = 
+          '<option value="" disabled selected>Gagal memuat daftar koin</option>';
+      }
     });
-    
-    // Initial render
-    setTimeout(() => {
-      renderPredictionData();
-    }, 1000);
+
+    // Form submission
+    document.getElementById('purchase-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Validate form
+      const amount = document.getElementById('amount').value.replace(/\./g, '');
+      const wallet = document.getElementById('wallet').value;
+      const paymentMethod = document.getElementById('payment-method').value;
+      
+      if (!amount || parseFloat(amount) < 10000) {
+        alert('Minimal pembelian Rp 10.000');
+        return;
+      }
+      
+      if (!wallet) {
+        alert('Masukkan alamat wallet Anda');
+        return;
+      }
+      
+      if (!paymentMethod) {
+        alert('Pilih metode pembayaran');
+        return;
+      }
+      
+      // Simpan metode pembayaran yang dipilih
+      selectedPaymentMethod = paymentMethod;
+      
+      // Set confirmation values
+      const crypto = document.getElementById('crypto').value;
+      const cryptoName = cryptoData[crypto]?.name || crypto;
+      const coinReceived = document.getElementById('coin-received').textContent;
+      const walletAddress = document.getElementById('wallet').value;
+      
+      document.getElementById('confirm-crypto').textContent = `${cryptoName} (${crypto})`;
+      document.getElementById('confirm-amount').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
+      document.getElementById('confirm-coin').textContent = coinReceived;
+      
+      // Update payment method display
+      const methodDisplay = document.getElementById('confirm-method');
+      methodDisplay.innerHTML = '';
+      
+      const methodImg = document.createElement('img');
+      methodImg.src = `https://upload.wikimedia.org/wikipedia/commons/${ 
+        paymentMethod === 'bca' ? '5/5c/Bank_Central_Asia.svg' : 
+        paymentMethod === 'dana' ? '7/72/Logo_dana_blue.svg' : 
+        paymentMethod === 'ovo' ? 'e/eb/Logo_ovo_purple.svg' : 
+        '8/86/Gopay_logo.svg'}`;
+      methodImg.className = 'h-5 mr-2';
+      methodImg.alt = paymentMethod;
+      
+      const methodText = document.createElement('span');
+      methodText.className = 'text-sm';
+      methodText.textContent = 
+        paymentMethod === 'bca' ? 'BCA' : 
+        paymentMethod === 'dana' ? 'DANA' : 
+        paymentMethod === 'ovo' ? 'OVO' : 'GOPAY';
+      
+      methodDisplay.appendChild(methodImg);
+      methodDisplay.appendChild(methodText);
+      
+      document.getElementById('confirm-total').textContent = `Rp ${parseFloat(amount).toLocaleString('id-ID')}`;
+      document.getElementById('confirm-wallet').textContent = walletAddress;
+      document.getElementById('confirm-exchange-rate').textContent = `Kurs USD-IDR: Rp ${exchangeRate.toLocaleString('id-ID')}`;
+      document.getElementById('confirm-rate-updated').textContent = `Update: ${new Date(exchangeRateLastUpdated).toLocaleTimeString()}`;
+      
+      // Show corresponding payment details
+      document.querySelectorAll('#payment-details > div').forEach(div => {
+        div.classList.add('hidden');
+      });
+      document.getElementById(`${paymentMethod}-details`).classList.remove('hidden');
+      
+      // Show payment info
+      document.getElementById('purchase-form-container').classList.add('hidden');
+      document.getElementById('payment-info').classList.remove('hidden');
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>
