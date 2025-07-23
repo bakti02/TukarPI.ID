@@ -319,19 +319,19 @@
               <i class="fas fa-credit-card mr-2 text-blue-500"></i> Metode Pembayaran
             </label>
             <div class="grid grid-cols-2 gap-3">
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="bca">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="bca" card-hover>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">Bank BCA</p>
               </div>
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="dana">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="dana" card-hover>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">DANA</p>
               </div>
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="ovo">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="ovo" card-hover>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" alt="OVO" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">OVO</p>
               </div>
-              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="gopay">
+              <div class="payment-card rounded-lg p-3 cursor-pointer border border-gray-200 hover:border-blue-300 transition" data-method="gopay" card-hover>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY" class="h-6 mx-auto mb-1">
                 <p class="text-xs text-center text-gray-600">GOPAY</p>
               </div>
@@ -340,7 +340,7 @@
           </div>
 
           <!-- Nomor Rekening -->
-          <div class="mb-6 animate-pulse">
+          <div class="mb-6 scroll-animate" style="animation-delay: 0.3s"">
             <label for="account-number" class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
               <i class="fas fa-wallet mr-2 text-blue-500"></i> Masukkan Nomor Rekening
             </label>
