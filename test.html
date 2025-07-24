@@ -641,15 +641,12 @@
       
       if (!symbol || !crypto) {
         document.getElementById('coin-received').textContent = '0';
-        document.getElementById('fee-amount').textContent = '- Rp 0';
         return;
       }
       
-      const fee = amount * 0.1; // 10% biaya
-      const netAmount = amount * 0.1;
+      const netAmount = amount * 0.1; //biaya layanan 10%
       const coinsReceived = netAmount / (crypto.price * exchangeRate);
       
-      document.getElementById('fee-amount').textContent = `- Rp ${fee.toLocaleString('id-ID')}`;
       document.getElementById('coin-received').textContent = coinsReceived.toFixed(8);
     }
 
