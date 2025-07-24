@@ -1391,7 +1391,8 @@
     }
 
     // Confirm payment dengan popup modern
-   // Confirm payment dengan popup modern
+
+    // Confirm payment dengan popup modern (TAMPILAN SAJA YANG DIUPDATE)
     async function confirmPayment() {
       // Buat popup konfirmasi modern
       const popup = document.createElement('div');
@@ -1437,16 +1438,35 @@
       document.body.appendChild(popup);
     }
     
+    // PROSES KONFIRMASI (TETAP SAMA DENGAN KODE ASLI ANDA)
     function processPaymentConfirmation(btn) {
       const isConfirmed = document.getElementById('confirm-yes').checked;
       
       if (isConfirmed) {
-        // Tutup popup pertama
+        // Tutup popup
         btn.closest('.popup-overlay').remove();
         
-        // Tampilkan popup WhatsApp konfirmasi
-        showWhatsAppConfirmation();
+        // Update tombol konfirmasi
+        const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
+        confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Konfirmasi via WhatsApp';
+        confirmBtn.classList.remove('from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700');
+        confirmBtn.classList.add('from-green-600', 'to-emerald-700', 'hover:from-green-700', 'hover:to-emerald-800');
+        confirmBtn.removeAttribute('onclick');
+        confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
         
+        // Tampilkan notifikasi
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-5 py-3 rounded-xl shadow-lg flex items-center animate__animated animate__fadeInUp';
+        notification.innerHTML = `
+          <i class="fas fa-check-circle mr-2 text-xl"></i>
+          <span>Silahkan lanjutkan konfirmasi via WhatsApp</span>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('animate__fadeOut');
+          setTimeout(() => notification.remove(), 500);
+        }, 3000);
       } else {
         // Tampilkan pesan untuk belum transfer
         const popup = document.querySelector('.popup-overlay');
@@ -1467,61 +1487,6 @@
       }
     }
     
-    function showWhatsAppConfirmation() {
-      const popup = document.createElement('div');
-      popup.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn bg-black bg-opacity-50 backdrop-blur-sm';
-      popup.innerHTML = `
-        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn shadow-2xl border border-gray-100">
-          <div class="flex justify-center text-green-500 mb-4">
-            <i class="fab fa-whatsapp text-6xl"></i>
-          </div>
-          <h3 class="text-2xl font-bold text-center text-gray-800 mb-3">Konfirmasi via WhatsApp</h3>
-          <p class="text-gray-600 text-center mb-6">Kami akan mengarahkan Anda ke WhatsApp untuk menyelesaikan konfirmasi pembayaran.</p>
-          
-          <div class="flex space-x-3">
-            <button onclick="this.parentElement.parentElement.remove()" class="flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl transition font-medium">
-              Nanti Saja
-            </button>
-            <button onclick="sendWhatsAppConfirmation()" class="flex-1 py-3 px-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition font-medium shadow-md flex items-center justify-center">
-              <i class="fab fa-whatsapp mr-2"></i> Buka WhatsApp
-            </button>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(popup);
-    }
-    
-    function sendWhatsAppConfirmation() {
-      // Update tombol konfirmasi
-      const confirmBtn = document.querySelector('#payment-info button');
-      if (confirmBtn) {
-        confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Konfirmasi via WhatsApp';
-        confirmBtn.className = 'py-3 px-6 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-xl transition font-medium shadow-md flex items-center justify-center';
-        confirmBtn.removeAttribute('onclick');
-        confirmBtn.addEventListener('click', showWhatsAppConfirmation);
-      }
-      
-      // Tutup popup WhatsApp
-      document.querySelector('.popup-overlay')?.remove();
-      
-      // Tampilkan notifikasi
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-5 py-3 rounded-xl shadow-lg flex items-center animate__animated animate__fadeInUp';
-      notification.innerHTML = `
-        <i class="fas fa-check-circle mr-2 text-xl"></i>
-        <span>Redirect ke WhatsApp...</span>
-      `;
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.classList.add('animate__fadeOut');
-        setTimeout(() => notification.remove(), 500);
-      }, 3000);
-      
-      // Logika redirect ke WhatsApp (sesuaikan dengan kebutuhan)
-      // window.open('https://wa.me/...', '_blank');
-    }
     // Format input amount
     function formatAmountInput(input) {
       // Remove non-numeric characters
