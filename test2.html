@@ -1314,113 +1314,204 @@
 // 🚀 PREMIUM CONFIRMATION POPUP
 // ========================
 
+// POPUP KONFIRMASI TRANSFER (FINAL VERSION)
 function confirmPayment() {
-  // Deteksi perangkat mobile
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
-  // Versi mobile-friendly
-  const mobileHtml = `
-    <div class="space-y-4">
-      <div class="flex justify-center">
-        <div class="relative w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center">
-          <i class="fas fa-wallet text-white text-2xl"></i>
-        </div>
-      </div>
-      
-      <div class="text-center">
-        <p class="text-gray-600 mb-3">Transfer PI Network ke:</p>
-        <div class="bg-blue-50 p-3 rounded-lg flex items-center justify-between">
-          <span class="font-mono text-sm truncate">GCHDZHABCDEF1234567890</span>
-          <button onclick="copyToClipboard('GCHDZHABCDEF1234567890')" 
-                  class="bg-blue-100 p-1 rounded ml-2">
-            <i class="fas fa-copy text-blue-500"></i>
-          </button>
-        </div>
-        <p class="text-xs text-yellow-600 mt-3 flex items-start">
-          <i class="fas fa-info-circle mr-1 mt-0.5"></i>
-          Pastikan transfer dari wallet utama KYC
-        </p>
-      </div>
+  // Animasi ikon shield yang lebih hidup
+  const titleHtml = `
+    <div class="flex items-center justify-center gap-3">
+      <i class="fas fa-shield-alt text-indigo-500 text-2xl animate-[bounce_2s_infinite]"></i>
+      <strong class="text-2xl bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+        Konfirmasi Transfer PI
+      </strong>
     </div>
   `;
 
-  // Versi desktop (tetap mempertahankan yang Anda suka)
-  const desktopHtml = `
-    <div class="space-y-4">
-      <div class="flex justify-center">
-        <div class="relative w-24 h-24 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full flex items-center justify-center animate-pulse">
-          <i class="fas fa-coins text-white text-3xl"></i>
+  // Wallet address box dengan animasi copy
+  const walletHtml = `
+    <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-4 rounded-xl border border-indigo-100 shadow-inner 
+                transition-all hover:shadow-md hover:border-indigo-200">
+      <div class="flex items-center gap-3">
+        <div class="bg-indigo-100 p-3 rounded-lg text-indigo-600 shadow-sm">
+          <i class="fas fa-wallet text-xl"></i>
         </div>
-      </div>
-      <div class="text-center space-y-3">
-        <p class="text-gray-600">Anda akan mengkonfirmasi transfer PI Network ke:</p>
-        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded-xl border border-blue-100 shadow-sm">
-          <div class="flex items-center gap-3">
-            <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
-              <i class="fas fa-wallet text-lg"></i>
-            </div>
-            <div class="font-mono text-gray-800 truncate flex-1">GCHDZHABCDEF1234567890</div>
-            <button class="copy-btn bg-blue-100 hover:bg-blue-200 p-2 rounded-lg text-blue-600 transition-colors" 
-                    onclick="copyToClipboard('GCHDZHABCDEF1234567890')">
-              <i class="fas fa-copy"></i>
-            </button>
-          </div>
+        <div id="walletAddress" class="font-mono text-gray-800 flex-1 truncate">
+          GCHDZHABCDEF1234567890
         </div>
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-r flex items-start gap-2">
-          <i class="fas fa-info-circle text-yellow-500 mt-1"></i>
-          <span class="text-yellow-700 text-sm">Pastikan transfer dari wallet utama yang sudah KYC</span>
-        </div>
+        <button onclick="copyWalletAddress()" 
+                class="copy-btn bg-indigo-100 hover:bg-indigo-200 p-2 rounded-lg text-indigo-600 
+                       transition-colors duration-200 tooltip"
+                data-tooltip="Salin Alamat">
+          <i class="fas fa-copy"></i>
+        </button>
       </div>
     </div>
   `;
 
   Swal.fire({
-    title: '<strong>Konfirmasi Transfer PI</strong>',
-    html: isMobile ? mobileHtml : desktopHtml,
+    title: titleHtml,
+    html: `
+      <div class="space-y-6">
+        <!-- Icon Animasi -->
+        <div class="flex justify-center">
+          <div class="relative w-24 h-24 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full 
+                      flex items-center justify-center ring-4 ring-indigo-100 animate-[pulse_2s_infinite]">
+            <i class="fas fa-coins text-white text-4xl"></i>
+            <div class="absolute inset-0 rounded-full border-4 border-indigo-200 animate-ping opacity-30"></div>
+          </div>
+        </div>
+
+        <!-- Konten -->
+        <div class="text-center space-y-4">
+          <p class="text-gray-600 font-medium">Anda akan mengkonfirmasi transfer ke wallet:</p>
+          ${walletHtml}
+          
+          <!-- Notifikasi -->
+          <div class="bg-amber-50 border-l-4 border-amber-400 p-3 rounded-r flex items-start gap-3 animate-[fadeIn_1s]">
+            <i class="fas fa-info-circle text-amber-500 text-lg mt-0.5"></i>
+            <span class="text-amber-700 text-sm">Pastikan transfer dari wallet utama yang sudah KYC</span>
+          </div>
+        </div>
+      </div>
+    `,
     showCancelButton: true,
-    confirmButtonText: '<i class="fas fa-check-circle mr-2"></i> Sudah Transfer',
-    cancelButtonText: '<i class="fas fa-times-circle mr-2"></i> Belum',
+    confirmButtonText: `
+      <div class="flex items-center justify-center gap-2">
+        <i class="fas fa-check-circle"></i> 
+        <span class="font-semibold">Sudah Transfer</span>
+      </div>
+    `,
+    cancelButtonText: `
+      <div class="flex items-center justify-center gap-2">
+        <i class="fas fa-times-circle"></i> 
+        <span class="font-medium">Belum</span>
+      </div>
+    `,
+    focusConfirm: false,
     customClass: {
-      popup: isMobile ? 'mobile-swal' : 'desktop-swal',
-      confirmButton: isMobile ? 'mobile-confirm-btn' : 'desktop-confirm-btn'
+      popup: 'modern-swal-popup bg-white rounded-2xl shadow-xl border border-gray-100',
+      confirmButton: `
+        modern-swal-confirm-btn bg-gradient-to-r from-emerald-500 to-green-600 
+        hover:from-emerald-600 hover:to-green-700 text-white px-6 py-3 rounded-lg 
+        shadow-md transition-all duration-300 hover:shadow-lg
+      `,
+      cancelButton: `
+        modern-swal-cancel-btn bg-gradient-to-r from-gray-50 to-gray-100 
+        hover:from-gray-100 hover:to-gray-200 text-gray-700 px-6 py-3 rounded-lg 
+        shadow-sm transition-all duration-300 border border-gray-200
+      `
     },
-    // ... (opsi lainnya tetap sama)
+    buttonsStyling: false,
+    reverseButtons: true,
+    showClass: {
+      popup: 'animate__animated animate__fadeInUp animate__faster',
+      backdrop: 'swal2-backdrop-show'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutDown animate__faster',
+      backdrop: 'swal2-backdrop-hide'
+    }
   }).then((result) => {
     if (result.isConfirmed) {
-      // Tampilkan popup processing
-      const processingPopup = document.getElementById('processingPopup');
-      processingPopup.classList.remove('hidden');
-      
-      // Set timeout untuk simulasi proses
-      setTimeout(() => {
-        // PERTAHANKAN INTEGRASI WHATSAPP PERSIS SEPERTI KODE ASLI ANDA
-        const whatsappButton = document.getElementById('whatsappButton');
-        whatsappButton.onclick = function() {
-          // Format pesan WhatsApp (PERSIS seperti kode asli Anda)
-          const message = `*INVOICE PEMBELIAN KRIPTO*\n` +
-                         `*PT. RUANG DIGITAL RAYA*\n` +
-                         `*TukarPI.ID*\n` +
-                         `_Jl. TB. Simatumpang, Jakarta Selatan_\n` +
-                         `================================\n` +
-                         `🔹 *Jenis Kripto:* ${crypto}\n` +
-                         `🔹 *Jumlah Pembelian:* ${amount}\n` +
-                         `🔹 *Jumlah Koin:* ${coin}\n` +
-                         `🔹 *${exchangeRateInfo}*\n` +
-                         `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
-                         `🔹 *Total Pembayaran:* ${total}\n` +
-                         `================================\n` +
-                         `📌 *Alamat Wallet Tujuan:*\n${wallet}\n\n` +
-                         `💬 *Konfirmasi Pembayaran:*\n` +
-                         `Saya telah melakukan transfer pembayaran sesuai nominal di atas.\n` +
-                         `Berikut bukti transfer yang telah dilakukan:\n` +
-                         `_[Lampirkan screenshot bukti transfer]_`;
-          
-          const encodedMessage = encodeURIComponent(message);
-          window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
-        };
-      }, 1500);
+      showProcessingPopup();
     }
   });
+}
+
+// FUNGSI TAMBAHAN YANG DIOPTIMALKAN
+function copyWalletAddress() {
+  const walletAddress = "GCHDZHABCDEF1234567890";
+  navigator.clipboard.writeText(walletAddress).then(() => {
+    // Animasi feedback
+    const copyBtn = document.querySelector('.copy-btn');
+    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+    copyBtn.classList.add('bg-green-100', 'text-green-600');
+    copyBtn.classList.remove('bg-indigo-100', 'text-indigo-600');
+    
+    setTimeout(() => {
+      copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+      copyBtn.classList.remove('bg-green-100', 'text-green-600');
+      copyBtn.classList.add('bg-indigo-100', 'text-indigo-600');
+    }, 2000);
+  });
+}
+
+function showProcessingPopup() {
+  Swal.fire({
+    html: `
+      <div class="text-center py-5">
+        <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-indigo-500 mx-auto mb-5"></div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Memverifikasi Transfer</h3>
+        <p class="text-gray-600">Sedang memproses konfirmasi Anda...</p>
+        <div class="mt-4 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+          <div id="progressBar" class="h-full bg-indigo-500 animate-[progressBar_2s_linear_forwards]"></div>
+        </div>
+      </div>
+    `,
+    showConfirmButton: false,
+    allowOutsideClick: false,
+    backdrop: 'rgba(0,0,0,0.7)',
+    width: '450px',
+    willOpen: () => {
+      // Animasi progress bar
+      const progressBar = document.getElementById('progressBar');
+      if (progressBar) {
+        progressBar.style.width = '0%';
+        setTimeout(() => {
+          progressBar.style.width = '100%';
+        }, 50);
+      }
+    }
+  });
+
+  // Setelah loading selesai, tampilkan popup WhatsApp
+  setTimeout(() => {
+    Swal.fire({
+      title: `
+        <div class="flex items-center justify-center gap-3">
+          <i class="fab fa-whatsapp text-green-500 text-3xl animate-[pulse_2s_infinite]"></i>
+          <span class="text-xl font-bold text-gray-800">Lanjutkan ke WhatsApp</span>
+        </div>
+      `,
+      html: `
+        <div class="text-center py-3">
+          <p class="text-gray-600 mb-5">Silahkan konfirmasi pembayaran melalui WhatsApp kami</p>
+          <button id="whatsappBtn" class="
+            w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 
+            text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300 
+            transform hover:scale-[1.02] flex items-center justify-center gap-3
+          ">
+            <i class="fab fa-whatsapp text-xl"></i>
+            Buka WhatsApp Sekarang
+          </button>
+        </div>
+      `,
+      showCancelButton: true,
+      cancelButtonText: 'Nanti Saja',
+      focusConfirm: false,
+      allowOutsideClick: false,
+      customClass: {
+        cancelButton: `
+          bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg 
+          transition-all duration-200 border border-gray-200
+        `
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        sendWhatsAppConfirmation();
+      }
+    });
+
+    // Pasang event handler dengan animasi
+    const whatsappBtn = document.getElementById('whatsappBtn');
+    if (whatsappBtn) {
+      whatsappBtn.addEventListener('click', () => {
+        whatsappBtn.classList.add('animate__animated', 'animate__rubberBand');
+        setTimeout(() => {
+          sendWhatsAppConfirmation();
+        }, 500);
+      });
+    }
+  }, 2500);
 }
     
     // Fungsi untuk menyalin teks ke clipboard
