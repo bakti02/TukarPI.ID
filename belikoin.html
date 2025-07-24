@@ -1387,101 +1387,75 @@
 
   // Enhanced Confirm Payment with WhatsApp Integration
 async function processPaymentConfirmation(btn) {
-  const isConfirmed = document.getElementById('confirm-yes').checked;
-  const popupOverlay = btn.closest('.popup-overlay');
-  
-  if (isConfirmed) {
-    // 1. Tampilkan animasi loading
-    popupOverlay.innerHTML = `
-      <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100">
-        <div class="text-center py-5">
-          <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500 mx-auto mb-5"></div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">Memverifikasi Pembayaran</h3>
-          <p class="text-gray-600">Sedang memproses konfirmasi Anda...</p>
-          <div class="mt-4 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div id="progressBar" class="h-full bg-indigo-500" style="width: 0%"></div>
+  try {
+    const isConfirmed = document.getElementById('confirm-yes').checked;
+    const popupOverlay = btn.closest('.popup-overlay');
+    
+    if (!popupOverlay) {
+      console.error('Popup overlay tidak ditemukan!');
+      return;
+    }
+
+    if (isConfirmed) {
+      // 1. Tampilkan loading
+      popupOverlay.innerHTML = `
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100">
+          <div class="text-center py-5">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500 mx-auto mb-5"></div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Memverifikasi Pembayaran</h3>
+            <p class="text-gray-600">Sedang memproses konfirmasi Anda...</p>
+            <div class="mt-4 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+              <div class="h-full bg-indigo-500" style="width:0%" id="progressBar"></div>
+            </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
 
-    // 2. Animasikan progress bar
-    const progressBar = document.getElementById('progressBar');
-    if (progressBar) {
-      progressBar.style.width = '0%';
-      setTimeout(() => {
-        progressBar.style.width = '100%';
-      }, 50);
-    }
+      // 2. Animasikan progress bar
+      const progressBar = document.getElementById('progressBar');
+      if (progressBar) {
+        let width = 0;
+        const interval = setInterval(() => {
+          width += 1;
+          progressBar.style.width = width + '%';
+          if (width >= 100) clearInterval(interval);
+        }, 15); // 1.5 detik total
+      }
 
-    // 3. Proses loading 1.5 detik
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // 4. Tampilkan popup WhatsApp (sesuai alur yang ada)
-    popupOverlay.innerHTML = `
-      <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100 animate__animated animate__zoomIn">
-        <div class="flex items-center justify-center gap-3 mb-5">
-          <i class="fab fa-whatsapp text-green-500 text-3xl animate-[pulse_2s_infinite]"></i>
-          <h3 class="text-xl font-bold text-gray-800">Lanjutkan ke WhatsApp</h3>
+      // 3. Tunggu 1.5 detik
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // 4. Hapus popup dan buka WhatsApp
+      popupOverlay.remove();
+      sendWhatsAppConfirmation();
+
+    } else {
+      // Tampilkan pesan belum transfer
+      popupOverlay.innerHTML = `
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100">
+          <div class="flex justify-center text-yellow-500 mb-4">
+            <i class="fas fa-exclamation-triangle text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Pembayaran Belum Dilakukan</h3>
+          <p class="text-gray-600 text-center mb-6">Silahkan lakukan pembayaran terlebih dahulu.</p>
+          <button onclick="this.closest('.popup-overlay').remove()" class="w-full py-3 px-4 bg-blue-500 text-white rounded-lg">
+            Mengerti
+          </button>
         </div>
-        
-        <p class="text-gray-600 text-center mb-6">Silahkan konfirmasi pembayaran melalui WhatsApp kami</p>
-        
-        <button onclick="sendWhatsAppConfirmation()" id="whatsappBtn" class="
-          w-full py-3 px-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 
-          text-white font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-[1.02] 
-          flex items-center justify-center gap-2
-        ">
-          <i class="fab fa-whatsapp text-xl"></i>
-          Buka WhatsApp Sekarang
-        </button>
-        
-        <button onclick="this.parentElement.parentElement.remove()" class="
-          w-full mt-3 py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg 
-          transition-all duration-200 border border-gray-200
-        ">
-          Nanti Saja
-        </button>
-      </div>
-    `;
-    
-    // 5. Tambahkan animasi ke tombol WhatsApp
-    const whatsappBtn = document.getElementById('whatsappBtn');
-    if (whatsappBtn) {
-      whatsappBtn.addEventListener('click', () => {
-        whatsappBtn.classList.add('animate__animated', 'animate__rubberBand');
-      });
+      `;
     }
-    
-  } else {
-    // Tampilan untuk "Belum Transfer" (tidak diubah)
-    popupOverlay.innerHTML = `
-      <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100 animate__animated animate__zoomIn">
-        <div class="flex justify-center text-yellow-500 mb-4">
-          <i class="fas fa-exclamation-triangle text-4xl animate-[pulse_1.5s_infinite]"></i>
-        </div>
-        <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Pembayaran Belum Dilakukan</h3>
-        <p class="text-gray-600 text-center mb-6">Silahkan lakukan pembayaran terlebih dahulu sebelum melanjutkan. Invoice telah tersedia untuk Anda download.</p>
-        <button onclick="this.parentElement.parentElement.remove()" class="
-          w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 
-          text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg
-        ">
-          Mengerti
-        </button>
-      </div>
-    `;
+  } catch (error) {
+    console.error('Terjadi error:', error);
+    alert('Terjadi kesalahan, silahkan coba lagi');
   }
 }
 
-// WhatsApp confirmation function (TIDAK DIUBAH)
+// Fungsi WhatsApp (TIDAK DIUBAH)
 function sendWhatsAppConfirmation() {
-  const phoneNumber = '6281234567890';
+  const phoneNumber = '6282147510780';
   const message = 'Halo, saya sudah melakukan pembayaran dan ingin mengkonfirmasi pesanan saya.';
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  window.open(whatsappUrl, '_blank');
-  
-  // Close popup
-  document.querySelector('.popup-overlay')?.remove();
+  const encodedMessage = encodeURIComponent(message);
+  window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
 }
     
     // Format input amount
