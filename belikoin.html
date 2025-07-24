@@ -889,129 +889,6 @@
             .invoice-table td, .invoice-table th {
               padding: 2mm !important;
             }
-            /* Animasi dan efek transisi POPUP */
-            .popup-overlay {
-              background-color: rgba(0, 0, 0, 0.5);
-              backdrop-filter: blur(5px);
-            }
-            
-            .popup-content {
-              transition: all 0.3s ease;
-            }
-            
-            .notification-in {
-              animation: notificationIn 0.3s ease-out forwards;
-            }
-            
-            .notification-out {
-              animation: notificationOut 0.3s ease-out forwards;
-            }
-            
-            @keyframes notificationIn {
-              from {
-                transform: translateY(20px);
-                opacity: 0;
-              }
-              to {
-                transform: translateY(0);
-                opacity: 1;
-              }
-            }
-            
-            @keyframes notificationOut {
-              to {
-                transform: translateY(20px);
-                opacity: 0;
-              }
-            }
-            
-            /* Style untuk radio button custom */
-            .radio-custom {
-              width: 18px;
-              height: 18px;
-              border: 2px solid #d1d5db;
-              border-radius: 50%;
-              position: relative;
-              transition: all 0.2s;
-            }
-            
-            .payment-option input[type="radio"]:checked + .payment-option-card .radio-custom {
-              border-color: #3b82f6;
-            }
-            
-            .payment-option input[type="radio"]:checked + .payment-option-card .radio-custom::after {
-              content: '';
-              position: absolute;
-              top: 2px;
-              left: 2px;
-              width: 10px;
-              height: 10px;
-              background-color: #3b82f6;
-              border-radius: 50%;
-            }
-            
-            /* Style tombol */
-            .popup-cancel-btn {
-              background-color: #f3f4f6;
-              color: #4b5563;
-              padding: 10px 16px;
-              border-radius: 10px;
-              font-weight: 600;
-              transition: all 0.2s;
-            }
-            
-            .popup-cancel-btn:hover {
-              background-color: #e5e7eb;
-            }
-            
-            .popup-confirm-btn {
-              background-color: #3b82f6;
-              color: white;
-              padding: 10px 16px;
-              border-radius: 10px;
-              font-weight: 600;
-              transition: all 0.2s;
-            }
-            
-            .popup-confirm-btn:hover {
-              background-color: #2563eb;
-            }
-            
-            .whatsapp-action-btn {
-              background-color: #22c55e;
-              color: white;
-              padding: 10px 16px;
-              border-radius: 10px;
-              font-weight: 600;
-              transition: all 0.2s;
-            }
-            
-            .whatsapp-action-btn:hover {
-              background-color: #16a34a;
-            }
-            
-            .download-invoice-btn {
-              background-color: #3b82f6;
-              color: white;
-              padding: 12px 16px;
-              border-radius: 10px;
-              font-weight: 600;
-              transition: all 0.2s;
-            }
-            
-            .download-invoice-btn:hover {
-              background-color: #2563eb;
-            }
-            
-            /* Efek hover untuk card */
-            .payment-option-card {
-              transition: all 0.2s;
-            }
-            
-            .payment-option-card:hover {
-              transform: translateY(-2px);
-              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            }
           }
         </style>
     
@@ -1514,290 +1391,97 @@
     }
 
     // Confirm payment dengan popup modern
-   // Confirm payment dengan popup modern yang disempurnakan
     async function confirmPayment() {
       // Buat popup konfirmasi modern
       const popup = document.createElement('div');
-      popup.className = 'fixed inset-0 flex items-center justify-center z-50 p-4 popup-overlay';
+      popup.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn';
       popup.innerHTML = `
-        <div class="bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md transform transition-all duration-300 scale-95 opacity-0 popup-content">
-          <!-- Header dengan gradient -->
-          <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-6 text-white">
-            <div class="flex justify-center mb-3">
-              <div class="bg-white/20 p-3 rounded-full backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="text-xl font-bold text-center">Konfirmasi Pembayaran</h3>
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn">
+          <div class="flex justify-center text-blue-500 mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
           </div>
+          <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Konfirmasi Pembayaran</h3>
           
-          <!-- Konten utama -->
-          <div class="p-6">
-            <div class="space-y-3 mb-6">
-              <!-- Opsi sudah transfer -->
-              <label class="payment-option">
-                <input type="radio" name="payment-confirm" class="hidden" checked>
-                <div class="flex items-start p-4 rounded-lg border-2 border-transparent hover:border-blue-300 transition-all cursor-pointer payment-option-card">
-                  <div class="radio-custom mr-3 mt-0.5"></div>
-                  <div>
-                    <div class="font-medium text-gray-800">Sudah Transfer</div>
-                    <div class="text-sm text-gray-500 mt-1">Saya sudah melakukan pembayaran</div>
-                  </div>
-                </div>
-              </label>
-              
-              <!-- Opsi belum transfer -->
-              <label class="payment-option">
-                <input type="radio" name="payment-confirm" class="hidden">
-                <div class="flex items-start p-4 rounded-lg border-2 border-transparent hover:border-gray-300 transition-all cursor-pointer payment-option-card">
-                  <div class="radio-custom mr-3 mt-0.5"></div>
-                  <div>
-                    <div class="font-medium text-gray-800">Belum Transfer</div>
-                    <div class="text-sm text-gray-500 mt-1">Saya akan bayar nanti</div>
-                  </div>
-                </div>
+          <div class="flex flex-col space-y-4 mb-6">
+            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+              <input type="radio" id="confirm-yes" name="payment-confirm" class="h-5 w-5 text-blue-600" checked>
+              <label for="confirm-yes" class="ml-3 flex-1">
+                <span class="block font-medium">Sudah Transfer</span>
+                <span class="block text-sm text-gray-500">Saya sudah melakukan pembayaran</span>
               </label>
             </div>
             
-            <!-- Tombol aksi -->
-            <div class="flex space-x-3">
-              <button class="popup-cancel-btn flex-1">
-                Batal
-              </button>
-              <button class="popup-confirm-btn flex-1">
-                Lanjutkan
-              </button>
+            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+              <input type="radio" id="confirm-no" name="payment-confirm" class="h-5 w-5 text-blue-600">
+              <label for="confirm-no" class="ml-3 flex-1">
+                <span class="block font-medium">Belum Transfer</span>
+                <span class="block text-sm text-gray-500">Saya akan bayar nanti</span>
+              </label>
             </div>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(popup);
-      
-      // Trigger animasi masuk
-      setTimeout(() => {
-        popup.querySelector('.popup-content').classList.remove('scale-95', 'opacity-0');
-      }, 10);
-      
-      // Setup event listeners
-      setupPopupEvents(popup);
-    }
-    
-    function setupPopupEvents(popup) {
-      // Toggle pilihan radio
-      const options = popup.querySelectorAll('.payment-option');
-      options.forEach(option => {
-        option.addEventListener('click', function() {
-          // Update tampilan radio button
-          options.forEach(opt => {
-            opt.querySelector('.payment-option-card').classList.remove('border-blue-400', 'bg-blue-50');
-          });
-          this.querySelector('.payment-option-card').classList.add('border-blue-400', 'bg-blue-50');
-          
-          // Update radio button state
-          const radioInput = this.querySelector('input');
-          radioInput.checked = true;
-        });
-      });
-      
-      // Tombol batal
-      popup.querySelector('.popup-cancel-btn').addEventListener('click', () => {
-        animatePopupOut(popup);
-      });
-      
-      // Tombol lanjutkan
-      popup.querySelector('.popup-confirm-btn').addEventListener('click', () => {
-        const isConfirmed = popup.querySelector('input[type="radio"]:checked') === popup.querySelector('input[type="radio"]');
-        animatePopupOut(popup);
-        showNextStep(isConfirmed);
-      });
-    }
-    
-    function animatePopupOut(popup) {
-      const content = popup.querySelector('.popup-content');
-      content.classList.add('scale-95', 'opacity-0');
-      setTimeout(() => popup.remove(), 300);
-    }
-    
-    function showNextStep(isConfirmed) {
-      if (isConfirmed) {
-        showWhatsAppConfirmation();
-      } else {
-        showPendingPaymentPopup();
-      }
-    }
-    
-    function showWhatsAppConfirmation() {
-      const popup = document.createElement('div');
-      popup.className = 'fixed inset-0 flex items-center justify-center z-50 p-4 popup-overlay';
-      popup.innerHTML = `
-        <div class="bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md transform transition-all duration-300 scale-95 opacity-0 popup-content">
-          <!-- Header dengan gradient -->
-          <div class="bg-gradient-to-r from-green-600 to-emerald-500 p-6 text-white">
-            <div class="flex justify-center mb-3">
-              <div class="bg-white/20 p-3 rounded-full backdrop-blur-sm">
-                <i class="fab fa-whatsapp text-xl"></i>
-              </div>
-            </div>
-            <h3 class="text-xl font-bold text-center">Konfirmasi via WhatsApp</h3>
           </div>
           
-          <!-- Konten utama -->
-          <div class="p-6">
-            <div class="text-center mb-6">
-              <p class="text-gray-600 mb-4">Silakan konfirmasi pembayaran Anda melalui WhatsApp untuk menyelesaikan transaksi</p>
-              
-              <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <div class="flex items-center">
-                  <div class="bg-green-100 p-2 rounded-full mr-3 text-green-600">
-                    <i class="fab fa-whatsapp"></i>
-                  </div>
-                  <div class="text-left">
-                    <div class="font-medium">Admin TukarPI.ID</div>
-                    <div class="text-sm text-gray-500">+62 821-4751-0780</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Tombol aksi -->
-            <div class="flex space-x-3">
-              <button class="popup-cancel-btn flex-1">
-                Nanti Saja
-              </button>
-              <button class="whatsapp-action-btn flex-1">
-                <i class="fab fa-whatsapp mr-2"></i> WhatsApp
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(popup);
-      
-      // Trigger animasi masuk
-      setTimeout(() => {
-        popup.querySelector('.popup-content').classList.remove('scale-95', 'opacity-0');
-      }, 10);
-      
-      // Setup event listeners
-      popup.querySelector('.popup-cancel-btn').addEventListener('click', () => {
-        animatePopupOut(popup);
-      });
-      
-      popup.querySelector('.whatsapp-action-btn').addEventListener('click', () => {
-        openWhatsApp();
-        animatePopupOut(popup);
-        showSuccessNotification();
-      });
-    }
-    
-    function showPendingPaymentPopup() {
-      const popup = document.createElement('div');
-      popup.className = 'fixed inset-0 flex items-center justify-center z-50 p-4 popup-overlay';
-      popup.innerHTML = `
-        <div class="bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md transform transition-all duration-300 scale-95 opacity-0 popup-content">
-          <!-- Header dengan gradient -->
-          <div class="bg-gradient-to-r from-amber-500 to-yellow-500 p-6 text-white">
-            <div class="flex justify-center mb-3">
-              <div class="bg-white/20 p-3 rounded-full backdrop-blur-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-              </div>
-            </div>
-            <h3 class="text-xl font-bold text-center">Pembayaran Belum Dilakukan</h3>
-          </div>
-          
-          <!-- Konten utama -->
-          <div class="p-6">
-            <div class="text-center mb-6">
-              <p class="text-gray-600 mb-4">Silahkan lakukan pembayaran terlebih dahulu sebelum melanjutkan. Invoice telah tersedia untuk Anda download.</p>
-              
-              <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                <div class="flex items-center">
-                  <div class="bg-amber-100 p-2 rounded-full mr-3 text-amber-600">
-                    <i class="fas fa-file-invoice"></i>
-                  </div>
-                  <div class="text-left">
-                    <div class="font-medium">Invoice Anda</div>
-                    <div class="text-sm text-gray-500">Siap untuk diunduh</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Tombol aksi -->
-            <button class="download-invoice-btn w-full">
-              <i class="fas fa-download mr-2"></i> Download Invoice
+          <div class="flex space-x-3">
+            <button onclick="this.parentElement.parentElement.remove()" class="flex-1 py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition">
+              Batal
+            </button>
+            <button onclick="processPaymentConfirmation(this)" class="flex-1 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+              Lanjutkan
             </button>
           </div>
         </div>
       `;
       
       document.body.appendChild(popup);
-      
-      // Trigger animasi masuk
-      setTimeout(() => {
-        popup.querySelector('.popup-content').classList.remove('scale-95', 'opacity-0');
-      }, 10);
-      
-      // Setup event listener
-      popup.querySelector('.download-invoice-btn').addEventListener('click', () => {
-        generateInvoice();
-        animatePopupOut(popup);
-      });
     }
-    
-    function openWhatsApp() {
-      const phoneNumber = "6282147510780";
-      const message = "Halo Admin TukarPI.ID, saya sudah melakukan transfer. Berikut detail transaksi saya:";
-      window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
-    }
-    
-    function showSuccessNotification() {
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-5 py-3 rounded-lg shadow-lg flex items-center space-x-3 notification-in';
-      notification.innerHTML = `
-        <div class="text-xl">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <div>
-          <div class="font-medium">Konfirmasi Terkirim!</div>
-          <div class="text-sm opacity-90">Tim kami akan segera memverifikasi</div>
-        </div>
-      `;
-      document.body.appendChild(notification);
+
+    function processPaymentConfirmation(btn) {
+      const isConfirmed = document.getElementById('confirm-yes').checked;
       
-      setTimeout(() => {
-        notification.classList.add('notification-out');
-        setTimeout(() => notification.remove(), 300);
-      }, 3000);
-    }
-    
-    function generateInvoice() {
-      // Implementasi generate invoice
-      console.log("Generating invoice...");
-      // Tampilkan notifikasi
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-4 right-4 bg-blue-500 text-white px-5 py-3 rounded-lg shadow-lg flex items-center space-x-3 notification-in';
-      notification.innerHTML = `
-        <div class="text-xl">
-          <i class="fas fa-file-download"></i>
-        </div>
-        <div>
-          <div class="font-medium">Invoice Terunduh</div>
-          <div class="text-sm opacity-90">Silakan cek folder download</div>
-        </div>
-      `;
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.classList.add('notification-out');
-        setTimeout(() => notification.remove(), 300);
-      }, 3000);
+      if (isConfirmed) {
+        // Tutup popup
+        btn.closest('.popup-overlay').remove();
+        
+        // Update tombol konfirmasi
+        const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
+        confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Konfirmasi via WhatsApp';
+        confirmBtn.classList.remove('from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700');
+        confirmBtn.classList.add('from-green-600', 'to-emerald-700', 'hover:from-green-700', 'hover:to-emerald-800');
+        confirmBtn.removeAttribute('onclick');
+        confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
+        
+        // Tampilkan notifikasi
+        const notification = document.createElement('div');
+        notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center animate__animated animate__fadeInUp';
+        notification.innerHTML = `
+          <i class="fas fa-check-circle mr-2"></i>
+          <span>Silahkan lanjutkan konfirmasi via WhatsApp</span>
+        `;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+          notification.classList.add('animate__fadeOut');
+          setTimeout(() => notification.remove(), 500);
+        }, 3000);
+      } else {
+        // Tampilkan pesan untuk belum transfer
+        const popup = document.querySelector('.popup-overlay');
+        popup.innerHTML = `
+          <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn">
+            <div class="flex justify-center text-yellow-500 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Pembayaran Belum Dilakukan</h3>
+            <p class="text-gray-600 text-center mb-6">Silahkan lakukan pembayaran terlebih dahulu sebelum melanjutkan. Invoice telah tersedia untuk Anda download.</p>
+            <button onclick="this.parentElement.parentElement.remove()" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
+              Mengerti
+            </button>
+          </div>
+        `;
+      }
     }
 
     // Format input amount
