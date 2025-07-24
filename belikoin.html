@@ -1091,9 +1091,55 @@
       // Tambahkan ke DOM
       document.body.appendChild(element);
       
-      // Tampilkan modal pilihan
-      showInvoiceOptionsModal(element);
+// Langsung download invoice tanpa preview
+    await downloadInvoiceNow(invoiceElement);
+  } catch (error) {
+    console.error('Error generating invoice:', error);
+    showNotification('Gagal membuat invoice', 'error');
+  }
+}
+
+// Fungsi untuk langsung download invoice sebagai PNG
+async function downloadInvoiceNow(invoiceElement) {
+  // Tampilkan elemen sebelum konversi
+  invoiceElement.style.visibility = 'visible';
+
+  try {
+    const canvas = await html2canvas(invoiceElement, {
+      scale: 2,
+      logging: false,
+      useCORS: true,
+      allowTaint: true,
+      scrollX: 0,
+      scrollY: 0,
+      width: invoiceElement.scrollWidth,
+      height: invoiceElement.scrollHeight,
+      windowWidth: invoiceElement.scrollWidth
+    });
+
+    const imageData = canvas.toDataURL('image/png');
+    
+    const link = document.createElement('a');
+    const timestamp = new Date().getTime();
+    link.download = `Invoice-TukarPI-${timestamp}.png`;
+    link.href = imageData;
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    showNotification('Invoice berhasil didownload sebagai PNG', 'success');
+  } catch (error) {
+    console.error('Error generating image:', error);
+    showNotification('Gagal membuat gambar invoice', 'error');
+    throw error; // Re-throw error untuk ditangkap oleh generateInvoice
+  } finally {
+    // Hapus elemen invoice
+    if (invoiceElement && invoiceElement.parentNode) {
+      document.body.removeChild(invoiceElement);
     }
+  }
+}
     
 // Fungsi untuk langsung download invoice sebagai PNG (versi sederhana)
 async function downloadInvoiceNow(invoiceElement) {
