@@ -1519,6 +1519,8 @@
         notification.classList.add('animate__fadeOut');
         setTimeout(() => notification.remove(), 500);
       }, 3000);
+      
+      window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
     }
     // Format input amount
     function formatAmountInput(input) {
