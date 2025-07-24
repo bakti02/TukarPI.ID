@@ -792,10 +792,6 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 // Fungsi utama untuk generate invoice
 async function generateInvoice() {
-  // Tampilkan loading
-  const loading = showLoading('Menyiapkan invoice...');
-  
-  try {
     // Ambil semua data yang diperlukan
     const cryptoType = document.getElementById('confirm-crypto').textContent;
     const amount = document.getElementById('confirm-amount').textContent;
