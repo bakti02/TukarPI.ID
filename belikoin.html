@@ -789,42 +789,44 @@
       window.open(`https://wa.me/6282147510780?text=${encodedMessage}`, '_blank');
     }
 
-<!-- Replace the existing generateInvoice() function with this new version -->
-    // Fungsi utama untuk generate invoice
-    async function generateInvoice() {
-      // Validasi metode pembayaran
-      if (!selectedPaymentMethod) {
-        showNotification('Metode pembayaran belum dipilih!', 'error');
-        return;
-      }
-    
-      // Ambil semua data yang diperlukan
-      const cryptoType = document.getElementById('confirm-crypto').textContent;
-      const amount = document.getElementById('confirm-amount').textContent;
-      const coinAmount = document.getElementById('confirm-coin').textContent;
-      const fee = document.getElementById('fee-amount').textContent;
-      const total = document.getElementById('confirm-total').textContent;
-      const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
-      const realtimePrice = document.getElementById('realtime-price').textContent;
-      const walletAddress = document.getElementById('wallet').value || '-';
-      const now = new Date();
-      const paymentDue = new Date(Date.now() + 24*60*60*1000);
-      
-      // Buat elemen untuk invoice
-      const element = document.createElement('div');
-      element.className = 'invoice-container';
-      element.style.width = '210mm';
-      element.style.minHeight = 'auto';
-      element.style.padding = '10mm';
-      element.style.margin = '0 auto';
-      element.style.boxSizing = 'border-box';
-      element.style.fontFamily = "'Helvetica', 'Arial', sans-serif";
-      element.style.background = 'white';
-      element.style.position = 'relative';
-      element.style.visibility = 'hidden';
-      
-      // Isi template invoice
-      element.innerHTML = `
+// Fungsi utama untuk generate invoice
+async function generateInvoice() {
+  // Validasi metode pembayaran
+  if (!selectedPaymentMethod) {
+    showNotification('Metode pembayaran belum dipilih!', 'error');
+    return;
+  }
+
+  // Tampilkan loading
+  const loading = showLoading('Menyiapkan invoice...');
+  
+  try {
+    // Ambil semua data yang diperlukan
+    const cryptoType = document.getElementById('confirm-crypto').textContent;
+    const amount = document.getElementById('confirm-amount').textContent;
+    const coinAmount = document.getElementById('confirm-coin').textContent;
+    const fee = document.getElementById('fee-amount').textContent;
+    const total = document.getElementById('confirm-total').textContent;
+    const exchangeRateInfo = document.getElementById('confirm-exchange-rate').textContent;
+    const realtimePrice = document.getElementById('realtime-price').textContent;
+    const walletAddress = document.getElementById('wallet').value || '-';
+    const now = new Date();
+    const paymentDue = new Date(Date.now() + 24*60*60*1000);
+
+    // Buat iframe untuk rendering invoice
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.left = '-9999px';
+    iframe.style.width = '210mm';
+    iframe.style.height = '297mm';
+    iframe.style.border = 'none';
+    document.body.appendChild(iframe);
+
+    // Isi template invoice ke dalam iframe
+    const invoiceHTML = `
+      <!DOCTYPE html>
+      <html>
+      <head>
         <style>
           @page {
             size: A4;
@@ -903,7 +905,8 @@
             }
           }
         </style>
-    
+      </head>
+      <body>
         <!-- Header Invoice -->
         <div class="avoid-break">
           <div class="invoice-header">
@@ -931,7 +934,7 @@
               </tr>
             </table>
           </div>
-    
+
           <!-- Info Pembeli & Pembayaran -->
           <table width="100%" style="margin-bottom: 16px;">
             <tr>
@@ -963,7 +966,7 @@
               </td>
             </tr>
           </table>
-    
+
           <!-- Detail Transaksi -->
           <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Transaksi</h3>
           <table class="invoice-table" style="margin-bottom: 16px;">
@@ -991,7 +994,7 @@
               </tr>
             </tbody>
           </table>
-    
+
           <!-- Total Pembayaran -->
           <div class="avoid-break">
             <div class="total-box">
@@ -1012,7 +1015,7 @@
                 </tr>
               </table>
             </div>
-    
+
             <!-- Detail Koin -->
             <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Koin</h3>
             <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
@@ -1037,7 +1040,7 @@
                 </tr>
               </table>
             </div>
-    
+
             <!-- Instruksi Pembayaran -->
             <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
             <div style="background-color: #eff6ff; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
@@ -1048,15 +1051,13 @@
                   </td>
                   <td>
                     <p style="font-size: 13px; margin: 0 0 8px 0;">Silahkan transfer pembayaran ke:</p>
-                       <p <span style="font-family: monospace; font-size: 15px; word-break: break-all; margin: 0;">${getPaymentMethodDetails(selectedPaymentMethod)}</span></p>
-                      </p>
-                    </div>
+                    <p style="font-family: monospace; font-size: 15px; word-break: break-all; margin: 0;">${getPaymentMethodDetails(selectedPaymentMethod)}</p>
                     <p style="font-size: 13px; margin: 8px 0 0 0;">Atas Nama: <span style="font-weight: 500;">Agus Mulia Bakti</span></p>
                   </td>
                 </tr>
               </table>
             </div>
-    
+
             <!-- Catatan -->
             <div class="avoid-break">
               <div style="background-color: #fef2f2; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
@@ -1076,7 +1077,7 @@
                   </tr>
                 </table>
               </div>
-    
+
               <!-- Footer -->
               <div style="text-align: center; font-size: 11px; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 12px;">
                 <p style="margin: 0 0 4px 0;">Invoice ini sah dan diterbitkan secara elektronik oleh PT. RUANG DIGITAL RAYA</p>
@@ -1086,72 +1087,75 @@
             </div>
           </div>
         </div>
-      `;
-    
-    // Tambahkan ke DOM
-    document.body.appendChild(invoiceElement);
-    
-    // Langsung download invoice tanpa preview
-    await downloadInvoiceNow(invoiceElement);
-    
-  } catch (error) {
-    console.error('Error generating invoice:', error);
-    showNotification('Gagal membuat invoice', 'error');
-  }
-}
+      </body>
+      </html>
+    `;
 
-// Fungsi untuk langsung download invoice sebagai PNG
-async function downloadInvoiceNow(invoiceElement) {
-  try {
-    // Tampilkan elemen sebelum konversi
-    invoiceElement.style.visibility = 'visible';
-    
-    // Tambahkan sedikit delay untuk memastikan elemen dirender
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    // Konfigurasi html2canvas
-    const canvas = await html2canvas(invoiceElement, {
-      scale: 2,
-      logging: false,
-      useCORS: true,
-      allowTaint: true,
-      scrollX: 0,
-      scrollY: 0,
-      width: invoiceElement.scrollWidth,
-      height: invoiceElement.scrollHeight,
-      windowWidth: invoiceElement.scrollWidth,
-      backgroundColor: '#ffffff' // Pastikan background putih
+    iframe.contentDocument.open();
+    iframe.contentDocument.write(invoiceHTML);
+    iframe.contentDocument.close();
+
+    // Tunggu hingga iframe selesai loading
+    await new Promise(resolve => {
+      iframe.onload = resolve;
+      setTimeout(resolve, 500); // Fallback timeout
     });
 
-    // Konversi canvas ke data URL
-    const imageData = canvas.toDataURL('image/png');
+    // Ambil elemen invoice dari iframe
+    const invoiceElement = iframe.contentDocument.querySelector('.invoice-container');
     
-    // Buat link download
+    // Gunakan html2canvas untuk konversi ke gambar
+    const canvas = await html2canvas(invoiceElement, {
+      scale: 2,
+      logging: true,
+      useCORS: true,
+      allowTaint: false,
+      scrollX: 0,
+      scrollY: 0,
+      backgroundColor: '#FFFFFF',
+      windowWidth: invoiceElement.scrollWidth,
+      width: invoiceElement.scrollWidth,
+      height: invoiceElement.scrollHeight
+    });
+
+    // Konversi ke PNG dan download
     const link = document.createElement('a');
-    const timestamp = new Date().getTime();
-    link.download = `Invoice-TukarPI-${timestamp}.png`;
-    link.href = imageData;
-    
-    // Trigger download
+    link.download = `Invoice-TukarPI-${now.getTime()}.png`;
+    link.href = canvas.toDataURL('image/png');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
-    // Tampilkan notifikasi sukses
-    showNotification('Invoice berhasil didownload sebagai PNG', 'success');
+
+    showNotification('Invoice berhasil didownload!', 'success');
     
   } catch (error) {
-    console.error('Error generating image:', error);
-    showNotification('Gagal membuat gambar invoice', 'error');
-    throw error;
+    console.error('Error:', error);
+    showNotification('Gagal membuat invoice', 'error');
   } finally {
-    // Hapus elemen invoice
-    if (invoiceElement && invoiceElement.parentNode) {
-      invoiceElement.style.visibility = 'hidden';
-      document.body.removeChild(invoiceElement);
-    }
+    // Hapus loading dan iframe
+    loading.hide();
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => iframe.remove());
   }
 }
+
+// Fungsi untuk menampilkan loading
+function showLoading(message) {
+  const loader = document.createElement('div');
+  loader.className = 'fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50';
+  loader.innerHTML = `
+    <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
+      <p class="text-gray-700">${message}</p>
+    </div>
+  `;
+  document.body.appendChild(loader);
+  
+  return {
+    hide: () => loader.remove()
+  };
+}
+   
     
     // Fungsi helper untuk menampilkan metode pembayaran
     function getPaymentMethodDisplay(method) {
