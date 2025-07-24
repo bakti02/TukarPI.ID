@@ -562,7 +562,7 @@
     // Fungsi mengisi dropdown koin
     async function populateCryptoDropdown() {
       const cryptoSelect = document.getElementById('crypto');
-      
+      const allowedCoins = ['ALGO', 'AVAX', 'BCH', 'COR', 'ETH', 'LTC', 'MATIC', 'APT', 'BNB', 'DOGE', 'MNT', 'NEAR', 'XRP', 'RON', 'SEI', 'SOL', 'XLM', 'SUI', 'TON', 'TRX', 'USDC', 'USDT'];
       try {
         // Clear existing options
         cryptoSelect.innerHTML = '';
@@ -573,14 +573,15 @@
         defaultOption.selected = true;
         cryptoSelect.add(defaultOption);
         
-        // Add crypto options
-        for (const [symbol, data] of Object.entries(cryptoData)) {
+      // Filter berdasarkan allowedCoins
+      for (const [symbol, data] of Object.entries(cryptoData)) {
+        if (allowedCoins.includes(symbol)) {
           const option = new Option(`${data.name} (${symbol})`, symbol);
           option.dataset.image = data.image;
           cryptoSelect.add(option);
-          console.log(`Added option: ${symbol}`);
         }
-        
+      }
+
         // Enable select
         cryptoSelect.disabled = false;
       } catch (error) {
@@ -1546,8 +1547,8 @@ function showWhatsAppPopup() {
       const wallet = document.getElementById('wallet').value;
       const paymentMethod = document.getElementById('payment-method').value;
       
-      if (!amount || parseFloat(amount) < 10000) {
-        alert('Minimal pembelian Rp 10.000');
+      if (!amount || parseFloat(amount) < 15000) {
+        alert('Minimal pembelian Rp 15.000');
         return;
       }
       
