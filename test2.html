@@ -1266,37 +1266,42 @@
 function confirmPayment() {
   Swal.fire({
     title: `
-      <div class="flex flex-col items-center">
-        <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full flex items-center justify-center mb-2">
-          <i class="fas fa-shield-alt text-white text-xl"></i>
-        </div>
-        <span class="text-lg font-semibold text-gray-800">Konfirmasi Transfer</span>
+      <div class="flex items-center justify-center gap-2">
+        <i class="fas fa-shield-alt text-indigo-500 text-xl animate-bounce"></i>
+        <span class="text-lg font-bold text-gray-800">Konfirmasi Transfer PI</span>
       </div>
     `,
     html: `
-      <div class="space-y-4">
-        <p class="text-sm text-gray-600 text-center">Anda akan transfer ke:</p>
-        
-        <!-- Wallet Box -->
-        <div class="bg-indigo-50 p-3 rounded-lg border border-indigo-200">
-          <div class="flex items-center gap-3">
-            <div class="bg-white p-2 rounded-lg text-indigo-600 border border-indigo-200">
-              <i class="fas fa-wallet text-lg"></i>
+      <div class="space-y-4 text-left">
+        <!-- Wallet Info (Diubah jadi kotak pilihan) -->
+        <div class="bg-white p-3 rounded-lg border border-gray-200">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="bg-indigo-100 p-2 rounded-lg text-indigo-600">
+              <i class="fas fa-wallet"></i>
             </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-xs text-gray-500 mb-1">Tujuan Transfer</p>
-              <div class="font-mono text-sm text-gray-800 truncate">GDL...NGTW</div>
+            <div>
+              <p class="text-sm font-medium text-gray-700">Tujuan Transfer</p>
+              <p class="font-mono text-xs text-gray-500 truncate">GDLHTXWKU26VGPWY5NCCPDM4EQAS3YQOAZ74AY6OERKFJWU36CTMNGTW</p>
             </div>
-            <button onclick="copyWalletAddress()" class="p-2 bg-white rounded-lg border border-indigo-200 text-indigo-600 hover:bg-indigo-50">
-              <i class="fas fa-copy"></i>
-            </button>
+          </div>
+
+          <!-- Opsi Pilihan (Style test.html) -->
+          <div class="space-y-2">
+            <label class="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
+              <input type="radio" name="transferOption" checked class="text-indigo-600 focus:ring-indigo-500">
+              <span class="text-sm">Transfer sekarang (Konfirmasi otomatis)</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer">
+              <input type="radio" name="transferOption" class="text-indigo-600 focus:ring-indigo-500">
+              <span class="text-sm">Saya sudah transfer</span>
+            </label>
           </div>
         </div>
-        
-        <!-- Info Box -->
-        <div class="bg-blue-50 border-l-4 border-blue-400 p-2 flex items-start gap-2">
-          <i class="fas fa-info-circle text-blue-500 mt-0.5"></i>
-          <p class="text-xs text-blue-700">Pastikan transfer dari wallet utama KYC</p>
+
+        <!-- Warning Box -->
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-2 flex items-start gap-2">
+          <i class="fas fa-info-circle text-amber-500 mt-0.5"></i>
+          <p class="text-xs text-amber-700">Pastikan transfer dari wallet utama KYC</p>
         </div>
       </div>
     `,
@@ -1304,20 +1309,16 @@ function confirmPayment() {
     confirmButtonText: 'Konfirmasi',
     cancelButtonText: 'Batal',
     customClass: {
-      popup: '!rounded-lg !max-w-xs !w-full !p-5', // Bentuk kotak dengan sudut sedikit rounded
-      title: '!mb-4',
-      confirmButton: '!bg-gradient-to-r !from-indigo-600 !to-blue-600 !text-white !px-4 !py-2 !rounded-lg',
-      cancelButton: '!bg-white !text-gray-700 !border !border-gray-300 !px-4 !py-2 !rounded-lg'
+      popup: '!max-w-xs !rounded-lg',
+      confirmButton: '!bg-indigo-600 !text-white !px-4 !py-2 !text-sm',
+      cancelButton: '!bg-white !text-gray-700 !border !border-gray-300 !px-4 !py-2 !text-sm'
     },
-    buttonsStyling: false,
-    reverseButtons: true
+    buttonsStyling: false
+  }).then((result) => {
+    if (result.isConfirmed) {
+      showProcessingPopup(); // Tetap pakai loading spinner asli
+    }
   });
-}
-
-// Fungsi copy wallet (tetap sama)
-function copyWalletAddress() {
-  navigator.clipboard.writeText("GDLHTXWKU26VGPWY5NCCPDM4EQAS3YQOAZ74AY6OERKFJWU36CTMNGTW");
-  // Berikan feedback visual...
 }
     
     // Fungsi untuk menyalin teks ke clipboard
