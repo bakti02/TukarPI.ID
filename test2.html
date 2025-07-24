@@ -1290,7 +1290,7 @@
       window.open(whatsappUrl, '_blank');
     }
     
-    // POPUP KONFIRMASI PEMBAYARAN MODERN
+   // POPUP KONFIRMASI PEMBAYARAN MODERN (FIXED VERSION)
     function confirmPayment() {
       Swal.fire({
         title: '<div class="flex items-center justify-center gap-2"><i class="fas fa-shield-alt text-blue-500 text-2xl"></i><strong class="text-2xl">Konfirmasi Transfer PI</strong></div>',
@@ -1335,48 +1335,56 @@
         cancelButtonText: '<div class="flex items-center justify-center gap-2"><i class="fas fa-times-circle"></i> Belum</div>',
         focusConfirm: false,
         customClass: {
-          container: 'modern-swal-container',
           popup: 'modern-swal-popup bg-white rounded-2xl shadow-xl',
-          title: 'modern-swal-title text-gray-800',
-          htmlContainer: 'modern-swal-html',
           confirmButton: 'modern-swal-confirm-btn bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2 rounded-lg shadow-md transition-all',
           cancelButton: 'modern-swal-cancel-btn bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 px-6 py-2 rounded-lg shadow-md transition-all'
         },
         buttonsStyling: false,
-        reverseButtons: true,
-        showClass: {
-          popup: 'animate__animated animate__fadeInUp animate__faster',
-          backdrop: 'swal2-backdrop-show'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutDown animate__faster',
-          backdrop: 'swal2-backdrop-hide'
-        },
-        background: 'rgba(255, 255, 255, 0.95)',
-        backdrop: `
-          rgba(0, 0, 0, 0.3)
-          url("/img/pattern.svg")
-          center left
-          no-repeat
-        `
+        reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          // Animasi processing modern
-          const processingPopup = document.getElementById('processingPopup');
-          processingPopup.classList.remove('hidden');
-          processingPopup.classList.add('flex', 'items-center', 'justify-center');
-          document.querySelector('.popup-overlay').classList.remove('hidden');
-          
-          // Animasi loading
-          const popupContent = document.querySelector('#processingPopup .popup-content');
-          popupContent.classList.add('animate__animated', 'animate__fadeInUp');
-          
-          // Set timeout untuk simulasi proses
+          // Tampilkan popup processing dengan cara yang lebih reliable
           setTimeout(() => {
-            const whatsappButton = document.getElementById('whatsappButton');
-            whatsappButton.onclick = sendWhatsAppConfirmation;
-            whatsappButton.classList.add('animate__pulse');
-          }, 1500);
+            Swal.fire({
+              html: `
+                <div class="text-center py-4">
+                  <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto mb-4"></div>
+                  <h3 class="text-xl font-semibold text-gray-800">Memproses Konfirmasi</h3>
+                  <p class="text-gray-600 mt-2">Sedang memverifikasi data transfer Anda...</p>
+                </div>
+              `,
+              showConfirmButton: false,
+              allowOutsideClick: false,
+              backdrop: 'rgba(0,0,0,0.5)'
+            });
+    
+            // Setelah delay, tampilkan tombol WhatsApp
+            setTimeout(() => {
+              Swal.fire({
+                title: '<div class="flex items-center justify-center gap-2"><i class="fab fa-whatsapp text-green-500 text-2xl"></i><span class="text-xl">Konfirmasi via WhatsApp</span></div>',
+                html: `
+                  <div class="text-center py-2">
+                    <p class="text-gray-600 mb-4">Silahkan lanjutkan konfirmasi pembayaran melalui WhatsApp kami</p>
+                    <button id="whatsappBtn" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium py-3 px-4 rounded-lg shadow-md transition-all flex items-center justify-center gap-2">
+                      <i class="fab fa-whatsapp text-xl"></i>
+                      Buka WhatsApp Sekarang
+                    </button>
+                  </div>
+                `,
+                showCancelButton: true,
+                cancelButtonText: 'Nanti Saja',
+                focusConfirm: false,
+                allowOutsideClick: false
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  sendWhatsAppConfirmation();
+                }
+              });
+    
+              // Pasang event handler
+              document.getElementById('whatsappBtn').onclick = sendWhatsAppConfirmation;
+            }, 2000);
+          }, 300);
         }
       });
     }
