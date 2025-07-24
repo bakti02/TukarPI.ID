@@ -605,9 +605,11 @@
       
       // Update harga dalam IDR
       const priceIDR = crypto.price * exchangeRate;
-      priceElement.textContent = `Rp ${priceIDR.toLocaleString('id-ID')}`;
-      priceElement.classList.remove('loading-price');
-      
+      priceElement.textContent = `Rp ${priceIDR.toLocaleString('id-ID', {
+        minimumFractionDigits: 0,  // Tidak menampilkan desimal jika 0
+        maximumFractionDigits: 2    // Maksimal 2 digit desimal
+      })}`;
+
       // Update indikator perubahan harga
       if (previousPrices[symbol] && previousPrices[symbol] !== crypto.price) {
         const priceChange = ((crypto.price - previousPrices[symbol]) / previousPrices[symbol]) * 100;
