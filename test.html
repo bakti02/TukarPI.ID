@@ -607,7 +607,7 @@
       const priceIDR = crypto.price * exchangeRate;
       priceElement.textContent = `Rp ${priceIDR.toLocaleString('id-ID', {
         minimumFractionDigits: 0,  // Tidak menampilkan desimal jika 0
-        maximumFractionDigits: 2    // Maksimal 2 digit desimal
+        maximumFractionDigits: 0    // Maksimal 2 digit desimal
       })}`;
 
       // Update indikator perubahan harga
