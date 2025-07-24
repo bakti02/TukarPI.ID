@@ -889,6 +889,179 @@
             .invoice-table td, .invoice-table th {
               padding: 2mm !important;
             }
+            /* Keyframe Animations POPUP*/
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            
+            @keyframes fadeOut {
+              to { opacity: 0; }
+            }
+            
+            @keyframes gradientFlow {
+              0% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+              100% { background-position: 0% 50%; }
+            }
+            
+            @keyframes floatOrb {
+              0%, 100% { transform: translate(0, 0); }
+              50% { transform: translate(20px, -20px); }
+            }
+            
+            @keyframes bounceIn {
+              0% { transform: scale(0); opacity: 0; }
+              60% { transform: scale(1.1); opacity: 1; }
+              100% { transform: scale(1); }
+            }
+            
+            @keyframes textRise {
+              from { transform: translateY(10px); opacity: 0; }
+              to { transform: translateY(0); opacity: 1; }
+            }
+            
+            @keyframes radioPulse {
+              0% { transform: scale(1); }
+              50% { transform: scale(1.1); }
+              100% { transform: scale(1); }
+            }
+            
+            @keyframes radioPop {
+              0% { transform: scale(0.8); opacity: 0.5; }
+              50% { transform: scale(1.1); }
+              100% { transform: scale(1); opacity: 1; }
+            }
+            
+            @keyframes checkmarkStroke {
+              to { stroke-dashoffset: 0; }
+            }
+            
+            @keyframes btnPress {
+              0% { transform: scale(1); }
+              50% { transform: scale(0.95); }
+              100% { transform: scale(1); }
+            }
+            
+            @keyframes popupIn {
+              from { transform: scale(0.95) translateY(20px); opacity: 0; }
+              to { transform: scale(1) translateY(0); opacity: 1; }
+            }
+            
+            @keyframes popupOut {
+              to { transform: scale(0.95) translateY(20px); opacity: 0; }
+            }
+            
+            @keyframes cardFloat {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-5px); }
+            }
+            
+            @keyframes iconBounce {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-5px); }
+            }
+            
+            /* Animation Classes */
+            .animate-fade-in {
+              animation: fadeIn 0.3s ease-out forwards;
+            }
+            
+            .animate-fade-out {
+              animation: fadeOut 0.3s ease-out forwards;
+            }
+            
+            .animate-gradient-flow {
+              background-size: 200% 200%;
+              animation: gradientFlow 6s ease infinite;
+            }
+            
+            .animate-float-orb {
+              animation: floatOrb 8s ease-in-out infinite;
+            }
+            
+            .animate-float-orb-delay {
+              animation: floatOrb 8s ease-in-out infinite 1s;
+            }
+            
+            .animate-bounce-in {
+              animation: bounceIn 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6) forwards;
+            }
+            
+            .animate-text-rise {
+              animation: textRise 0.4s ease-out forwards;
+            }
+            
+            .animate-radio-pulse {
+              animation: radioPulse 2s ease-in-out infinite;
+            }
+            
+            .animate-radio-pop {
+              animation: radioPop 0.4s ease-out forwards;
+            }
+            
+            .animate-btn-press {
+              animation: btnPress 0.3s ease-out;
+            }
+            
+            .animate-popup-out {
+              animation: popupOut 0.3s ease-out forwards;
+            }
+            
+            .animate-card-float {
+              animation: cardFloat 3s ease-in-out infinite;
+            }
+            
+            .animate-icon-bounce {
+              animation: iconBounce 2s ease-in-out infinite;
+            }
+            
+            /* Checkmark animation */
+            .checkmark-path {
+              stroke: #3b82f6;
+              stroke-width: 4;
+              stroke-dasharray: 22;
+              stroke-dashoffset: 22;
+              transition: stroke-dashoffset 0.3s ease-out;
+            }
+            
+            /* Button hover effect */
+            .hover-effect {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+              opacity: 0;
+              transition: opacity 0.3s;
+            }
+            
+            .action-btn:hover .hover-effect {
+              opacity: 1;
+            }
+            
+            /* 3D effect */
+            .transform-style-preserve-3d {
+              transform-style: preserve-3d;
+              perspective: 1000px;
+            }
+            
+            /* Staggered animations */
+            .animate-children-fade-in > * {
+              opacity: 0;
+              transform: translateY(10px);
+              animation: fadeIn 0.3s ease-out forwards;
+            }
+            
+            .animate-children-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+            .animate-children-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
+            
+            .animate-buttons-rise {
+              opacity: 0;
+              transform: translateY(10px);
+              animation: fadeIn 0.3s ease-out forwards 0.3s;
+            }
           }
         </style>
     
@@ -1391,98 +1564,276 @@
     }
 
     // Confirm payment dengan popup modern
+    // Enhanced confirmPayment with premium animations
     async function confirmPayment() {
-      // Buat popup konfirmasi modern
+      // Create popup container with animated backdrop
       const popup = document.createElement('div');
-      popup.className = 'fixed inset-0 flex items-center justify-center z-50 popup-overlay animate__animated animate__fadeIn';
+      popup.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 popup-overlay';
       popup.innerHTML = `
-        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn">
-          <div class="flex justify-center text-blue-500 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Konfirmasi Pembayaran</h3>
+        <!-- Animated backdrop with particle effect -->
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-md animate-fade-in"></div>
+        
+        <!-- Main popup card with 3D tilt effect -->
+        <div class="relative w-full max-w-md popup-card transform-style-preserve-3d">
+          <!-- Floating gradient orb decoration -->
+          <div class="absolute -top-20 -right-20 w-40 h-40 bg-blue-500/20 rounded-full filter blur-3xl animate-float-orb"></div>
           
-          <div class="flex flex-col space-y-4 mb-6">
-            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-              <input type="radio" id="confirm-yes" name="payment-confirm" class="h-5 w-5 text-blue-600" checked>
-              <label for="confirm-yes" class="ml-3 flex-1">
-                <span class="block font-medium">Sudah Transfer</span>
-                <span class="block text-sm text-gray-500">Saya sudah melakukan pembayaran</span>
-              </label>
+          <!-- Popup content -->
+          <div class="relative z-10 bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl overflow-hidden border border-white/20 transform transition-all duration-500 popup-content">
+            <!-- Animated gradient header -->
+            <div class="relative h-32 overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600 animate-gradient-flow"></div>
+              <div class="relative z-10 flex flex-col items-center justify-center h-full text-white">
+                <div class="icon-container bg-white/20 p-3 rounded-full backdrop-blur-sm animate-bounce-in">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold mt-3 animate-text-rise">Konfirmasi Pembayaran</h3>
+              </div>
             </div>
             
-            <div class="flex items-center p-3 bg-gray-50 rounded-lg">
-              <input type="radio" id="confirm-no" name="payment-confirm" class="h-5 w-5 text-blue-600">
-              <label for="confirm-no" class="ml-3 flex-1">
-                <span class="block font-medium">Belum Transfer</span>
-                <span class="block text-sm text-gray-500">Saya akan bayar nanti</span>
-              </label>
+            <!-- Content with staggered animations -->
+            <div class="p-6 space-y-4">
+              <!-- Payment options with checkmark animation -->
+              <div class="space-y-3 animate-children-fade-in">
+                <label class="payment-option">
+                  <input type="radio" name="payment-confirm" class="hidden" checked>
+                  <div class="payment-option-card">
+                    <div class="radio-indicator animate-radio-pulse">
+                      <div class="radio-outer"></div>
+                      <div class="radio-inner"></div>
+                    </div>
+                    <div class="option-content">
+                      <div class="option-title">Sudah Transfer</div>
+                      <div class="option-description">Saya sudah melakukan pembayaran</div>
+                    </div>
+                    <div class="checkmark-container">
+                      <svg class="checkmark" viewBox="0 0 52 52">
+                        <path class="checkmark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                      </svg>
+                    </div>
+                  </div>
+                </label>
+                
+                <label class="payment-option">
+                  <input type="radio" name="payment-confirm" class="hidden">
+                  <div class="payment-option-card">
+                    <div class="radio-indicator">
+                      <div class="radio-outer"></div>
+                      <div class="radio-inner"></div>
+                    </div>
+                    <div class="option-content">
+                      <div class="option-title">Belum Transfer</div>
+                      <div class="option-description">Saya akan bayar nanti</div>
+                    </div>
+                    <div class="checkmark-container">
+                      <svg class="checkmark" viewBox="0 0 52 52">
+                        <path class="checkmark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                      </svg>
+                    </div>
+                  </div>
+                </label>
+              </div>
+              
+              <!-- Animated action buttons -->
+              <div class="flex space-x-3 pt-2 animate-buttons-rise">
+                <button class="action-btn cancel-btn">
+                  Batal
+                </button>
+                <button class="action-btn confirm-btn">
+                  Lanjutkan
+                  <span class="hover-effect"></span>
+                </button>
+              </div>
             </div>
-          </div>
-          
-          <div class="flex space-x-3">
-            <button onclick="this.parentElement.parentElement.remove()" class="flex-1 py-2 px-4 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition">
-              Batal
-            </button>
-            <button onclick="processPaymentConfirmation(this)" class="flex-1 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
-              Lanjutkan
-            </button>
           </div>
         </div>
       `;
       
       document.body.appendChild(popup);
-    }
-
-    function processPaymentConfirmation(btn) {
-      const isConfirmed = document.getElementById('confirm-yes').checked;
       
-      if (isConfirmed) {
-        // Tutup popup
-        btn.closest('.popup-overlay').remove();
+      // Initialize 3D tilt effect
+      initTiltEffect(popup);
+      
+      // Setup event listeners
+      setupPopupEvents(popup);
+    }
+    
+    function initTiltEffect(popup) {
+      const card = popup.querySelector('.popup-card');
+      
+      card.addEventListener('mousemove', (e) => {
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 15;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 15;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+      });
+      
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'none';
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.5s ease';
+        card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      });
+    }
+    
+    function setupPopupEvents(popup) {
+      // Radio button interactions
+      const options = popup.querySelectorAll('.payment-option');
+      options.forEach(option => {
+        option.addEventListener('click', function() {
+          // Animate selection
+          options.forEach(opt => {
+            opt.querySelector('.payment-option-card').classList.remove('option-selected');
+            opt.querySelector('.radio-indicator').classList.remove('animate-radio-pop');
+          });
+          
+          this.querySelector('.payment-option-card').classList.add('option-selected');
+          this.querySelector('.radio-indicator').classList.add('animate-radio-pop');
+          
+          // Play checkmark animation
+          const checkmark = this.querySelector('.checkmark-path');
+          checkmark.style.strokeDashoffset = '0';
+        });
+      });
+      
+      // Cancel button
+      popup.querySelector('.cancel-btn').addEventListener('click', () => {
+        animatePopupOut(popup);
+      });
+      
+      // Confirm button
+      popup.querySelector('.confirm-btn').addEventListener('click', () => {
+        const isConfirmed = popup.querySelector('input[type="radio"]:checked') !== null;
         
-        // Update tombol konfirmasi
-        const confirmBtn = document.querySelector('#payment-info button[onclick="confirmPayment()"]');
-        confirmBtn.innerHTML = '<i class="fab fa-whatsapp mr-2"></i> Konfirmasi via WhatsApp';
-        confirmBtn.classList.remove('from-green-500', 'to-emerald-600', 'hover:from-green-600', 'hover:to-emerald-700');
-        confirmBtn.classList.add('from-green-600', 'to-emerald-700', 'hover:from-green-700', 'hover:to-emerald-800');
-        confirmBtn.removeAttribute('onclick');
-        confirmBtn.addEventListener('click', sendWhatsAppConfirmation);
+        // Button press animation
+        const btn = popup.querySelector('.confirm-btn');
+        btn.classList.add('animate-btn-press');
+        setTimeout(() => btn.classList.remove('animate-btn-press'), 300);
         
-        // Tampilkan notifikasi
-        const notification = document.createElement('div');
-        notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center animate__animated animate__fadeInUp';
-        notification.innerHTML = `
-          <i class="fas fa-check-circle mr-2"></i>
-          <span>Silahkan lanjutkan konfirmasi via WhatsApp</span>
-        `;
-        document.body.appendChild(notification);
-        
+        // Close popup and show next step
         setTimeout(() => {
-          notification.classList.add('animate__fadeOut');
-          setTimeout(() => notification.remove(), 500);
-        }, 3000);
+          animatePopupOut(popup);
+          showNextStep(isConfirmed);
+        }, 500);
+      });
+    }
+    
+    function animatePopupOut(popup) {
+      const content = popup.querySelector('.popup-content');
+      content.classList.add('animate-popup-out');
+      
+      setTimeout(() => {
+        popup.classList.add('animate-fade-out');
+        setTimeout(() => popup.remove(), 300);
+      }, 200);
+    }
+    
+    function showNextStep(isConfirmed) {
+      if (isConfirmed) {
+        showWhatsAppConfirmation();
       } else {
-        // Tampilkan pesan untuk belum transfer
-        const popup = document.querySelector('.popup-overlay');
-        popup.innerHTML = `
-          <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 animate__animated animate__zoomIn">
-            <div class="flex justify-center text-yellow-500 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-            </div>
-            <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Pembayaran Belum Dilakukan</h3>
-            <p class="text-gray-600 text-center mb-6">Silahkan lakukan pembayaran terlebih dahulu sebelum melanjutkan. Invoice telah tersedia untuk Anda download.</p>
-            <button onclick="this.parentElement.parentElement.remove()" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">
-              Mengerti
-            </button>
-          </div>
-        `;
+        showPendingPaymentPopup();
       }
     }
+    
+    function showWhatsAppConfirmation() {
+      const popup = document.createElement('div');
+      popup.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 popup-overlay';
+      popup.innerHTML = `
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-md animate-fade-in"></div>
+        
+        <div class="relative w-full max-w-md popup-card transform-style-preserve-3d">
+          <div class="absolute -top-20 -right-20 w-40 h-40 bg-green-500/20 rounded-full filter blur-3xl animate-float-orb-delay"></div>
+          
+          <div class="relative z-10 bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl overflow-hidden border border-white/20 transform transition-all duration-500 popup-content">
+            <!-- Animated header -->
+            <div class="relative h-32 overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 animate-gradient-flow-reverse"></div>
+              <div class="relative z-10 flex flex-col items-center justify-center h-full text-white">
+                <div class="icon-container bg-white/20 p-3 rounded-full backdrop-blur-sm animate-bounce-in">
+                  <i class="fab fa-whatsapp text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mt-3 animate-text-rise">Konfirmasi WhatsApp</h3>
+              </div>
+            </div>
+            
+            <!-- Content with progress animation -->
+            <div class="p-6 space-y-6">
+              <div class="text-center animate-fade-in-up">
+                <p class="text-gray-600 mb-6">Silakan konfirmasi pembayaran Anda melalui WhatsApp untuk menyelesaikan transaksi</p>
+                
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-xl border border-green-100 shadow-inner animate-card-float">
+                  <div class="flex items-center">
+                    <div class="bg-green-100 p-3 rounded-full mr-4 text-green-600 animate-icon-bounce">
+                      <i class="fab fa-whatsapp text-xl"></i>
+                    </div>
+                    <div class="text-left">
+                      <div class="font-medium">Admin TukarPI.ID</div>
+                      <div class="text-sm text-gray-500">+62 821-4751-0780</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Animated progress bar -->
+              <div class="px-2 animate-progress-expand">
+                <div class="h-1 bg-gray-200 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full progress-bar"></div>
+                </div>
+              </div>
+              
+              <!-- Action buttons with hover effect -->
+              <div class="flex space-x-3 pt-2 animate-buttons-rise">
+                <button class="action-btn cancel-btn">
+                  Nanti Saja
+                </button>
+                <button class="action-btn whatsapp-btn">
+                  Buka WhatsApp
+                  <span class="hover-effect"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(popup);
+      
+      // Initialize 3D tilt effect
+      initTiltEffect(popup);
+      
+      // Animate progress bar
+      setTimeout(() => {
+        const progressBar = popup.querySelector('.progress-bar');
+        if (progressBar) {
+          progressBar.style.width = '100%';
+          progressBar.style.transition = 'width 1.5s cubic-bezier(0.65, 0, 0.35, 1)';
+        }
+      }, 100);
+      
+      // Setup event listeners
+      popup.querySelector('.cancel-btn').addEventListener('click', () => {
+        animatePopupOut(popup);
+      });
+      
+      popup.querySelector('.whatsapp-btn').addEventListener('click', () => {
+        // Button press animation
+        const btn = popup.querySelector('.whatsapp-btn');
+        btn.classList.add('animate-btn-press');
+        setTimeout(() => btn.classList.remove('animate-btn-press'), 300);
+        
+        // Open WhatsApp after animation
+        setTimeout(() => {
+          openWhatsApp();
+          animatePopupOut(popup);
+          showSuccessNotification();
+        }, 500);
+      });
+    }
+
 
     // Format input amount
     function formatAmountInput(input) {
