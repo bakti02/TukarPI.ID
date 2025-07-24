@@ -792,12 +792,6 @@
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 // Fungsi utama untuk generate invoice
 async function generateInvoice() {
-  // Validasi metode pembayaran
-  if (!selectedPaymentMethod) {
-    showNotification('Metode pembayaran belum dipilih!', 'error');
-    return;
-  }
-
   // Tampilkan loading
   const loading = showLoading('Menyiapkan invoice...');
   
@@ -1091,19 +1085,10 @@ async function generateInvoice() {
       </body>
       </html>
     `;
-
-    iframe.contentDocument.open();
-    iframe.contentDocument.write(invoiceHTML);
-    iframe.contentDocument.close();
-
-    // Tunggu hingga iframe selesai loading
-    await new Promise(resolve => {
-      iframe.onload = resolve;
-      setTimeout(resolve, 500); // Fallback timeout
-    });
-
-    // Ambil elemen invoice dari iframe
-    const invoiceElement = iframe.contentDocument.querySelector('.invoice-container');
+    // Sembunyikan elemen sementara untuk rendering
+    element.style.position = 'absolute';
+    element.style.left = '-9999px';
+    document.body.appendChild(element);
     
     // Gunakan html2canvas untuk konversi ke gambar
     const canvas = await html2canvas(invoiceElement, {
