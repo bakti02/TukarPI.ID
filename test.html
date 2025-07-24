@@ -1400,7 +1400,7 @@ async function processConfirmation(popup) {
           <i class="fas fa-exclamation-triangle text-4xl animate-[pulse_1.5s_infinite]"></i>
         </div>
         <h3 class="text-xl font-bold text-center text-gray-800 mb-3">Pembayaran Belum Dilakukan</h3>
-        <p class="text-gray-600 text-center mb-6">Silahkan lakukan pembayaran terlebih dahulu sebelum melanjutkan. Invoice telah tersedia untuk Anda download.</p>
+        <p class="text-gray-600 text-center mb-6">Silakan lakukan pembayaran terlebih dahulu sebelum melanjutkan. Invoice telah tersedia untuk Anda download.</p>
         <button onclick="this.parentElement.parentElement.remove()" class="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg">
           Mengerti
         </button>
@@ -1420,8 +1420,10 @@ function showWhatsAppPopup() {
         <h3 class="text-xl font-bold text-gray-800">Lanjutkan ke WhatsApp</h3>
       </div>
       
-      <p class="text-gray-600 text-center mb-6">Silahkan konfirmasi pembayaran melalui WhatsApp kami</p>
       
+      <p class="text-gray-600 text-center mb-6">Silakan konfirmasi bukti transfer melalui WhatsApp kami dengan melampirkan bukti screeanshot. Koin akan Anda terima 1 menit setelah pengecekan pembayaran yang masuk ke rekening kami telah terverifikasi.</p>
+      <p class="disclaimer-text mt-2">* Transaksi ini telah direkam dan dilindungi Undang-Undang RI</p>
+    
       <button id="whatsappBtn" class="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
         <i class="fab fa-whatsapp text-xl"></i>
         Buka WhatsApp Sekarang
