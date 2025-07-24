@@ -1386,88 +1386,39 @@
     }
 
   // Enhanced Confirm Payment with WhatsApp Integration
-async function confirmPayment() {
-  // Create modern popup with animations
-  const popup = document.createElement('div');
-  popup.className = 'fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 popup-overlay animate__animated animate__fadeIn';
-  popup.innerHTML = `
-    <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100 animate__animated animate__zoomIn">
-      <!-- Header with animated shield icon -->
-      <div class="flex items-center justify-center gap-3 mb-5">
-        <i class="fas fa-shield-alt text-indigo-500 text-2xl animate-[bounce_2s_infinite]"></i>
-        <h3 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
-          Konfirmasi Pembayaran
-        </h3>
-      </div>
-      
-      <!-- Payment options with improved design -->
-      <div class="space-y-4 mb-6">
-        <div class="flex items-center p-4 bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl border border-indigo-100 cursor-pointer transition-all hover:shadow-md">
-          <input type="radio" id="confirm-yes" name="payment-confirm" class="h-5 w-5 text-indigo-600" checked>
-          <label for="confirm-yes" class="ml-3 flex-1">
-            <span class="block font-medium text-gray-800">Sudah Transfer</span>
-            <span class="block text-sm text-gray-600">Saya sudah melakukan pembayaran</span>
-          </label>
-        </div>
-        
-        <div class="flex items-center p-4 bg-gray-50 rounded-xl border border-gray-200 cursor-pointer transition-all hover:shadow-sm">
-          <input type="radio" id="confirm-no" name="payment-confirm" class="h-5 w-5 text-gray-600">
-          <label for="confirm-no" class="ml-3 flex-1">
-            <span class="block font-medium text-gray-800">Belum Transfer</span>
-            <span class="block text-sm text-gray-600">Saya akan bayar nanti</span>
-          </label>
-        </div>
-      </div>
-      
-      <!-- Action buttons with modern styling -->
-      <div class="flex space-x-3">
-        <button onclick="this.parentElement.parentElement.remove()" class="
-          flex-1 py-3 px-4 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 
-          text-gray-700 rounded-lg transition-all duration-300 border border-gray-200 font-medium
-        ">
-          Batal
-        </button>
-        <button onclick="processPaymentConfirmation(this)" class="
-          flex-1 py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 
-          text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg font-medium
-        ">
-          Lanjutkan
-        </button>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(popup);
-}
-
 async function processPaymentConfirmation(btn) {
   const isConfirmed = document.getElementById('confirm-yes').checked;
+  const popupOverlay = btn.closest('.popup-overlay');
   
   if (isConfirmed) {
-    // Show processing animation
-    btn.closest('.popup-overlay').innerHTML = `
+    // 1. Tampilkan animasi loading
+    popupOverlay.innerHTML = `
       <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100">
         <div class="text-center py-5">
           <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-500 mx-auto mb-5"></div>
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Memverifikasi Pembayaran</h3>
           <p class="text-gray-600">Sedang memproses konfirmasi Anda...</p>
           <div class="mt-4 h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div class="h-full bg-indigo-500 animate-[progressBar_1.5s_linear_forwards]"></div>
+            <div id="progressBar" class="h-full bg-indigo-500" style="width: 0%"></div>
           </div>
         </div>
       </div>
     `;
 
-    // Simulate processing delay
+    // 2. Animasikan progress bar
+    const progressBar = document.getElementById('progressBar');
+    if (progressBar) {
+      progressBar.style.width = '0%';
+      setTimeout(() => {
+        progressBar.style.width = '100%';
+      }, 50);
+    }
+
+    // 3. Proses loading 1.5 detik
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Remove processing popup
-    btn.closest('.popup-overlay').remove();
-    
-    // Show WhatsApp confirmation popup
-    const whatsappPopup = document.createElement('div');
-    whatsappPopup.className = 'fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 popup-overlay animate__animated animate__fadeIn';
-    whatsappPopup.innerHTML = `
+    // 4. Tampilkan popup WhatsApp (sesuai alur yang ada)
+    popupOverlay.innerHTML = `
       <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100 animate__animated animate__zoomIn">
         <div class="flex items-center justify-center gap-3 mb-5">
           <i class="fab fa-whatsapp text-green-500 text-3xl animate-[pulse_2s_infinite]"></i>
@@ -1494,17 +1445,17 @@ async function processPaymentConfirmation(btn) {
       </div>
     `;
     
-    document.body.appendChild(whatsappPopup);
-    
-    // Add animation to WhatsApp button
+    // 5. Tambahkan animasi ke tombol WhatsApp
     const whatsappBtn = document.getElementById('whatsappBtn');
-    whatsappBtn.addEventListener('click', () => {
-      whatsappBtn.classList.add('animate__animated', 'animate__rubberBand');
-    });
+    if (whatsappBtn) {
+      whatsappBtn.addEventListener('click', () => {
+        whatsappBtn.classList.add('animate__animated', 'animate__rubberBand');
+      });
+    }
     
   } else {
-    // Show payment not done message
-    btn.closest('.popup-overlay').innerHTML = `
+    // Tampilan untuk "Belum Transfer" (tidak diubah)
+    popupOverlay.innerHTML = `
       <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl border border-gray-100 animate__animated animate__zoomIn">
         <div class="flex justify-center text-yellow-500 mb-4">
           <i class="fas fa-exclamation-triangle text-4xl animate-[pulse_1.5s_infinite]"></i>
@@ -1522,9 +1473,8 @@ async function processPaymentConfirmation(btn) {
   }
 }
 
-// WhatsApp confirmation function
+// WhatsApp confirmation function (TIDAK DIUBAH)
 function sendWhatsAppConfirmation() {
-  // Your WhatsApp integration code here
   const phoneNumber = '6281234567890';
   const message = 'Halo, saya sudah melakukan pembayaran dan ingin mengkonfirmasi pesanan saya.';
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
