@@ -484,7 +484,6 @@
             <p class="text-xs text-gray-500 mt-3 text-center">Gunakan aplikasi GOPAY atau metode topup GOPAY lainnya untuk melakukan transfer</p>
           </div>
         </div>
-
 <!-- test dulu -->
         <div class="flex justify-center gap-3 mb-6">
           <button onclick="showInvoicePreview()" class="flex items-center justify-center px-4 py-2 bg-white border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition card-hover">
@@ -497,26 +496,14 @@
         
         <div class="text-center">
           <button onclick="confirmPayment()" class="w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-medium rounded-lg shadow-md transition animate-pulse">
-            <i class="fas fa-check-circle mr-2"></i> Saya Sudah Transfer Pi Network
-          </button>
-        </div>
-        
-        <!-- Tombol Aksi -->
-        <div class="flex justify-center gap-3 mt-6">
-          <button onclick="showInvoicePreview()" class="flex items-center justify-center px-4 py-2 bg-white border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition card-hover">
-            <i class="fas fa-eye mr-2"></i> Preview
-          </button>
-          <button onclick="generateInvoice()" class="flex items-center justify-center px-4 py-2 bg-white border border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition card-hover">
-            <i class="fas fa-download mr-2"></i> Download Invoice
-          </button>
-          <button onclick="confirmPayment()" class="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 transition">
-            <i class="fas fa-check-circle mr-2"></i> Konfirmasi
+            <i class="fas fa-check-circle mr-2"></i> Konfirmasi Pembayaran
           </button>
         </div>
       </div>
     </div>
   </main>
-
+      
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <!-- Script Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   
