@@ -763,7 +763,7 @@
       const now = new Date();
       const paymentDue = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 jam dari sekarang
       const cryptoType = crypto.split('(')[0].trim();
-      const realtimePrice = `Harga: ${(parseFloat(amount.replace(/[^\d]/g, '')) / parseFloat(coinReceived)).toFixed(8)} ${crypto.split('(')[1].replace(')', '')}`;
+      const realtimePrice = `Rp. ${(crypto.price * exchangeRate)}`;
       const coinAmount = coinReceived;
       
       // Buat elemen invoice
@@ -883,7 +883,7 @@
                   <td style="padding:6px 0;">
                     <p style="font-weight:500; margin:0;">${cryptoType}</p>
                     <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">${exchangeRateInfo}</p>
-                    <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">Rp. ${crypto.price * exchangeRate}</p>
+                    <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">$(realtimePrice)</p>
                   </td>
                   <td style="padding:6px 0; text-align:right; vertical-align:top;">1</td>
                   <td style="padding:6px 0; text-align:right; vertical-align:top;">${amount}</td>
