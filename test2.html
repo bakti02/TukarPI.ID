@@ -605,10 +605,6 @@
             <span class="text-gray-600">Jumlah Uang</span>
             <span id="confirm-money" class="money-received">Rp 0</span>
           </div>
-          <div class="flex justify-between mb-2">
-            <span class="text-gray-600">Biaya Layanan (5%)</span>
-            <span id="confirm-fee" class="font-medium text-red-500">- Rp 0</span>
-          </div>
           <div class="flex justify-between mb-2 items-center">
             <span class="text-gray-600">Metode Pembayaran</span>
             <div id="confirm-method" class="flex items-center">
@@ -771,7 +767,6 @@
       const amount = document.getElementById('confirm-amount').textContent;
       const price = document.getElementById('confirm-price').textContent;
       const money = document.getElementById('confirm-money').textContent;
-      const fee = document.getElementById('confirm-fee').textContent;
       const total = document.getElementById('confirm-total').textContent;
       const method = document.getElementById('confirm-method').textContent.trim();
       const account = document.getElementById('confirm-account').textContent;
@@ -853,8 +848,8 @@
               <td class="text-right">${money}</td>
             </tr>
             <tr>
-              <td>Biaya Layanan (5%)</td>
-              <td class="text-right">*Otomatis Terhitung</td>
+              <td>Biaya Layanan</td>
+              <td class="text-right">Rp. -</td>
             </tr>
             <tr class="total-row">
               <td>Total Pembayaran</td>
@@ -907,7 +902,6 @@
       const amount = document.getElementById('confirm-amount').textContent;
       const price = document.getElementById('confirm-price').textContent;
       const money = document.getElementById('confirm-money').textContent;
-      const fee = document.getElementById('confirm-fee').textContent;
       const total = document.getElementById('confirm-total').textContent;
       const method = document.getElementById('confirm-method').textContent.trim();
       const account = document.getElementById('confirm-account').textContent;
@@ -978,8 +972,8 @@
                 <td class="text-right">${money}</td>
               </tr>
               <tr>
-                <td>Biaya Layanan (5%)</td>
-                <td class="text-right">*Otomatis Terhitung</td>
+                <td>Biaya Layanan</td>
+                <td class="text-right">R[.-</td>
               </tr>
               <tr class="total-row">
                 <td>Total Pembayaran</td>
@@ -1201,16 +1195,13 @@
       
       if (!crypto) {
         document.getElementById('money-received').textContent = 'Rp 0';
-        document.getElementById('fee-amount').textContent = '- Rp 0';
         return;
       }
       
       const totalValue = amount * crypto.price;
-      const fee = totalValue * 0.05;
-      const netAmount = totalValue - fee;
+      const netAmount = totalValue - (totalValue * 0.1);
       
       // Tampilkan tanpa desimal
-      document.getElementById('fee-amount').textContent = `- Rp ${formatNumberNoDecimal(fee)}`;
       document.getElementById('money-received').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
     }
 
@@ -1238,7 +1229,6 @@
                      `🔹 *Kurs USD-IDR:* ${document.getElementById('confirm-exchange-rate').textContent}\n` +
                      `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
                      `🔹 *Nomor Rekening:* ${account}\n\n` +
-                     `🔹 *Biaya Layanan (2%):* ${document.getElementById('confirm-fee').textContent}\n` +
                      `🔹 *Total Pembayaran:* ${total}\n` +
 
                      `🔐 *Alamat Wallet Tujuan:*\n` +
@@ -1247,7 +1237,7 @@
                      `1. Transfer Pi Network dari wallet utama Anda\n` +
                      `2. Pastikan akun Anda sudah KYC\n` +
                      `3. Jangan kirim dari wallet exchange\n` +
-                     `4. Proses membutuhkan waktu 5-15 menit setelah transfer\n\n` +
+                     `4. Proses membutuhkan waktu 1-5 menit setelah transfer\n\n` +
                      `🔄 *Status:* _Menunggu Konfirmasi hasil transfer koin Pi Network_`;
       
       const whatsappUrl = `https://wa.me/6282147510780?text=${encodeURIComponent(message)}`;
@@ -1407,7 +1397,6 @@ function showWhatsAppPopup() {
       const amount = document.getElementById('confirm-amount').textContent;
       const price = document.getElementById('confirm-price').textContent;
       const money = document.getElementById('confirm-money').textContent;
-      const fee = document.getElementById('confirm-fee').textContent;
       const total = document.getElementById('confirm-total').textContent;
       const method = document.getElementById('confirm-method').textContent.trim();
       const account = document.getElementById('confirm-account').textContent;
@@ -1424,7 +1413,6 @@ Harga Mainnet: ${mainnetPrice}
 ${exchangeRate}
   
 Jumlah Diterima: ${money}
-Biaya Layanan: ${fee}
 Total Pembayaran: ${total}
   
 Metode Pembayaran: ${method}
@@ -1498,14 +1486,12 @@ CATATAN:
       
       const crypto = cryptoData['PI'];
       const totalValue = amount * crypto.price;
-      const fee = totalValue * 0.05;
-      const netAmount = totalValue - fee;
+      const netAmount = totalValue - (totalValue * 0.1);
       
       // Update confirm section
       document.getElementById('confirm-amount').textContent = `${formatNumberNoDecimal(amount)} PI`;
       document.getElementById('confirm-price').textContent = `Rp ${formatNumberNoDecimal(crypto.price)}`;
       document.getElementById('confirm-money').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
-      document.getElementById('confirm-fee').textContent = `- Rp ${formatNumberNoDecimal(fee)}`;
       document.getElementById('confirm-total').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
       document.getElementById('confirm-account').textContent = accountNumber;
       
