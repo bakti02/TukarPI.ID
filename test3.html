@@ -530,7 +530,6 @@
     let exchangeRateLastUpdated = '';
     let selectedPaymentMethod = '';
     let previousPrices = {}; // Untuk menyimpan harga sebelumnya untuk kalkulasi perubahan
-    let selectedPaymentMethod = '';
     
     // Fungsi kembali ke form
     function backToForm() {
@@ -1014,13 +1013,7 @@
     }
 
     // Function to show invoice preview
-      function showInvoicePreview() {
-  try {
-    // Validasi data
-    if (!selectedPaymentMethod) {
-      alert('Pilih metode pembayaran terlebih dahulu!');
-      return;
-    }
+    function showInvoicePreview() {
       const crypto = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
       const coinReceived = document.getElementById('confirm-coin').textContent;
