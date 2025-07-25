@@ -844,7 +844,6 @@
       const cryptoType = crypto.split('(')[0].trim();
       const realtimePrice = document.getElementById('realtime-price').textContent;
       const coinAmount = coinReceived;
-      const selectedPaymentMethod = document.getElementById('confirm-method').textContent.trim();
       
       // Buat elemen invoice
       const element = document.createElement('div');
@@ -1009,7 +1008,7 @@
                   </td>
                   <td style="padding:4px 0;">
                     <p style="color:#64748b; margin:0;">Harga per Koin</p>
-                    <p style="font-weight:500; margin:2px 0 0 0;">Rp. ${realtimePrice}</p>
+                    <p style="font-weight:500; margin:2px 0 0 0;">${realtimePrice}</p>
                   </td>
                   <td style="padding:4px 0;">
                     <p style="color:#64748b; margin:0;">Kurs yang Berlaku</p>
@@ -1108,9 +1107,8 @@
       const now = new Date();
       const paymentDue = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 jam dari sekarang
       const cryptoType = crypto.split('(')[0].trim();
-      const realtimePrice = `Harga: ${(parseFloat(amount.replace(/[^\d]/g, '')) / parseFloat(coinReceived)).toFixed(8)} ${crypto.split('(')[1].replace(')', '')}`;
+      const realtimePrice = document.getElementById('realtime-price').textContent;
       const coinAmount = coinReceived;
-      const selectedPaymentMethod = document.getElementById('confirm-method').textContent.trim();
       
       const invoiceHTML = `
         <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 40px; background: #ffffff; font-family: 'Inter', sans-serif; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-radius: 12px;">
@@ -1265,7 +1263,7 @@
                   </td>
                   <td style="padding:4px 0;">
                     <p style="color:#64748b; margin:0;">Harga per Koin</p>
-                    <p style="font-weight:500; margin:2px 0 0 0;">Rp. ${realtimePrice}</p>
+                    <p style="font-weight:500; margin:2px 0 0 0;">${realtimePrice}</p>
                   </td>
                   <td style="padding:4px 0;">
                     <p style="color:#64748b; margin:0;">Kurs yang Berlaku</p>
