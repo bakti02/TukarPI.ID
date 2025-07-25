@@ -1284,24 +1284,20 @@
     
       document.getElementById('invoicePreviewContent').innerHTML = invoiceHTML;
 
-      // Show the popup dengan cara yang benar
+      // Show the popup
       const popup = document.getElementById('invoicePreviewPopup');
-      const overlay = document.querySelector('.popup-overlay');
-      
-      popup.style.display = 'flex'; // Ganti dari remove 'hidden'
-      overlay.style.display = 'block'; // Ganti dari remove 'hidden'
-      
+      popup.classList.remove('hidden');
+      document.querySelector('.popup-overlay').classList.remove('hidden');
       setTimeout(() => {
         document.querySelector('#invoicePreviewPopup .popup-content').classList.add('active');
       }, 10);
     }
     
+    // Function to close invoice preview
     function closeInvoicePreview() {
       const popup = document.getElementById('invoicePreviewPopup');
-      const overlay = document.querySelector('.popup-overlay');
-      
-      popup.style.display = 'none';
-      overlay.style.display = 'none';
+      popup.classList.add('hidden');
+      document.querySelector('.popup-overlay').classList.add('hidden');
       document.querySelector('#invoicePreviewPopup .popup-content').classList.remove('active');
     }
       
