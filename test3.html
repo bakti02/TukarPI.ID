@@ -763,7 +763,7 @@
       const now = new Date();
       const paymentDue = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 jam dari sekarang
       const cryptoType = crypto.split('(')[0].trim();
-      const realtimePrice = `Rp. ${(crypto.price * exchangeRate)}`;
+      const realtimePrice = document.getElementById('realtime-price').textContent;
       const coinAmount = coinReceived;
       
       // Buat elemen invoice
@@ -883,7 +883,7 @@
                   <td style="padding:6px 0;">
                     <p style="font-weight:500; margin:0;">${cryptoType}</p>
                     <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">${exchangeRateInfo}</p>
-                    <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">$(realtimePrice)</p>
+                    <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">Rp. $(realtimePrice)</p>
                   </td>
                   <td style="padding:6px 0; text-align:right; vertical-align:top;">1</td>
                   <td style="padding:6px 0; text-align:right; vertical-align:top;">${amount}</td>
@@ -929,7 +929,7 @@
                   </td>
                   <td style="padding:4px 0;">
                     <p style="color:#64748b; margin:0;">Harga per Koin</p>
-                    <p style="font-weight:500; margin:2px 0 0 0;">${realtimePrice}</p>
+                    <p style="font-weight:500; margin:2px 0 0 0;">Rp. ${realtimePrice}</p>
                   </td>
                   <td style="padding:4px 0;">
                     <p style="color:#64748b; margin:0;">Kurs yang Berlaku</p>
