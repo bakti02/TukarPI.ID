@@ -851,7 +851,7 @@
                   <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
                     <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
                     <p style="font-weight: 600; margin: 0; font-size: 13px;" style="height: 48px;>
-                      ${getPaymentMethodDisplay(selectedPaymentMethod)}
+                      ${paymentMethodNames[method] || method}
                     </p>
                     <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Batas Pembayaran</p>
                     <p style="font-weight: 500; margin: 0; font-size: 12px;">
@@ -949,7 +949,7 @@
                     </td>
                     <td>
                       <p style="font-size: 13px; margin: 0 0 8px 0;">Silahkan transfer pembayaran ke:</p>
-                      <p style="font-family: monospace; font-size: 15px; word-break: break-all; margin: 0;">${getPaymentMethodDetails(selectedPaymentMethod)}</p>
+                      <p style="font-family: monospace; font-size: 15px; word-break: break-all; margin: 0;">${paymentMethodNames[method] || method}</p>
                       <p style="font-size: 13px; margin: 8px 0 0 0;">Atas Nama: <span style="font-weight: 500;">Agus Mulia Bakti</span></p>
                     </td>
                   </tr>
@@ -1028,7 +1028,7 @@
       const now = new Date();
       const paymentDue = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 jam dari sekarang
       const cryptoType = crypto.split('(')[0].trim();
-      const realtimePrice = `Harga: ${(parseFloat(amount.replace(/[^\d]/g, '')) / parseFloat(coinReceived)).toFixed(8)} ${crypto.split('(')[1].replace(')', '')}`;
+      const realtimePrice = document.getElementById('realtime-price').textContent;
       const coinAmount = coinReceived;
     
       const invoiceHTML = `
@@ -1058,34 +1058,38 @@
           <!-- Header Invoice -->
           <div class="avoid-break">
             <div class="invoice-header">
-              <table width="100%">
-                <tr>
-                  <td>
-                    <div style="display: flex; flex-direction: column;">
-                      <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" 
-                           class="logo" 
-                           alt="Logo TukarPI.ID" 
-                           style="height: 48px; margin-bottom: 10px;">
-                      
-                      <div>
-                        <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">PT. RUANG DIGITAL RAYA</h1>
-                        <h2 style="font-size: 16px; color: #2563eb; margin: 0 0 4px 0;">Website: https://tukarpi.id</h2>
-                        <p style="font-style: italic; color: #64748b; font-size: 12px; margin: 0;">Jl. TB. Simatumpang, Jakarta Selatan</p>
-                      </div>
+             <table width="100%" style="border-collapse: collapse; margin-bottom: 16px;">
+              <tr>
+                <!-- Left Column (Logo and Company Info) -->
+                <td width="60%" style="vertical-align: top; padding: 0;">
+                  <div style="text-align: left;">
+                    <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" 
+                         class="logo" 
+                         alt="Logo TukarPI.ID" 
+                         style="height: 36px; margin-bottom: 6px;">
+                    
+                    <div style="line-height: 1.3;">
+                      <h1 style="font-size: 15px; font-weight: bold; margin: 0 0 3px 0;">PT. RUANG DIGITAL RAYA</h1>
+                      <h2 style="font-size: 12px; color: #2563eb; margin: 0 0 3px 0;">Website: https://tukarpi.id</h2>
+                      <p style="font-style: italic; color: #64748b; font-size: 11px; margin: 0;">Jl. TB. Simatumpang, Jakarta Selatan</p>
                     </div>
-                  </td>
-                  <td style="text-align: right;">
-                    <h1 style="font-size: 18px; font-weight: bold; margin: 0 0 4px 0;">INVOICE</h1>
-                    <p style="color: #64748b; font-size: 12px; margin: 0;">
+                  </div>
+                </td>
+                
+                <!-- Right Column (Invoice Info) -->
+                <td width="40%" style="vertical-align: top; padding: 0; text-align: right;">
+                  <div>
+                    <h1 style="font-size: 16px; font-weight: bold; margin: 0 0 3px 0; color: #2563eb;">INVOICE PEMBELIAN</h1>
+                    <p style="color: #64748b; font-size: 11px; margin: 0 0 2px 0;">
                       ${now.toLocaleString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}
                     </p>
-                    <p style="color: #64748b; font-size: 10px; margin: 4px 0 0 0;">
+                    <p style="color: #64748b; font-size: 10px; margin: 0;">
                       No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}
                     </p>
-                  </td>
-                </tr>
-              </table>
-            </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
     
             <!-- Info Pembeli & Pembayaran -->
             <table width="100%" style="margin-bottom: 16px;">
@@ -1120,78 +1124,75 @@
             </table>
     
             <!-- Detail Transaksi -->
-            <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Transaksi</h3>
-            <table class="invoice-table" style="margin-bottom: 16px;">
+            <h3 style="font-size:14px; font-weight:500; margin:0 0 6px 0;">Detail Transaksi</h3>
+            <table style="width:100%; margin-bottom:12px; border-collapse:collapse; font-size:12px;">
               <thead>
                 <tr>
-                  <th style="width: 60%;">Deskripsi</th>
-                  <th style="width: 20%; text-align: right;">Jumlah</th>
-                  <th style="width: 20%; text-align: right;">Total</th>
+                  <th style="width:60%; padding:4px 0; text-align:left; font-weight:500; border-bottom:1px solid #e2e8f0;">Deskripsi</th>
+                  <th style="width:20%; padding:4px 0; text-align:right; font-weight:500; border-bottom:1px solid #e2e8f0;">Jumlah</th>
+                  <th style="width:20%; padding:4px 0; text-align:right; font-weight:500; border-bottom:1px solid #e2e8f0;">Total</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    <p style="font-weight: 500; margin: 0 0 4px 0; font-size: 12px;">${cryptoType}</p>
-                    <p style="font-size: 11px; color: #64748b; margin: 0 0 4px 0;">${exchangeRateInfo}</p>
-                    <p style="font-size: 11px; color: #64748b; margin: 0;">${realtimePrice}</p>
+                  <td style="padding:6px 0;">
+                    <p style="font-weight:500; margin:0;">${cryptoType}</p>
+                    <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">${exchangeRateInfo}</p>
+                    <p style="color:#64748b; margin:2px 0 0 0; font-size:11px;">${realtimePrice}</p>
                   </td>
-                  <td class="text-right" style="font-size: 12px;">1</td>
-                  <td class="text-right" style="font-size: 12px;">${amount}</td>
+                  <td style="padding:6px 0; text-align:right; vertical-align:top;">1</td>
+                  <td style="padding:6px 0; text-align:right; vertical-align:top;">${amount}</td>
                 </tr>
                 <tr>
-                  <td style="font-size: 12px; color: #64748b;">Biaya Layanan</td>
-                  <td class="text-right"></td>
-                  <td class="text-right" style="color: #ef4444; font-size: 12px;">Rp. -</td>
+                  <td style="padding:6px 0; color:#64748b;">Biaya Layanan</td>
+                  <td style="padding:6px 0; text-align:right;"></td>
+                  <td style="padding:6px 0; text-align:right; color:#ef4444;">Rp. -</td>
                 </tr>
               </tbody>
             </table>
-    
+            
             <!-- Total Pembayaran -->
-            <div class="avoid-break">
-              <div class="total-box">
-                <table width="100%" style="margin-bottom: 16px;">
-                  <tr>
-                    <td style="padding: 4px 0; font-size: 13px;">Subtotal</td>
-                    <td style="padding: 4px 0; text-align: right; font-size: 13px;">${amount}</td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 4px 0; font-size: 13px;">Biaya Layanan</td>
-                    <td style="padding: 4px 0; text-align: right; font-size: 13px; color: #ef4444;">Rp. -</td>
-                  </tr>
-                  <tr>
-                    <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; font-weight: bold;">TOTAL</td>
-                    <td style="padding: 8px 0; border-top: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">
-                      ${amount}
-                    </td>
-                  </tr>
-                </table>
-              </div>
-    
-              <!-- Detail Koin -->
-              <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Koin</h3>
-              <div style="background-color: #f8fafc; padding: 12px; border-radius: 4px; margin-bottom: 16px;">
-                <table width="100%">
-                  <tr>
-                    <td width="25%" style="padding: 4px 0;">
-                      <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jenis Kripto</p>
-                      <p style="font-weight: 500; margin: 0; font-size: 12px;">${cryptoType}</p>
-                    </td>
-                    <td width="25%" style="padding: 4px 0;">
-                      <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Jumlah Koin</p>
-                      <p style="font-weight: 500; margin: 0; font-size: 12px;">${coinAmount}</p>
-                    </td>
-                    <td width="25%" style="padding: 4px 0;">
-                      <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Harga per Koin</p>
-                      <p style="font-weight: 500; margin: 0; font-size: 12px;">${realtimePrice}</p>
-                    </td>
-                    <td width="25%" style="padding: 4px 0;">
-                      <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Kurs yang Berlaku</p>
-                      <p style="font-weight: 500; margin: 0; font-size: 12px;">${exchangeRateInfo}</p>
-                    </td>
-                  </tr>
-                </table>
-              </div>
+            <div style="margin-bottom:16px;">
+              <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                <tr>
+                  <td style="padding:4px 0;">Subtotal</td>
+                  <td style="padding:4px 0; text-align:right;">${amount}</td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 0;">Biaya Layanan</td>
+                  <td style="padding:4px 0; text-align:right; color:#ef4444;">Rp. -</td>
+                </tr>
+                <tr>
+                  <td style="padding:6px 0; border-top:1px solid #e2e8f0; font-weight:bold;">TOTAL</td>
+                  <td style="padding:6px 0; border-top:1px solid #e2e8f0; text-align:right; font-weight:bold; color:#2563eb;">${amount}</td>
+                </tr>
+              </table>
+            </div>
+            
+            <!-- Detail Koin -->
+            <h3 style="font-size:14px; font-weight:500; margin:0 0 6px 0;">Detail Koin</h3>
+            <div style="background-color:#f8fafc; padding:8px; border-radius:4px; font-size:12px;">
+              <table style="width:100%; border-collapse:collapse;">
+                <tr>
+                  <td style="padding:4px 0;">
+                    <p style="color:#64748b; margin:0;">Jenis Kripto</p>
+                    <p style="font-weight:500; margin:2px 0 0 0;">${cryptoType}</p>
+                  </td>
+                  <td style="padding:4px 0;">
+                    <p style="color:#64748b; margin:0;">Jumlah Koin</p>
+                    <p style="font-weight:500; margin:2px 0 0 0;">${coinAmount}</p>
+                  </td>
+                  <td style="padding:4px 0;">
+                    <p style="color:#64748b; margin:0;">Harga per Koin</p>
+                    <p style="font-weight:500; margin:2px 0 0 0;">Rp. ${realtimePrice}</p>
+                  </td>
+                  <td style="padding:4px 0;">
+                    <p style="color:#64748b; margin:0;">Kurs yang Berlaku</p>
+                    <p style="font-weight:500; margin:2px 0 0 0;">${exchangeRateInfo}</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
     
               <!-- Instruksi Pembayaran -->
               <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Instruksi Pembayaran</h3>
