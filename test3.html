@@ -1238,14 +1238,11 @@
       // Show the popup
       const popup = document.getElementById('invoicePreviewPopup');
       popup.classList.remove('hidden');
+      document.querySelector('.popup-overlay').classList.remove('hidden');
       setTimeout(() => {
-        popup.querySelector('.popup-content').classList.add('active');
+        document.querySelector('#invoicePreviewPopup .popup-content').classList.add('active');
       }, 10);
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Gagal menampilkan preview. Silakan coba lagi.');
     }
-  }
     
     // Function to close invoice preview
     function closeInvoicePreview() {
