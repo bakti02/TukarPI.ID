@@ -789,84 +789,115 @@
         <style>
           @page { size: A4; margin: 0; }
           body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-          .invoice-header { border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1.5rem; }
-          .invoice-title { font-size: 1.5rem; font-weight: 700; color: #1e40af; }
-          .invoice-details { margin-top: 1rem; }
-          .invoice-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-          .invoice-table th { text-align: left; padding: 0.5rem; background-color: #f3f4f6; }
-          .invoice-table td { padding: 0.5rem; border-bottom: 1px solid #e5e7eb; }
-          .text-right { text-align: right; }
-          .total-row { font-weight: 600; }
-          .notes { margin-top: 1.5rem; font-size: 0.875rem; color: #6b7280; }
-        </style>
-    
-        <div class="invoice-header">
-          <div class="flex justify-between items-center">
-            <div>
-              <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" style="height: 40px;">
-              <p class="text-sm text-gray-600 mt-1">PT. Ruang Digital Raya</p>
-            </div>
-            <div class="text-right">
-              <h1 class="invoice-title">INVOICE PENJUALAN</h1>
-              <p class="text-sm text-gray-600">No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}</p>
-              <p class="text-sm text-gray-600">Tanggal: ${now.toLocaleDateString('id-ID')}</p>
+            .invoice-header { border-bottom: 2px solid #f3f4f6; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+            .invoice-title { font-size: 1.75rem; font-weight: 700; color: #1e40af; margin-bottom: 0.5rem; }
+            .invoice-subtitle { font-size: 0.875rem; color: #6b7280; }
+            .invoice-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+            .invoice-table th { text-align: left; padding: 12px; background-color: #f8fafc; font-weight: 600; color: #374151; }
+            .invoice-table td { padding: 12px; border-bottom: 1px solid #e5e7eb; color: #4b5563; }
+            .text-right { text-align: right; }
+            .total-row { font-weight: 700; background-color: #f0fdf4; }
+            .notes { margin-top: 2rem; padding: 1rem; background-color: #f8fafc; border-radius: 6px; }
+            .footer { margin-top: 2rem; padding-top: 1rem; border-top: 2px solid #f3f4f6; text-align: center; font-size: 0.75rem; color: #9ca3af; }
+            .highlight { background-color: #eff6ff; padding: 2px 4px; border-radius: 4px; }
+            .badge { display: inline-block; padding: 4px 8px; background-color: #1e40af; color: white; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+          </style>
+        
+          <div class="invoice-header">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
+                  <img src="https://bakti02.github.io/TukarPI.ID/logo-jasa-tukar-pi-network.png" alt="TukarPI.ID" style="height: 50px;">
+                  <span class="badge">RESMI</span>
+                </div>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem; font-weight: 500;">PT. Ruang Digital Raya</p>
+                <p style="font-size: 0.875rem; color: #3b82f6; margin-bottom: 0.25rem;">
+                  <a href="https://tukarpi.id" style="color: #3b82f6; text-decoration: none; font-weight: 500;">Website: https://tukarpi.id</a>
+                </p>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0;">Jl. TB. Simatumpang, Jakarta Selatan</p>
+              </div>
+              <div style="text-align: right;">
+                <h1 class="invoice-title">INVOICE</h1>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">No: INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}</p>
+                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0;">Tanggal: ${now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+              </div>
             </div>
           </div>
+        
+          <div style="margin-bottom: 2rem;">
+            <h2 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">Detail Transaksi</h2>
+            <table class="invoice-table">
+              <tr>
+                <th width="30%">Kripto</th>
+                <td><span class="highlight">${crypto}</span></td>
+              </tr>
+              <tr>
+                <th>Jumlah</th>
+                <td>${amount}</td>
+              </tr>
+              <tr>
+                <th>Harga per PI</th>
+                <td>${price}</td>
+              </tr>
+              <tr>
+                <th>Metode Pembayaran</th>
+                <td>${method}</td>
+              </tr>
+              <tr>
+                <th>Rekening Tujuan</th>
+                <td>${account}</td>
+              </tr>
+            </table>
+          </div>
+        
+          <div style="margin-bottom: 2rem;">
+            <h2 style="font-size: 1.25rem; font-weight: 600; color: #111827; margin-bottom: 1rem;">Rincian Pembayaran</h2>
+            <table class="invoice-table">
+              <thead>
+                <tr>
+                  <th>Deskripsi</th>
+                  <th class="text-right">Jumlah</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Penjualan ${amount} ${crypto}</td>
+                  <td class="text-right">${money}</td>
+                </tr>
+                <tr>
+                  <td>Biaya Layanan</td>
+                  <td class="text-right">Rp.-</td>
+                </tr>
+                <tr class="total-row">
+                  <td>Total Pembayaran</td>
+                  <td class="text-right" style="font-size: 1.125rem; color: #1e40af;">${total}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
+          <div class="notes">
+            <h3 style="font-weight: 600; color: #111827; margin-bottom: 0.75rem;">Instruksi Pembayaran:</h3>
+            <ol style="padding-left: 1.25rem; margin-bottom: 1rem;">
+              <li style="margin-bottom: 0.5rem;">Silakan transfer PI Network ke alamat wallet berikut:</li>
+            </ol>
+            <div style="font-family: monospace; background-color: #f3f4f6; padding: 1rem; margin-bottom: 1rem; border-radius: 0.5rem; word-break: break-all; font-size: 0.875rem;">
+              ${wallet}
+            </div>
+            <ol start="2" style="padding-left: 1.25rem;">
+              <li style="margin-bottom: 0.5rem;">Pastikan transfer dari wallet utama yang sudah KYC</li>
+              <li style="margin-bottom: 0.5rem;">Proses pembayaran akan dilakukan setelah transfer PI diterima</li>
+              <li>Invoice ini sah dan diterbitkan secara elektronik</li>
+            </ol>
+          </div>
+        
+          <div class="footer">
+            <p style="margin-bottom: 0.5rem;">Terima kasih telah bertransaksi dengan kami</p>
+            <p style="margin-bottom: 0;">Hubungi kami di <a href="mailto:cs@tukarpi.id" style="color: #3b82f6; text-decoration: none;">cs@tukarpi.id</a> untuk pertanyaan</p>
+            <p style="margin-top: 1rem; font-style: italic; font-size: 0.6875rem;">* Transaksi ini telah direkam dan dilindungi Undang-Undang RI</p>
+          </div>
         </div>
-    
-        <div class="invoice-details">
-          <table class="invoice-table">
-            <tr>
-              <th width="30%">Kripto</th>
-              <td>${crypto}</td>
-            </tr>
-            <tr>
-              <th>Jumlah</th>
-              <td>${amount}</td>
-            </tr>
-            <tr>
-              <th>Harga per PI</th>
-              <td>${price}</td>
-            </tr>
-            <tr>
-              <th>Metode Pembayaran</th>
-              <td>${method}</td>
-            </tr>
-            <tr>
-              <th>Rekening Tujuan</th>
-              <td>${account}</td>
-            </tr>
-          </table>
-    
-          <table class="invoice-table">
-            <tr>
-              <th>Deskripsi</th>
-              <th class="text-right">Jumlah</th>
-            </tr>
-            <tr>
-              <td>Penjualan ${amount}</td>
-              <td class="text-right">${money}</td>
-            </tr>
-            <tr>
-              <td>Biaya Layanan</td>
-              <td class="text-right">Rp. -</td>
-            </tr>
-            <tr class="total-row">
-              <td>Total Pembayaran</td>
-              <td class="text-right">${total}</td>
-            </tr>
-          </table>
-        </div>
-    
-        <div class="notes">
-          <h3 class="font-bold mb-2">Catatan:</h3>
-          <p>1. Silakan transfer PI Network ke alamat wallet berikut:</p>
-          <p class="font-mono bg-gray-100 p-2 my-2 rounded">${wallet}</p>
-          <p>2. Pastikan transfer dari wallet utama yang sudah KYC</p>
-          <p>3. Proses pembayaran akan dilakukan setelah transfer PI diterima</p>
-          <p>4. Invoice ini sah dan diterbitkan secara elektronik</p>
-        </div>
-      `;
+        `;
     
       // Sembunyikan elemen sementara untuk rendering
       element.style.position = 'absolute';
