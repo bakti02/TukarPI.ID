@@ -690,75 +690,7 @@
         </div>
       </div>
     </main>
-
-  <!-- Popup Konfirmasi Penjualan -->
-  <div id="confirmationPopup" class="fixed inset-0 z-50 flex items-center justify-center hidden popup-overlay">
-    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 popup-content">
-      <h3 class="text-xl font-bold mb-4 text-center">Konfirmasi Penjualan PI</h3>
-      
-      <div class="space-y-4">
-        <div class="flex items-center justify-between border-b pb-2">
-          <span class="font-medium">Rate Saat Ini:</span>
-          <span class="font-bold text-green-600">1 PI = Rp 2,500</span>
-        </div>
         
-        <div class="flex items-center justify-between border-b pb-2">
-          <span class="font-medium">Minimal Penukaran:</span>
-          <span class="font-bold">10 PI</span>
-        </div>
-        
-        <div class="flex items-center justify-between border-b pb-2">
-          <span class="font-medium">Estimasi Waktu:</span>
-          <span class="font-bold">1-5 menit</span>
-        </div>
-        
-        <div class="flex items-center justify-between border-b pb-2">
-          <span class="font-medium">Metode Pembayaran:</span>
-          <span class="font-bold">Bank Transfer / E-Wallet</span>
-        </div>
-        
-        <div class="mt-6">
-          <label for="piAmount" class="block text-sm font-medium mb-1">Jumlah PI yang akan ditukar:</label>
-          <input type="number" id="piAmount" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Misal: 10">
-        </div>
-        
-        <div class="mt-4">
-          <label for="bankAccount" class="block text-sm font-medium mb-1">Nomor Rekening/E-Wallet:</label>
-          <input type="text" id="bankAccount" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Contoh: 081234567890 (DANA/OVO)">
-        </div>
-      </div>
-      
-      <div class="mt-8 flex flex-col space-y-3">
-        <button onclick="processTransaction()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium transition flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          Konfirmasi & Lanjutkan
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Popup Proses Penjualan -->
-  <div id="processingPopup" class="fixed inset-0 z-50 flex items-center justify-center hidden popup-overlay">
-    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full mx-4 popup-content">
-      <div class="text-center">
-        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500 spinner" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
-          </svg>
-        </div>
-        
-        <h3 class="text-xl font-bold mb-2">Penjualan Sedang Diproses</h3>
-        <p class="text-gray-600 mb-6">Hore!!! uang akan segera Anda terima, kami telah mempersiapkan detail transaksi Anda.</p>
-        
-        <div class="bg-blue-50 p-4 rounded-lg mb-6">
-          <p class="text-sm text-blue-700">
-            <strong>Penting:</strong> Siapkan screenshot bukti transfer PI Anda untuk dikirim ke admin.
-          </p>
-        </div>
-        
-
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script>
      // Fungsi menghasilkan PNG
