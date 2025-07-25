@@ -522,7 +522,8 @@
     let exchangeRateLastUpdated = '';
     let selectedPaymentMethod = '';
     let previousPrices = {}; // Untuk menyimpan harga sebelumnya untuk kalkulasi perubahan
-
+    let selectedPaymentMethod = '';
+    
     // Fungsi kembali ke form
     function backToForm() {
       document.getElementById('payment-info').classList.add('hidden');
@@ -1006,6 +1007,13 @@
 
     // Function to show invoice preview
     function showInvoicePreview() {
+      function showInvoicePreview() {
+  try {
+    // Validasi data
+    if (!selectedPaymentMethod) {
+      alert('Pilih metode pembayaran terlebih dahulu!');
+      return;
+    }
       const crypto = document.getElementById('confirm-crypto').textContent;
       const amount = document.getElementById('confirm-amount').textContent;
       const coinReceived = document.getElementById('confirm-coin').textContent;
@@ -1230,11 +1238,14 @@
       // Show the popup
       const popup = document.getElementById('invoicePreviewPopup');
       popup.classList.remove('hidden');
-      document.querySelector('.popup-overlay').classList.remove('hidden');
       setTimeout(() => {
-        document.querySelector('#invoicePreviewPopup .popup-content').classList.add('active');
+        popup.querySelector('.popup-content').classList.add('active');
       }, 10);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Gagal menampilkan preview. Silakan coba lagi.');
     }
+  }
     
     // Function to close invoice preview
     function closeInvoicePreview() {
