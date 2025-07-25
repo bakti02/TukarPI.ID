@@ -1283,48 +1283,23 @@
       `;
     
       document.getElementById('invoicePreviewContent').innerHTML = invoiceHTML;
+     // Show the popup
+      const popup = document.getElementById('invoicePreviewPopup');
+      popup.classList.remove('hidden');
+      document.querySelector('.popup-overlay').classList.remove('hidden');
+      setTimeout(() => {
+        document.querySelector('#invoicePreviewPopup .popup-content').classList.add('active');
+      }, 10);
+    }
+    
+    // Function to close invoice preview
+    function closeInvoicePreview() {
+      const popup = document.getElementById('invoicePreviewPopup');
+      popup.classList.add('none');
+      document.querySelector('.popup-overlay').classList.add('none');
+      document.querySelector('#invoicePreviewPopup .popup-content').classList.remove('active');
+    } 
       
-      // Function to show invoice preview
-      function showInvoicePreview() {
-        // Show the popup and overlay
-        const popup = document.getElementById('invoicePreviewPopup');
-        const overlay = document.querySelector('.popup-overlay');
-        const content = document.querySelector('#invoicePreviewPopup .popup-content');
-        
-        // First make the elements visible
-        popup.style.display = 'flex';
-        overlay.style.display = 'block';
-        
-        // Trigger animation after a small delay
-        setTimeout(() => {
-          popup.classList.remove('hidden');
-          overlay.classList.remove('hidden');
-          content.classList.add('active');
-        }, 10);
-      }
-      
-      // Function to close invoice preview
-      function closeInvoicePreview() {
-        const popup = document.getElementById('invoicePreviewPopup');
-        const overlay = document.querySelector('.popup-overlay');
-        const content = document.querySelector('#invoicePreviewPopup .popup-content');
-        
-        // Start fade-out animation
-        content.classList.remove('active');
-        overlay.classList.remove('hidden'); // Ensure overlay is still visible during animation
-        
-        // Wait for animation to complete before hiding
-        setTimeout(() => {
-          popup.classList.add('hidden');
-          overlay.classList.add('hidden');
-          
-          // Completely remove from layout flow after hiding
-          setTimeout(() => {
-            popup.style.display = 'none';
-            overlay.style.display = 'none';
-          }, 50);
-        }, 300); // Match this duration with your CSS transition time
-      }
     // Fungsi helper untuk menampilkan metode pembayaran
     function getPaymentMethodDisplay(method) {
       const methods = {
