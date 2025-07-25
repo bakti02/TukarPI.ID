@@ -1283,22 +1283,27 @@
       `;
     
       document.getElementById('invoicePreviewContent').innerHTML = invoiceHTML;
-     // Show the popup
+
+      // Show the popup dengan cara yang benar
       const popup = document.getElementById('invoicePreviewPopup');
-      popup.classList.remove('hidden');
-      document.querySelector('.popup-overlay').classList.remove('hidden');
+      const overlay = document.querySelector('.popup-overlay');
+      
+      popup.style.display = 'flex'; // Ganti dari remove 'hidden'
+      overlay.style.display = 'block'; // Ganti dari remove 'hidden'
+      
       setTimeout(() => {
         document.querySelector('#invoicePreviewPopup .popup-content').classList.add('active');
       }, 10);
     }
     
-    // Function to close invoice preview
     function closeInvoicePreview() {
       const popup = document.getElementById('invoicePreviewPopup');
-      popup.classList.add('none');
-      document.querySelector('.popup-overlay').classList.add('none');
+      const overlay = document.querySelector('.popup-overlay');
+      
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
       document.querySelector('#invoicePreviewPopup .popup-content').classList.remove('active');
-    } 
+    }
       
     // Fungsi helper untuk menampilkan metode pembayaran
     function getPaymentMethodDisplay(method) {
