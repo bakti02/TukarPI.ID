@@ -180,6 +180,25 @@
       opacity: 1;
       transform: scale(1);
     }
+    #invoicePreviewPopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      z-index: 1000;
+      padding: 20px;
+      max-width: 90%;
+    }
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-gray-100">
@@ -772,6 +791,7 @@
       const cryptoType = crypto.split('(')[0].trim();
       const realtimePrice = document.getElementById('realtime-price').textContent;
       const coinAmount = coinReceived;
+      const selectedPaymentMethod = document.getElementById('confirm-method').textContent.trim();
       
       // Buat elemen invoice
       const element = document.createElement('div');
@@ -1037,7 +1057,8 @@
       const cryptoType = crypto.split('(')[0].trim();
       const realtimePrice = `Harga: ${(parseFloat(amount.replace(/[^\d]/g, '')) / parseFloat(coinReceived)).toFixed(8)} ${crypto.split('(')[1].replace(')', '')}`;
       const coinAmount = coinReceived;
-    
+      const selectedPaymentMethod = document.getElementById('confirm-method').textContent.trim();
+      
       const invoiceHTML = `
         <div style="width: 100%; max-width: 800px; margin: 0 auto; padding: 40px; background: #ffffff; font-family: 'Inter', sans-serif; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-radius: 12px;">
           <style>
