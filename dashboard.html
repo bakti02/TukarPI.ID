@@ -791,12 +791,12 @@
       });
     });
 
-    // 2. AUTO-REFRESH SETIAP 1 MENIT (BARU)
+    // 2. AUTO-REFRESH SETIAP 2 MENIT (BARU)
     setInterval(async () => {
       if (document.visibilityState === 'visible') {
         await fetchOptimizedData();
       }
-    }, 20000);
+    }, 120000);
 
     // 3. PERBAIKAN FUNGSI TAMPILKAN SEMUA
     function showAllCards() {
