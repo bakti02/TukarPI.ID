@@ -593,6 +593,10 @@
 
         <!-- Detail Pesanan -->
         <div class="mb-6 p-4 bg-gray-50 rounded-lg card-hover">
+          <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center">
+            <i class="fas fa-receipt mr-2 text-blue-500"></i> Detail Penjualan
+          </h3>
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg">
           <div class="flex justify-between mb-2">
             <span class="text-gray-600">Kripto</span>
             <span id="confirm-crypto" class="font-medium">PI (Pre-Mainnet)</span>
@@ -786,7 +790,7 @@
             </tr>
             <tr>
               <td>Penjualan ${amount}</td>
-              <td class="text-right">${amount * price}</td>
+              <td class="text-right">${money}</td>
             </tr>
             <tr>
               <td>Biaya Layanan</td>
@@ -911,7 +915,7 @@
             </tr>
             <tr>
               <td>Penjualan ${amount}</td>
-              <td class="text-right">${amount * price}</td>
+              <td class="text-right">${money}</td>
             </tr>
             <tr>
               <td>Biaya Layanan</td>
@@ -1141,7 +1145,7 @@
       }
       
       const totalValue = amount * crypto.price;
-      const fee = totalValue * 0.05;
+      const fee = totalValue * 0.1;
       const netAmount = totalValue - fee;
       
       // Tampilkan tanpa desimal
@@ -1173,7 +1177,7 @@
                      `🔹 *Kurs USD-IDR:* ${document.getElementById('confirm-exchange-rate').textContent}\n` +
                      `🔹 *Metode Pembayaran:* ${paymentMethodNames[method] || method}\n` +
                      `🔹 *Nomor Rekening:* ${account}\n\n` +
-                     `🔹 *Biaya Layanan (2%):* ${document.getElementById('confirm-fee').textContent}\n` +
+                     `🔹 *Biaya Layanan:* ${document.getElementById('confirm-fee').textContent}\n` +
                      `🔹 *Total Pembayaran:* ${total}\n` +
 
                      `🔐 *Alamat Wallet Tujuan:*\n` +
@@ -1433,13 +1437,13 @@ CATATAN:
       
       const crypto = cryptoData['PI'];
       const totalValue = amount * crypto.price;
-      const fee = totalValue * 0.05;
+      const fee = totalValue * 0.1;
       const netAmount = totalValue - fee;
       
       // Update confirm section
       document.getElementById('confirm-amount').textContent = `${formatNumberNoDecimal(amount)} PI`;
       document.getElementById('confirm-price').textContent = `Rp ${formatNumberNoDecimal(crypto.price)}`;
-      document.getElementById('confirm-money').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
+      document.getElementById('confirm-money').textContent = `Rp ${formatNumberNoDecimal(totalValue)}`;
       document.getElementById('confirm-fee').textContent = `- Rp ${formatNumberNoDecimal(fee)}`;
       document.getElementById('confirm-total').textContent = `Rp ${formatNumberNoDecimal(netAmount)}`;
       document.getElementById('confirm-account').textContent = accountNumber;
