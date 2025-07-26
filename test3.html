@@ -925,13 +925,15 @@
                     <p style="font-family: monospace; font-size: 12px; word-break: break-all; margin: 0;">${walletAddress}</p>
                   </div>
                 </td>
-                <td width="50%" valign="top">
-                  <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembayaran</h3>
-                  <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
-                    <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
-                    <p style="font-weight: 600; margin: 0; font-size: 13px;" style="height: 48px;>
-                      ${getPaymentMethodDisplay(selectedPaymentMethod)}
-                    </p>
+                  <td width="50%" valign="top">
+                    <h3 style="font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">Detail Pembayaran</h3>
+                    <div style="background-color: #f8fafc; padding: 8px; border-radius: 4px;">
+                      <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Metode Pembayaran</p>
+                      <div style="font-weight: 600; margin: 0; font-size: 13px; height: 48px; display: flex; align-items: center;">
+                        ${getPaymentMethodDisplay(selectedPaymentMethod)}
+                      </div>
+                    </div>
+                  </td>
                     <p style="font-size: 12px; color: #64748b; margin: 0 0 4px 0;">Batas Pembayaran</p>
                     <p style="font-weight: 500; margin: 0; font-size: 12px;">
                       ${paymentDue.toLocaleString('id-ID', {
